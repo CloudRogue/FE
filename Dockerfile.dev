@@ -1,0 +1,17 @@
+# syntax=docker/dockerfile:1
+FROM node:20.9.0-alpin
+
+WORKDIR /app
+
+# Next telemetry off
+ENV NEXT_TELEMETRY_DISABLED=1
+
+# 의존성 설치 (lock 기반 고정)
+COPY package.json package-lock.json ./
+RUN npm ci
+
+# 소스는 compose에서 volume mount로 덮어쓰는 전제
+EXPOSE 3000
+
+# 외부에서 접속 가능하도록 host open
+CMD ["npm", "run", "dev", "--", "-H", "0.0.0.0", "-p", "3000"]
