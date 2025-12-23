@@ -10,7 +10,7 @@ const USE_SRC =
 const SRC_ROOT = USE_SRC ? "src" : ".";
 
 const DIRS = [
-  joinp(SRC_ROOT, "pages"),
+  joinp(SRC_ROOT, "_pages"),
   joinp(SRC_ROOT, "widgets"),
   joinp(SRC_ROOT, "features"),
   joinp(SRC_ROOT, "entities"),
