@@ -7,7 +7,7 @@ WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED=1
 
 # 의존성 설치 (lock 기반 고정)
-COPY package.json package-lock.json ./
+COPY package.json package-lock.json postinstall.mjs ./
 RUN npm ci
 
 # 소스는 compose에서 volume mount로 덮어쓰는 전제
