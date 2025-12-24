@@ -10,5 +10,5 @@ export interface ClientButtonProps extends ButtonProps {
 }
 
 export default function ClientButton({ onClick, ...rest }: ClientButtonProps) {
-  return <Button {...rest} />;
+  return <Button {...rest} onClick={onClick} />;
 }
