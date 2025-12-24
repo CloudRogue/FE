@@ -65,7 +65,7 @@ export const SubmitInForm: Story = {
 
 export const ClientClick: StoryObj<typeof Button> = {
   render: (args) => {
-    const clientArgs = args as unknown as ButtonProps;
+    const clientArgs = args;
     return <Button {...clientArgs} onClick={() => {}} />;
   },
   args: {
@@ -74,6 +74,7 @@ export const ClientClick: StoryObj<typeof Button> = {
   },
 };
 
+// NOTE: 추후 디자인 수정 이후 주석 삭제 예정 - 현재 스토리북 사용법을 공부하는 중이라 예시 코드 남겨둠
 // import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
 // import { fn } from 'storybook/test';
