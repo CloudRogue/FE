@@ -6,7 +6,7 @@ export interface DropdownMenuProps extends React.HTMLAttributes<HTMLDivElement> 
   isOpen?: boolean;
 }
 
-const DropdownMenuBase = forwardRef<HTMLDivElement, DropdownMenuProps>(
+export const DropdownMenuBase = forwardRef<HTMLDivElement, DropdownMenuProps>(
   ({ className, children, isOpen, ...rest }, ref) => {
     if (!isOpen) return null;
 
@@ -24,5 +24,23 @@ const DropdownMenuBase = forwardRef<HTMLDivElement, DropdownMenuProps>(
   },
 );
 
+export interface DropdownMenuItemProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+
+export const DropdownMenuItemBase = forwardRef<
+  HTMLButtonElement,
+  DropdownMenuItemProps
+>(({ className, children, ...rest }, ref) => {
+  return (
+    <button
+      ref={ref}
+      role="menuitem"
+      className={`relative flex w-full cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-slate-100 focus:bg-slate-100 disabled:pointer-events-none disabled:opacity-50 ${className}`}
+      {...rest}
+    >
+      {children}
+    </button>
+  );
+});
+
 DropdownMenuBase.displayName = "DropdownMenuBase";
-export default DropdownMenuBase;
+DropdownMenuItemBase.displayName = "DropdownMenuItemBase";
