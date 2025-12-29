@@ -3,12 +3,18 @@
 "use client";
 
 import Button, { ButtonProps } from "@/src/shared/ui/button";
-import React from "react";
+import { forwardRef } from "react";
 
-export interface ClientButtonProps extends ButtonProps {
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-}
+const ClientButton = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ onClick, children, ...rest }, ref) => {
+    return (
+      <Button ref={ref} onClick={onClick} {...rest}>
+        {children}
+      </Button>
+    );
+  },
+);
 
-export default function ClientButton({ onClick, ...rest }: ClientButtonProps) {
-  return <Button {...rest} onClick={onClick} />;
-}
+ClientButton.displayName = "ClientButton";
+
+export default ClientButton;
