@@ -1,20 +1,18 @@
 import {
-  type DropdownMenuItemProps,
-  type DropdownMenuProps,
-  DropdownMenuBase,
-  DropdownMenuItemBase,
-} from "@/src/shared/ui/dropdown-menu.base";
+  type DropdownItemProps,
+  type DropdownProps,
+  DropdownBase,
+  DropdownItemBase,
+} from "@/src/shared/ui/dropdown.base";
 import { forwardRef } from "react";
 
-export type { DropdownMenuItemProps, DropdownMenuProps };
+export type { DropdownItemProps, DropdownProps };
 
-const DropdownMenu = forwardRef<HTMLDivElement, DropdownMenuProps>(
-  (props, ref) => {
-    return <DropdownMenuBase ref={ref} {...props} />;
-  },
-);
+const Dropdown = forwardRef<HTMLDivElement, DropdownProps>((props, ref) => {
+  return <DropdownBase ref={ref} {...props} />;
+});
 
-export const DropdownMenuItem = DropdownMenuItemBase;
+export const DropdownItem = DropdownItemBase;
 
-DropdownMenu.displayName = "DropdownMenu";
-export default DropdownMenu;
+Dropdown.displayName = "Dropdown";
+export default Dropdown;

@@ -1,6 +1,6 @@
 "use client";
 
-import DropdownMenu, { DropdownMenuItem } from "@/src/shared/ui/dropdown-menu";
+import Dropdown, { DropdownItem } from "@/src/shared/ui/dropdown-menu";
 import React, { useEffect, useRef, useState } from "react";
 
 interface ClientDropdownProps {
@@ -35,13 +35,13 @@ const ClientDropdown = ({
     <div className="relative inline-block" ref={containerRef}>
       <button onClick={() => setIsOpen(!isOpen)}>{label}</button>
 
-      <DropdownMenu isOpen={isOpen} className={className}>
-        {/* 여기서 children은 DropdownMenuItem들이 됩니다 */}
+      <Dropdown isOpen={isOpen} className={className}>
+        {/* 여기서 children은 DropdownItem들이 됩니다 */}
         {children}
-      </DropdownMenu>
+      </Dropdown>
     </div>
   );
 };
 
-export { DropdownMenuItem };
+export { DropdownItem };
 export default ClientDropdown;

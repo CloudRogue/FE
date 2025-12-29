@@ -2,11 +2,11 @@
 
 import React, { forwardRef } from "react";
 
-export interface DropdownMenuProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface DropdownProps extends React.HTMLAttributes<HTMLDivElement> {
   isOpen?: boolean;
 }
 
-export const DropdownMenuBase = forwardRef<HTMLDivElement, DropdownMenuProps>(
+export const DropdownBase = forwardRef<HTMLDivElement, DropdownProps>(
   ({ className, children, isOpen, ...rest }, ref) => {
     if (!isOpen) return null;
 
@@ -24,11 +24,11 @@ export const DropdownMenuBase = forwardRef<HTMLDivElement, DropdownMenuProps>(
   },
 );
 
-export interface DropdownMenuItemProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+export interface DropdownItemProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
-export const DropdownMenuItemBase = forwardRef<
+export const DropdownItemBase = forwardRef<
   HTMLButtonElement,
-  DropdownMenuItemProps
+  DropdownItemProps
 >(({ className, children, ...rest }, ref) => {
   return (
     <button
@@ -42,5 +42,5 @@ export const DropdownMenuItemBase = forwardRef<
   );
 });
 
-DropdownMenuBase.displayName = "DropdownMenuBase";
-DropdownMenuItemBase.displayName = "DropdownMenuItemBase";
+DropdownBase.displayName = "DropdownBase";
+DropdownItemBase.displayName = "DropdownItemBase";
