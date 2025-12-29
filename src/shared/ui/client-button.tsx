@@ -16,5 +16,4 @@ const ClientButton = forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 ClientButton.displayName = "ClientButton";
-
 export default ClientButton;
