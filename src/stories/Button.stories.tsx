@@ -1,35 +1,47 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { Button, type ButtonProps } from "./Button";
-import "./button.css";
+import { Button } from "@/src/stories/Button";
+import { fn } from "storybook/test";
 
 const meta: Meta<typeof Button> = {
   title: "ui-kit/Button",
   component: Button,
   parameters: { layout: "centered" },
+  tags: ["autodocs"],
   argTypes: {
+    isLoading: { control: "boolean" },
+    disabled: { control: "boolean" },
     type: {
       control: { type: "radio" },
       options: ["button", "submit", "reset"],
     },
-    disabled: { control: "boolean" },
-    className: { control: "text" },
     children: { control: "text" },
-    onClick: { action: "onClick" },
+    className: { control: "text" },
   },
   args: {
-    children: "Button",
+    children: "Client Button",
     type: "button",
     disabled: false,
-    className: "",
+    isLoading: false,
+    onClick: fn(),
   },
 };
 
 export default meta;
 type Story = StoryObj<typeof Button>;
 
+// 기본 버튼
 export const Default: Story = {};
 
+// 로딩 중인 버튼
+export const Loading: Story = {
+  args: {
+    isLoading: true,
+    children: "Loading...",
+  },
+};
+
+// 비활성화 버튼
 export const Disabled: Story = {
   args: {
     disabled: true,
@@ -37,17 +49,19 @@ export const Disabled: Story = {
   },
 };
 
-export const WithClassName: Story = {
+// 스타일 적용 버튼
+export const Styled: Story = {
   args: {
-    children: "Styled placeholder",
-    className: "px-4 py-2 border rounded",
-  } satisfies Partial<ButtonProps>,
+    children: "스타일 적용",
+    className: "bg-green-500 text-white rounded-md px-4 py-2",
+  },
 };
 
+// 제출 버튼
 export const SubmitInForm: Story = {
   args: {
     type: "submit",
-    children: "Submit",
+    children: "제출(Submit)",
   },
   decorators: [
     (Story) => (
@@ -63,69 +77,11 @@ export const SubmitInForm: Story = {
   ],
 };
 
+// onclick 버튼
 export const ClientClick: StoryObj<typeof Button> = {
-  render: (args) => {
-    const clientArgs = args;
-    return <Button {...clientArgs} onClick={() => {}} />;
-  },
+  render: (args) => <Button {...args} onClick={() => alert("ClientClick")} />,
   args: {
     children: "ClientButton (click)",
     type: "button",
   },
 };
-
-// NOTE: 추후 디자인 수정 이후 주석 삭제 예정 - 현재 스토리북 사용법을 공부하는 중이라 예시 코드 남겨둠
-// import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-
-// import { fn } from 'storybook/test';
-
-// import { Button } from './Button';
-
-// // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
-// const meta = {
-//   title: 'Example/Button',
-//   component: Button,
-//   parameters: {
-//     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
-//     layout: 'centered',
-//   },
-//   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
-//   tags: ['autodocs'],
-//   // More on argTypes: https://storybook.js.org/docs/api/argtypes
-//   argTypes: {
-//     backgroundColor: { control: 'color' },
-//   },
-//   // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#story-args
-//   args: { onClick: fn() },
-// } satisfies Meta<typeof Button>;
-
-// export default meta;
-// type Story = StoryObj<typeof meta>;
-
-// // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
-// export const Primary: Story = {
-//   args: {
-//     primary: true,
-//     label: 'Button',
-//   },
-// };
-
-// export const Secondary: Story = {
-//   args: {
-//     label: 'Button',
-//   },
-// };
-
-// export const Large: Story = {
-//   args: {
-//     size: 'large',
-//     label: 'Button',
-//   },
-// };
-
-// export const Small: Story = {
-//   args: {
-//     size: 'small',
-//     label: 'Button',
-//   },
-// };
