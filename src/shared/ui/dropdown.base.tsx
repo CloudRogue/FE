@@ -1,5 +1,6 @@
 "use client";
 
+import cn from "@/src/shared/lib/cn";
 import React, { forwardRef } from "react";
 
 export interface DropdownProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -13,7 +14,10 @@ export const DropdownBase = forwardRef<HTMLDivElement, DropdownProps>(
     return (
       <div
         ref={ref}
-        className={`absolute z-50 min-w-32 overflow-hidden rounded-md border bg-white p-1 shadow-md ${className}`}
+        className={cn(
+          "absolute z-50 min-w-32 overflow-hidden rounded-md border bg-white p-1 shadow-md",
+          className,
+        )}
         role="menu"
         aria-orientation="vertical"
         {...rest}
@@ -24,7 +28,7 @@ export const DropdownBase = forwardRef<HTMLDivElement, DropdownProps>(
   },
 );
 
-export interface DropdownItemProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+export type DropdownItemProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const DropdownItemBase = forwardRef<
   HTMLButtonElement,
@@ -34,7 +38,10 @@ export const DropdownItemBase = forwardRef<
     <button
       ref={ref}
       role="menuitem"
-      className={`relative flex w-full cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-slate-100 focus:bg-slate-100 disabled:pointer-events-none disabled:opacity-50 ${className}`}
+      className={cn(
+        "relative flex w-full cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-slate-100 focus:bg-slate-100 disabled:pointer-events-none disabled:opacity-50",
+        className,
+      )}
       {...rest}
     >
       {children}
