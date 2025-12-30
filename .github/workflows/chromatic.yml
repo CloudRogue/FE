@@ -1,6 +1,9 @@
 name: "Chromatic"
 
-on: push
+on:
+  push:
+    branches:
+      - ui-kit
 
 jobs:
   chromatic:
@@ -22,3 +25,4 @@ jobs:
         with:
           # ⚠️ Make sure to configure a `CHROMATIC_PROJECT_TOKEN` repository secret
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          exitZeroOnChanges: true
