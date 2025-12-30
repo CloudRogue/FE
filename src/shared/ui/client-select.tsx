@@ -1,6 +1,6 @@
 "use client";
 
-import Select, { type SelectProps } from "./select";
+import Select, { type SelectProps } from "@/src/shared/ui/select";
 
 type ClientSelectProps = SelectProps & {
   onValueChange?: (value: string) => void;
