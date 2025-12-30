@@ -24,12 +24,13 @@ export default function Select({
   className,
   ...rest
 }: SelectProps) {
-  const selectId = id ?? name;
+  const reactId = React.useId();
+  const selectId = id ?? reactId;
   const hasChildren = React.Children.count(children) > 0;
 
   return (
     <div className="flex flex-col gap-2">
-      {label && selectId ? (
+      {label ? (
         <label htmlFor={selectId} className="text-sm">
           {label}
         </label>
