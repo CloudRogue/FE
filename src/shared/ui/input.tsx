@@ -1,18 +1,13 @@
 import * as React from "react";
 import cn from "@/src/shared/lib/cn";
 
-type NoEventAttrs = Omit<
-  React.ComponentProps<"input">,
-  keyof React.DOMAttributes<HTMLInputElement>
->;
-
-export type InputProps = NoEventAttrs & {
+export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   className?: string;
 };
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, ...rest }, ref) => {
-    return <input ref={ref} className={cn(className)} {...rest} />;
+  ({ className, type = "text", ...rest }, ref) => {
+    return <input ref={ref} type={type} className={cn(className)} {...rest} />;
   },
 );
 
