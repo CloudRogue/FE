@@ -2,7 +2,7 @@ import cn from "@/src/shared/lib/cn";
 
 // style은 shadcn 기준으로 정의함
 const badgeVariants = {
-  base: "inline-flex items-center justify-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 w-fit cursor-default",
+  base: "inline-flex items-center justify-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 w-fit",
   variants: {
     default:
       "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
