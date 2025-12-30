@@ -14,7 +14,8 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
   ({ trigger, children, className, align = "center" }, ref) => {
     const [isOpen, setIsOpen] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
-
+    const triggerButtonRef = useRef<HTMLButtonElement>(null);
+    
     useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
         if (
@@ -29,6 +30,23 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
         document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
+    useEffect(() => {
+      if (!isOpen) {
+        return;
+      }
+
+      const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.key === "Escape") {
+          setIsOpen(false);
+          triggerButtonRef.current?.focus();
+        }
+      };
+      document.addEventListener("keydown", handleKeyDown);
+      return () => {
+        document.removeEventListener("keydown", handleKeyDown);
+      };
+    }, [isOpen]);
+
     const alignClass = {
       left: "left-0",
       right: "right-0",
@@ -37,18 +55,20 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
 
     return (
       <div className="relative inline-block" ref={containerRef}>
-        <div
-          onClick={() => setIsOpen(!isOpen)}
+        <button
+          type="button"
+          onClick={() => setIsOpen((prev) => !prev)}
           className="cursor-pointer"
           aria-haspopup="true"
           aria-expanded={isOpen}
         >
           {trigger}
-        </div>
+        </button>
 
         {isOpen && (
           <div
             ref={ref}
+            role="dialog"
             className={cn(
               "absolute z-50 mt-2 min-2-[150px] overflow-hidden rounded-lg border border-gray-200 bg-white p-3 shadow-lg animate-in fade-in zoom-in duration-150",
               alignClass[align],
