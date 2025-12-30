@@ -11,7 +11,7 @@
     "build-storybook": "storybook build",
     "postinstall": "node ./postinstall.mjs",
     "test": "jest --passWithNoTests",
-    "chromatic": "npx chromatic --project-token=chpt_f0eaa1df9302a9c"
+    "chromatic": "chromatic --exit-zero-on-changes"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.90.12",
