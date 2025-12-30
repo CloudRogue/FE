@@ -138,6 +138,21 @@ export const CalendarDays = () => {
   const year = viewDate.getFullYear();
   const month = viewDate.getMonth();
 
+  const todayTime = useMemo(() => {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+  }, []);
+
+  const selectedTime = useMemo(() => {
+    if (!selectedDate) return null;
+    return new Date(
+      selectedDate.getFullYear(),
+      selectedDate.getMonth(),
+      selectedDate.getDate(),
+      selectedDate.getTime(),
+    ).getTime();
+  }, [selectedDate]);
+
   const { days, emptySlots } = useMemo(() => {
     const firstDayOfMonth = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -147,8 +162,6 @@ export const CalendarDays = () => {
     };
   }, [year, month]);
 
-  const toDateString = (date: Date | undefined) => date?.toDateString() || "";
-
   return (
     <>
       {emptySlots.map((_, i) => (
@@ -156,10 +169,10 @@ export const CalendarDays = () => {
       ))}
       {days.map((day) => {
         const dateObj = new Date(year, month, day);
-        const isSelected =
-          toDateString(selectedDate) === dateObj.toDateString();
-        const isToday = new Date().toDateString() === dateObj.toDateString();
-        const dataLabel = `${year}년 ${month}월 ${day}일 ${WEEK_DAYS[dateObj.getDay()]}`;
+        const currentTime = new Date(year, month, day).getTime();
+        const isSelected = selectedTime !== 0 && currentTime === selectedTime;
+        const isToday = currentTime === todayTime;
+        const dataLabel = `${year}년 ${month + 1}월 ${day}일 ${WEEK_DAYS[dateObj.getDay()]}`;
 
         return (
           <button
