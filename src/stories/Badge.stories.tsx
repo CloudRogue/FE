@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 import { Badge } from "@/src/shared/ui/badge";
+import { fn } from "storybook/test";
 
 const meta: Meta<typeof Badge> = {
   title: "ui-kit/Badge",
@@ -21,10 +22,21 @@ const meta: Meta<typeof Badge> = {
       control: "text",
       description: "추가적인 커스텀 클래스를 적용합니다.",
     },
+    disabled: {
+      control: "boolean",
+      description: "버튼 비활성화 여부를 설정합니다.",
+    },
+    onClick: {
+      action: "clicked",
+      description: "클릭 시 실행되는 이벤트 핸들러입니다.",
+    },
   },
   args: {
     children: "Badge",
     variant: "default",
+    type: "button",
+    disabled: false,
+    onClick: fn(),
   },
 };
 
@@ -63,6 +75,26 @@ export const Outline: Story = {
   },
 };
 
+// 클릭 가능한 버튼형
+export const Clickable: Story = {
+  args: {
+    variant: "default",
+    children: "Click Me",
+    className: "cursor-pointer active:scale-95 transition-transform",
+  },
+};
+
+// 비활성화 상태
+export const Disabled: Story = {
+  args: {
+    variant: "default",
+    children: "Disabled",
+    disabled: true,
+    className: "disabled:opacity-50 disabled:cursor-not-allowed",
+  },
+};
+
+// 커스텀 스타일
 // 커스텀 스타일
 export const CustomStyle: Story = {
   args: {
