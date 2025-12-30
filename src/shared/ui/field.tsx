@@ -1,10 +1,11 @@
 import React from "react";
+import cn from "@/src/shared/lib/cn";
 
 export type FieldProps = React.HTMLAttributes<HTMLDivElement>;
 
 export default function Field({ className, children, ...rest }: FieldProps) {
   return (
-    <div className={className} {...rest}>
+    <div className={cn(className)} {...rest}>
       {children}
     </div>
   );
