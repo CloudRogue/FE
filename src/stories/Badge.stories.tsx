@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 import { Badge } from "@/src/shared/ui/badge";
+import { fn } from "storybook/test";
 
 const meta: Meta<typeof Badge> = {
   title: "ui-kit/Badge",
@@ -21,11 +22,12 @@ const meta: Meta<typeof Badge> = {
       control: "text",
       description: "추가적인 커스텀 클래스를 적용합니다.",
     },
+    onClick: {
+      action: "clicked",
+      description: "클릭 시 실행되는 이벤트 핸들러입니다.",
+    },
   },
-  args: {
-    children: "Badge",
-    variant: "default",
-  },
+  args: { children: "Badge", variant: "default", onClick: fn() },
 };
 
 export default meta;
@@ -69,5 +71,14 @@ export const CustomStyle: Story = {
     variant: "default",
     children: "Custom Color",
     className: "bg-amber-500 hover:bg-amber-600 text-white border-none",
+  },
+};
+
+// 뱃지를 클릭하는 형태일 때
+export const Interactive: Story = {
+  args: {
+    variant: "secondary",
+    children: "Clickable Badge",
+    onClick: fn(),
   },
 };

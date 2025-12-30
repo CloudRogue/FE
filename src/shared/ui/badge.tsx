@@ -21,13 +21,27 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
 export const Badge = ({
   className,
   variant = "default",
+  onKeyDown,
   ...props
 }: BadgeProps) => {
+  const isClickable = !!props.onClick;
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (isClickable && (e.key === "Enter" || e.key === " ")) {
+      e.preventDefault();
+      props.onClick?.(e as unknown as React.MouseEvent<HTMLDivElement>);
+    }
+    onKeyDown?.(e);
+  };
   return (
     <div
+      role={isClickable ? "button" : undefined}
+      tabIndex={isClickable ? 0 : undefined}
+      onKeyDown={isClickable ? handleKeyDown : onKeyDown}
       className={cn(
         badgeVariants.base,
         badgeVariants.variants[variant],
+        isClickable && "cursor-pointer select-none active:opacity-80",
         className,
       )}
       {...props}
