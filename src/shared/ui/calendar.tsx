@@ -16,6 +16,14 @@ export const Calendar = () => {
   const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
   const emptySlots = Array.from({ length: firstDayOfMonth });
 
+  const handlePrevMonth = () => {
+    setViewDate(new Date(year, month - 1, 1));
+  };
+
+  const handleNextMonth = () => {
+    setViewDate(new Date(year, month + 1, 1));
+  };
+
   return (
     <div className="p-3 w-70 border rounded-md bg-white shadow-sm">
       {/* 헤더 */}
@@ -24,8 +32,18 @@ export const Calendar = () => {
           {year}년 {month + 1}
         </h2>
         <div className="flex gap-1">
-          <button className="p-1 hover:bg-slate-100 rounded-md">⬅️</button>
-          <button className="p-1 hover:bg-slate-100 rounded-md">➡️</button>
+          <button
+            onClick={handlePrevMonth}
+            className="p-1 hover:bg-slate-100 rounded-md"
+          >
+            ⬅️
+          </button>
+          <button
+            onClick={handleNextMonth}
+            className="p-1 hover:bg-slate-100 rounded-md"
+          >
+            ➡️
+          </button>
         </div>
       </div>
       {/* 요일 헤더 */}
