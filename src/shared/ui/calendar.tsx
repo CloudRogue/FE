@@ -1,10 +1,21 @@
 "use client";
 
+import cn from "@/src/shared/lib/cn";
 import { useState } from "react";
 
-const weekDays = ["일", "월", "화", "수", "목", "금", "토"];
+const WEEK_DAYS = ["일", "월", "화", "수", "목", "금", "토"];
 
-export const Calendar = () => {
+export interface CalendarProps {
+  className?: string;
+  selectedDate?: Date;
+  onDateSelect?: (date: Date) => void;
+}
+
+export const Calendar = ({
+  selectedDate,
+  onDateSelect,
+  className,
+}: CalendarProps) => {
   const [viewDate, setViewDate] = useState(new Date());
 
   const year = viewDate.getFullYear();
@@ -16,6 +27,23 @@ export const Calendar = () => {
   const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
   const emptySlots = Array.from({ length: firstDayOfMonth });
 
+  const isToday = (day: number) => {
+    const today = new Date();
+    return (
+      today.getFullYear() === year &&
+      today.getMonth() === month &&
+      today.getDate() === day
+    );
+  };
+
+  const isSelected = (day: number) => {
+    return (
+      selectedDate?.getFullYear() === year &&
+      selectedDate?.getMonth() === month &&
+      selectedDate?.getDate() === day
+    );
+  };
+
   const handlePrevMonth = () => {
     setViewDate(new Date(year, month - 1, 1));
   };
@@ -25,7 +53,9 @@ export const Calendar = () => {
   };
 
   return (
-    <div className="p-3 w-70 border rounded-md bg-white shadow-sm">
+    <div
+      className={cn("p-3 w-70 border rounded-md bg-white shadow-sm", className)}
+    >
       {/* 헤더 */}
       <div className="flex items-center justify-between mb-4 px-1">
         <h2 className="text-sm font-semibold">
@@ -48,7 +78,7 @@ export const Calendar = () => {
       </div>
       {/* 요일 헤더 */}
       <div className="grid grid-cols-7 gap-1 mb-2">
-        {weekDays.map((day) => (
+        {WEEK_DAYS.map((day) => (
           <span
             key={day}
             className="text-[10px] text-slate-500 text-center font-medium"
@@ -65,7 +95,13 @@ export const Calendar = () => {
         {days.map((day) => (
           <button
             key={day}
-            className="h-8 w-8 text-sm flex items-center justify-center hover:bg-slate-100 rounded-md"
+            onClick={() => onDateSelect?.(new Date(year, month, day))}
+            className={cn(
+              "h-8 w-8 text-sm flex items-center justify-center rounded-md transition-all",
+              isToday(day) && "bg-slate-100 text-black font-bold",
+              isSelected(day) &&
+                "bg-black text-white hover:bg-black/90 font-medium",
+            )}
           >
             {day}
           </button>
