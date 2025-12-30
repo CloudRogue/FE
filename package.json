@@ -10,7 +10,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "postinstall": "node ./postinstall.mjs",
-    "test": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests",
+    "chromatic": "chromatic --exit-zero-on-changes"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.90.12",
@@ -41,6 +42,7 @@
     "@types/react-dom": "^19",
     "@vitest/browser-playwright": "^4.0.16",
     "@vitest/coverage-v8": "^4.0.16",
+    "chromatic": "^13.3.4",
     "eslint": "^9",
     "eslint-config-next": "16.1.0",
     "eslint-config-prettier": "^10.1.8",
