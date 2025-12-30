@@ -65,6 +65,26 @@ export const Outline: Story = {
   },
 };
 
+// 클릭 가능한 버튼형
+export const Clickable: Story = {
+  args: {
+    variant: "default",
+    children: "Click Me",
+    className: "cursor-pointer active:scale-95 transition-transform",
+  },
+};
+
+// 비활성화 상태
+export const Disabled: Story = {
+  args: {
+    variant: "default",
+    children: "Disabled",
+    disabled: true,
+    className: "disabled:opacity-50 disabled:cursor-not-allowed",
+  },
+};
+
+// 커스텀 스타일
 // 커스텀 스타일
 export const CustomStyle: Story = {
   args: {
