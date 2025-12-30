@@ -3,11 +3,14 @@
 import cn from "@/src/shared/lib/cn";
 import { createContext, useContext, useMemo, useState } from "react";
 
+const WEEK_DAYS = ["일", "월", "화", "수", "목", "금", "토"];
+
 interface CalendarContextProps {
   viewDate: Date;
   setViewDate: (date: Date) => void;
   selectedDate?: Date;
   onDateSelect?: (date: Date) => void;
+  label?: string;
 }
 
 const CalendarContext = createContext<CalendarContextProps | undefined>(
@@ -27,6 +30,7 @@ interface CalendarRoot {
   className?: string;
   selectedDate?: Date;
   onDateSelect?: (date: Date) => void;
+  label?: string;
 }
 
 export const CalendarRoot = ({
@@ -34,43 +38,27 @@ export const CalendarRoot = ({
   className,
   selectedDate,
   onDateSelect,
+  label = "날짜 선택기",
 }: CalendarRoot) => {
   const [viewDate, setViewDate] = useState(selectedDate || new Date());
   return (
     <CalendarContext
       value={{ viewDate, setViewDate, selectedDate, onDateSelect }}
     >
-      <div
+      <section
         className={cn(
           "p-3 w-70 border rounded-md bg-white shadow-sm",
           className,
         )}
+        aria-label={label}
       >
         {children}
-      </div>
+      </section>
     </CalendarContext>
   );
 };
 
 // Header(년/월/네비게이션) =====================================================
-interface NavButton {
-  className?: string;
-  onClick: () => void;
-  children: React.ReactNode;
-}
-
-const NavButton = ({ className, onClick, children }: NavButton) => (
-  <button
-    type="button"
-    onClick={onClick}
-    className={cn(
-      "p-1 hover:bg-slate-100 rounded-md transition-colors",
-      className,
-    )}
-  >
-    {children}
-  </button>
-);
 
 interface CalendarHeader {
   className?: string;
@@ -90,13 +78,31 @@ export const CalendarHeader = ({ className, btnClassName }: CalendarHeader) => {
         className,
       )}
     >
-      <NavButton className={btnClassName} onClick={() => handleMonth(-1)}>
+      <button
+        type="button"
+        onClick={() => handleMonth(-1)}
+        className={cn(
+          "p-1 hover:bg-slate-100 rounded-md transition-colors",
+          btnClassName,
+        )}
+        aria-label="이전 달로 이동"
+      >
         ⬅️
-      </NavButton>
+      </button>
       <h2 className="text-sm font-semibold">
         {year}년 {month + 1}월
       </h2>
-      <NavButton onClick={() => handleMonth(1)}>➡️</NavButton>
+      <button
+        type="button"
+        onClick={() => handleMonth(1)}
+        className={cn(
+          "p-1 hover:bg-slate-100 rounded-md transition-colors",
+          btnClassName,
+        )}
+        aria-label="다음 달로 이동"
+      >
+        ➡️
+      </button>
     </div>
   );
 };
@@ -108,14 +114,14 @@ interface CalendarGrid {
 }
 
 export const CalendarGrid = ({ children, className }: CalendarGrid) => {
-  const WEEK_DAYS = ["일", "월", "화", "수", "목", "금", "토"];
   return (
     <div className={className}>
       <div className="grid grid-cols-7 gap-1 mb-2">
-        {WEEK_DAYS.map((day) => (
+        {WEEK_DAYS.map((day, i) => (
           <span
             key={day}
             className="text-[10px] text-center font-medium text-slate-500"
+            aria-label={WEEK_DAYS[i]}
           >
             {day}
           </span>
@@ -153,6 +159,7 @@ export const CalendarDays = () => {
         const isSelected =
           toDateString(selectedDate) === dateObj.toDateString();
         const isToday = new Date().toDateString() === dateObj.toDateString();
+        const dataLabel = `${year}년 ${month}월 ${day}일 ${WEEK_DAYS[dateObj.getDay()]}`;
 
         return (
           <button
@@ -164,8 +171,9 @@ export const CalendarDays = () => {
               isToday && "bg-slate-100 text-black font-bold",
               isSelected && "bg-black text-white hover:bg-black/90 font-medium",
             )}
+            aria-label={`${dataLabel} ${isToday ? "오늘" : ""}`}
           >
-            {day}
+            <span aria-hidden="true">{day}</span>
           </button>
         );
       })}
