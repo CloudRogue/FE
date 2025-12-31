@@ -28,9 +28,24 @@ export const Drawer = ({
     <div className="fixed inset-0 z-50 flex items-end justify-center">
       <div className="fixed inset-0 bg-black/40" onClick={onClose} />
 
-      <div className={cn("relative z-50 w-full bg-white p-6", className)}>
-        {title && <h2 className="text-lg font-semibold">{title}</h2>}
-        {children}
+      <div
+        role="dialog"
+        aria-modal="true"
+        className={cn(
+          "relative z-50 w-full max-w-lg rounded-t-[10px] bg-white p-6 shadow-lg",
+          "animate-in slide-in-from-bottom duration-300 ease-in-out",
+          className,
+        )}
+      >
+        {title && (
+          <div className="mb-4 flex flex-col space-y-1.5 text-center sm:text-left">
+            <h2 className="text-lg font-semibold leading-none tracking-tight text-slate-900">
+              {title}
+            </h2>
+          </div>
+        )}
+
+        <div className="max-h-[80vh] overflow-y-auto">{children}</div>
       </div>
     </div>,
     document.body,
