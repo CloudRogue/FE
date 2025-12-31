@@ -13,6 +13,9 @@ export const Progress = ({
   className,
   indicatorClassName,
 }: ProgressProps) => {
+  const clampedValue = Math.min(Math.max(0, value), max);
+  const progressPercentage = (clampedValue / max) * 100;
+
   return (
     <div
       className={cn(
@@ -22,9 +25,10 @@ export const Progress = ({
     >
       <div
         className={cn(
-          "h-full w-full flex-1 bg-slate-900 transition-all",
+          "h-full w-full flex-1 bg-slate-900 transition-all duration-500 ease-in-out",
           indicatorClassName,
         )}
+        style={{ transform: `translateX(-${100 - progressPercentage}%)` }}
       />
     </div>
   );
