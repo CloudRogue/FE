@@ -22,23 +22,23 @@ export const useProgress = (
     if (isLoading) {
       timer = setInterval(() => {
         setValue((prev) => {
-          if (prev >= 90) return prev + 0.1; // 90%부터는 천천히 증가
-          if (prev >= 60) return prev + 1; // 60%부터는 조금 느리게
-          return prev + step; // 설정한 step 만큼 증가
+          const startValue = prev >= 100 || !isLoading ? 0 : prev;
+          if (startValue >= 90) return startValue + 0.1; // 90%부터는 천천히 증가
+          if (startValue >= 60) return startValue + 1; // 60%부터는 조금 느리게
+          return startValue + step; // 설정한 step 만큼 증가
         });
       }, interval);
     } else if (finish) {
       timer = setTimeout(() => {
-        setValue((prev) => {
-          if (prev === 100) return 0;
-          return 100;
-        });
+        setValue((prev) => (prev > 0 && prev < 100 ? 100 : prev));
       }, 0);
     }
 
     return () => {
-      clearInterval(timer);
-      clearTimeout(timer);
+      if (timer) {
+        clearInterval(timer);
+        clearTimeout(timer);
+      }
     };
   }, [isLoading, interval, step, finish]);
 
