@@ -20,11 +20,11 @@ export default function Header({ variant }: HeaderProps) {
         </Link>
 
         {variant === "unauthenticated" ? (
-          <Link href="/login">
+          <Link href="/login" aria-label="로그인 페이지로 이동">
             <Button className="h-9 px-4 text-sm font-medium">로그인</Button>
           </Link>
         ) : (
-          <Link href="/mypage">
+          <Link href="/mypage" aria-label="마이페이지로 이동">
             <Button className="h-9 px-4 text-sm font-medium">마이페이지</Button>
           </Link>
         )}
