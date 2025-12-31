@@ -20,7 +20,14 @@ export const Drawer = ({
   children,
 }: DrawerProps) => {
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+
+  useEffect(() => {
+    // lint error 해결용
+    const timer = setTimeout(() => {
+      setMounted(true);
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     if (!isOpen) return;
