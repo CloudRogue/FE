@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { Button } from "@/src/stories/Button";
+import Button from "@/src/shared/ui/button";
 import { fn } from "storybook/test";
 
 const meta: Meta<typeof Button> = {
