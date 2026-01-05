@@ -1,5 +1,5 @@
-import CtaCard from "@/app/(public)/_components/CtaCard";
-import PolicyCard from "@/app/(public)/_components/PolicyCard";
+import CtaCard from "@/src/shared/ui/cta-card/cta-card";
+import PolicyCard from "@/src/entities/policy/ui/policy-card";
 
 export default function Page() {
   return (
