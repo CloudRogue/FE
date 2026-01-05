@@ -1,13 +1,13 @@
 import Card from "@/src/shared/ui/card";
-import Button from "@/src/shared/ui/button";
 import cn from "@/src/shared/lib/cn";
+import Link from "next/link";
 
 interface CtaCardProps {
   title?: string;
   description: string;
   buttonText: string;
   variant?: "hero" | "simple";
-  onClick?: () => void;
+  href: string;
 }
 
 export default function CtaCard({
@@ -15,7 +15,7 @@ export default function CtaCard({
   description,
   buttonText,
   variant = "hero",
-  onClick,
+  href,
 }: CtaCardProps) {
   return (
     <Card
@@ -47,12 +47,12 @@ export default function CtaCard({
         </p>
       </div>
 
-      <Button
-        onClick={onClick}
-        className="w-full rounded-xl bg-black py-3 text-white font-medium"
+      <Link
+        href={href}
+        className="w-full rounded-xl bg-black py-3 text-white font-medium text-center block transition-colors hover:bg-gray-800"
       >
         {buttonText}
-      </Button>
+      </Link>
     </Card>
   );
 }

@@ -6,9 +6,10 @@ export default function Page() {
     <div className="mx-auto max-w-md px-4 py-6 space-y-6">
       <CtaCard
         variant="hero"
-        title={"나에게 딱 맞는 주택 공고"}
+        title={"나에게 딱 맞는 주택 공고\n 1분만에 찾기"}
         description="복잡한 주거 지원 정책, 이제 간단하게 확인하세요."
         buttonText="집착 시작하기"
+        href="/login" // 임시
       />
 
       <section className="space-y-4">
@@ -26,6 +27,7 @@ export default function Page() {
         variant="simple"
         description="더 많은 정책을 보고 싶다면?"
         buttonText="집착 시작하기"
+        href="/policy" // 임시
       />
     </div>
   );

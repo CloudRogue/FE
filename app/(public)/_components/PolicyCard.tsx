@@ -1,5 +1,5 @@
 import Card from "@/src/shared/ui/card";
-
+import Image from "next/image";
 interface PolicyCardProps {
   provider?: string;
   title?: string;
@@ -27,7 +27,7 @@ export default function PolicyCard({
       </div>
       <div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-gray-100 flex items-center justify-center">
         {imageUrl ? (
-          <img
+          <Image
             src={imageUrl}
             alt={title}
             className="h-full w-full object-cover"
