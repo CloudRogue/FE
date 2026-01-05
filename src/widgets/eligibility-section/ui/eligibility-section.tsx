@@ -1,5 +1,6 @@
 "use client";
 
+import { EligibilityResult } from "@/src/entities/announcement-detail/model/announcement.types";
 import { postEligibilityDiagnosis } from "@/src/features/eligibility-check/api/action";
 import cn from "@/src/shared/lib/cn";
 import { DiagnosisResultCard } from "@/src/widgets/eligibility-section/ui/diagnosis-result-card";
@@ -57,23 +58,25 @@ export function EligibilitySection({
         >
           <div className="bg-gray-50 p-5 space-y-6">
             {diagnosisResult ? (
-              diagnosisResult.checks.map((check: any, i: number) => (
-                <div key={i} className="flex justify-between items-center">
-                  <span className="text-[#1E293B] font-medium">
-                    {check.message}
-                  </span>
-                  <span
-                    className={cn(
-                      "text-xs px-2 py-1 rounded",
-                      check.passed
-                        ? "bg-blue-50 text-blue-600"
-                        : "bg-red-50 text-red-600",
-                    )}
-                  >
-                    {check.passed ? "적합" : "부적합"}
-                  </span>
-                </div>
-              ))
+              diagnosisResult.checks.map(
+                (check: EligibilityResult["checks"][0], i: number) => (
+                  <div key={i} className="flex justify-between items-center">
+                    <span className="text-[#1E293B] font-medium">
+                      {check.message}
+                    </span>
+                    <span
+                      className={cn(
+                        "text-xs px-2 py-1 rounded",
+                        check.passed
+                          ? "bg-blue-50 text-blue-600"
+                          : "bg-red-50 text-red-600",
+                      )}
+                    >
+                      {check.passed ? "적합" : "부적합"}
+                    </span>
+                  </div>
+                ),
+              )
             ) : (
               // 진단 전: 기본 Mock 데이터 렌더링
               <p className="text-sm text-gray-500 text-center py-4">
