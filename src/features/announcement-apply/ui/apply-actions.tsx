@@ -2,9 +2,16 @@
 
 import Button from "@/src/shared/ui/button";
 
-export function ApplyActions({ sourceUrl }: { sourceUrl: string }) {
+export function ApplyActions({
+  sourceUrl,
+}: {
+  sourceUrl: { originalUrl: string; url?: string };
+}) {
   const handleViewOriginal = () => {
-    window.open(sourceUrl, "_blank");
+    window.open(sourceUrl.originalUrl, "_blank");
+  };
+  const handleViewUrl = () => {
+    window.open(sourceUrl.url, "_blank");
   };
 
   return (
@@ -15,7 +22,10 @@ export function ApplyActions({ sourceUrl }: { sourceUrl: string }) {
       >
         공고문 원문 보기
       </Button>
-      <Button className="flex-1 bg-gray-100 text-gray-600 py-4 rounded-xl font-bold">
+      <Button
+        onClick={handleViewUrl}
+        className="flex-1 bg-gray-100 text-gray-600 py-4 rounded-xl font-bold"
+      >
         공고 신청하러 가기
       </Button>
     </div>

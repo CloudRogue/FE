@@ -6,7 +6,7 @@ interface SummaryData {
   price: string;
   period: { start: string; end: string };
   method: string;
-  sourceUrl: string;
+  sourceUrl: { originalUrl: string; url?: string };
 }
 
 export function AnnouncementSummary({ data }: { data: SummaryData }) {

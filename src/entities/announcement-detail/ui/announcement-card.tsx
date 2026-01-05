@@ -1,35 +1,51 @@
 // 공고 상단 정보 카드
 
+import cn from "@/src/shared/lib/cn";
 import { Badge } from "@/src/shared/ui/badge";
 import { Heart } from "lucide-react";
 import Image from "next/image";
+
+const STATUS_MAP = {
+  OPEN: "접수 중",
+  DUE_SOON: "마감 임박",
+  UPCOMING: "접수 예정",
+  CLOSED: "마감",
+};
 
 interface AnnouncementCardProps {
   title: string;
   period: { start: string; end: string };
   imageUrl: string;
+  status: string;
 }
 
 export default function AnnouncementCard({
   title,
   period,
   imageUrl,
+  status,
 }: AnnouncementCardProps) {
   return (
     <div className="p-5 bg-white">
       <div className="flex justify-between items-start mb-4">
         <div className="flex gap-2">
-          <Badge className="bg-[#EF4444] hover:bg-[#EF4444] text-white border-none px-2 py-0.5 rounded-md text-[13px] font-bold">
-            접수 중
+          <Badge
+            className={cn(
+              "border-none px-2 py-0.5 rounded-md text-[13px] font-bold text-white",
+              status === "OPEN" ? "bg-[#EF4444]" : "bg-gray-400",
+            )}
+          >
+            {STATUS_MAP[status as keyof typeof STATUS_MAP] || status}
+          </Badge>
+          {/* TODO: 태그 정보 필요 */}
+          <Badge className="bg-[#F1F5F9] hover:bg-[#F1F5F9] text-[#64748B] border-none px-2 py-0.5 rounded-md text-[13px]">
+            지역
           </Badge>
           <Badge className="bg-[#F1F5F9] hover:bg-[#F1F5F9] text-[#64748B] border-none px-2 py-0.5 rounded-md text-[13px]">
-            서울
+            기관
           </Badge>
           <Badge className="bg-[#F1F5F9] hover:bg-[#F1F5F9] text-[#64748B] border-none px-2 py-0.5 rounded-md text-[13px]">
-            SH
-          </Badge>
-          <Badge className="bg-[#F1F5F9] hover:bg-[#F1F5F9] text-[#64748B] border-none px-2 py-0.5 rounded-md text-[13px]">
-            행복주택
+            유형(행복주택)
           </Badge>
         </div>
         <button className="text-gray-300 hover:text-red-400 transition-colors">

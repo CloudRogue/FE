@@ -1,3 +1,5 @@
+import { mapAnnouncementToSummary } from "@/src/entities/announcement-detail/lib/announcement.mapper";
+import { AnnouncementDetail } from "@/src/entities/announcement-detail/model/announcement.types";
 import AnnouncementCard from "@/src/entities/announcement-detail/ui/announcement-card";
 import {
   TabsContent,
@@ -8,20 +10,22 @@ import {
 import { AnnouncementSummary } from "@/src/widgets/announcement-summary/ui/announcement-summary";
 import { EligibilitySection } from "@/src/widgets/eligibility-section/ui/eligibility-section";
 
-export function AnnouncementDetailPage() {
-  const data = {
-    target: "만 19~34세 무주택 청년",
-    price: "월세 23~47만원",
-    period: { start: "2025.12.31", end: "2026.01.01" },
-    method: "LH 청약플러스 온라인 접수",
-    sourceUrl: "sourceUrl",
-  };
+interface AnnouncementDetailPageProps {
+  announcement: AnnouncementDetail;
+}
+
+export function AnnouncementDetailPage({
+  announcement,
+}: AnnouncementDetailPageProps) {
+  const summaryData = mapAnnouncementToSummary(announcement);
+
   return (
     <div className="bg-white">
       <AnnouncementCard
-        title="2025년 전세형 매입임대주택 입주자 모집 공고"
-        period={data.period}
+        title={announcement.title}
+        period={summaryData.period}
         imageUrl=""
+        status={announcement.status}
       />
       <TabsRoot defaultValue="support" className="w-full">
         <TabsList className="w-full bg-transparent border-none p-0">
@@ -39,7 +43,7 @@ export function AnnouncementDetailPage() {
             <EligibilitySection />
           </TabsContent>
           <TabsContent value="summary" className="mt-0 outline-none">
-            <AnnouncementSummary data={data} />
+            <AnnouncementSummary data={summaryData} />
           </TabsContent>
         </div>
       </TabsRoot>
