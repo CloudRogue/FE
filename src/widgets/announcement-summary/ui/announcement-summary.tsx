@@ -12,12 +12,10 @@ interface SummaryData {
 export function AnnouncementSummary({ data }: { data: SummaryData }) {
   return (
     <section className="bg-white p-6 rounded-2xl">
-      <div className="mb-4">
-        <h3 className="text-lg font-bold text-gray-900">공고 요약</h3>
-        <p className="text-gray-400 text-sm">
-          복잡한 공고문 정보를 요약해드릴게요!
-        </p>
-      </div>
+      <h3 className="text-lg font-bold text-gray-900">공고 요약</h3>
+      <p className="text-gray-400 text-sm mb-5">
+        복잡한 공고문 정보를 요약해드릴게요!
+      </p>
 
       <div className="space-y-1 font-bold">
         <SummaryRow label="대상" value={data.target} />
