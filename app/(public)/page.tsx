@@ -4,7 +4,7 @@ import PolicyCard from "./_components/PolicyCard";
 import CtaCard from "./_components/CtaCard";
 
 export default function Page() {
-  <main className="mx-auto max-w-md px-4 py-6 space-y-6">
+  <div className="mx-auto max-w-md px-4 py-6 space-y-6">
     <PublicHeader />
 
     <HeroCard />
@@ -17,5 +17,5 @@ export default function Page() {
     </section>
 
     <CtaCard />
-  </main>;
+  </div>;
 }
