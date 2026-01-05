@@ -95,10 +95,11 @@ export const TabsTrigger = ({
       onClick={() => changeTab(value)}
       className={cn(
         "inline-flex items-center justify-center whitespace-nowrap px-3 py-1.5 transition-all",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+        "focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
+        "border-b-2",
         isActive
-          ? "bg-white text-black shadow-sm"
-          : "hover:bg-gray-200/50 hover:text-black",
+          ? "border-black text-black font-bold"
+          : "border-transparent text-gray-400 font-medium",
         className,
       )}
     >
