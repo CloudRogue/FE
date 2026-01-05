@@ -9,7 +9,13 @@ interface SummaryData {
   sourceUrl: { originalUrl: string; url?: string };
 }
 
-export function AnnouncementSummary({ data }: { data: SummaryData }) {
+export function AnnouncementSummary({
+  announcementId,
+  data,
+}: {
+  announcementId: number;
+  data: SummaryData;
+}) {
   return (
     <section className="bg-white p-6 rounded-2xl">
       <h3 className="text-lg font-bold text-gray-900">공고 요약</h3>
@@ -27,7 +33,10 @@ export function AnnouncementSummary({ data }: { data: SummaryData }) {
         <SummaryRow label="방법" value={data.method} />
       </div>
 
-      <ApplyActions sourceUrl={data.sourceUrl} />
+      <ApplyActions
+        announcementId={announcementId}
+        sourceUrl={data.sourceUrl}
+      />
     </section>
   );
 }

@@ -1,19 +1,30 @@
 "use client";
 
+import { EligibilityResult } from "@/src/entities/announcement-detail/model/announcement.types";
+import { postEligibilityDiagnosis } from "@/src/features/eligibility-check/api/action";
 import cn from "@/src/shared/lib/cn";
+import { DiagnosisResultCard } from "@/src/widgets/eligibility-section/ui/diagnosis-result-card";
 import { ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 
-export function EligibilitySection() {
+export function EligibilitySection({
+  announcementId,
+}: {
+  announcementId: number;
+}) {
   const [isOpen, setIsOpen] = useState(true);
+  const [isPending, startTransition] = useTransition();
+  const [diagnosisResult, setDiagnosisResult] = useState<EligibilityResult>(
+    {} as EligibilityResult,
+  );
+  const userName = "구름";
 
-  const eligibilityData = [
-    { label: "나이", subLabel: "(만 19~34세)", value: "만 28세" },
-    { label: "거주지", subLabel: "(서울시 거주자)", value: "서울시 거주" },
-    { label: "소득", subLabel: "(기준중위 60% 이하)", value: "48% 해당" },
-    { label: "청약 통장 가입 기간", subLabel: "(가산점)", value: "-" },
-    { label: "청약 통장 납입 횟수", subLabel: "(가산점)", value: "-" },
-  ];
+  const handleDiagnosis = () => {
+    startTransition(async () => {
+      const result = await postEligibilityDiagnosis(announcementId);
+      setDiagnosisResult(result);
+    });
+  };
 
   return (
     <section className="bg-white p-6 rounded-2xl">
@@ -23,7 +34,7 @@ export function EligibilitySection() {
       </p>
 
       {/* 자격 정보 카드 */}
-      <div className="border-2 rounded-2xl overflow-hidden mb-8 transition-all">
+      <div className="border-2 rounded-2xl overflow-hidden mb-6 transition-all">
         <button
           onClick={() => setIsOpen(!isOpen)}
           className={cn(
@@ -48,29 +59,58 @@ export function EligibilitySection() {
           )}
         >
           <div className="bg-gray-50 p-5 space-y-6">
-            {eligibilityData.map((item, index) => (
-              <div key={index} className="flex justify-between items-end">
-                <div className="space-y-1">
-                  <div className="flex gap-1 text-[14px] text-[#9CA3B2]">
-                    <span>{item.label}</span>
-                    <span>{item.subLabel}</span>
+            {diagnosisResult ? (
+              diagnosisResult.checks.map(
+                (check: EligibilityResult["checks"][0], i: number) => (
+                  <div key={i} className="flex justify-between items-center">
+                    <span className="text-[#1E293B] font-medium">
+                      {check.message}
+                    </span>
+                    <span
+                      className={cn(
+                        "text-xs px-2 py-1 rounded",
+                        check.passed
+                          ? "bg-blue-50 text-blue-600"
+                          : "bg-red-50 text-red-600",
+                      )}
+                    >
+                      {check.passed ? "적합" : "부적합"}
+                    </span>
                   </div>
-                  <div className="text-[17px] font-bold text-[#1E293B]">
-                    {item.value}
-                  </div>
-                </div>
-                <button className="px-3 py-1.5 bg-[#F1F5F9] text-[#94A3B8] text-[13px] rounded-md font-medium">
-                  진단 결과
-                </button>
-              </div>
-            ))}
+                ),
+              )
+            ) : (
+              // 진단 전: 기본 Mock 데이터 렌더링
+              <p className="text-sm text-gray-500 text-center py-4">
+                진단을 완료하면 상세 정보가 나타납니다.
+              </p>
+            )}
           </div>
         </div>
       </div>
 
-      <button className="w-full bg-[#666666] text-white text-[16px] p-2.5 rounded-2xl mb-5">
-        추가 정보 입력하고 지원 자격 정밀 진단 받기
-      </button>
+      {diagnosisResult ? (
+        <>
+          <DiagnosisResultCard rank="1순위" userName={userName} />
+          <button
+            onClick={() => setDiagnosisResult({} as EligibilityResult)}
+            className="w-full bg-[#F1F5F9] text-[#64748B] py-4 rounded-2xl font-bold mt-4"
+          >
+            정보 수정하고 재진단 받기
+          </button>
+        </>
+      ) : (
+        <button
+          onClick={handleDiagnosis}
+          disabled={isPending}
+          className="w-full bg-[#334155] text-white py-4 rounded-2xl font-bold disabled:opacity-50"
+        >
+          {isPending
+            ? "진단 중..."
+            : "추가 정보 입력하고 지원 자격 정밀 진단 받기"}
+        </button>
+      )}
+
       <p className="text-gray-400 text-sm">
         진단결과는 입력된 정보를 바탕으로 한 모의 계산 결과로, 실제와는 다를 수
         있으니 참고용으로만 활용해주세요.

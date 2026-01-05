@@ -40,10 +40,13 @@ export function AnnouncementDetailPage({
         </TabsList>
         <div className="bg-gray-100 min-h-[calc(100vh-200px)] p-5">
           <TabsContent value="support" className="mt-0 outline-none">
-            <EligibilitySection />
+            <EligibilitySection announcementId={announcement.announcementId} />
           </TabsContent>
           <TabsContent value="summary" className="mt-0 outline-none">
-            <AnnouncementSummary data={summaryData} />
+            <AnnouncementSummary
+              announcementId={announcement.announcementId}
+              data={summaryData}
+            />
           </TabsContent>
         </div>
       </TabsRoot>

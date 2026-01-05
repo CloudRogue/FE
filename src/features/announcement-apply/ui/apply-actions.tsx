@@ -1,16 +1,28 @@
 "use client";
 
+import { postOutboundLog } from "@/src/features/announcement-apply/api/action";
 import Button from "@/src/shared/ui/button";
 
-export function ApplyActions({
-  sourceUrl,
-}: {
-  sourceUrl: { originalUrl: string; url?: string };
-}) {
+interface ApplyActionsProps {
+  announcementId: number;
+  sourceUrl: {
+    originalUrl: string;
+    url?: string;
+  };
+}
+
+export function ApplyActions({ announcementId, sourceUrl }: ApplyActionsProps) {
   const handleViewOriginal = () => {
     window.open(sourceUrl.originalUrl, "_blank");
   };
-  const handleViewUrl = () => {
+
+  const handleApplyClick = async () => {
+    const result = await postOutboundLog(announcementId);
+
+    if (!result.success) {
+      console.error(result.message);
+    }
+
     window.open(sourceUrl.url, "_blank");
   };
 
@@ -23,8 +35,8 @@ export function ApplyActions({
         공고문 원문 보기
       </Button>
       <Button
-        onClick={handleViewUrl}
-        className="flex-1 bg-gray-100 text-gray-600 py-4 rounded-xl font-bold"
+        onClick={handleApplyClick} // 연동된 핸들러
+        className="flex-1 bg-black text-white py-4 rounded-xl font-bold hover:bg-gray-800"
       >
         공고 신청하러 가기
       </Button>
