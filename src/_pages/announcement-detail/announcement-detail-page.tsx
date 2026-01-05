@@ -1,4 +1,4 @@
-import AnnouncementCard from "@/src/entities/announcement/(id)/ui/announcement-card";
+import AnnouncementCard from "@/src/entities/announcement-detail/ui/announcement-card";
 import {
   TabsContent,
   TabsList,
