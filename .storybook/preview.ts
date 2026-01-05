@@ -1,4 +1,5 @@
 import type { Preview } from "@storybook/nextjs-vite";
+import "../src/_app/styles/globals.css";
 
 const preview: Preview = {
   parameters: {
@@ -7,6 +8,10 @@ const preview: Preview = {
         color: /(background|color)$/i,
         date: /Date$/i,
       },
+    },
+
+    nextjs: {
+      appDirectory: true,
     },
 
     a11y: {
