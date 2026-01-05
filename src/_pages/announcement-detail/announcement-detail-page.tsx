@@ -43,7 +43,10 @@ export function AnnouncementDetailPage({
             <EligibilitySection announcementId={announcement.announcementId} />
           </TabsContent>
           <TabsContent value="summary" className="mt-0 outline-none">
-            <AnnouncementSummary data={summaryData} />
+            <AnnouncementSummary
+              announcementId={announcement.announcementId}
+              data={summaryData}
+            />
           </TabsContent>
         </div>
       </TabsRoot>

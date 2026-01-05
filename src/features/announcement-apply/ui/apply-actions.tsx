@@ -7,7 +7,7 @@ interface ApplyActionsProps {
   announcementId: number;
   sourceUrl: {
     originalUrl: string;
-    externalApplyUrl: string;
+    url?: string;
   };
 }
 
@@ -23,7 +23,7 @@ export function ApplyActions({ announcementId, sourceUrl }: ApplyActionsProps) {
       console.error(result.message);
     }
 
-    window.open(sourceUrl.externalApplyUrl, "_blank");
+    window.open(sourceUrl.url, "_blank");
   };
 
   return (
