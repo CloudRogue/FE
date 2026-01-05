@@ -1,11 +1,14 @@
 "use client";
 
 import cn from "@/src/shared/lib/cn";
+import { DiagnosisResultCard } from "@/src/widgets/eligibility-section/ui/diagnosis-result-card";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
 export function EligibilitySection() {
   const [isOpen, setIsOpen] = useState(true);
+  const [isDiagnosed, setIsDiagnosed] = useState(true);
+  const userName = "구름";
 
   const eligibilityData = [
     { label: "나이", subLabel: "(만 19~34세)", value: "만 28세" },
@@ -23,7 +26,7 @@ export function EligibilitySection() {
       </p>
 
       {/* 자격 정보 카드 */}
-      <div className="border-2 rounded-2xl overflow-hidden mb-8 transition-all">
+      <div className="border-2 rounded-2xl overflow-hidden mb-6 transition-all">
         <button
           onClick={() => setIsOpen(!isOpen)}
           className={cn(
@@ -68,9 +71,19 @@ export function EligibilitySection() {
         </div>
       </div>
 
-      <button className="w-full bg-[#666666] text-white text-[16px] p-2.5 rounded-2xl mb-5">
-        추가 정보 입력하고 지원 자격 정밀 진단 받기
-      </button>
+      {isDiagnosed ? (
+        <>
+          <DiagnosisResultCard rank="1순위" userName={userName} />
+          <button className="w-full bg-[#F1F5F9] text-[#64748B] py-4 rounded-2xl font-bold text-[16px] mb-6">
+            정보 수정하고 재진단 받기
+          </button>
+        </>
+      ) : (
+        <button className="w-full bg-[#666666] text-white text-[16px] p-2.5 rounded-2xl mb-5">
+          추가 정보 입력하고 지원 자격 정밀 진단 받기
+        </button>
+      )}
+
       <p className="text-gray-400 text-sm">
         진단결과는 입력된 정보를 바탕으로 한 모의 계산 결과로, 실제와는 다를 수
         있으니 참고용으로만 활용해주세요.
