@@ -14,7 +14,9 @@ export function EligibilitySection({
 }) {
   const [isOpen, setIsOpen] = useState(true);
   const [isPending, startTransition] = useTransition();
-  const [diagnosisResult, setDiagnosisResult] = useState<any>(null);
+  const [diagnosisResult, setDiagnosisResult] = useState<EligibilityResult>(
+    {} as EligibilityResult,
+  );
   const userName = "구름";
 
   const handleDiagnosis = () => {
@@ -91,7 +93,7 @@ export function EligibilitySection({
         <>
           <DiagnosisResultCard rank="1순위" userName={userName} />
           <button
-            onClick={() => setDiagnosisResult(null)}
+            onClick={() => setDiagnosisResult({} as EligibilityResult)}
             className="w-full bg-[#F1F5F9] text-[#64748B] py-4 rounded-2xl font-bold mt-4"
           >
             정보 수정하고 재진단 받기
