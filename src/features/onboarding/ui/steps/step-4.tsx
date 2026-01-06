@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import Button from "@/src/shared/ui/button";
@@ -36,12 +36,6 @@ export default function Step4() {
     else next.set(key, value);
     replaceParams(next);
   };
-
-  useEffect(() => {
-    const current = searchParams.get("householdRole");
-    if (current === "householder" || current === "member") return;
-    setQuery("householdRole", "householder");
-  }, []);
 
   const handleHouseholdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value;
