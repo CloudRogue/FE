@@ -2,23 +2,28 @@
 
 import { EligibilityResult } from "@/src/entities/announcement-detail/model/announcement.types";
 import cn from "@/src/shared/lib/cn";
+import Button from "@/src/shared/ui/button";
 import { ChevronDown } from "lucide-react";
-import { useState } from "react";
 
 interface SupportInfoCardProps {
   userName: string;
   result: EligibilityResult | null;
+  isOpen: boolean;
+  onToggle: () => void;
 }
 
-export function SupportInfoCard({ userName, result }: SupportInfoCardProps) {
-  const [isOpen, setIsOpen] = useState(!Boolean(result));
-
+export function SupportInfoCard({
+  userName,
+  result,
+  isOpen,
+  onToggle,
+}: SupportInfoCardProps) {
   const hasResult = result && result.checks && result.checks.length > 0;
 
   return (
     <div className="border-2 rounded-2xl overflow-hidden mb-6 transition-all">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
+      <Button
+        onClick={onToggle}
         className={cn(
           "flex justify-between items-center w-full p-4 bg-white hover:bg-gray-50 transition-colors",
           isOpen ? "border-b-2 border-gray-100" : "",
@@ -34,7 +39,7 @@ export function SupportInfoCard({ userName, result }: SupportInfoCardProps) {
           )}
           size={24}
         />
-      </button>
+      </Button>
 
       <div
         className={cn(
