@@ -1,0 +1,60 @@
+"use client";
+
+import { EligibilityResult } from "@/src/entities/announcement-detail/model/announcement.types";
+import { EligibilityCheckButton } from "@/src/features/announcement-eligibility-check/ui/eligibility-check-button";
+import Button from "@/src/shared/ui/button";
+import { SupportInfoCard } from "@/src/widgets/announcement-support/ui/support-info-card";
+import { SupportResultCard } from "@/src/widgets/announcement-support/ui/support-result-card";
+import Link from "next/link";
+import { useState } from "react";
+
+export function SupportContent({
+  announcementId,
+  isClosed,
+}: {
+  announcementId: number;
+  isClosed: boolean;
+}) {
+  const [diagnosisResult, setDiagnosisResult] =
+    useState<EligibilityResult | null>(null);
+  const [isAccordionOpen, setIsAccordionOpen] = useState(true);
+  const userName = "구름";
+
+  const handleSuccess = (result: EligibilityResult) => {
+    setDiagnosisResult(result);
+    setIsAccordionOpen(false);
+  };
+
+  return (
+    <>
+      <SupportInfoCard
+        userName={userName}
+        result={diagnosisResult}
+        isOpen={isAccordionOpen}
+        onToggle={() => setIsAccordionOpen(!isAccordionOpen)}
+      />
+
+      {diagnosisResult ? (
+        <>
+          <SupportResultCard
+            eligible={diagnosisResult.eligible}
+            rank={diagnosisResult.rank}
+            userName={userName}
+            isClosed={isClosed}
+          />
+          <Link href="/mypage" className="block mt-4">
+            <Button className="w-full bg-[#111111] text-white py-6 rounded-xl font-bold text-[16px]">
+              입력한 정보 수정하고 재진단 받기
+            </Button>
+          </Link>
+        </>
+      ) : (
+        <EligibilityCheckButton
+          announcementId={announcementId}
+          isClosed={isClosed}
+          onSuccess={handleSuccess}
+        />
+      )}
+    </>
+  );
+}
