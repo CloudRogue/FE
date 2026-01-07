@@ -2,7 +2,7 @@
 
 import cn from "@/src/shared/lib/cn";
 
-interface DiagnosisResultCardProps {
+interface SupportResultCardProps {
   eligible: boolean;
   rank: "1순위" | "2순위" | "3순위" | null;
   userName: string;
@@ -31,11 +31,11 @@ const INELIGIBLE_THEME = {
     "해당 공고 지원 대상이 아니에요\n아쉽지만, 함께 다른 공고를 지원해보아요!",
 };
 
-export function DiagnosisResultCard({
+export function SupportResultCard({
   eligible,
   rank,
   userName,
-}: DiagnosisResultCardProps) {
+}: SupportResultCardProps) {
   const theme = !eligible
     ? INELIGIBLE_THEME
     : RANK_THEMES[rank as keyof typeof RANK_THEMES] || RANK_THEMES["3순위"];

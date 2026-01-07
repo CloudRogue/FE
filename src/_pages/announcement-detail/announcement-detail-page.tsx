@@ -7,8 +7,8 @@ import {
   TabsRoot,
   TabsTrigger,
 } from "@/src/shared/ui/tabs";
-import { AnnouncementOverview } from "@/src/widgets/announcement-overview/ui/announcement-overview";
-import { EligibilitySection } from "@/src/widgets/eligibility-section/ui/eligibility-section";
+import { OverviewSection } from "@/src/widgets/announcement-overview/ui/overview-section";
+import { SupportSection } from "@/src/widgets/announcement-support/ui/support-section";
 import { useMemo } from "react";
 
 interface AnnouncementDetailPageProps {
@@ -43,10 +43,10 @@ export function AnnouncementDetailPage({
         </TabsList>
         <div className="bg-gray-100 min-h-[calc(100vh-200px)] p-5">
           <TabsContent value="support" className="mt-0 outline-none">
-            <EligibilitySection announcementId={announcement.announcementId} />
+            <SupportSection announcementId={announcement.announcementId} />
           </TabsContent>
           <TabsContent value="overview" className="mt-0 outline-none">
-            <AnnouncementOverview
+            <OverviewSection
               announcementId={announcement.announcementId}
               data={summaryData}
             />

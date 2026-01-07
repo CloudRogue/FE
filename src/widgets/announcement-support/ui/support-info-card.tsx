@@ -5,15 +5,12 @@ import cn from "@/src/shared/lib/cn";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
-interface DiagnosisInfoCardProps {
+interface SupportInfoCardProps {
   userName: string;
   result: EligibilityResult | null;
 }
 
-export function DiagnosisInfoCard({
-  userName,
-  result,
-}: DiagnosisInfoCardProps) {
+export function SupportInfoCard({ userName, result }: SupportInfoCardProps) {
   const [isOpen, setIsOpen] = useState(!Boolean(result));
 
   const hasResult = result && result.checks && result.checks.length > 0;

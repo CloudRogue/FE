@@ -3,7 +3,7 @@
 import { EligibilityResultSchema } from "@/src/entities/announcement-detail/model/announcement.types";
 import { Api } from "@/src/shared/api/api";
 
-export async function postEligibilityDiagnosis(announcementId: number) {
+export async function postEligibilityCheck(announcementId: number) {
   return await Api.post(
     `/announcements/${announcementId}/eligibility/check`,
     EligibilityResultSchema,

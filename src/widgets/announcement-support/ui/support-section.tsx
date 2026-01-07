@@ -6,23 +6,21 @@ import {
 } from "@/src/entities/announcement-detail/model/announcement.types";
 import { postEligibilityCheck } from "@/src/features/announcement-eligibility-check/api/action";
 import Button from "@/src/shared/ui/button";
-import { DiagnosisResultCard } from "@/src/widgets/eligibility-section/ui/diagnosis-result-card";
+import { SupportInfoCard } from "@/src/widgets/announcement-support/ui//support-info-card";
+import { SupportResultCard } from "@/src/widgets/announcement-support/ui/support-result-card";
 import { Suspense, useState, useTransition } from "react";
-import { DiagnosisInfoCard } from "./diagnosis-info-card";
 
-interface EligibilitySectionProps {
+interface SupportSectionProps {
   announcementId: AnnouncementDetail["announcementId"];
 }
 
-export function EligibilitySection({
-  announcementId,
-}: EligibilitySectionProps) {
+export function SupportSection({ announcementId }: SupportSectionProps) {
   const [isPending, startTransition] = useTransition();
   const [diagnosisResult, setDiagnosisResult] =
     useState<EligibilityResult | null>(null);
   const userName = "구름";
 
-  const handleDiagnosis = () => {
+  const handleEligibilityCheck = () => {
     startTransition(async () => {
       const result = await postEligibilityCheck(announcementId);
       setDiagnosisResult(result);
@@ -41,12 +39,12 @@ export function EligibilitySection({
       </p>
 
       <Suspense fallback={<div>진단을 완료하면 상세 정보가 나타압니다.</div>}>
-        <DiagnosisInfoCard userName={userName} result={diagnosisResult} />
+        <SupportInfoCard userName={userName} result={diagnosisResult} />
       </Suspense>
 
       {diagnosisResult ? (
         <>
-          <DiagnosisResultCard
+          <SupportResultCard
             eligible={diagnosisResult.eligible}
             rank={diagnosisResult.rank}
             userName={userName}
@@ -59,8 +57,9 @@ export function EligibilitySection({
           </Button>
         </>
       ) : (
+        // 분리해서 feature로 이동 필요
         <Button
-          onClick={handleDiagnosis}
+          onClick={handleEligibilityCheck}
           disabled={isPending}
           className="w-full bg-[#334155] text-white py-4 rounded-2xl font-bold disabled:opacity-50"
         >

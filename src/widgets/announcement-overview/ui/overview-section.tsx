@@ -1,6 +1,6 @@
 import { AnnouncementDetail } from "@/src/entities/announcement-detail/model/announcement.types";
 import { OverviewRow } from "@/src/entities/announcement-detail/ui/overview-row";
-import { ApplyActions } from "@/src/features/announcement-apply/ui/apply-actions";
+import { OverviewApplyActions } from "@/src/features/announcement-overview-apply/ui/overview-apply-actions";
 
 interface AnnouncementSummaryProps {
   announcementId: AnnouncementDetail["announcementId"];
@@ -13,7 +13,7 @@ interface AnnouncementSummaryProps {
   };
 }
 
-export function AnnouncementOverview({
+export function OverviewSection({
   announcementId,
   data,
 }: AnnouncementSummaryProps) {
@@ -34,7 +34,7 @@ export function AnnouncementOverview({
         <OverviewRow label="방법" value={data.method} />
       </div>
 
-      <ApplyActions
+      <OverviewApplyActions
         announcementId={announcementId}
         originalUrl={data.originalUrl}
       />

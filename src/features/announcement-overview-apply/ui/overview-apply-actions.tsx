@@ -1,6 +1,6 @@
 "use client";
 
-import { postOutboundLog } from "@/src/features/announcement-apply/api/action";
+import { postOutboundLog } from "@/src/features/announcement-overview-apply/api/action";
 import Button from "@/src/shared/ui/button";
 
 interface ApplyActionsProps {
@@ -8,7 +8,7 @@ interface ApplyActionsProps {
   originalUrl: string;
 }
 
-export function ApplyActions({
+export function OverviewApplyActions({
   announcementId,
   originalUrl,
 }: ApplyActionsProps) {
