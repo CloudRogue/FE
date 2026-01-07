@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import Button from "@/src/shared/ui/button";
@@ -22,9 +22,7 @@ export default function Step4() {
     return "householder";
   });
 
-  const householdSize = useMemo(() => {
-    return searchParams.get("householdSize") ?? "";
-  }, [searchParams]);
+  const householdSize = searchParams.get("householdSize") ?? "";
 
   const replaceParams = (next: URLSearchParams) => {
     router.replace(`${pathname}?${next.toString()}`);

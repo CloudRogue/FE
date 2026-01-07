@@ -31,6 +31,20 @@ export const onboardingSchema = z.object({
     .max(10, "소득분위는 10 이하여야 합니다"),
 });
 
+export const onboardingDraftSchema = z.object({
+  name: z.string(),
+  gender: z.enum(["male", "female"]),
+  birthYear: z.string(),
+  birthMonth: z.string(),
+  birthDay: z.string(),
+  regionCity: z.string(),
+  regionDistrict: z.string(),
+  householdSize: z.coerce.number().int().min(1),
+  householdRole: z.enum(["householder", "member"]),
+  monthlyIncome: z.coerce.number(),
+  incomeDecile: z.coerce.number().int().min(1).max(10),
+});
+
 export type OnboardingFormData = z.infer<typeof onboardingSchema>;
 
 export type OnboardingDraft = {

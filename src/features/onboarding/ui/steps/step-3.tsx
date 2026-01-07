@@ -13,16 +13,10 @@ export default function Step3() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const [tab, setTab] = useState<Tab>("city");
+  const regionCity = searchParams.get("regionCity") ?? undefined;
+  const regionDistrict = searchParams.get("regionDistrict") ?? undefined;
 
-  const regionCity = useMemo(
-    () => searchParams.get("regionCity") ?? undefined,
-    [searchParams],
-  );
-  const regionDistrict = useMemo(
-    () => searchParams.get("regionDistrict") ?? undefined,
-    [searchParams],
-  );
+  const [tab, setTab] = useState<Tab>(() => (regionCity ? "district" : "city"));
 
   // 임시
   const cities = useMemo(
@@ -63,11 +57,7 @@ export default function Step3() {
     }),
     [],
   );
-
-  const districts = useMemo(() => {
-    if (!regionCity) return [];
-    return districtsByCity[regionCity] ?? [];
-  }, [districtsByCity, regionCity]);
+  const districts = regionCity ? (districtsByCity[regionCity] ?? []) : [];
 
   const canSelectDistrict = Boolean(regionCity);
 

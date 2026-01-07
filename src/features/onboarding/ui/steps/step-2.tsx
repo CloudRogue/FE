@@ -1,6 +1,5 @@
 "use client";
 
-import { useMemo } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import Input from "@/src/shared/ui/input";
@@ -14,18 +13,9 @@ export default function Step2() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const birthYear = useMemo(
-    () => searchParams.get("birthYear") ?? "",
-    [searchParams],
-  );
-  const birthMonth = useMemo(
-    () => searchParams.get("birthMonth") ?? "",
-    [searchParams],
-  );
-  const birthDay = useMemo(
-    () => searchParams.get("birthDay") ?? "",
-    [searchParams],
-  );
+  const birthYear = searchParams.get("birthYear") ?? "";
+  const birthMonth = searchParams.get("birthMonth") ?? "";
+  const birthDay = searchParams.get("birthDay") ?? "";
 
   const replaceQuery = (key: string, value: string) => {
     const next = new URLSearchParams(searchParams.toString());

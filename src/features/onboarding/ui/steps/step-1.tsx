@@ -1,35 +1,46 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
+import type { OnboardingDraft } from "@/src/features/onboarding/model/onboarding.types";
 import Button from "@/src/shared/ui/button";
 import Input from "@/src/shared/ui/input";
 import Label from "@/src/shared/ui/label";
 import cn from "@/src/shared/lib/cn";
 
-type Gender = "male" | "female";
+type Gender = NonNullable<OnboardingDraft["gender"]>;
+
+const GENDER_MAP = {
+  male: "male",
+  female: "female",
+} as const satisfies Record<Gender, Gender>;
 
 export default function Step1() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const name = useMemo(() => searchParams.get("name") ?? "", [searchParams]);
+  const nameFromQuery = searchParams.get("name") ?? "";
 
-  const gender = useMemo(() => {
+  const [nameValue, setNameValue] = useState(nameFromQuery);
+  const isComposingRef = useRef(false);
+
+  useEffect(() => {
+    if (isComposingRef.current) return;
+    setNameValue(nameFromQuery);
+  }, [nameFromQuery]);
+
+  const gender = useMemo<Gender | null>(() => {
     const value = searchParams.get("gender");
-    if (value === "male" || value === "female") return value;
-    return null;
+    if (!value) return null;
+    return value in GENDER_MAP ? (value as Gender) : null;
   }, [searchParams]);
-
-  const isMaleSelected = gender === "male";
-  const isFemaleSelected = gender === "female";
 
   const replaceQuery = (key: string, value: string | null) => {
     const next = new URLSearchParams(searchParams.toString());
 
-    if (value === null || value === "") {
+    if (!value) {
       next.delete(key);
     } else {
       next.set(key, value);
@@ -38,8 +49,35 @@ export default function Step1() {
     router.replace(`${pathname}?${next.toString()}`);
   };
 
+  const commitNameToQuery = (value: string) => {
+    replaceQuery("name", value.trim() ? value : null);
+  };
+
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    replaceQuery("name", e.target.value);
+    const next = e.target.value;
+    setNameValue(next);
+
+    if (isComposingRef.current) return;
+    commitNameToQuery(next);
+  };
+
+  const handleNameCompositionStart = () => {
+    isComposingRef.current = true;
+  };
+
+  const handleNameCompositionEnd = (
+    e: React.CompositionEvent<HTMLInputElement>,
+  ) => {
+    isComposingRef.current = false;
+
+    const next = e.currentTarget.value;
+    setNameValue(next);
+    commitNameToQuery(next);
+  };
+
+  const handleNameBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    if (isComposingRef.current) return;
+    commitNameToQuery(e.currentTarget.value);
   };
 
   const handleGenderSelect = (nextGender: Gender) => {
@@ -68,8 +106,11 @@ export default function Step1() {
 
           <Input
             id="onboarding-name"
-            value={name}
+            value={nameValue}
             onChange={handleNameChange}
+            onCompositionStart={handleNameCompositionStart}
+            onCompositionEnd={handleNameCompositionEnd}
+            onBlur={handleNameBlur}
             placeholder="홍길동"
             className="h-12 w-full rounded-xl border border-slate-200 bg-transparent px-4 text-black placeholder:text-slate-500"
           />
@@ -83,11 +124,11 @@ export default function Step1() {
               onClick={() => handleGenderSelect("male")}
               className={cn(
                 "h-12 flex-1 rounded-xl border text-md",
-                isMaleSelected
+                gender === "male"
                   ? "border-slate-900 bg-white text-slate-900"
                   : "border-slate-200 bg-slate-50 text-slate-500",
               )}
-              aria-pressed={isMaleSelected}
+              aria-pressed={gender === "male"}
             >
               남성
             </Button>
@@ -97,11 +138,11 @@ export default function Step1() {
               onClick={() => handleGenderSelect("female")}
               className={cn(
                 "h-12 flex-1 rounded-xl border text-md",
-                isFemaleSelected
+                gender === "female"
                   ? "border-slate-900 bg-white text-slate-900"
                   : "border-slate-200 bg-slate-50 text-slate-500",
               )}
-              aria-pressed={isFemaleSelected}
+              aria-pressed={gender === "female"}
             >
               여성
             </Button>

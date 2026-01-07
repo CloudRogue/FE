@@ -3,89 +3,72 @@ import type {
   OnboardingFormData,
 } from "@/src/features/onboarding/model/onboarding.types";
 
-function padToTwoDigits(value: string): string {
-  return value.padStart(2, "0");
-}
+const GENDER_MAP: Record<
+  NonNullable<OnboardingDraft["gender"]>,
+  OnboardingFormData["gender"]
+> = {
+  male: "MALE",
+  female: "FEMALE",
+};
 
-function createBirthDate(draft: OnboardingDraft): string {
-  const { birthYear, birthMonth, birthDay } = draft;
+const HOUSEHOLD_ROLE_MAP: Record<
+  NonNullable<OnboardingDraft["householdRole"]>,
+  OnboardingFormData["householdRole"]
+> = {
+  householder: "HOUSEHOLDER",
+  member: "MEMBER",
+};
 
-  if (!birthYear || !birthMonth || !birthDay) {
+function validateOnboardingDraft(draft: OnboardingDraft): void {
+  if (!draft.name?.trim()) throw new Error("이름 정보가 없습니다");
+  if (!draft.gender) throw new Error("성별 정보가 없습니다");
+
+  if (!draft.birthYear || !draft.birthMonth || !draft.birthDay) {
     throw new Error("생년월일 정보가 완성되지 않았습니다");
   }
 
-  const year = birthYear;
-  const month = padToTwoDigits(birthMonth);
-  const day = padToTwoDigits(birthDay);
-
-  return `${year}-${month}-${day}`;
-}
-
-function createRegionSigungu(draft: OnboardingDraft): string {
-  const { regionCity, regionDistrict } = draft;
-
-  if (!regionCity || !regionDistrict) {
+  if (!draft.regionCity || !draft.regionDistrict) {
     throw new Error("지역 정보가 완성되지 않았습니다");
   }
 
-  return `${regionCity} ${regionDistrict}`;
+  if (!draft.householdRole) throw new Error("세대 내 역할 정보가 없습니다");
+  if (draft.incomeDecile == null) throw new Error("소득 분위 정보가 없습니다");
+  if (draft.householdSize == null) throw new Error("가구원 수 정보가 없습니다");
 }
 
-function createGender(draft: OnboardingDraft): OnboardingFormData["gender"] {
-  const { gender } = draft;
-
-  if (!gender) {
-    throw new Error("성별 정보가 없습니다");
-  }
-
-  if (gender === "male") return "MALE";
-  if (gender === "female") return "FEMALE";
-
-  throw new Error("성별 정보가 올바르지 않습니다");
+function formatBirthDate(draft: OnboardingDraft): string {
+  return `${draft.birthYear!}-${draft.birthMonth!.padStart(2, "0")}-${draft.birthDay!.padStart(2, "0")}`;
 }
 
-function createHouseholdRole(
+function formatRegionSigungu(draft: OnboardingDraft): string {
+  return `${draft.regionCity!} ${draft.regionDistrict!}`;
+}
+
+function mapGender(draft: OnboardingDraft): OnboardingFormData["gender"] {
+  return GENDER_MAP[draft.gender!];
+}
+
+function mapHouseholdRole(
   draft: OnboardingDraft,
 ): OnboardingFormData["householdRole"] {
-  const { householdRole } = draft;
-
-  if (!householdRole) {
-    throw new Error("세대 내 역할 정보가 없습니다");
-  }
-
-  if (householdRole === "householder") return "HOUSEHOLDER";
-  if (householdRole === "member") return "MEMBER";
-
-  throw new Error("세대 내 역할 정보가 올바르지 않습니다");
+  return HOUSEHOLD_ROLE_MAP[draft.householdRole!];
 }
 
 export function toOnboardingFormData(
   draft: OnboardingDraft,
 ): OnboardingFormData {
-  const name = draft.name?.trim();
-  if (!name) {
-    throw new Error("이름 정보가 없습니다");
-  }
+  validateOnboardingDraft(draft);
 
-  if (draft.incomeDecile == null) {
-    throw new Error("소득 분위 정보가 없습니다");
-  }
-
-  if (draft.householdSize == null) {
-    throw new Error("가구원 수 정보가 없습니다");
-  }
-
-  const householdRole = createHouseholdRole(draft);
-  const isHouseholder = householdRole === "HOUSEHOLDER";
+  const householdRole = mapHouseholdRole(draft);
 
   return {
-    name,
-    gender: createGender(draft),
-    birthDate: createBirthDate(draft),
-    regionSigungu: createRegionSigungu(draft),
-    householdSize: draft.householdSize,
-    isHouseholder,
+    name: draft.name!.trim(),
+    gender: mapGender(draft),
+    birthDate: formatBirthDate(draft),
+    regionSigungu: formatRegionSigungu(draft),
+    householdSize: draft.householdSize!,
     householdRole,
-    incomeDecile: draft.incomeDecile,
+    isHouseholder: householdRole === "HOUSEHOLDER",
+    incomeDecile: draft.incomeDecile!,
   };
 }

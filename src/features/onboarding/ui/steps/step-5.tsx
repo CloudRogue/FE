@@ -28,24 +28,15 @@ export default function Step5() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const householdSize = useMemo(() => {
-    const raw = searchParams.get("householdSize");
-    const next = raw ? Number(raw) : 1;
-    if (!Number.isFinite(next) || next <= 0) return 1;
-    return next;
-  }, [searchParams]);
+  const householdSize = searchParams.get("householdSize") ?? "";
 
-  const monthlyIncome = useMemo(
-    () => searchParams.get("monthlyIncome") ?? "",
-    [searchParams],
-  );
+  const monthlyIncome = searchParams.get("monthlyIncome") ?? "";
 
-  const incomeDecile = useMemo(() => {
-    const raw = searchParams.get("incomeDecile");
-    const parsed = raw ? Number(raw) : NaN;
-    if (Number.isFinite(parsed)) return parsed;
-    return 0;
-  }, [searchParams]);
+  const rawIncomeDecile = searchParams.get("incomeDecile");
+  const parsedIncomeDecile = rawIncomeDecile ? Number(rawIncomeDecile) : NaN;
+  const incomeDecile = Number.isFinite(parsedIncomeDecile)
+    ? parsedIncomeDecile
+    : 0;
 
   const replaceParams = (next: URLSearchParams) => {
     router.replace(`${pathname}?${next.toString()}`);
