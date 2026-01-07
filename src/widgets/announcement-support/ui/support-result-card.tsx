@@ -1,12 +1,8 @@
 "use client";
 
+import type { EligibilityResult } from "@/src/entities/announcement-detail/model/announcement.types";
 import cn from "@/src/shared/lib/cn";
-
-interface SupportResultCardProps {
-  eligible: boolean;
-  rank: "1순위" | "2순위" | "3순위" | null;
-  userName: string;
-}
+import Button from "@/src/shared/ui/button";
 
 const RANK_THEMES = {
   "1순위": {
@@ -23,6 +19,10 @@ const RANK_THEMES = {
     description:
       "지원 가능 및 3순위 가 예상돼요\n확률이 낮으니, 함께 다른 공고도 지원해보아요!",
   },
+  "순위 없음": {
+    container: "bg-[#8F8F8FE5]",
+    description: "지원 가능해 보이네요!\n확률이 낮으니, 한번 지원해볼까요~!",
+  },
 };
 
 const INELIGIBLE_THEME = {
@@ -31,14 +31,22 @@ const INELIGIBLE_THEME = {
     "해당 공고 지원 대상이 아니에요\n아쉽지만, 함께 다른 공고를 지원해보아요!",
 };
 
+interface SupportResultCardProps {
+  eligible: boolean;
+  rank: EligibilityResult["rank"];
+  userName: string;
+  isClosed: boolean;
+}
+
 export function SupportResultCard({
   eligible,
   rank,
   userName,
+  isClosed,
 }: SupportResultCardProps) {
   const theme = !eligible
     ? INELIGIBLE_THEME
-    : RANK_THEMES[rank as keyof typeof RANK_THEMES] || RANK_THEMES["3순위"];
+    : RANK_THEMES[rank as keyof typeof RANK_THEMES] || RANK_THEMES["순위 없음"];
 
   return (
     <div className={cn("p-6 rounded-2xl text-white mb-6", theme.container)}>
@@ -58,9 +66,12 @@ export function SupportResultCard({
         </h4>
       </div>
 
-      <button className="w-full bg-white text-[#1E293B] py-2.5 rounded-xl font-bold text-[16px] hover:bg-gray-50 transition-colors">
-        공고 신청하러 가기
-      </button>
+      {!isClosed && (
+        // TODO: todo 리스트에 추가
+        <Button className="w-full bg-white text-[#1E293B] py-2.5 rounded-xl font-bold text-[16px] hover:bg-gray-50 transition-colors">
+          Todo에 담고 신청 준비하기
+        </Button>
+      )}
     </div>
   );
 }
