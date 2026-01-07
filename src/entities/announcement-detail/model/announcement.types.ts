@@ -1,14 +1,5 @@
 import * as z from "zod";
 
-export const ApiErrorSchema = z.object({
-  code: z.string(),
-  message: z.string(),
-  status: z.number().int(),
-  details: z.record(z.string(), z.any()).nullable(),
-});
-
-export type ApiError = z.infer<typeof ApiErrorSchema>;
-
 // 공고 상태
 export const AnnouncementStatusSchema = z.enum([
   "OPEN",
