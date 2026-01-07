@@ -1,6 +1,9 @@
 "use client";
 
-import { EligibilityResult } from "@/src/entities/announcement-detail/model/announcement.types";
+import {
+  AnnouncementDetail,
+  EligibilityResult,
+} from "@/src/entities/announcement-detail/model/announcement.types";
 import { EligibilityCheckButton } from "@/src/features/announcement-eligibility-check/ui/eligibility-check-button";
 import Button from "@/src/shared/ui/button";
 import { SupportInfoCard } from "@/src/widgets/announcement-support/ui/support-info-card";
@@ -8,13 +11,15 @@ import { SupportResultCard } from "@/src/widgets/announcement-support/ui/support
 import Link from "next/link";
 import { useState } from "react";
 
-export function SupportContent({
-  announcementId,
-  isClosed,
-}: {
-  announcementId: number;
+interface SupportContentProps {
+  announcement: AnnouncementDetail;
   isClosed: boolean;
-}) {
+}
+
+export function SupportContent({
+  announcement,
+  isClosed,
+}: SupportContentProps) {
   const [diagnosisResult, setDiagnosisResult] =
     useState<EligibilityResult | null>(null);
   const [isAccordionOpen, setIsAccordionOpen] = useState(true);
@@ -37,8 +42,8 @@ export function SupportContent({
       {diagnosisResult ? (
         <>
           <SupportResultCard
-            eligible={diagnosisResult.eligible}
-            rank={diagnosisResult.rank}
+            result={diagnosisResult}
+            announcement={announcement}
             userName={userName}
             isClosed={isClosed}
           />
@@ -50,7 +55,7 @@ export function SupportContent({
         </>
       ) : (
         <EligibilityCheckButton
-          announcementId={announcementId}
+          announcementId={announcement?.announcementId}
           isClosed={isClosed}
           onSuccess={handleSuccess}
         />

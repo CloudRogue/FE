@@ -45,7 +45,7 @@ export function AnnouncementDetailPage({
         <div className="bg-gray-100 min-h-[calc(100vh-200px)] p-5">
           {/* 지원 자격(support) */}
           <TabsContent value="support" className="mt-0 outline-none">
-            <SupportSection announcementId={announcement.announcementId} />
+            <SupportSection announcement={announcement} />
           </TabsContent>
           {/* 공고 개요(overview) */}
           <TabsContent value="overview" className="mt-0 outline-none">

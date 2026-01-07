@@ -1,8 +1,11 @@
 "use client";
 
-import type { EligibilityResult } from "@/src/entities/announcement-detail/model/announcement.types";
+import type {
+  AnnouncementDetail,
+  EligibilityResult,
+} from "@/src/entities/announcement-detail/model/announcement.types";
+import { AnnouncementAddTodoButton } from "@/src/features/todo-add/ui/announcement-add-todo-button";
 import cn from "@/src/shared/lib/cn";
-import Button from "@/src/shared/ui/button";
 
 const RANK_THEMES = {
   "1순위": {
@@ -32,18 +35,19 @@ const INELIGIBLE_THEME = {
 };
 
 interface SupportResultCardProps {
-  eligible: boolean;
-  rank: EligibilityResult["rank"];
+  result: EligibilityResult;
+  announcement: AnnouncementDetail;
   userName: string;
   isClosed: boolean;
 }
-
 export function SupportResultCard({
-  eligible,
-  rank,
+  result,
+  announcement,
   userName,
   isClosed,
 }: SupportResultCardProps) {
+  const { eligible, rank } = result;
+
   const theme = !eligible
     ? INELIGIBLE_THEME
     : RANK_THEMES[rank as keyof typeof RANK_THEMES] || RANK_THEMES["순위 없음"];
@@ -67,10 +71,13 @@ export function SupportResultCard({
       </div>
 
       {!isClosed && (
-        // TODO: todo 리스트에 추가
-        <Button className="w-full bg-white text-[#1E293B] py-2.5 rounded-xl font-bold text-[16px] hover:bg-gray-50 transition-colors">
-          Todo에 담고 신청 준비하기
-        </Button>
+        <AnnouncementAddTodoButton
+          payload={{
+            announcementId: announcement.announcementId,
+            title: announcement.title,
+            dueDate: announcement.endDate,
+          }}
+        />
       )}
     </div>
   );
