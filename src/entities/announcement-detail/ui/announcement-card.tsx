@@ -22,6 +22,7 @@ interface AnnouncementCardProps extends Pick<
   | "status"
   | "fullAdres"
   | "externalApplyUrl"
+  | "dDay"
 > {
   period: {
     start: string;
@@ -39,6 +40,7 @@ export default function AnnouncementCard({
   fullAdres,
   externalApplyUrl,
   period,
+  dDay,
   imageUrl = "",
 }: AnnouncementCardProps) {
   const regionBadge = useMemo(
@@ -70,7 +72,7 @@ export default function AnnouncementCard({
         </button>
       </div>
 
-      <div className="flex justify-between gap-4">
+      <div className="flex justify-between gap-4 mb-4">
         <div className="flex-1">
           <h2 className="text-[18px] font-bold text-[#1E293B] leading-tight break-keep">
             {title}
@@ -97,6 +99,8 @@ export default function AnnouncementCard({
       <OutboundAction
         announcementId={announcementId}
         externalApplyUrl={externalApplyUrl}
+        status={status}
+        dDay={dDay}
       />
     </div>
   );

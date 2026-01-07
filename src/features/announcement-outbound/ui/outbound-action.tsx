@@ -1,31 +1,83 @@
 "use client";
 
-import { AnnouncementDetail } from "@/src/entities/announcement-detail/model/announcement.types";
+import {
+  AnnouncementDetail,
+  AnnouncementStatusSchema,
+} from "@/src/entities/announcement-detail/model/announcement.types";
 import { postOutboundLog } from "@/src/features/announcement-outbound/api/action";
+import cn from "@/src/shared/lib/cn";
 import Button from "@/src/shared/ui/button";
+import { useMemo } from "react";
+import z from "zod";
+
+type AnnouncementStatus = z.infer<typeof AnnouncementStatusSchema>;
 
 interface ApplyActionsProps extends Pick<
   AnnouncementDetail,
-  "announcementId" | "externalApplyUrl"
+  "announcementId" | "externalApplyUrl" | "status" | "dDay"
 > {}
 
 export function OutboundAction({
   announcementId,
   externalApplyUrl,
+  status,
+  dDay,
 }: ApplyActionsProps) {
+  const isDisabled = status === "UPCOMING";
+
+  const buttonConfig = useMemo(() => {
+    const statusConfigs: Record<
+      AnnouncementStatus,
+      { label: string; isDisabled: boolean; style: string }
+    > = {
+      UPCOMING: {
+        label: `공고 접수 시작까지 D-${dDay ?? "?"}`,
+        isDisabled: true,
+        style: "bg-gray-400 text-white cursor-not-allowed",
+      },
+      CLOSED: {
+        label: "접수가 마감된 공고입니다",
+        isDisabled: true,
+        style: "bg-gray-400 text-white cursor-not-allowed",
+      },
+      OPEN: {
+        label: "공고 신청하러 가기",
+        isDisabled: false,
+        style: "bg-[#111111] text-white active:scale-[0.98] hover:bg-black",
+      },
+      DUE_SOON: {
+        label: "공고 신청하러 가기",
+        isDisabled: false,
+        style: "bg-[#111111] text-white active:scale-[0.98] hover:bg-black",
+      },
+    };
+
+    return statusConfigs[status];
+  }, [status, dDay]);
+
   const handleApplyClick = async () => {
-    await postOutboundLog(announcementId);
-    window.open(externalApplyUrl, "_blank");
+    if (!externalApplyUrl) return;
+    try {
+      await postOutboundLog(announcementId);
+    } catch (error) {
+      console.error("Outbound log failed", error);
+    } finally {
+      window.open(externalApplyUrl, "_blank");
+    }
   };
 
   return (
-    <div className="flex gap-4 mt-2">
-      <Button
-        onClick={handleApplyClick}
-        className="w-full bg-[#111111] text-white py-4 rounded-xl font-bold disabled:opacity-50"
-      >
-        공고 신청하러 가기
-      </Button>
-    </div>
+    <Button
+      onClick={handleApplyClick}
+      disabled={isDisabled}
+      className={cn(
+        "w-full py-4 rounded-xl font-bold transition-all",
+        isDisabled
+          ? "bg-gray-400 text-white cursor-not-allowed"
+          : "bg-[#111111] text-white active:scale-[0.98]",
+      )}
+    >
+      {buttonConfig.label}
+    </Button>
   );
 }
