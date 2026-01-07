@@ -25,6 +25,7 @@ export function AnnouncementAddTodoButton({ payload }: AddTodoButtonProps) {
         });
         alert("Todo 리스트에 추가되었습니다.");
       } catch (error) {
+        console.error("Todo 추가 중 오류 발생:", error);
         alert("추가에 실패했습니다.");
       }
     });

@@ -32,6 +32,7 @@ export function ScrapButton({
           await deleteScrap(announcementId);
         }
       } catch (error) {
+        console.error("스크랩 처리 중 오류 발생:", error);
         setIsScrapped(!nextState);
         alert("스크랩 처리에 실패했습니다.");
       }

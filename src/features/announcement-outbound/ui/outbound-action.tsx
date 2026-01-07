@@ -12,10 +12,10 @@ import z from "zod";
 
 type AnnouncementStatus = z.infer<typeof AnnouncementStatusSchema>;
 
-interface ApplyActionsProps extends Pick<
+type ApplyActionsProps = Pick<
   AnnouncementDetail,
   "announcementId" | "externalApplyUrl" | "status" | "dDay"
-> {}
+>;
 
 export function OutboundAction({
   announcementId,

@@ -1,10 +1,10 @@
 import { AnnouncementDetailPage } from "@/src/_pages/announcement-detail/announcement-detail-page";
 import { AnnouncementDetail } from "@/src/entities/announcement-detail/model/announcement.types";
 
-type PageParams = Promise<{ id: string }>;
+// type PageParams = Promise<{ id: string }>;
 
-export default async function Page({ params }: { params: PageParams }) {
-  const { id } = await params;
+export default async function Page(/*{ params }: { params: PageParams }*/) {
+  // const { id } = await params;
   // const data = await getAnnouncementDetail(id);
 
   const data = {

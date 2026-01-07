@@ -25,7 +25,7 @@ export function CommentSection({ announcementId }: CommentSectionProps) {
   } = useAnnouncementComments(String(announcementId), 0, displaySize);
 
   // 목데이터 사용 추후 변경 필요
-  const totalCount = commentsMock.length;
+  const totalCount = commentsMock.length ?? comments?.meta.totalElements ?? 0;
   // const totalCount = comments?.meta.totalElements ?? 0;
   const displayComments = commentsMock;
   //   const comments = comments?.items ?? [];
