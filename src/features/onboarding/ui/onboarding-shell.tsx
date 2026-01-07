@@ -150,7 +150,7 @@ export default function OnboardingShell() {
 
         setIsDrawerOpen(true);
       } catch (error) {
-        // console.error("[onboarding] submit error:", error);
+        console.error("[onboarding] submit error:", error);
       }
       return;
     }

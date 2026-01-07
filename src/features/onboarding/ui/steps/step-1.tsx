@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import type { OnboardingDraft } from "@/src/features/onboarding/model/onboarding.types";
@@ -21,15 +21,10 @@ export default function Step1() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const nameFromQuery = searchParams.get("name") ?? "";
-
-  const [nameValue, setNameValue] = useState(nameFromQuery);
+  const [nameValue, setNameValue] = useState(
+    () => searchParams.get("name") ?? "",
+  );
   const isComposingRef = useRef(false);
-
-  useEffect(() => {
-    if (isComposingRef.current) return;
-    setNameValue(nameFromQuery);
-  }, [nameFromQuery]);
 
   const gender = useMemo<Gender | null>(() => {
     const value = searchParams.get("gender");
