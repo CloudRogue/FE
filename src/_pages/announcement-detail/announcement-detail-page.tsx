@@ -42,20 +42,21 @@ export function AnnouncementDetailPage({
           </TabsTrigger>
         </TabsList>
         <div className="bg-gray-100 min-h-[calc(100vh-200px)] p-5">
+          {/* 지원 자격(support) */}
           <TabsContent value="support" className="mt-0 outline-none">
             <SupportSection announcementId={announcement.announcementId} />
           </TabsContent>
+          {/* 공고 개요(overview) */}
           <TabsContent value="overview" className="mt-0 outline-none">
-            <OverviewSection
-              announcementId={announcement.announcementId}
-              data={summaryData}
-            />
+            <OverviewSection data={summaryData} />
           </TabsContent>
+          {/* 공고 요약(summary) */}
           <TabsContent value="summary" className="mt-0 outline-none">
             <section className="bg-white p-6 rounded-2xl">
               <h3 className="text-lg font-bold text-gray-900">공고 요약</h3>
             </section>
           </TabsContent>
+          {/* 공고 댓글(comment) */}
           <TabsContent value="comment" className="mt-0 outline-none">
             공고 댓글 컨텐츠
           </TabsContent>

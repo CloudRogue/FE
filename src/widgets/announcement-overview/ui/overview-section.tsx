@@ -1,10 +1,8 @@
-import { AnnouncementDetail } from "@/src/entities/announcement-detail/model/announcement.types";
 import { OverviewRow } from "@/src/entities/announcement-detail/ui/overview-row";
 import Button from "@/src/shared/ui/button";
 import Link from "next/link";
 
 interface AnnouncementSummaryProps {
-  announcementId: AnnouncementDetail["announcementId"];
   data: {
     target: string;
     price: string;
@@ -14,10 +12,7 @@ interface AnnouncementSummaryProps {
   };
 }
 
-export function OverviewSection({
-  announcementId,
-  data,
-}: AnnouncementSummaryProps) {
+export function OverviewSection({ data }: AnnouncementSummaryProps) {
   return (
     <section className="bg-white p-6 rounded-2xl">
       <h3 className="text-lg font-bold text-gray-900">공고 요약</h3>
