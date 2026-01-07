@@ -27,6 +27,6 @@ export const mapAnnouncementToSummary = (announcement: AnnouncementDetail) => {
       end: formatDate(announcement.endDate),
     },
     method: `${announcement.publisher} 홈페이지`,
-    url: announcement.url ?? "",
+    originalUrl: announcement.originalUrl ?? "",
   };
 };
