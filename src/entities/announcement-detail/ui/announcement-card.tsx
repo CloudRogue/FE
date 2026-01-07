@@ -1,9 +1,9 @@
-// 공고 상단 정보 카드
-
 import cn from "@/src/shared/lib/cn";
 import { Badge } from "@/src/shared/ui/badge";
 import { Heart } from "lucide-react";
 import Image from "next/image";
+import { useMemo } from "react";
+import { AnnouncementDetail } from "../model/announcement.types";
 
 const STATUS_MAP = {
   OPEN: "접수 중",
@@ -12,19 +12,31 @@ const STATUS_MAP = {
   CLOSED: "마감",
 };
 
-interface AnnouncementCardProps {
-  title: string;
-  period: { start: string; end: string };
-  imageUrl: string;
-  status: string;
+interface AnnouncementCardProps extends Pick<
+  AnnouncementDetail,
+  "title" | "housingType" | "publisher" | "status" | "fullAdres"
+> {
+  period: {
+    start: string;
+    end: string;
+  };
+  imageUrl?: string; // 공고 이미지 - 기본 이미지 생기면 로직 변경 필요
 }
 
 export default function AnnouncementCard({
   title,
   period,
-  imageUrl,
+  housingType,
+  publisher,
   status,
+  fullAdres,
+  imageUrl = "",
 }: AnnouncementCardProps) {
+  const regionBadge = useMemo(
+    () => fullAdres?.split(" ")[0].substring(0, 2),
+    [fullAdres],
+  );
+
   return (
     <div className="p-5 bg-white">
       <div className="flex justify-between items-start mb-4">
@@ -32,21 +44,17 @@ export default function AnnouncementCard({
           <Badge
             className={cn(
               "border-none px-2 py-0.5 rounded-md text-[13px] font-bold text-white",
-              status === "OPEN" ? "bg-[#EF4444]" : "bg-gray-400",
+              status === "OPEN" && "bg-red-500",
+              status === "DUE_SOON" && "bg-orange-500",
+              status === "UPCOMING" && "bg-blue-500",
+              status === "CLOSED" && "bg-gray-400",
             )}
           >
-            {STATUS_MAP[status as keyof typeof STATUS_MAP] || status}
+            {STATUS_MAP[status as keyof typeof STATUS_MAP]}
           </Badge>
-          {/* TODO: 태그 정보 필요 */}
-          <Badge className="bg-[#F1F5F9] hover:bg-[#F1F5F9] text-[#64748B] border-none px-2 py-0.5 rounded-md text-[13px]">
-            지역
-          </Badge>
-          <Badge className="bg-[#F1F5F9] hover:bg-[#F1F5F9] text-[#64748B] border-none px-2 py-0.5 rounded-md text-[13px]">
-            기관
-          </Badge>
-          <Badge className="bg-[#F1F5F9] hover:bg-[#F1F5F9] text-[#64748B] border-none px-2 py-0.5 rounded-md text-[13px]">
-            유형(행복주택)
-          </Badge>
+          {regionBadge && <SecondaryBadge>{regionBadge}</SecondaryBadge>}
+          <SecondaryBadge>{publisher.split(" ")[0]}</SecondaryBadge>
+          <SecondaryBadge>{housingType}</SecondaryBadge>
         </div>
         <button className="text-gray-300 hover:text-red-400 transition-colors">
           <Heart size={24} />
@@ -77,5 +85,13 @@ export default function AnnouncementCard({
         </div>
       </div>
     </div>
+  );
+}
+
+function SecondaryBadge({ children }: { children: React.ReactNode }) {
+  return (
+    <Badge className="bg-slate-100 hover:bg-slate-200 text-slate-500 border-none px-2 py-0.5 rounded-md text-[13px] font-medium">
+      {children}
+    </Badge>
   );
 }
