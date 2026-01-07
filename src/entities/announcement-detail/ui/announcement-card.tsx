@@ -1,8 +1,8 @@
 import { AnnouncementDetail } from "@/src/entities/announcement-detail/model/announcement.types";
 import { OutboundAction } from "@/src/features/announcement-outbound/ui/outbound-action";
+import { ScrapButton } from "@/src/features/announcement-scrap/ui/scrap-button";
 import cn from "@/src/shared/lib/cn";
 import { Badge } from "@/src/shared/ui/badge";
-import { Heart } from "lucide-react";
 import Image from "next/image";
 import { useMemo } from "react";
 
@@ -23,6 +23,7 @@ interface AnnouncementCardProps extends Pick<
   | "fullAdres"
   | "externalApplyUrl"
   | "dDay"
+  | "isScrapped"
 > {
   period: {
     start: string;
@@ -39,8 +40,9 @@ export default function AnnouncementCard({
   status,
   fullAdres,
   externalApplyUrl,
-  period,
   dDay,
+  isScrapped,
+  period,
   imageUrl = "",
 }: AnnouncementCardProps) {
   const regionBadge = useMemo(
@@ -67,9 +69,10 @@ export default function AnnouncementCard({
           <SecondaryBadge>{publisher.split(" ")[0]}</SecondaryBadge>
           <SecondaryBadge>{housingType}</SecondaryBadge>
         </div>
-        <button className="text-gray-300 hover:text-red-400 transition-colors">
-          <Heart size={24} />
-        </button>
+        <ScrapButton
+          announcementId={announcementId}
+          initialIsScrapped={isScrapped ?? false}
+        />
       </div>
 
       <div className="flex justify-between gap-4 mb-4">
