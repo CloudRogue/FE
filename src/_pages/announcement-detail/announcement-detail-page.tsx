@@ -7,6 +7,7 @@ import {
   TabsRoot,
   TabsTrigger,
 } from "@/src/shared/ui/tabs";
+import { CommentSection } from "@/src/widgets/announcement-comment/ui/comment-section";
 import { OverviewSection } from "@/src/widgets/announcement-overview/ui/overview-section";
 import { SupportSection } from "@/src/widgets/announcement-support/ui/support-section";
 import { useMemo } from "react";
@@ -58,7 +59,7 @@ export function AnnouncementDetailPage({
           </TabsContent>
           {/* 공고 댓글(comment) */}
           <TabsContent value="comment" className="mt-0 outline-none">
-            공고 댓글 컨텐츠
+            <CommentSection announcementId={announcement.announcementId} />
           </TabsContent>
         </div>
       </TabsRoot>
