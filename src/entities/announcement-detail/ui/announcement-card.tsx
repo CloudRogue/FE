@@ -1,10 +1,10 @@
+import { AnnouncementDetail } from "@/src/entities/announcement-detail/model/announcement.types";
 import { OutboundAction } from "@/src/features/announcement-outbound/ui/outbound-action";
 import cn from "@/src/shared/lib/cn";
 import { Badge } from "@/src/shared/ui/badge";
 import { Heart } from "lucide-react";
 import Image from "next/image";
 import { useMemo } from "react";
-import { AnnouncementDetail } from "../model/announcement.types";
 
 const STATUS_MAP = {
   OPEN: "접수 중",

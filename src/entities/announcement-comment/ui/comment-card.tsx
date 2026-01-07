@@ -1,4 +1,4 @@
-import { Comment } from "../model/comment.types";
+import { Comment } from "@/src/entities/announcement-comment/model/comment.types";
 
 export function CommentCard({ comment }: { comment: Comment }) {
   const maskedId = `${comment.author.userId.slice(0, 2)}****`;
