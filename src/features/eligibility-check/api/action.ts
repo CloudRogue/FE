@@ -1,14 +1,11 @@
 "use server";
 
 import { EligibilityResultSchema } from "@/src/entities/announcement-detail/model/announcement.types";
+import { Api } from "@/src/shared/api/api";
 
 export async function postEligibilityDiagnosis(announcementId: number) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/announcements/${announcementId}/eligibility/check`,
-    { method: "POST" },
+  return await Api.post(
+    `/announcements/${announcementId}/eligibility/check`,
+    EligibilityResultSchema,
   );
-
-  const data = await res.json();
-
-  return EligibilityResultSchema.parse(data);
 }
