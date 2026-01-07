@@ -61,7 +61,7 @@ export function SupportSection({ announcementId }: SupportSectionProps) {
         <Button
           onClick={handleEligibilityCheck}
           disabled={isPending}
-          className="w-full bg-[#334155] text-white py-4 rounded-2xl font-bold disabled:opacity-50"
+          className="w-full bg-[#111111] text-white py-4 rounded-xl font-bold disabled:opacity-50"
         >
           {isPending
             ? "진단 중..."

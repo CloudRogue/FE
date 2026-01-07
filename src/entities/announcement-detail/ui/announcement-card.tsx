@@ -1,3 +1,4 @@
+import { OutboundAction } from "@/src/features/announcement-outbound/ui/outbound-action";
 import cn from "@/src/shared/lib/cn";
 import { Badge } from "@/src/shared/ui/badge";
 import { Heart } from "lucide-react";
@@ -14,7 +15,13 @@ const STATUS_MAP = {
 
 interface AnnouncementCardProps extends Pick<
   AnnouncementDetail,
-  "title" | "housingType" | "publisher" | "status" | "fullAdres"
+  | "announcementId"
+  | "title"
+  | "housingType"
+  | "publisher"
+  | "status"
+  | "fullAdres"
+  | "externalApplyUrl"
 > {
   period: {
     start: string;
@@ -24,12 +31,14 @@ interface AnnouncementCardProps extends Pick<
 }
 
 export default function AnnouncementCard({
+  announcementId,
   title,
-  period,
   housingType,
   publisher,
   status,
   fullAdres,
+  externalApplyUrl,
+  period,
   imageUrl = "",
 }: AnnouncementCardProps) {
   const regionBadge = useMemo(
@@ -84,6 +93,11 @@ export default function AnnouncementCard({
           )}
         </div>
       </div>
+
+      <OutboundAction
+        announcementId={announcementId}
+        externalApplyUrl={externalApplyUrl}
+      />
     </div>
   );
 }

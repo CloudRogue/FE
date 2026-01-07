@@ -1,6 +1,7 @@
 import { AnnouncementDetail } from "@/src/entities/announcement-detail/model/announcement.types";
 import { OverviewRow } from "@/src/entities/announcement-detail/ui/overview-row";
-import { OverviewApplyActions } from "@/src/features/announcement-overview-apply/ui/overview-apply-actions";
+import Button from "@/src/shared/ui/button";
+import Link from "next/link";
 
 interface AnnouncementSummaryProps {
   announcementId: AnnouncementDetail["announcementId"];
@@ -34,10 +35,11 @@ export function OverviewSection({
         <OverviewRow label="방법" value={data.method} />
       </div>
 
-      <OverviewApplyActions
-        announcementId={announcementId}
-        originalUrl={data.originalUrl}
-      />
+      <Link href={data.originalUrl} className="w-full mt-6 inline-block">
+        <Button className="flex-1 bg-[#F3F4F6] text-[#61666C] py-4 rounded-xl font-bold hover:bg-gray-800">
+          공고 보러가기
+        </Button>
+      </Link>
     </section>
   );
 }

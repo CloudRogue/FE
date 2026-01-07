@@ -85,8 +85,8 @@ export const AnnouncementDetailSchema = z.object({
   refrnLegaldongNm: z.string().nullable(), // 참조_법정동명(주소가 지번 주소일 때 표시)
   url: z.string().url().nullable(), // 모집 공고 URL
   eligibility: AnnouncementEligibilitySchema, // 자격 요건
-  originalUrl: z.string().url().nullable(), // 원문 공고 URL
-  externalApplyUrl: z.string().url().nullable(), // 신청하러가기 외부 링크
+  originalUrl: z.string().url(), // 원문 공고 URL
+  externalApplyUrl: z.string().url(), // 신청하러가기 외부 링크
   isScrapped: z.boolean().nullable(), // 로그인 사용자 기준 찜 여부
 });
 
