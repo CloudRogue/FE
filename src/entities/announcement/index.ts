@@ -1,4 +1,4 @@
-export { AnnouncementCard } from "./ui/announcement-card";
+export { default as AnnouncementCard } from "@/src/entities/announcement/ui/announcement-card";
 export { announcementQueries } from "./api/queries";
 export type {
   Announcement,

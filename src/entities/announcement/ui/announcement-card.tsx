@@ -1,50 +1,118 @@
-import Card from "@/src/shared/ui/card";
+import { AnnouncementDetail } from "@/src/entities/announcement-detail";
+import { OutboundAction } from "@/src/features/announcement-outbound";
+import { ScrapButton } from "@/src/features/announcement-scrap";
+import cn from "@/src/shared/lib/cn";
 import { Badge } from "@/src/shared/ui/badge";
-import type { Announcement } from "../model/types";
-import type { BadgeProps } from "@/src/shared/ui/badge";
+import Image from "next/image";
+import { useMemo } from "react";
 
-interface Props {
-  announcement: Announcement;
+const STATUS_MAP = {
+  OPEN: "접수 중",
+  DUE_SOON: "마감 임박",
+  UPCOMING: "접수 예정",
+  CLOSED: "마감",
+};
+
+interface AnnouncementCardProps extends Pick<
+  AnnouncementDetail,
+  | "announcementId"
+  | "title"
+  | "housingType"
+  | "publisher"
+  | "status"
+  | "fullAdres"
+  | "externalApplyUrl"
+  | "dDay"
+  | "isScrapped"
+> {
+  period: {
+    start: string;
+    end: string;
+  };
+  imageUrl?: string; // 공고 이미지 - 기본 이미지 생기면 로직 변경 필요
 }
 
-
-const statusVariantMap: Record<Announcement["status"], BadgeProps["variant"]> =
-  {
-    OPEN: "secondary",
-    DUE_SOON: "destructive", 
-    UPCOMING: "default", 
-    CLOSED: "outline", 
-  };
-
-export function AnnouncementCard({ announcement }: Props) {
-  const { title, publisher, housingType, status, endDate } = announcement;
+export default function AnnouncementCard({
+  announcementId,
+  title,
+  housingType,
+  publisher,
+  status,
+  fullAdres,
+  externalApplyUrl,
+  dDay,
+  isScrapped,
+  period,
+  imageUrl = "",
+}: AnnouncementCardProps) {
+  const regionBadge = useMemo(
+    () => fullAdres?.split(" ")[0].substring(0, 2),
+    [fullAdres],
+  );
 
   return (
-    <Card
-      as="article"
-      padding="medium"
-      shadow="sm"
-      className="hover:border-black transition-all cursor-pointer group"
-    >
-      <div className="flex justify-between items-start mb-3">
-        <span className="text-xs font-medium text-gray-400 group-hover:text-gray-600 transition-colors">
-          {publisher}
-        </span>
-        <Badge variant={statusVariantMap[status]}>
-          {status === "DUE_SOON" ? "마감 임박" : status}
-        </Badge>
+    <div className="p-5 bg-white">
+      <div className="flex justify-between items-start mb-4">
+        <div className="flex gap-2">
+          <Badge
+            className={cn(
+              "border-none px-2 py-0.5 rounded-md text-[13px] font-bold text-white",
+              status === "OPEN" && "bg-red-500",
+              status === "DUE_SOON" && "bg-orange-500",
+              status === "UPCOMING" && "bg-blue-500",
+              status === "CLOSED" && "bg-gray-400",
+            )}
+          >
+            {STATUS_MAP[status as keyof typeof STATUS_MAP]}
+          </Badge>
+          {regionBadge && <SecondaryBadge>{regionBadge}</SecondaryBadge>}
+          <SecondaryBadge>{publisher.split(" ")[0]}</SecondaryBadge>
+          <SecondaryBadge>{housingType}</SecondaryBadge>
+        </div>
+        <ScrapButton
+          announcementId={announcementId}
+          initialIsScrapped={isScrapped ?? false}
+        />
       </div>
 
-      <h3 className="text-lg font-bold text-black mb-4 line-clamp-2 leading-snug group-hover:text-blue-600 transition-colors">
-        {title}
-      </h3>
+      <div className="flex justify-between gap-4 mb-4">
+        <div className="flex-1">
+          <h2 className="text-[18px] font-bold text-[#1E293B] leading-tight break-keep">
+            {title}
+          </h2>
+          <p className="text-[#64748B] mt-3 text-md tracking-wide">
+            {period.start} ~ {period.end}
+          </p>
+        </div>
 
-      <div className="flex justify-between items-center text-sm">
-        <span className="text-gray-500 bg-gray-50 px-2 py-1 rounded text-xs">
-          {housingType || "유형 미지정"}
-        </span>
-        <span className="text-gray-400 font-medium">~ {endDate}</span>
+        {/* 공고 이미지 - 기본 이미지 생기면 로직 변경 필요 */}
+        <div className="w-20 h-20 bg-gray-400 rounded-xl">
+          {imageUrl && (
+            <Image
+              src={imageUrl}
+              alt={`${title}의 썸네일`}
+              width={80}
+              height={80}
+              className="w-full h-full object-cover"
+            />
+          )}
+        </div>
       </div>
-    </Card>
+
+      <OutboundAction
+        announcementId={announcementId}
+        externalApplyUrl={externalApplyUrl}
+        status={status}
+        dDay={dDay}
+      />
+    </div>
+  );
+}
+
+function SecondaryBadge({ children }: { children: React.ReactNode }) {
+  return (
+    <Badge className="bg-slate-100 hover:bg-slate-200 text-slate-500 border-none px-2 py-0.5 rounded-md text-[13px] font-medium">
+      {children}
+    </Badge>
   );
 }
