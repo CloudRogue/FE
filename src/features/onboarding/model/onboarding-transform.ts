@@ -1,7 +1,7 @@
 import type {
   OnboardingDraft,
   OnboardingFormData,
-} from "@/src/features/onboarding/model/onboarding.types";
+} from "@/src/features/onboarding";
 
 const GENDER_MAP: Record<
   NonNullable<OnboardingDraft["gender"]>,

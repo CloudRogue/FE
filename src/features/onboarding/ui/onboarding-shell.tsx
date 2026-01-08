@@ -2,29 +2,29 @@
 
 import { useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 
 import { Progress } from "@/src/shared/ui/progress";
 import Button from "@/src/shared/ui/button";
 
-import Step0 from "@/src/features/onboarding/ui/steps/step-0";
-import Step1 from "@/src/features/onboarding/ui/steps/step-1";
-import Step2 from "@/src/features/onboarding/ui/steps/step-2";
-import Step3 from "@/src/features/onboarding/ui/steps/step-3";
-import Step4 from "@/src/features/onboarding/ui/steps/step-4";
-import Step5 from "@/src/features/onboarding/ui/steps/step-5";
-import OnboardingCompleteDrawer from "@/src/features/onboarding/ui/onboarding-complete-drawer";
+import {
+  Step0,
+  Step1,
+  Step2,
+  Step3,
+  Step4,
+  Step5,
+  OnboardingCompleteDrawer,
+  toOnboardingFormData,
+  onboardingSchema,
+  onboardingDraftSchema,
+} from "@/src/features/onboarding";
 
 import type {
   OnboardingDraft,
   OnboardingFormData,
-} from "@/src/features/onboarding/model/onboarding.types";
-import {
-  onboardingSchema,
-  onboardingDraftSchema,
-} from "@/src/features/onboarding/model/onboarding.types";
-import { toOnboardingFormData } from "@/src/features/onboarding/model/onboarding-transform";
-import Link from "next/link";
+} from "@/src/features/onboarding";
 
 const TOTAL_STEP_COUNT = 6;
 const MIN_STEP = 0;
