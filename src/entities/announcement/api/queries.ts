@@ -1,26 +1,27 @@
-import type {
-  AnnouncementFilterParams,
-  AnnouncementListResponse,
-} from "../model/types";
+import { Api } from "@/src/shared/api/api";
+import { AnnouncementListResponseSchema } from "../model/schemas";
+import type { AnnouncementFilterParams } from "../model/types";
 
 export const announcementQueries = {
   open: (params: AnnouncementFilterParams) => ({
-    queryKey: ["announcements", "open", params] as const,
-    queryFn: async (): Promise<AnnouncementListResponse> => {
+    queryKey: [
+      "announcements",
+      "open",
+      params.sort ?? "DEADLINE",
+      params.limit ?? 20,
+    ] as const,
+
+    queryFn: async ({ pageParam }: { pageParam?: string | null }) => {
       const searchParams = new URLSearchParams();
 
-      Object.entries(params).forEach(([key, value]) => {
-        if (value !== undefined && value !== "") {
-          searchParams.append(key, String(value));
-        }
-      });
+      if (pageParam) searchParams.append("cursor", pageParam);
+      if (params.limit) searchParams.append("limit", String(params.limit));
+      if (params.sort) searchParams.append("sort", params.sort);
 
-      const response = await fetch(
+      return Api.get(
         `/api/announcements/open?${searchParams.toString()}`,
+        AnnouncementListResponseSchema,
       );
-      if (!response.ok) throw new Error("공고 데이터를 불러오지 못했습니다.");
-
-      return response.json();
     },
   }),
 };
