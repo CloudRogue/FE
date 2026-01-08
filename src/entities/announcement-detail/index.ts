@@ -1,5 +1,8 @@
 // api
-export { getAnnouncementDetail } from "@/src/entities/announcement-detail/api/queries";
+export {
+  getAnnouncementDetail,
+  getAnnouncementSummary,
+} from "@/src/entities/announcement-detail/api/queries";
 
 // lib
 export { mapAnnouncementToSummary } from "@/src/entities/announcement-detail/lib/announcement.mapper";
@@ -10,9 +13,13 @@ export {
   AnnouncementEligibilitySchema,
   AnnouncementStatusSchema,
   EligibilityResultSchema,
+  KvDigestItemSchema,
+  KvDigestResponseSchema,
   type AnnouncementDetail,
   type AnnouncementStatus,
   type EligibilityResult,
+  type KvDigestItem,
+  type KvDigestResponse,
 } from "@/src/entities/announcement-detail/model/announcement.types";
 
 // ui

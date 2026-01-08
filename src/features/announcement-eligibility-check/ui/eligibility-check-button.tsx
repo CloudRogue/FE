@@ -1,12 +1,15 @@
 "use client";
 
-import { EligibilityResult } from "@/src/entities/announcement-detail";
+import {
+  AnnouncementDetail,
+  EligibilityResult,
+} from "@/src/entities/announcement-detail";
 import { postEligibilityCheck } from "@/src/features/announcement-eligibility-check";
 import Button from "@/src/shared/ui/button";
 import { useTransition } from "react";
 
 interface EligibilityCheckButtonProps {
-  announcementId: number;
+  announcementId: AnnouncementDetail["announcementId"];
   isClosed: boolean;
   onSuccess: (result: EligibilityResult) => void;
 }

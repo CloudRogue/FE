@@ -3,6 +3,7 @@ import {
   AnnouncementDetail,
   mapAnnouncementToSummary,
 } from "@/src/entities/announcement-detail";
+import SummaryCard from "@/src/entities/announcement-detail/ui/summary-card";
 import {
   TabsContent,
   TabsList,
@@ -55,9 +56,7 @@ export function AnnouncementDetailPage({
           </TabsContent>
           {/* 공고 요약(summary) */}
           <TabsContent value="summary" className="mt-0 outline-none">
-            <section className="bg-white p-6 rounded-2xl">
-              <h3 className="text-lg font-bold text-gray-900">공고 요약</h3>
-            </section>
+            <SummaryCard announcementId={announcement.announcementId} />
           </TabsContent>
           {/* 공고 댓글(comment) */}
           <TabsContent value="comment" className="mt-0 outline-none">

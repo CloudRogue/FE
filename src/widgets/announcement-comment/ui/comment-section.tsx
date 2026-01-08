@@ -4,13 +4,14 @@ import {
   CommentCard,
   useAnnouncementComments,
 } from "@/src/entities/announcement-comment";
+import { AnnouncementDetail } from "@/src/entities/announcement-detail";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useId } from "react";
 
 interface CommentSectionProps {
-  announcementId: number;
+  announcementId: AnnouncementDetail["announcementId"];
 }
 
 export function CommentSection({ announcementId }: CommentSectionProps) {
@@ -24,7 +25,7 @@ export function CommentSection({ announcementId }: CommentSectionProps) {
     data: comments,
     isLoading,
     isError,
-  } = useAnnouncementComments(String(announcementId), 0, displaySize);
+  } = useAnnouncementComments(announcementId, 0, displaySize);
 
   // 목데이터 사용 추후 변경 필요
   const totalCount = commentsMock.length ?? comments?.meta.totalElements ?? 0;
@@ -104,7 +105,7 @@ const commentsMock = [
     items: [
       {
         id: 800002,
-        announcementId: "900002",
+        announcementId: 900002,
         parentId: 14,
         kind: "ANSWER" as const,
         content:
@@ -122,7 +123,7 @@ const commentsMock = [
       },
       {
         id: 800002,
-        announcementId: "900002",
+        announcementId: 900002,
         parentId: 14,
         kind: "ANSWER" as const,
         content:

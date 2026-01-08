@@ -99,3 +99,17 @@ export const EligibilityResultSchema = z.object({
 });
 
 export type EligibilityResult = z.infer<typeof EligibilityResultSchema>;
+
+// 공고 요약 항목
+export const KvDigestItemSchema = z.object({
+  key: z.string().describe("요약 항목명"),
+  value: z.string().describe("요약 내용"),
+});
+
+// 공고 요약 전체
+export const KvDigestResponseSchema = z.object({
+  kvDigest: z.array(KvDigestItemSchema).describe("공고 요약본 목록"),
+});
+
+export type KvDigestItem = z.infer<typeof KvDigestItemSchema>;
+export type KvDigestResponse = z.infer<typeof KvDigestResponseSchema>;
