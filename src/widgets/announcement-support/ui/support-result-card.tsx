@@ -3,7 +3,7 @@
 import type {
   AnnouncementDetail,
   EligibilityResult,
-} from "@/src/entities/announcement-detail/model/announcement.types";
+} from "@/src/entities/announcement-detail";
 import { AnnouncementAddTodoButton } from "@/src/features/todo-add/ui/announcement-add-todo-button";
 import cn from "@/src/shared/lib/cn";
 

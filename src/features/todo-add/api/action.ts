@@ -1,6 +1,6 @@
 "use server";
 
-import { TodoCreateResponseSchema } from "@/src/features/todo-add/model/todo-add.types";
+import { TodoCreateResponseSchema } from "@/src/features/todo-add";
 import { Api } from "@/src/shared/api/api";
 
 export async function postAddTodo(payload: {

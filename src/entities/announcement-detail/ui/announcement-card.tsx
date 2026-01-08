@@ -1,6 +1,6 @@
-import { AnnouncementDetail } from "@/src/entities/announcement-detail/model/announcement.types";
-import { OutboundAction } from "@/src/features/announcement-outbound/ui/outbound-action";
-import { ScrapButton } from "@/src/features/announcement-scrap/ui/scrap-button";
+import { AnnouncementDetail } from "@/src/entities/announcement-detail";
+import { OutboundAction } from "@/src/features/announcement-outbound";
+import { ScrapButton } from "@/src/features/announcement-scrap";
 import cn from "@/src/shared/lib/cn";
 import { Badge } from "@/src/shared/ui/badge";
 import Image from "next/image";

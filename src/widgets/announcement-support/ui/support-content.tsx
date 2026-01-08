@@ -3,11 +3,13 @@
 import {
   AnnouncementDetail,
   EligibilityResult,
-} from "@/src/entities/announcement-detail/model/announcement.types";
-import { EligibilityCheckButton } from "@/src/features/announcement-eligibility-check/ui/eligibility-check-button";
+} from "@/src/entities/announcement-detail";
+import { EligibilityCheckButton } from "@/src/features/announcement-eligibility-check";
 import Button from "@/src/shared/ui/button";
-import { SupportInfoCard } from "@/src/widgets/announcement-support/ui/support-info-card";
-import { SupportResultCard } from "@/src/widgets/announcement-support/ui/support-result-card";
+import {
+  SupportInfoCard,
+  SupportResultCard,
+} from "@/src/widgets/announcement-support";
 import Link from "next/link";
 import { useState } from "react";
 

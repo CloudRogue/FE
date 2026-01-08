@@ -1,5 +1,5 @@
 import { AnnouncementDetailPage } from "@/src/_pages/announcement-detail/announcement-detail-page";
-import { AnnouncementDetail } from "@/src/entities/announcement-detail/model/announcement.types";
+import { AnnouncementDetail } from "@/src/entities/announcement-detail";
 
 // type PageParams = Promise<{ id: string }>;
 

@@ -1,15 +1,17 @@
-import { mapAnnouncementToSummary } from "@/src/entities/announcement-detail/lib/announcement.mapper";
-import { AnnouncementDetail } from "@/src/entities/announcement-detail/model/announcement.types";
-import AnnouncementCard from "@/src/entities/announcement-detail/ui/announcement-card";
+import {
+  AnnouncementCard,
+  AnnouncementDetail,
+  mapAnnouncementToSummary,
+} from "@/src/entities/announcement-detail";
 import {
   TabsContent,
   TabsList,
   TabsRoot,
   TabsTrigger,
 } from "@/src/shared/ui/tabs";
-import { CommentSection } from "@/src/widgets/announcement-comment/ui/comment-section";
-import { OverviewSection } from "@/src/widgets/announcement-overview/ui/overview-section";
-import { SupportSection } from "@/src/widgets/announcement-support/ui/support-section";
+import { CommentSection } from "@/src/widgets/announcement-comment";
+import { OverviewSection } from "@/src/widgets/announcement-overview";
+import { SupportSection } from "@/src/widgets/announcement-support";
 import { useMemo } from "react";
 
 interface AnnouncementDetailPageProps {

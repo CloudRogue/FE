@@ -1,4 +1,4 @@
-import type { AnnouncementDetail } from "@/src/entities/announcement-detail/model/announcement.types";
+import type { AnnouncementDetail } from "@/src/entities/announcement-detail";
 
 export const mapAnnouncementToSummary = (announcement: AnnouncementDetail) => {
   const formatDate = (dateStr: string) => dateStr.replaceAll("-", ".");

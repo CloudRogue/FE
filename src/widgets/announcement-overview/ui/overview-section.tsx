@@ -1,4 +1,4 @@
-import { OverviewRow } from "@/src/entities/announcement-detail/ui/overview-row";
+import { OverviewRow } from "@/src/entities/announcement-detail";
 import Button from "@/src/shared/ui/button";
 import Link from "next/link";
 

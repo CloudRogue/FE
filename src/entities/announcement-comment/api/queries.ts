@@ -1,4 +1,4 @@
-import { CommentListResponseSchema } from "@/src/entities/announcement-comment/model/comment.types";
+import { CommentListResponseSchema } from "@/src/entities/announcement-comment";
 import { Api } from "@/src/shared/api/api";
 import { useQuery } from "@tanstack/react-query";
 

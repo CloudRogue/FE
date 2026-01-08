@@ -1,5 +1,5 @@
-import { AnnouncementDetail } from "@/src/entities/announcement-detail/model/announcement.types";
-import { SupportContent } from "@/src/widgets/announcement-support/ui/support-content";
+import { AnnouncementDetail } from "@/src/entities/announcement-detail";
+import { SupportContent } from "@/src/widgets/announcement-support";
 
 interface SupportSectionProps {
   announcement: AnnouncementDetail;

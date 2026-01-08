@@ -2,8 +2,7 @@
 
 "use client";
 
-import { postAddTodo } from "@/src/features/todo-add/api/action";
-import { TodoCreateRequest } from "@/src/features/todo-add/model/todo-add.types";
+import { postAddTodo, TodoCreateRequest } from "@/src/features/todo-add";
 import Button from "@/src/shared/ui/button";
 import { useTransition } from "react";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { EligibilityResult } from "@/src/entities/announcement-detail/model/announcement.types";
+import { EligibilityResult } from "@/src/entities/announcement-detail";
 import cn from "@/src/shared/lib/cn";
 import Button from "@/src/shared/ui/button";
 import { ChevronDown } from "lucide-react";

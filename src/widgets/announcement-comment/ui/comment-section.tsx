@@ -1,7 +1,9 @@
 "use client";
 
-import { useAnnouncementComments } from "@/src/entities/announcement-comment/api/queries";
-import { CommentCard } from "@/src/entities/announcement-comment/ui/comment-card";
+import {
+  CommentCard,
+  useAnnouncementComments,
+} from "@/src/entities/announcement-comment";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

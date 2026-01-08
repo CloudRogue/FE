@@ -3,8 +3,8 @@
 import {
   AnnouncementDetail,
   AnnouncementStatusSchema,
-} from "@/src/entities/announcement-detail/model/announcement.types";
-import { postOutboundLog } from "@/src/features/announcement-outbound/api/action";
+} from "@/src/entities/announcement-detail";
+import { postOutboundLog } from "@/src/features/announcement-outbound";
 import cn from "@/src/shared/lib/cn";
 import Button from "@/src/shared/ui/button";
 import { useMemo } from "react";

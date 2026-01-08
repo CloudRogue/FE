@@ -1,10 +1,10 @@
 "use client";
 
+import { deleteScrap, patchScrap } from "@/src/features/announcement-scrap";
 import cn from "@/src/shared/lib/cn";
 import Button from "@/src/shared/ui/button";
 import { Heart } from "lucide-react";
 import { useState, useTransition } from "react";
-import { deleteScrap, patchScrap } from "../api/action";
 
 interface ScrapButtonProps {
   announcementId: number;
