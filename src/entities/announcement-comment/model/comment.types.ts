@@ -8,7 +8,7 @@ export const CommentAuthorSchema = z.object({
 // 개별 댓글 상세 정보
 export const CommentSchema = z.object({
   id: z.number().int(), // 댓글 PK <int64>
-  announcementId: z.string(), // 공고 ID (string 형식 예시 반영)
+  announcementId: z.number().int(), // 공고 ID (string 형식 예시 반영)
   parentId: z.number().int(), // 부모 댓글 PK (0이면 질문, 0보다 크면 답변)
   kind: z.enum(["QUESTION", "ANSWER"]), // 댓글 유형 (질문/답변)
   content: z.string(), // 댓글 내용 (필터링 시 마스킹 처리됨)

@@ -1,5 +1,6 @@
 "use client";
 
+import { AnnouncementDetail } from "@/src/entities/announcement-detail";
 import { deleteScrap, patchScrap } from "@/src/features/announcement-scrap";
 import cn from "@/src/shared/lib/cn";
 import Button from "@/src/shared/ui/button";
@@ -7,8 +8,8 @@ import { Heart } from "lucide-react";
 import { useState, useTransition } from "react";
 
 interface ScrapButtonProps {
-  announcementId: number;
-  initialIsScrapped: boolean;
+  announcementId: AnnouncementDetail["announcementId"];
+  initialIsScrapped: AnnouncementDetail["isScrapped"];
 }
 
 export function ScrapButton({
