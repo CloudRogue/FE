@@ -1,12 +1,19 @@
+// UI
 export { default as AnnouncementCard } from "@/src/entities/announcement/ui/announcement-card";
-export { announcementQueries } from "./api/queries";
+
+// API
+export { announcementQueries } from "@/src/entities/announcement/api/queries";
+
+// Types
 export type {
   Announcement,
   AnnouncementFilterParams,
   AnnouncementListResponse,
-} from "./model/types";
+} from "@/src/entities/announcement/model/types";
+
+// Schemas
 export {
   AnnouncementSchema,
   AnnouncementFilterParamsSchema,
   AnnouncementListResponseSchema,
-} from "./model/types";
+} from "@/src/entities/announcement/model/schemas";
