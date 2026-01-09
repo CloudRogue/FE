@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import type { UserState, User } from "@/src/entities/user/model/types";
+import type { UserState, User } from "@/src/entities/user/model/user.types";
 
 export const useUserStore = create<UserState>()(
   devtools(
