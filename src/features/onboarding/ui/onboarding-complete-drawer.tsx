@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/src/shared/ui/button";
+import { KakaoLoginButton } from "@/src/features/auth";
 import { Drawer } from "@/src/shared/ui/drawer";
 
 type OnboardingCompleteDrawerProps = {
@@ -25,12 +25,9 @@ export default function OnboardingCompleteDrawer({
           </div>
         </div>
 
-        <Button
-          type="button"
-          className="h-14 w-full rounded-xl bg-neutral-900 text-base font-semibold text-white"
-        >
+        <KakaoLoginButton className="h-14 w-full rounded-xl bg-neutral-900 text-base font-semibold text-white">
           카카오로 시작하기
-        </Button>
+        </KakaoLoginButton>
       </div>
     </Drawer>
   );
