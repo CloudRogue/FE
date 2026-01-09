@@ -28,11 +28,14 @@ export function ScrapButton({
 
   const handleToggleScrap = (e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
 
     if (!isLoggedIn || !user) {
       setIsLoginPromptOpen(true);
       return;
     }
+
+    if (isPending) return;
 
     const nextState = !isScrapped;
     setIsScrapped(nextState);
@@ -57,7 +60,6 @@ export function ScrapButton({
     router.push("/login");
   };
 
-  // 비회원용 안내 콘텐츠
   const LoginPrompt = (
     <div className="flex flex-col gap-3 w-50">
       <p className="text-sm text-gray-700 leading-snug">
@@ -86,10 +88,14 @@ export function ScrapButton({
       isOpen={isLoginPromptOpen}
       onClose={() => setIsLoginPromptOpen(false)}
       trigger={
-        <Button
+        <div
           onClick={handleToggleScrap}
-          disabled={isPending}
-          className="p-0 h-6 transition-transform disabled:opacity-70"
+          role="button"
+          tabIndex={0}
+          className={cn(
+            "cursor-pointer p-0 h-6 transition-transform inline-flex items-center justify-center",
+            isPending && "opacity-70 pointer-events-none",
+          )}
         >
           <Heart
             size={24}
@@ -100,7 +106,7 @@ export function ScrapButton({
                 : "text-gray-300 fill-gray-300",
             )}
           />
-        </Button>
+        </div>
       }
       className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 m-0 w-70"
     >
