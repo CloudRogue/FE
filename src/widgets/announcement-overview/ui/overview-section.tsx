@@ -1,8 +1,15 @@
-import { OverviewRow } from "@/src/entities/announcement-detail";
+// 제거
+
+import {
+  AnnouncementDetail,
+  getAnnouncementSummary,
+  OverviewRow,
+} from "@/src/entities/announcement-detail";
 import Button from "@/src/shared/ui/button";
 import Link from "next/link";
 
 interface AnnouncementSummaryProps {
+  announcementId: AnnouncementDetail["announcementId"];
   data: {
     target: string;
     price: string;
@@ -12,10 +19,15 @@ interface AnnouncementSummaryProps {
   };
 }
 
-export function OverviewSection({ data }: AnnouncementSummaryProps) {
+export async function OverviewSection({
+  data,
+  announcementId,
+}: AnnouncementSummaryProps) {
+  const { kvDigest } = await getAnnouncementSummary(announcementId);
+
   return (
     <section className="bg-white p-6 rounded-2xl">
-      <h3 className="text-lg font-bold text-gray-900">공고 요약</h3>
+      <h3 className="text-lg font-bold text-gray-900">공고 개요</h3>
       <p className="text-gray-400 text-sm mb-5">
         복잡한 공고문 정보를 요약해드릴게요!
       </p>
