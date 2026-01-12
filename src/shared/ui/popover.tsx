@@ -1,21 +1,43 @@
 "use client";
 
-import React, { useState, useRef, useEffect, forwardRef } from "react";
 import cn from "@/src/shared/lib/cn";
+import React, { forwardRef, useEffect, useRef, useState } from "react";
 
 export interface PopoverProps {
   trigger: React.ReactNode;
   children: React.ReactNode;
   className?: string;
   align?: "left" | "right" | "center";
+  isOpen?: boolean;
+  onClose?: () => void;
 }
 
 const Popover = forwardRef<HTMLDivElement, PopoverProps>(
-  ({ trigger, children, className, align = "center" }, ref) => {
-    const [isOpen, setIsOpen] = useState(false);
+  (
+    {
+      trigger,
+      children,
+      className,
+      align = "center",
+      isOpen: controlledIsOpen,
+      onClose,
+    },
+    ref,
+  ) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const triggerButtonRef = useRef<HTMLButtonElement>(null);
-    
+    const [internalIsOpen, setInternalIsOpen] = useState(false);
+
+    const isOpen =
+      controlledIsOpen !== undefined ? controlledIsOpen : internalIsOpen;
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const setIsOpen = (value: boolean | ((prev: boolean) => boolean)) => {
+      const newValue = typeof value === "function" ? value(isOpen) : value;
+      if (onClose && !newValue) onClose();
+      setInternalIsOpen(newValue);
+    };
+
     useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
         if (

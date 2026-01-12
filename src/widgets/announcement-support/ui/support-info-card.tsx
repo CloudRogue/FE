@@ -4,26 +4,33 @@ import { EligibilityResult } from "@/src/entities/announcement-detail";
 import cn from "@/src/shared/lib/cn";
 import Button from "@/src/shared/ui/button";
 import { ChevronDown } from "lucide-react";
+import { useState } from "react";
 
 interface SupportInfoCardProps {
   userName: string;
   result: EligibilityResult | null;
-  isOpen: boolean;
-  onToggle: () => void;
+  isLoggedIn: boolean;
 }
 
 export function SupportInfoCard({
   userName,
   result,
-  isOpen,
-  onToggle,
+  isLoggedIn,
 }: SupportInfoCardProps) {
-  const hasResult = result && result.checks && result.checks.length > 0;
+  const [isOpen, setIsOpen] = useState(false);
+  const [prevIsLoggedIn, setPrevIsLoggedIn] = useState(isLoggedIn);
+
+  if (isLoggedIn !== prevIsLoggedIn) {
+    setPrevIsLoggedIn(isLoggedIn);
+    setIsOpen(!isLoggedIn);
+  }
+
+  const hasResult = result && result.trace && result.trace.length > 0;
 
   return (
     <div className="border-2 rounded-2xl overflow-hidden mb-6 transition-all">
       <Button
-        onClick={onToggle}
+        onClick={() => setIsOpen(!isOpen)}
         className={cn(
           "flex justify-between items-center w-full p-4 bg-white hover:bg-gray-50 transition-colors",
           isOpen ? "border-b-2 border-gray-100" : "",
@@ -49,11 +56,12 @@ export function SupportInfoCard({
       >
         <div className="bg-gray-50 p-5 space-y-6">
           {hasResult ? (
-            result.checks.map((check, i) => (
+            result.trace.map((check, i) => (
               <div key={i} className="flex justify-between items-center">
-                <span className="text-[#1E293B] font-medium">
-                  {check.message}
-                </span>
+                <div>
+                  <p className="text-[#1E293B]">{check.key}</p>
+                  <p className="text-gray-500 text-sm">{check.message}</p>
+                </div>
                 <span
                   className={cn(
                     "text-xs px-2 py-1 rounded",
