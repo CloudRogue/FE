@@ -17,6 +17,9 @@ export default async function SummaryCard({
   // const data = await getAnnouncementEligibility(String(announcementId));
   // const eligibility = data?.eligibility;
 
+  const regionList = eligibility?.eligibility?.region?.codes || [];
+  const hasMultipleRegions = regionList.length > 1;
+
   return (
     <section className="bg-white p-6 rounded-2xl">
       <h3 className="text-lg font-bold text-gray-900 mb-5">공고 개요</h3>
@@ -26,13 +29,35 @@ export default async function SummaryCard({
         {/* 백엔드 API 구현 이후 변경 필요 */}
         <OverviewRow
           label="대상"
-          value={eligibility?.eligibility.age?.displayText}
+          value={eligibility?.eligibility?.age?.displayText ?? "전체"}
         />
-        {/* TODO: 지역 데이터 어떻게 들어오는지 확인 이후 뱃지 만들기 */}
         <OverviewRow
           label="지역"
-          value={eligibility?.eligibility.region?.displayText}
-        />
+          value={eligibility?.eligibility?.region?.displayText ?? "전체"}
+        >
+          {hasMultipleRegions && (
+            <div className="flex flex-col gap-5">
+              <h4 className="text-[17px] font-bold text-slate-900">
+                전체 지역 ({regionList.length}개)
+              </h4>
+
+              <div className="flex flex-wrap gap-2">
+                {regionList.map((region: string, idx: number) => (
+                  <div
+                    key={idx}
+                    className="px-3 py-1.5 bg-[#F0F5FF] text-[#437CFF] rounded-lg text-[13px] font-semibold"
+                  >
+                    {region}
+                  </div>
+                ))}
+              </div>
+
+              <button className="w-full py-4 bg-[#437CFF] text-white rounded-[14px] text-base font-bold active:scale-[0.98] transition-transform">
+                확인
+              </button>
+            </div>
+          )}
+        </OverviewRow>
         <OverviewRow label="접수 방법" value={publisher} />
       </div>
 
@@ -76,7 +101,7 @@ const eligibility = {
     },
     region: {
       ruleType: "INCLUDE",
-      codes: ["11"],
+      codes: ["11", "12"],
       displayText: "서울특별시 거주",
     },
     income: {
