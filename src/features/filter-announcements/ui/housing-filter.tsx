@@ -1,6 +1,6 @@
 import cn from "@/src/shared/lib/cn";
-import { useFilterStore } from "../model/use-filter-store";
-import { MOCK_HOUSING_TYPES } from "../model/constants";
+import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
+import { MOCK_HOUSING_TYPES } from "@/src/features/filter-announcements/model/constants";
 
 export function HousingTypeFilter() {
   const { tempFilters, setTempFilter } = useFilterStore();

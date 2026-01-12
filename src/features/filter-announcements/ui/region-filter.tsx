@@ -1,6 +1,6 @@
 import cn from "@/src/shared/lib/cn";
-import { useFilterStore } from "../model/use-filter-store";
-import { MOCK_REGIONS } from "../model/constants";
+import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
+import { MOCK_REGIONS } from "@/src/features/filter-announcements/model/constants";
 
 export function RegionFilter() {
   const { tempFilters, setTempFilter } = useFilterStore();

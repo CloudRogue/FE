@@ -1,6 +1,6 @@
 import cn from "@/src/shared/lib/cn";
-import { useFilterStore } from "../model/use-filter-store";
-import { MOCK_PUBLISHERS } from "../model/constants";
+import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
+import { MOCK_PUBLISHERS } from "@/src/features/filter-announcements/model/constants";
 
 export function PublisherFilter() {
   const { tempFilters, setTempFilter } = useFilterStore();

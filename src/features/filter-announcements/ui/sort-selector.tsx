@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { useFilterStore } from "../model/use-filter-store";
+import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
 import { ChevronDown } from "lucide-react";
 import cn from "@/src/shared/lib/cn";
 import {
