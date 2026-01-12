@@ -2,7 +2,6 @@ import {
   AnnouncementCard,
   AnnouncementDetail,
   mapAnnouncementToSummary,
-  OverviewRow,
 } from "@/src/entities/announcement-detail";
 import SummaryCard from "@/src/entities/announcement-detail/ui/summary-card";
 import {
@@ -12,6 +11,7 @@ import {
   TabsTrigger,
 } from "@/src/shared/ui/tabs";
 import { CommentSection } from "@/src/widgets/announcement-comment";
+import { ScheduleSection } from "@/src/widgets/announcement-schedule";
 import { SupportSection } from "@/src/widgets/announcement-support";
 import { useMemo } from "react";
 
@@ -53,11 +53,7 @@ export function AnnouncementDetailPage({
           {/* 공고 일정(schedule) */}
           <TabsContent value="schedule" className="mt-0 outline-none">
             공고 일정
-            <OverviewRow
-              label="기간"
-              value={`${period.start} ~ ${period.end}`}
-            />
-            {/*   period: { start: string; end: string }; */}
+            <ScheduleSection period={period} announcement={announcement} />
           </TabsContent>
           {/* 공고 개요(summary) */}
           <TabsContent value="summary" className="mt-0 outline-none">
