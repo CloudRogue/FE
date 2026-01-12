@@ -1,7 +1,5 @@
-import {
-  AnnouncementDetail,
-  EligibilityResult,
-} from "@/src/entities/announcement-detail";
+import { AnnouncementDetail } from "@/src/entities/announcement-detail";
+import { postEligibilityCheck } from "@/src/features/announcement-eligibility-check";
 import { SupportContent } from "@/src/widgets/announcement-support";
 
 interface SupportSectionProps {
@@ -9,29 +7,9 @@ interface SupportSectionProps {
 }
 
 export async function SupportSection({ announcement }: SupportSectionProps) {
-  // const eligibilityCheckResult = await postEligibilityCheck(
-  //   String(announcement.announcementId),
-  // );
-
-  const eligibilityCheckResult = {
-    supportStatus: "ELIGIBLE",
-    diagnosedAt: "2026-01-09T16:10:00+09:00",
-    predictedRank: 1,
-    predictedBonusPoints: 3,
-    trace: [
-      {
-        key: "무주택 세대구성원인가요?",
-        passed: true,
-        message:
-          "프로필 상 '주택 보유: 없음'으로 확인되어 무주택 요건을 충족합니다.",
-      },
-      {
-        key: "소득이 4분위 이하인가요?",
-        passed: true,
-        message: "소득 3분위로 확인되어 기준(4분위 이하)을 충족합니다.",
-      },
-    ],
-  } as EligibilityResult;
+  const eligibilityCheckResult = await postEligibilityCheck(
+    String(announcement.announcementId),
+  );
 
   return (
     <section className="bg-white p-6 rounded-2xl">
