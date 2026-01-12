@@ -9,6 +9,10 @@ export const AnnouncementSchema = z.object({
   publishedAt: z.string(),
   publisher: z.string(),
   status: z.enum(["OPEN", "DUE_SOON", "UPCOMING", "CLOSED"]),
+  fullAdres: z.string().nullable(),
+  externalApplyUrl: z.string().nullable(),
+  dDay: z.number().int(),
+  isScrapped: z.boolean().default(false),
 });
 
 export const CursorMetaSchema = z.object({
