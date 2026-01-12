@@ -1,6 +1,4 @@
 "use client";
-
-import { ChevronLeft } from "lucide-react";
 import cn from "@/src/shared/lib/cn";
 import { useFilterStore } from "@/src/features/filter-announcements";
 import { SearchBar } from "@/src/features/search-announcements";
@@ -16,20 +14,6 @@ export function AnnouncementHeader() {
   return (
     <>
       <header className="sticky top-0 z-30 flex flex-col bg-white shadow-sm">
-        {/* 1. 상단 타이틀 바 */}
-        <div className="flex items-center justify-between px-4 py-3">
-          <button
-            className="p-1 -ml-1 text-slate-900 active:bg-slate-100 rounded-full transition-colors"
-            onClick={() => window.history.back()}
-          >
-            <ChevronLeft size={24} />
-          </button>
-          <h1 className="text-[18px] font-bold text-slate-900">주택 공고</h1>
-          <button className="bg-[#3B82F6] text-white px-4 py-1.5 rounded-lg text-[14px] font-bold active:scale-95 transition-transform flex items-center gap-1">
-            <span className="text-[12px]">♥</span> 관심 공고
-          </button>
-        </div>
-
         {/* 2. 검색바 영역 */}
         <SearchBar />
 
