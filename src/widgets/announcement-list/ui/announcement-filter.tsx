@@ -1,144 +1,55 @@
-import cn from "@/src/shared/lib/cn";
-import { useFilterStore } from "@/src/features/filter-announcements";
-import { ChevronDown, ChevronUp } from "lucide-react";
+"use client";
 
-// Mock Data (실제 구현 시 API 또는 상수로 관리)
-const REGIONS = [
-  "강남구",
-  "강동구",
-  "강북구",
-  "강서구",
-  "관악구",
-  "광진구",
-  "구로구",
-  "금천구",
-  "노원구",
-  "도봉구",
-  "동대문구",
-  "동작구",
-  "마포구",
-  "서대문구",
-  "서초구",
-  "성동구",
-  "성북구",
-  "송파구",
-  "양천구",
-  "영등포구",
-  "용산구",
-  "은평구",
-  "종로구",
-  "중구",
-  "중랑구",
-];
-const PUBLISHERS = [
-  "주체A",
-  "주체B",
-  "주체C",
-  "주체D",
-  "주체E",
-  "주체F",
-  "기타",
-];
-const HOUSING_TYPES = [
-  "유형A",
-  "유형B",
-  "유형C",
-  "유형D",
-  "유형E",
-  "유형F",
-  "유형G",
-];
+import Button from "@/src/shared/ui/button";
+import {
+  TabsRoot,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
+} from "@/src/shared/ui/tabs";
+import { useFilterStore } from "@/src/features/filter-announcements";
+import { RegionFilter } from "@/src/features/filter-announcements/ui/region-filter";
+import { PublisherFilter } from "@/src/features/filter-announcements/ui/publisher-filter";
+import { HousingTypeFilter } from "@/src/features/filter-announcements/ui/housing-type-filter";
+import styles from "./announcement-filter.module.css";
 
 export function AnnouncementFilter() {
-  const {
-    activeTab,
-    setActiveTab,
-    tempFilters,
-    setTempFilter,
-    applyFilters,
-    resetFilters,
-  } = useFilterStore();
-
-  const currentOptions = {
-    region: { list: REGIONS, key: "regionCode" as const },
-    publisher: { list: PUBLISHERS, key: "publisher" as const },
-    housingType: { list: HOUSING_TYPES, key: "housingType" as const },
-  }[activeTab];
+  const { applyFilters, resetFilters } = useFilterStore();
 
   return (
-    <div className="w-full bg-white shadow-md border-t rounded-t-[20px]">
-      {/* Tab Header */}
-      <div className="flex border-b">
-        <TabButton label="희망 지역" tab="region" />
-        <TabButton label="공급 주체" tab="publisher" />
-        <TabButton label="주택 유형" tab="housingType" />
+    <TabsRoot defaultValue="region" className={styles.container}>
+      {/* 1. 상단 탭 헤더 */}
+      <TabsList className={styles.tabHeader}>
+        <TabsTrigger value="region">희망 지역</TabsTrigger>
+        <TabsTrigger value="publisher">공급 주체</TabsTrigger>
+        <TabsTrigger value="housingType">주택 유형</TabsTrigger>
+      </TabsList>
+
+      {/* 2. 중앙 컨텐츠 */}
+      <div className={styles.content}>
+        <TabsContent value="region">
+          <RegionFilter />
+        </TabsContent>
+
+        <TabsContent value="publisher">
+          <PublisherFilter />
+        </TabsContent>
+
+        <TabsContent value="housingType">
+          <HousingTypeFilter />
+        </TabsContent>
       </div>
 
-      {/* Chip Grid Content */}
-      <div className="p-5 h-[240px] overflow-y-auto grid grid-cols-5 gap-3">
-        {currentOptions.list.map((option) => {
-          const isSelected = tempFilters[currentOptions.key] === option;
-          return (
-            <button
-              key={option}
-              onClick={() =>
-                setTempFilter(
-                  currentOptions.key,
-                  isSelected ? undefined : option,
-                )
-              }
-              className={cn(
-                "py-2.5 px-1 rounded-full text-[14px] border transition-all text-center truncate",
-                isSelected
-                  ? "bg-[#3B82F6] border-[#3B82F6] text-white font-bold"
-                  : "bg-white border-slate-200 text-slate-600",
-              )}
-            >
-              {option}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Footer Actions */}
-      <div className="p-4 flex justify-end gap-3 border-t bg-white">
-        <button
-          onClick={resetFilters}
-          className="px-6 py-3 bg-[#E2E8F0] text-[#64748B] rounded-[10px] font-bold text-[16px]"
-        >
+      {/* 3. 하단 액션 버튼 */}
+      <div className={styles.footer}>
+        <Button variant="ghost" size="lg" onClick={resetFilters}>
           초기화
-        </button>
-        <button
-          onClick={applyFilters}
-          className="px-8 py-3 bg-[#3B82F6] text-white rounded-[10px] font-bold text-[16px]"
-        >
+        </Button>
+
+        <Button variant="default" size="lg" onClick={applyFilters}>
           결과 적용
-        </button>
+        </Button>
       </div>
-    </div>
-  );
-}
-
-function TabButton({
-  label,
-  tab,
-}: {
-  label: string;
-  tab: "region" | "publisher" | "housingType";
-}) {
-  const { activeTab, setActiveTab } = useFilterStore();
-  const isActive = activeTab === tab;
-
-  return (
-    <button
-      onClick={() => setActiveTab(tab)}
-      className={cn(
-        "flex-1 py-4 flex items-center justify-center gap-1 text-[15px] font-bold",
-        isActive ? "text-[#1E293B]" : "text-[#94A3B8]",
-      )}
-    >
-      {label}
-      {isActive ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-    </button>
+    </TabsRoot>
   );
 }
