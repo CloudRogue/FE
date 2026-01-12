@@ -7,10 +7,10 @@ import {
   TabsTrigger,
   TabsContent,
 } from "@/src/shared/ui/tabs";
-import { useFilterStore } from "@/src/features/filter-announcements";
+import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
 import { RegionFilter } from "@/src/features/filter-announcements/ui/region-filter";
 import { PublisherFilter } from "@/src/features/filter-announcements/ui/publisher-filter";
-import { HousingTypeFilter } from "@/src/features/filter-announcements/ui/housing-type-filter";
+import { HousingTypeFilter } from "@/src/features/filter-announcements/ui/housing-filter";
 import styles from "./announcement-filter.module.css";
 
 export function AnnouncementFilter() {
