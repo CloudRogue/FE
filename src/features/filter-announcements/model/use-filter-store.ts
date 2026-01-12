@@ -1,18 +1,18 @@
 import { create } from "zustand";
+import type { AnnouncementFilterParams } from "@/src/entities/announcement";
 
 interface FilterState {
-  appliedFilters: {
-    regionCode?: string;
-    publisher?: string;
-    housingType?: string;
-  };
+  activeTab: "region" | "publisher" | "housingType";
   tempFilters: {
     regionCode?: string;
     publisher?: string;
     housingType?: string;
   };
+  appliedFilters: AnnouncementFilterParams;
+
+  setActiveTab: (tab: "region" | "publisher" | "housingType") => void;
   setTempFilter: (
-    key: "regionCode" | "publisher" | "housingType",
+    key: keyof FilterState["tempFilters"],
     value: string | undefined,
   ) => void;
   applyFilters: () => void;
@@ -20,19 +20,22 @@ interface FilterState {
 }
 
 export const useFilterStore = create<FilterState>((set) => ({
-  appliedFilters: {},
+  activeTab: "region",
   tempFilters: {},
+  appliedFilters: {},
+
+  setActiveTab: (activeTab) => set({ activeTab }),
   setTempFilter: (key, value) =>
     set((state) => ({
       tempFilters: { ...state.tempFilters, [key]: value },
     })),
   applyFilters: () =>
     set((state) => ({
-      appliedFilters: state.tempFilters,
+      appliedFilters: { ...state.tempFilters, sort: "DEADLINE" },
     })),
   resetFilters: () =>
     set({
-      appliedFilters: {},
       tempFilters: {},
+      appliedFilters: {},
     }),
 }));
