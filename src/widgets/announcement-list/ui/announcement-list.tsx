@@ -3,12 +3,10 @@
 import { useState } from "react";
 import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
 import { useAnnouncements } from "@/src/entities/announcement/api/use-announcements";
-import AnnouncementCard from "@/src/entities/announcement/ui/announcement-card";
+import { AnnouncementCard } from "@/src/entities/announcement/ui/announcement-card";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
-import type {
-  Announcement,
-} from "@/src/entities/announcement/model/types";
+import type { Announcement } from "@/src/entities/announcement/model/types";
 
 export function AnnouncementList() {
   const [isPersonalized, setIsPersonalized] = useState(false);

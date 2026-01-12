@@ -1,5 +1,5 @@
 // UI
-export { default as AnnouncementCard } from "@/src/entities/announcement/ui/announcement-card";
+export { AnnouncementCard } from "@/src/entities/announcement/ui/announcement-card";
 
 // API
 export { announcementQueries } from "@/src/entities/announcement/api/queries";

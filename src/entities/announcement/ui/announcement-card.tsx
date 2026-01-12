@@ -21,9 +21,10 @@ interface AnnouncementCardProps extends Announcement {
     end: string;
   };
   imageUrl?: string;
+  [key: string]: any;
 }
 
-export default function AnnouncementCard({
+export function AnnouncementCard({
   announcementId,
   title,
   housingType,
