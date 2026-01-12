@@ -16,7 +16,7 @@ interface ManagementListCardProps {
 export function ManagementListCard({
   status = MANAGEMENT_STATUS_TYPE.APPLYING,
 }: ManagementListCardProps) {
-  const { colors, label, buttonLabel } = MANAGEMENT_STATUS[status];
+  const { colors, buttonLabel } = MANAGEMENT_STATUS[status];
 
   return (
     <Card className="p-6 mb-4 bg-white rounded-2xl shadow-sm border-none">
