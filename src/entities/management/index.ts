@@ -1,6 +1,13 @@
 // model
-export { MANAGEMENT_STATUS } from "@/src/entities/management/model/color.types";
-export type { ManagementStatus } from "@/src/entities/management/model/color.types";
+
+// constants
+export {
+  MANAGEMENT_STATUS,
+  MANAGEMENT_STATUS_TYPE,
+  MANAGEMENT_TABS,
+  STEPPER_STEPS,
+  type ManagementStatus,
+} from "@/src/entities/management/constants/management.constants";
 
 // ui
 export { ManagementListCard } from "@/src/entities/management/ui/management-list-card";

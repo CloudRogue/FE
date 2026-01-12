@@ -1,4 +1,9 @@
-import { MANAGEMENT_STATUS, ManagementStatus } from "@/src/entities/management";
+import {
+  MANAGEMENT_STATUS,
+  MANAGEMENT_STATUS_TYPE,
+  ManagementStatus,
+  STEPPER_STEPS,
+} from "@/src/entities/management";
 import cn from "@/src/shared/lib/cn";
 import { Progress } from "@/src/shared/ui/progress";
 import { Check } from "lucide-react";
@@ -7,18 +12,12 @@ interface StepperProps {
   status: ManagementStatus;
 }
 
-const STEPS = [
-  { id: "applying", label: "지원 중" },
-  { id: "pending", label: "서류 대기" },
-  { id: "final", label: "최종 대기" },
-] as const;
-
 export function ManagementStepper({ status }: StepperProps) {
   const { progress: currentProgress } = MANAGEMENT_STATUS[status];
   const currentIdx =
-    status === "closed"
-      ? STEPS.length - 1
-      : STEPS.findIndex((s) => s.id === status);
+    status === MANAGEMENT_STATUS_TYPE.CLOSED
+      ? STEPPER_STEPS.length - 1
+      : STEPPER_STEPS.findIndex((s) => s.id === status);
 
   return (
     <div className="relative w-full h-16 mb-4 pt-4">
@@ -32,7 +31,7 @@ export function ManagementStepper({ status }: StepperProps) {
         className="absolute left-0 w-full flex justify-between px-0"
         style={{ top: "7px" }}
       >
-        {STEPS.map((step, idx) => {
+        {STEPPER_STEPS.map((step, idx) => {
           const isCompleted = idx < currentIdx;
           const { position } = MANAGEMENT_STATUS[step.id];
 

@@ -1,5 +1,6 @@
 import {
   MANAGEMENT_STATUS,
+  MANAGEMENT_STATUS_TYPE,
   ManagementStatus,
   ManagementStepper,
 } from "@/src/entities/management";
@@ -12,7 +13,7 @@ interface ManagementListCardProps {
 }
 
 export function ManagementListCard({
-  status = "applying",
+  status = MANAGEMENT_STATUS_TYPE.APPLYING,
 }: ManagementListCardProps) {
   const { colors, label, buttonLabel } = MANAGEMENT_STATUS[status];
 
@@ -37,7 +38,9 @@ export function ManagementListCard({
         title
       </h3>
 
-      {status !== "closed" && <ManagementStepper status={status} />}
+      {status !== MANAGEMENT_STATUS_TYPE.CLOSED && (
+        <ManagementStepper status={status} />
+      )}
 
       <Button
         style={{ backgroundColor: colors.buttonBg }}
