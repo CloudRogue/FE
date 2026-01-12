@@ -4,7 +4,7 @@ import { EligibilityResult } from "@/src/entities/announcement-detail";
 import cn from "@/src/shared/lib/cn";
 import Button from "@/src/shared/ui/button";
 import { ChevronDown } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface SupportInfoCardProps {
   userName: string;
@@ -18,10 +18,12 @@ export function SupportInfoCard({
   isLoggedIn,
 }: SupportInfoCardProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [prevIsLoggedIn, setPrevIsLoggedIn] = useState(isLoggedIn);
 
-  useEffect(() => {
+  if (isLoggedIn !== prevIsLoggedIn) {
+    setPrevIsLoggedIn(isLoggedIn);
     setIsOpen(!isLoggedIn);
-  }, [isLoggedIn]);
+  }
 
   const hasResult = result && result.trace && result.trace.length > 0;
 

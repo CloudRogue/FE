@@ -31,6 +31,7 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
     const isOpen =
       controlledIsOpen !== undefined ? controlledIsOpen : internalIsOpen;
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const setIsOpen = (value: boolean | ((prev: boolean) => boolean)) => {
       const newValue = typeof value === "function" ? value(isOpen) : value;
       if (onClose && !newValue) onClose();

@@ -23,7 +23,8 @@ export async function OverviewSection({
   data,
   announcementId,
 }: AnnouncementSummaryProps) {
-  const { kvDigest } = await getAnnouncementSummary(announcementId);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const { kvDigest } = await getAnnouncementSummary(announcementId.toString());
 
   return (
     <section className="bg-white p-6 rounded-2xl">

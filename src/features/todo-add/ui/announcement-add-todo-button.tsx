@@ -3,6 +3,7 @@
 "use client";
 
 import { postAddTodo, TodoCreateRequest } from "@/src/features/todo-add";
+import cn from "@/src/shared/lib/cn";
 import Button from "@/src/shared/ui/button";
 import { useTransition } from "react";
 
@@ -38,7 +39,10 @@ export function AnnouncementAddTodoButton({
     <Button
       onClick={handleAddTodo}
       disabled={isPending}
-      className="w-full bg-white text-[#1E293B] py-2.5 rounded-xl font-bold text-[16px] border border-gray-200 hover:bg-gray-50 transition-colors disabled:opacity-50"
+      className={cn(
+        "w-full bg-white text-[#1E293B] py-2.5 rounded-xl font-bold text-[16px] border border-gray-200 hover:bg-gray-50 transition-colors disabled:opacity-50",
+        className,
+      )}
     >
       {isPending ? "추가 중..." : "지원 관리에 공고 담고 지원 준비하기"}
     </Button>

@@ -3,7 +3,6 @@ import {
   getAnnouncementSummary,
   OverviewRow,
 } from "@/src/entities/announcement-detail";
-import { getAdminAnnouncementSummary } from "../../admin/announcement/api/quries";
 
 interface SummaryCardProps {
   announcementId: AnnouncementDetail["announcementId"];
@@ -13,9 +12,9 @@ export default async function SummaryCard({
   announcementId,
 }: SummaryCardProps) {
   const { kvDigest } = await getAnnouncementSummary(String(announcementId));
-  const adminSummaryResult = await getAdminAnnouncementSummary(
-    String(announcementId),
-  );
+  // const adminSummaryResult = await getAnnouncementSummary(
+  //   String(announcementId),
+  // );
 
   return (
     <section className="bg-white p-6 rounded-2xl">
@@ -54,10 +53,7 @@ export default async function SummaryCard({
           )}
         </OverviewRow>
         <OverviewRow label="접수 방법" value={publisher} /> */}
-        <OverviewRow
-          label="접수 방법"
-          value={adminSummaryResult.publisher ?? "공고 참고"}
-        />
+        <OverviewRow label="접수 방법" value={"공고 참고"} />
       </div>
 
       {/* <Link href={data.originalUrl} className="w-full mt-6 inline-block">
@@ -72,51 +68,3 @@ export default async function SummaryCard({
     </section>
   );
 }
-
-const kvDigest = {
-  kvDigest: [
-    {
-      key: "청약 기간",
-      value: "2년간 꾸준히 납입하면 우선순위",
-    },
-    {
-      key: "납입 인정 기준",
-      value: "월 10만원 이상 납입 시 인정",
-    },
-    {
-      key: "유의사항",
-      value: "서류 미제출 시 자동 탈락",
-    },
-  ],
-};
-
-const eligibility = {
-  announcementId: 900001,
-  eligibility: {
-    age: {
-      min: 19,
-      max: 34,
-      displayText: "만 19~34세",
-    },
-    region: {
-      ruleType: "INCLUDE",
-      codes: ["11", "12"],
-      displayText: "서울특별시 거주",
-    },
-    income: {
-      metric: "MEDIAN_INCOME_PERCENT",
-      operator: "LTE",
-      value: 150,
-      value2: null,
-      householdSizeMin: 1,
-      householdSizeMax: 3,
-      displayText: "중위소득 150% 이하",
-    },
-    subscriptionAccount: {
-      가입기간MonthsMin: 12,
-      납입횟수Min: 24,
-      displayText: "가입 12개월 이상, 납입 24회 이상",
-    },
-    notes: "일부 유형은 신혼부부 우선",
-  },
-};
