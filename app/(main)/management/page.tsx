@@ -1,3 +1,5 @@
+import ManagementPage from "@/src/_pages/management/menagement-page";
+
 export default function Page() {
-  return <div>지원 관리 페이지</div>;
+  return <ManagementPage />;
 }
