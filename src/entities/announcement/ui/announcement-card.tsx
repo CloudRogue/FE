@@ -33,7 +33,7 @@ export function AnnouncementCard({
   fullAdres,
   externalApplyUrl,
   dDay,
-  isScrapped,
+  isScrapped = false,
   period,
   imageUrl = "",
 }: AnnouncementCardProps) {
@@ -42,6 +42,7 @@ export function AnnouncementCard({
     [fullAdres],
   );
 
+  const dDayDisplay = dDay !== null ? `D-${dDay}` : "상시";
   const publisherShort = useMemo(
     () => publisher?.split(" ")[0] ?? "기관",
     [publisher],
@@ -105,7 +106,7 @@ export function AnnouncementCard({
         announcementId={announcementId}
         externalApplyUrl={externalApplyUrl ?? ""}
         status={status}
-        dDay={dDay}
+        dDay={dDay ?? 0}
       />
     </div>
   );

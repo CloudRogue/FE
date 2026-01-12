@@ -11,8 +11,8 @@ export const AnnouncementSchema = z.object({
   status: z.enum(["OPEN", "DUE_SOON", "UPCOMING", "CLOSED"]),
   fullAdres: z.string().nullable(),
   externalApplyUrl: z.string().nullable(),
-  dDay: z.number().int(),
-  isScrapped: z.boolean().default(false),
+  dDay: z.number().int().nullable(),
+  isScrapped: z.boolean().nullable().default(false),
 });
 
 export const CursorMetaSchema = z.object({
