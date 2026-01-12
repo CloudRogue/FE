@@ -36,13 +36,19 @@ export function useAnnouncements(
   filters: AnnouncementFilterParams,
   isPersonalized: boolean = false,
 ) {
-  return useInfiniteQuery({
+  return useInfiniteQuery<
+    AnnouncementListResponse,
+    Error,
+    AnnouncementListResponse,
+    ["announcements", "list", AnnouncementFilterParams, boolean],
+    string | null
+  >({
     queryKey: ["announcements", "list", filters, isPersonalized],
     queryFn: ({ pageParam }) =>
       getAnnouncementList(
         {
           ...filters,
-          cursor: pageParam as string | null,
+          cursor: pageParam,
         },
         isPersonalized,
       ),
