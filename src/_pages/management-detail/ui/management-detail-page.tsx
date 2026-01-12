@@ -30,7 +30,10 @@ export default function ManagementDetailPage({
       <div className="p-5">
         <ManagementStatusBadge status={status} />
         <div className="flex justify-between mb-4">
-          <h1 className="text-2xl">title</h1>
+          <div className="flex flex-col justify-between">
+            <h1 className="text-2xl">title</h1>
+            <Link href={ROUTES.ANNOUNCEMENT}>자세히 보기</Link>
+          </div>
           <div className="w-20 h-20 bg-gray-400 rounded-xl">
             <Image
               src="/"
@@ -41,7 +44,6 @@ export default function ManagementDetailPage({
             />
           </div>
         </div>
-        <Link href={ROUTES.ANNOUNCEMENT}>자세히 보기</Link>
       </div>
       <div className="p-5 bg-gray-100 min-h-screen">
         {/* 공고 접수 */}
