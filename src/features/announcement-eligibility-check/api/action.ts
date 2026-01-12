@@ -1,14 +1,9 @@
 "use server";
 
-import {
-  AnnouncementDetail,
-  EligibilityResultSchema,
-} from "@/src/entities/announcement-detail";
+import { EligibilityResultSchema } from "@/src/entities/announcement-detail";
 import { Api } from "@/src/shared/api/api";
 
-export async function postEligibilityCheck(
-  announcementId: AnnouncementDetail["announcementId"],
-) {
+export async function postEligibilityCheck(announcementId: string) {
   return await Api.post(
     `/announcements/${announcementId}/eligibility/check`,
     EligibilityResultSchema,
