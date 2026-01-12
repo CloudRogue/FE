@@ -1,3 +1,9 @@
-export default function Page() {
-  return <div>eligibility - 지원 자격</div>;
+import MyPageEligibilityPage from "@/src/_pages/mypage/(information)/eligibility/mypage-eligibility-page";
+
+export default function page() {
+  return (
+    <div>
+      <MyPageEligibilityPage />
+    </div>
+  );
 }
