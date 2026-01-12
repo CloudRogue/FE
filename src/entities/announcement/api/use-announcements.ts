@@ -1,4 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
+import type { InfiniteData } from "@tanstack/react-query";
 import { Api } from "@/src/shared/api/api";
 import { AnnouncementListResponseSchema } from "@/src/entities/announcement/model/schemas";
 import type {
@@ -39,7 +40,7 @@ export function useAnnouncements(
   return useInfiniteQuery<
     AnnouncementListResponse,
     Error,
-    AnnouncementListResponse,
+    InfiniteData<AnnouncementListResponse>,
     ["announcements", "list", AnnouncementFilterParams, boolean],
     string | null
   >({
