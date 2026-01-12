@@ -41,11 +41,14 @@ export default function Header({ variant }: HeaderProps) {
           </div>
         )}
 
+        {/* TODO: 관심 공고 - 비회원은 로그인 필요 */}
         {variant === "announcement" && (
           <Link href="mypage">
             <Heart size={24} />
           </Link>
         )}
+
+        {/* TODO: 공고 상세 헤더 작업 필요 */}
 
         {variant === "mypage" && <Link href="mypage">마이페이지 헤더</Link>}
       </div>

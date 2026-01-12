@@ -24,7 +24,10 @@ async function request<T>(
   schema: z.ZodSchema<T>,
 ): Promise<T> {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-  const res = await fetch(`${baseUrl}${url}`, options);
+  const res = await fetch(`${baseUrl}${url}`, {
+    ...options,
+    credentials: "include",
+  });
 
   if (!res.ok) {
     let errorData: ApiError;
