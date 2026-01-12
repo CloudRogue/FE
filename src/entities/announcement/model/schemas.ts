@@ -25,7 +25,7 @@ export const AnnouncementFilterParamsSchema = z.object({
   regionCode: z.string().optional(),
   publisher: z.string().optional(),
   housingType: z.string().optional(),
-  sort: z.enum(["LATEST", "DEADLINE"]).optional(),
+  sort: z.enum(["LATEST", "DEADLINE", "RELEVANCE"]).optional(),
   keyword: z.string().optional(),
 
   // cursor pagination
