@@ -16,22 +16,21 @@ export function ManagementStepSection({
   children,
 }: StepSectionProps) {
   return (
-    <div className="mb-8 last:mb-0">
-      <div className="flex items-center gap-3 mb-4">
-        <Checkbox
-          checked={isCompleted}
-          readOnly
-          className={cn(
-            "h-6 w-6 rounded-full border-none transition-colors",
-            isCompleted ? "bg-blue-500 text-white" : "bg-slate-500 text-white",
-          )}
-        />
-        <span className="text-[17px] font-bold text-slate-900">
+    <div className="flex justify-between gap-3 mb-6 last:mb-0">
+      <Checkbox
+        checked={isCompleted}
+        readOnly
+        className={cn(
+          "h-6 w-6 rounded-xl border-none transition-colors",
+          isCompleted ? "bg-blue-500 text-white" : "bg-slate-500 text-white",
+        )}
+      />
+      <div className="flex flex-col gap-3 w-full">
+        <span className="font-bold text-slate-900">
           {label}: {date}
         </span>
+        <div className="mt-5">{children}</div>
       </div>
-
-      <div className="ml-9">{children}</div>
     </div>
   );
 }
