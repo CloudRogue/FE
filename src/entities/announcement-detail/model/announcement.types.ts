@@ -69,9 +69,7 @@ export const AnnouncementDetailSchema = z.object({
   announcementId: z.number().int(), // 공고 PK
   publisher: z.string(), // 발행처(기관/지자체 등)
   title: z.string(), // 공고명
-  // NOTE: 백엔드 수정 이후 변경 필요
-  // housingType: z.string(), // 주택 유형(앱 뱃지/필터에 사용)
-  housingType: z.string().optional().default("행복주택"),
+  housingType: z.string(), // 주택 유형(앱 뱃지/필터에 사용)
   startDate: z.string(), // 공고 시작일
   endDate: z.string(), // 공고 마감일
   publishedAt: z.string(), // 발표일(게시일)
