@@ -57,10 +57,7 @@ export function AnnouncementDetailPage({
           </TabsContent>
           {/* 공고 개요(summary) */}
           <TabsContent value="summary" className="mt-0 outline-none">
-            <SummaryCard
-              announcementId={announcement.announcementId}
-              publisher={announcement.publisher}
-            />
+            <SummaryCard announcementId={announcement.announcementId} />
           </TabsContent>
           {/* 공고 댓글(comment) */}
           <TabsContent value="comment" className="mt-0 outline-none">

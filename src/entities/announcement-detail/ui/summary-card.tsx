@@ -1,24 +1,21 @@
 import {
   AnnouncementDetail,
+  getAnnouncementSummary,
   OverviewRow,
 } from "@/src/entities/announcement-detail";
+import { getAdminAnnouncementSummary } from "../../admin/announcement/api/quries";
 
 interface SummaryCardProps {
   announcementId: AnnouncementDetail["announcementId"];
-  publisher: AnnouncementDetail["publisher"];
 }
 
 export default async function SummaryCard({
   announcementId,
-  publisher,
 }: SummaryCardProps) {
-  // NOTO: 공고 요약 API 서버 오류남
-  // const { kvDigest } = await getAnnouncementSummary(String(announcementId));
-  // const data = await getAnnouncementEligibility(String(announcementId));
-  // const eligibility = data?.eligibility;
-
-  const regionList = eligibility?.eligibility?.region?.codes || [];
-  const hasMultipleRegions = regionList.length > 1;
+  const { kvDigest } = await getAnnouncementSummary(String(announcementId));
+  const adminSummaryResult = await getAdminAnnouncementSummary(
+    String(announcementId),
+  );
 
   return (
     <section className="bg-white p-6 rounded-2xl">
@@ -26,14 +23,12 @@ export default async function SummaryCard({
 
       <div className="space-y-1 font-bold">
         <OverviewRow label="항목" value="공고 내용" />
-        {/* 백엔드 API 구현 이후 변경 필요 */}
-        <OverviewRow
-          label="대상"
-          value={eligibility?.eligibility?.age?.displayText ?? "전체"}
-        />
+        {/* TODO: API에 없음 */}
+        <OverviewRow label="대상" value={"알 수 없음"} />
+        {/*
         <OverviewRow
           label="지역"
-          value={eligibility?.eligibility?.region?.displayText ?? "전체"}
+          value={eligibility?.region?.displayText ?? "전체"}
         >
           {hasMultipleRegions && (
             <div className="flex flex-col gap-5">
@@ -58,7 +53,11 @@ export default async function SummaryCard({
             </div>
           )}
         </OverviewRow>
-        <OverviewRow label="접수 방법" value={publisher} />
+        <OverviewRow label="접수 방법" value={publisher} /> */}
+        <OverviewRow
+          label="접수 방법"
+          value={adminSummaryResult.publisher ?? "공고 참고"}
+        />
       </div>
 
       {/* <Link href={data.originalUrl} className="w-full mt-6 inline-block">
@@ -67,7 +66,7 @@ export default async function SummaryCard({
         </Button>
       </Link> */}
 
-      {kvDigest.kvDigest.length === 0 && (
+      {kvDigest.length === 0 && (
         <p className="text-gray-400 text-center py-4">요약 정보가 없습니다.</p>
       )}
     </section>
