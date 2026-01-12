@@ -6,9 +6,10 @@ type FilterTab = "region" | "publisher" | "housingType";
 type StatusType = "OPEN" | "CLOSED";
 
 interface FilterState {
-  activeTab: FilterTab; 
+  isFilterOpen: boolean;
+  activeTab: FilterTab;
   statusTab: StatusType;
-  isPersonalized: boolean; 
+  isPersonalized: boolean;
 
   tempFilters: {
     regionCode?: string;
@@ -16,17 +17,22 @@ interface FilterState {
     housingType?: string;
     keyword?: string;
   };
-  appliedFilters: AnnouncementFilterParams; 
+  appliedFilters: AnnouncementFilterParams;
 
+  // Actions
+  toggleFilter: (tab: FilterTab) => void;
+  closeFilter: () => void;
   setActiveTab: (tab: FilterTab) => void;
   setStatusTab: (status: StatusType) => void;
   setIsPersonalized: (enabled: boolean) => void;
 
+  // 임시 필터 설정 (칩 선택 시)
   setTempFilter: (
     key: keyof FilterState["tempFilters"],
     value: string | undefined,
   ) => void;
 
+  // 즉시 필터 설정 (검색어 입력 등)
   setFilter: <K extends keyof AnnouncementFilterParams>(
     key: K,
     value: AnnouncementFilterParams[K],
@@ -37,24 +43,34 @@ interface FilterState {
   resetFilters: () => void;
 }
 
-const initialState = {
-  activeTab: "region" as const,
-  statusTab: "OPEN" as const,
-  isPersonalized: false,
-  tempFilters: {},
-  appliedFilters: { sort: "DEADLINE" as const },
+const initialFilterState = {
+  regionCode: undefined,
+  publisher: undefined,
+  housingType: undefined,
+  keyword: undefined,
 };
 
 export const useFilterStore = create<FilterState>((set) => ({
-  ...initialState,
+  isFilterOpen: false,
+  activeTab: "region",
+  statusTab: "OPEN",
+  isPersonalized: false,
+  tempFilters: {},
+  appliedFilters: { sort: "DEADLINE" },
+
+  toggleFilter: (tab) =>
+    set((state) => {
+      if (state.isFilterOpen && state.activeTab === tab) {
+        return { isFilterOpen: false };
+      }
+      return { isFilterOpen: true, activeTab: tab };
+    }),
+
+  closeFilter: () => set({ isFilterOpen: false }),
 
   setActiveTab: (activeTab) => set({ activeTab }),
 
-  setStatusTab: (statusTab) =>
-    set((state) => ({
-      statusTab,
-      appliedFilters: { ...state.appliedFilters, status: statusTab },
-    })),
+  setStatusTab: (statusTab) => set({ statusTab }),
 
   setIsPersonalized: (isPersonalized) => set({ isPersonalized }),
 
@@ -80,7 +96,13 @@ export const useFilterStore = create<FilterState>((set) => ({
         ...state.appliedFilters,
         ...state.tempFilters,
       },
+      isFilterOpen: false,
     })),
 
-  resetFilters: () => set(initialState),
+  resetFilters: () =>
+    set((state) => ({
+      tempFilters: {},
+      appliedFilters: { sort: "DEADLINE" as const },
+      isFilterOpen: false,
+    })),
 }));
