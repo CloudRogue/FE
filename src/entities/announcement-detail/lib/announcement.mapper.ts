@@ -1,32 +1,11 @@
 import type { AnnouncementDetail } from "@/src/entities/announcement-detail";
 
+// 공고 상세에서 사용하는 데이터는 period 하나 - 나머지 정보는 API가 분리되어서 이동
 export const mapAnnouncementToSummary = (announcement: AnnouncementDetail) => {
   const formatDate = (dateStr: string) => dateStr.replaceAll("-", ".");
 
-  const formattedPrice = (price: number | null): string => {
-    if (price === null || price === 0) return "정보 없음";
-    const manwon = Math.floor(price / 10000);
-    return `${manwon.toLocaleString()}만원`;
-  };
-
-  const formattedTarget = (): string => {
-    const ageText = announcement.eligibility?.age?.displayText;
-    const regionText = announcement.eligibility?.region?.displayText;
-    const parts = [ageText, regionText].filter(Boolean);
-    return parts.length > 0 ? parts.join(" ") : "상세 공고 참조";
-  };
-
   return {
-    target: formattedTarget(),
-    price:
-      announcement.mtRntchrg !== null
-        ? `월 최소 ${formattedPrice(announcement.mtRntchrg)}`
-        : "상세 공고 참조",
-    period: {
-      start: formatDate(announcement.startDate),
-      end: formatDate(announcement.endDate),
-    },
-    method: `${announcement.publisher} 홈페이지`,
-    originalUrl: announcement.originalUrl ?? "",
+    start: formatDate(announcement.startDate),
+    end: formatDate(announcement.endDate),
   };
 };
