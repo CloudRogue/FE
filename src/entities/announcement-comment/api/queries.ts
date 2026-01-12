@@ -12,16 +12,30 @@ export const commentKeys = {
   ) => [...commentKeys.all, announcementId, { page, size }] as const,
 };
 
-export const useAnnouncementComments = (
-  announcementId: number,
-  page: number = 0,
-  size: number = 20,
-) => {
+interface useAnnouncementCommentsParams {
+  announcementId: number;
+  page?: number;
+  size?: number;
+  sort?: "LATEST" | "POPULAR";
+}
+
+export const useAnnouncementComments = ({
+  announcementId,
+  page = 0,
+  size = 20,
+  sort = "LATEST",
+}: useAnnouncementCommentsParams) => {
+  const searchParams = new URLSearchParams({
+    page: page.toString(),
+    size: size.toString(),
+    sort: sort,
+  });
+
   return useQuery({
     queryKey: commentKeys.list(announcementId, page, size),
     queryFn: () =>
       Api.get(
-        `/community/announcements/${announcementId}/comments?page=${page}&size=${size}&sort=LATEST`,
+        `/community/announcements/${announcementId}/comments?${searchParams.toString()}`,
         CommentListResponseSchema,
       ),
   });
