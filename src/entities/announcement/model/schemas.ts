@@ -26,6 +26,7 @@ export const AnnouncementFilterParamsSchema = z.object({
   publisher: z.string().optional(),
   housingType: z.string().optional(),
   sort: z.enum(["LATEST", "DEADLINE"]).optional(),
+  keyword: z.string().optional(),
 
   // cursor pagination
   cursor: z.string().nullable().optional(),
