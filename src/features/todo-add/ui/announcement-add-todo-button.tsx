@@ -3,14 +3,19 @@
 "use client";
 
 import { postAddTodo, TodoCreateRequest } from "@/src/features/todo-add";
+import cn from "@/src/shared/lib/cn";
 import Button from "@/src/shared/ui/button";
 import { useTransition } from "react";
 
 interface AddTodoButtonProps {
   payload: TodoCreateRequest;
+  className?: string;
 }
 
-export function AnnouncementAddTodoButton({ payload }: AddTodoButtonProps) {
+export function AnnouncementAddTodoButton({
+  payload,
+  className,
+}: AddTodoButtonProps) {
   const [isPending, startTransition] = useTransition();
 
   const handleAddTodo = () => {
@@ -22,10 +27,10 @@ export function AnnouncementAddTodoButton({ payload }: AddTodoButtonProps) {
             ? Number(payload.announcementId)
             : null,
         });
-        alert("Todo 리스트에 추가되었습니다.");
+        alert("지원 관리에 추가되었습니다.");
       } catch (error) {
-        console.error("Todo 추가 중 오류 발생:", error);
-        alert("추가에 실패했습니다.");
+        console.error("지원 관리 추가 중 오류 발생:", error);
+        alert("지원 관리 추가에 실패했습니다.");
       }
     });
   };
@@ -34,9 +39,12 @@ export function AnnouncementAddTodoButton({ payload }: AddTodoButtonProps) {
     <Button
       onClick={handleAddTodo}
       disabled={isPending}
-      className="w-full bg-white text-[#1E293B] py-2.5 rounded-xl font-bold text-[16px] border border-gray-200 hover:bg-gray-50 transition-colors disabled:opacity-50"
+      className={cn(
+        "w-full bg-white text-[#1E293B] py-2.5 rounded-xl font-bold text-[16px] border border-gray-200 hover:bg-gray-50 transition-colors disabled:opacity-50",
+        className,
+      )}
     >
-      {isPending ? "추가 중..." : "Todo에 담고 신청 준비하기"}
+      {isPending ? "추가 중..." : "지원 관리에 공고 담고 지원 준비하기"}
     </Button>
   );
 }

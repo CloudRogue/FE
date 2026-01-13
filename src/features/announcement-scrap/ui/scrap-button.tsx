@@ -1,10 +1,13 @@
 "use client";
 
 import { AnnouncementDetail } from "@/src/entities/announcement-detail";
+import { useUser } from "@/src/entities/user";
 import { deleteScrap, patchScrap } from "@/src/features/announcement-scrap";
 import cn from "@/src/shared/lib/cn";
 import Button from "@/src/shared/ui/button";
+import Popover from "@/src/shared/ui/popover";
 import { Heart } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 
 interface ScrapButtonProps {
@@ -16,11 +19,23 @@ export function ScrapButton({
   announcementId,
   initialIsScrapped,
 }: ScrapButtonProps) {
+  const { user, isLoggedIn } = useUser();
+  const router = useRouter();
+
   const [isScrapped, setIsScrapped] = useState(initialIsScrapped);
   const [isPending, startTransition] = useTransition();
+  const [isLoginPromptOpen, setIsLoginPromptOpen] = useState(false);
 
   const handleToggleScrap = (e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
+
+    if (!isLoggedIn || !user) {
+      setIsLoginPromptOpen(true);
+      return;
+    }
+
+    if (isPending) return;
 
     const nextState = !isScrapped;
     setIsScrapped(nextState);
@@ -40,21 +55,62 @@ export function ScrapButton({
     });
   };
 
+  const handleLoginRedirect = () => {
+    setIsLoginPromptOpen(false);
+    router.push("/login");
+  };
+
+  const LoginPrompt = (
+    <div className="flex flex-col gap-3 w-50">
+      <p className="text-sm text-gray-700 leading-snug">
+        스크랩은 회원만 이용할 수 있는 기능입니다. 로그인 페이지로
+        이동하시겠습니까?
+      </p>
+      <div className="flex justify-end gap-2">
+        <Button
+          onClick={() => setIsLoginPromptOpen(false)}
+          className="text-xs px-3 py-1.5 rounded bg-gray-100 hover:bg-gray-200 text-gray-600"
+        >
+          취소
+        </Button>
+        <Button
+          onClick={handleLoginRedirect}
+          className="text-xs px-3 py-1.5 rounded bg-blue-500 hover:bg-blue-600 text-white font-medium"
+        >
+          로그인
+        </Button>
+      </div>
+    </div>
+  );
+
   return (
-    <Button
-      onClick={handleToggleScrap}
-      disabled={isPending}
-      className="p-0 h-6 transition-transform disabled:opacity-70"
+    <Popover
+      isOpen={isLoginPromptOpen}
+      onClose={() => setIsLoginPromptOpen(false)}
+      trigger={
+        <div
+          onClick={handleToggleScrap}
+          role="button"
+          tabIndex={0}
+          className={cn(
+            "cursor-pointer p-0 h-6 transition-transform inline-flex items-center justify-center",
+            isPending && "opacity-70 pointer-events-none",
+          )}
+        >
+          <Heart
+            size={24}
+            className={cn(
+              "p-0 transition-colors duration-200",
+              isScrapped
+                ? "text-red-500 fill-red-500"
+                : "text-gray-300 fill-gray-300",
+            )}
+          />
+        </div>
+      }
+      className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 m-0 w-70"
     >
-      <Heart
-        size={24}
-        className={cn(
-          "p-0 transition-colors duration-200",
-          isScrapped
-            ? "text-red-500 fill-red-500"
-            : "text-gray-300 fill-gray-300",
-        )}
-      />
-    </Button>
+      {LoginPrompt}
+    </Popover>
   );
 }

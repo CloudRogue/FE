@@ -16,6 +16,7 @@ export {
   KvDigestItemSchema,
   KvDigestResponseSchema,
   type AnnouncementDetail,
+  type AnnouncementEligibility,
   type AnnouncementStatus,
   type EligibilityResult,
   type KvDigestItem,

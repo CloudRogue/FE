@@ -1,3 +1,7 @@
+// lib
+export { formattedDate } from "@/src/widgets/announcement-support/lib/formattedDate";
+
+// ui
 export { SupportInfoCard } from "@/src/widgets/announcement-support/ui//support-info-card";
 export { SupportContent } from "@/src/widgets/announcement-support/ui/support-content";
 export { SupportResultCard } from "@/src/widgets/announcement-support/ui/support-result-card";
