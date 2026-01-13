@@ -2,22 +2,22 @@
 
 import cn from "@/src/shared/lib/cn";
 import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
-import { MOCK_PUBLISHERS } from "@/src/features/filter-announcements/model/constants";
+import { MOCK_REGIONS } from "@/src/features/filter-announcements/model/constants";
 import Button from "@/src/shared/ui/button";
 
-export function PublisherFilter() {
+export function RegionFilter() {
   const { tempFilters, setTempFilter } = useFilterStore();
 
   return (
     <div className="grid grid-cols-5 gap-2">
-      {MOCK_PUBLISHERS.map((publisher) => {
-        const isSelected = tempFilters.publisher === publisher;
+      {MOCK_REGIONS.map((region) => {
+        const isSelected = tempFilters.regionCode === region.value;
 
         return (
           <Button
-            key={publisher}
+            key={region.value}
             onClick={() =>
-              setTempFilter("publisher", isSelected ? undefined : publisher)
+              setTempFilter("regionCode", isSelected ? undefined : region.value)
             }
             className={cn(
               "h-auto py-2.5 px-1 rounded-full text-[13px] border transition-all shadow-none",
@@ -27,7 +27,7 @@ export function PublisherFilter() {
             )}
           >
             <span className="truncate w-full inline-block text-center">
-              {publisher}
+              {region.label}
             </span>
           </Button>
         );
