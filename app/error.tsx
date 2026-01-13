@@ -15,7 +15,7 @@ export default function Error({ error, reset }: ErrorProps) {
 
   // 에러 타입 및 상태 코드 분석
   const isApiError = error instanceof ApiRequestError;
-  const status = isApiError ? error.data.status : (error as any).status;
+  const status = isApiError && error.data.status;
 
   // 조건부 로직
   const isNetworkError = !navigator.onLine || error.message.includes("fetch");
