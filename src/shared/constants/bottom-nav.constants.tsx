@@ -1,3 +1,5 @@
+import { HomeIcon, LayoutGrid, UserRound } from "lucide-react";
+
 export type BottomNavItem = {
   href: string;
   label: string;
@@ -5,8 +7,11 @@ export type BottomNavItem = {
 };
 
 export const DEFAULT_BOTTOM_NAV_ITEMS: BottomNavItem[] = [
-  { href: "/", label: "홈", icon: <span aria-hidden>🏠</span> },
-  { href: "/announcement", label: "공고", icon: <span aria-hidden>🔎</span> },
-  // { href: "/scrap", label: "스크랩", icon: <span aria-hidden>📌</span> },
-  { href: "/mypage", label: "마이", icon: <span aria-hidden>👤</span> },
+  { href: "/", label: "홈", icon: <HomeIcon /> },
+  {
+    href: "/management",
+    label: "자원 관리",
+    icon: <LayoutGrid />,
+  },
+  { href: "/mypage", label: "마이 집착", icon: <UserRound /> },
 ];
