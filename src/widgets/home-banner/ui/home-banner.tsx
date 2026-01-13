@@ -38,14 +38,11 @@ export function HomeBanner() {
         <div className="p-10 flex flex-col items-start text-left">
           {banner ? (
             <>
-              <span className="text-[#3B82F6] text-sm font-bold mb-2">
-                #{banner.reasonTag}
-              </span>
               <h2 className="text-[22px] font-bold text-slate-900 leading-tight mb-8">
                 {banner.title}
               </h2>
               <Button className="w-full h-[56px] bg-[#3B82F6] text-white rounded-2xl text-[16px] font-bold">
-                공고 확인하기
+                가입하기
               </Button>
             </>
           ) : (
