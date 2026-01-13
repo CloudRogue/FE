@@ -12,6 +12,9 @@ export const ROUTES = {
   MYPAGE_ELIGIBILITY: "/mypage/eligibility", // 내 지원 자격
   MYPAGE_SCRAP: "/mypage/scrap", // 관심공고
   ONBOARDING: "/onboarding",
+  ADMIN: "/admin",
+  ADMIM_REVIEW: "/admin/review",
+  ADMIN_REGISTERED: "/admin/registered",
 } as const;
 
 export type HeaderType = "LOGO" | "LEFT_TITLE" | "CENTER_TITLE";
