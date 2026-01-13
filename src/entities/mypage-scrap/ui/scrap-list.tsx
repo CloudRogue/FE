@@ -1,20 +1,23 @@
 "use client";
 
 import { AnnouncementCard } from "@/src/entities/announcement-detail";
-import type { AnnouncementItem } from "@/src/entities/mypage-scrap";
 import { SortSelector } from "@/src/features/filter-announcements";
 import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
+import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
+import { getScrappedAnnouncements } from "../api/quries";
 
-interface ScrapListProps {
-  initialItems: AnnouncementItem[];
-}
-
-export function ScrapList({ initialItems }: ScrapListProps) {
+export function ScrapList() {
   const { appliedFilters } = useFilterStore();
 
+  const { data } = useQuery({
+    queryKey: ["mypage", "scrap", { page: 0, size: 20 }],
+    queryFn: () => getScrappedAnnouncements({ page: 0, size: 20 }),
+  });
+
   const sortedItems = useMemo(() => {
-    const items = [...initialItems];
+    if (!data?.items) return [];
+    const items = [...data.items];
 
     switch (appliedFilters.sort) {
       case "DEADLINE":
@@ -27,7 +30,7 @@ export function ScrapList({ initialItems }: ScrapListProps) {
       default:
         return items;
     }
-  }, [initialItems, appliedFilters.sort]);
+  }, [data?.items, appliedFilters.sort]);
 
   return (
     <>
