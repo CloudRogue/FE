@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
-import cn from "@/src/shared/lib/cn";
 import { DEFAULT_BOTTOM_NAV_ITEMS } from "@/src/shared/constants/bottom-nav.constants";
+import cn from "@/src/shared/lib/cn";
+import Link from "next/link";
 
 type BottomNavProps = {
   items?: typeof DEFAULT_BOTTOM_NAV_ITEMS;
@@ -20,15 +20,15 @@ export default function BottomNav({ items, className }: BottomNavProps) {
       )}
       aria-label="하단 네비게이션"
     >
-      <ul className="h-full grid grid-cols-4 items-center">
+      <ul className="h-full flex items-center justify-center gap-10">
         {navItems.map((item) => (
-          <li key={item.href} className="h-full">
+          <li key={item.href} className="w-12">
             <Link
               href={item.href}
               className="h-full flex flex-col items-center justify-center gap-1 text-xs text-black"
             >
-              <span className="text-lg leading-none">{item.icon}</span>
-              <span>{item.label}</span>
+              <span className="text-xl">{item.icon}</span>
+              <span className="truncate">{item.label}</span>
             </Link>
           </li>
         ))}
