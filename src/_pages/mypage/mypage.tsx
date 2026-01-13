@@ -1,64 +1,75 @@
 import { MenuItem, MenuSection } from "@/src/shared/components/mypage-menu";
 import Button from "@/src/shared/ui/button";
-import { CustomerSupportSection } from "@/src/widgets/mypage-customer-support";
-import { Heart, LogOut, User } from "lucide-react";
+import { Heart, User, Eye, FileText } from "lucide-react";
 
 export default function MyPage() {
   return (
-    <>
+    <div className="px-6 pb-10">
       {/* Profile Section */}
-      <section className="mb-8 flex items-center gap-3 px-1">
-        <div className="h-12 w-12 rounded-full overflow-hidden">
-          <div className="w-full h-full bg-slate-400" />
-        </div>
-        <div>
-          <p className="text-lg font-bold">
+      <section className="mb-6 flex items-start justify-between py-6">
+        <div className="min-w-0">
+          <p className="text-2xl font-bold text-slate-900">
             <span>김청년</span> 님
           </p>
-          <Button>내 지원 자격 보기</Button>
+          <p className="mt-2 text-base text-slate-500">
+            이메일: asdf1234@kakao.com
+          </p>
         </div>
+
+        <Button
+          type="button"
+          className="shrink-0 rounded-xl bg-slate-600 px-5 py-3 text-base font-semibold text-white"
+        >
+          로그아웃
+        </Button>
       </section>
 
-      {/* 지원 현황 */}
-      <section className="mb-8">
-        지원 이력, 심사중, 달성 - entities 카드로 분리
-      </section>
-
-      {/* 최근 지원 공고 */}
-      <section className="mb-8">최근 지원 공고(카드 - entities)</section>
-
-      <div className="space-y-8">
-        {/* 나의 정보 */}
-        <MenuSection title="나의 정보">
+      <div className="space-y-10">
+        {/* 개인 정보 */}
+        <MenuSection title="개인 정보">
           <MenuItem
-            link="/mypage"
+            link="/mypage/eligibility"
             icon={<User size={20} />}
             label="지원 자격"
           />
           <MenuItem
-            link="/mypage"
+            link="/mypage/scrap"
             icon={<Heart size={20} />}
             label="관심 공고"
+          />
+          <MenuItem
+            link="/mypage/recent"
+            icon={<Eye size={20} />}
+            label="최근 열람 공고"
           />
         </MenuSection>
 
         {/* 고객 지원 */}
-        <CustomerSupportSection />
-
-        {/* 계정 설정 (로그아웃) */}
-        <MenuSection title=" 계정 설정">
+        <MenuSection title="고객 지원">
           <MenuItem
-            link="/mypage"
-            icon={<LogOut size={20} />}
-            label="알림 설정"
+            link="/mypage/faq"
+            icon={<FileText size={20} />}
+            label="자주 묻는 질문 (FAQ)"
           />
           <MenuItem
-            link="/mypage"
-            icon={<LogOut size={20} />}
-            label="로그아웃"
+            link="/mypage/terms"
+            icon={<FileText size={20} />}
+            label="서비스 이용약관"
+          />
+          <MenuItem
+            link="/mypage/privacy"
+            icon={<FileText size={20} />}
+            label="개인정보 처리방침"
           />
         </MenuSection>
+
+        {/* 탈퇴하기 */}
+        <div className="flex justify-end">
+          <button type="button" className="text-sm text-slate-300">
+            탈퇴하기
+          </button>
+        </div>
       </div>
-    </>
+    </div>
   );
 }
