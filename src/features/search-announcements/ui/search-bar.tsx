@@ -1,17 +1,20 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { SearchInput } from "@/src/shared/ui/search-input";
 import { useFilterStore } from "@/src/features/filter-announcements";
 
 export function SearchBar() {
   const keyword = useFilterStore((state) => state.appliedFilters.keyword);
   const setFilter = useFilterStore((state) => state.setFilter);
-  const [value, setValue] = useState(keyword || "");
 
-  useEffect(() => {
+  const [value, setValue] = useState(keyword || "");
+  const [prevKeyword, setPrevKeyword] = useState(keyword);
+
+  if (keyword !== prevKeyword) {
+    setPrevKeyword(keyword);
     setValue(keyword || "");
-  }, [keyword]);
+  }
 
   const handleSearch = (searchValue: string) => {
     setFilter("keyword", searchValue);
