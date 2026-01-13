@@ -1,58 +1,68 @@
 "use client";
 
+import Button from "@/src/shared/ui/button";
 import Card from "@/src/shared/ui/card";
+
+type InfoItem = {
+  label: string;
+  value: string;
+};
+
+const personalInfoList: InfoItem[] = [
+  { label: "생년월일", value: "1999.10.21" },
+  { label: "상태", value: "재직중" },
+  { label: "주소", value: "경기도 00시 00구 00로 333-3" },
+];
+
+const assetInfoList: InfoItem[] = [
+  { label: "월 평균 소득", value: "0원" },
+  { label: "총 자산 규모", value: "0원" },
+];
 
 export default function MyPageEligibilityPage() {
   return (
-    <div className="px-6 py-6 pb-12 space-y-6">
+    <div className="space-y-6 px-6 pb-12 pt-6">
       {/* 개인 정보 */}
       <Card padding="large" shadow="sm" className="rounded-3xl border-0">
-        <div className="flex items-center justify-between mb-4">
+        <div className="mb-4 flex items-center justify-between">
           <h2 className="text-lg font-semibold text-slate-900">개인 정보</h2>
-          <button type="button" className="text-sm font-medium text-blue-600">
+          <Button type="button" className="text-sm font-medium text-blue-600">
             수정
-          </button>
+          </Button>
         </div>
 
         <ul className="space-y-4 text-sm">
-          <li className="flex justify-between gap-4">
-            <span className="text-slate-600">생년월일</span>
-            <span className="text-slate-900">1999.10.21</span>
-          </li>
-
-          <li className="flex justify-between gap-4">
-            <span className="text-slate-600">상태</span>
-            <span className="text-slate-900">재직중</span>
-          </li>
-
-          <li className="flex justify-between gap-4">
-            <span className="text-slate-600">주소</span>
-            <span className="text-slate-900 text-right">
-              경기도 00시 00구 00로 333-3
-            </span>
-          </li>
+          {personalInfoList.map((item) => (
+            <li
+              key={item.label}
+              className="flex items-start justify-between gap-4"
+            >
+              <span className="text-slate-600">{item.label}</span>
+              <span className="text-right text-slate-900">{item.value}</span>
+            </li>
+          ))}
         </ul>
       </Card>
 
       {/* 자산 현황 */}
       <Card padding="large" shadow="sm" className="rounded-3xl border-0">
-        <div className="flex items-center justify-between mb-5">
+        <div className="mb-4 flex items-center justify-between">
           <h2 className="text-lg font-semibold text-slate-900">자산 현황</h2>
-          <button type="button" className="text-sm font-medium text-blue-600">
+          <Button type="button" className="text-sm font-medium text-blue-600">
             수정
-          </button>
+          </Button>
         </div>
 
         <ul className="space-y-4 text-sm">
-          <li className="flex justify-between gap-4">
-            <span className="text-slate-600">월 평균 소득</span>
-            <span className="text-slate-900">0원</span>
-          </li>
-
-          <li className="flex justify-between gap-4">
-            <span className="text-slate-600">총 자산 규모</span>
-            <span className="text-slate-900">0원</span>
-          </li>
+          {assetInfoList.map((item) => (
+            <li
+              key={item.label}
+              className="flex items-center justify-between gap-4"
+            >
+              <span className="text-slate-600">{item.label}</span>
+              <span className="text-slate-900">{item.value}</span>
+            </li>
+          ))}
         </ul>
       </Card>
     </div>
