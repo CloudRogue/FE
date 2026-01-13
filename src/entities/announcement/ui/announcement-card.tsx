@@ -1,12 +1,12 @@
 "use client";
 
-import { useMemo } from "react";
-import Image from "next/image";
+import type { Announcement } from "@/src/entities/announcement/model/types";
 import { OutboundAction } from "@/src/features/announcement-outbound";
 import { ScrapButton } from "@/src/features/announcement-scrap";
 import cn from "@/src/shared/lib/cn";
 import { Badge } from "@/src/shared/ui/badge";
-import type { Announcement } from "@/src/entities/announcement/model/types";
+import Image from "next/image";
+import { useMemo } from "react";
 
 const STATUS_MAP = {
   OPEN: "접수 중",
@@ -21,6 +21,7 @@ interface AnnouncementCardProps extends Announcement {
     end: string;
   };
   imageUrl?: string;
+  className?: string;
   [key: string]: any;
 }
 
@@ -36,6 +37,7 @@ export function AnnouncementCard({
   isScrapped = false,
   period,
   imageUrl = "",
+  className,
 }: AnnouncementCardProps) {
   const regionBadge = useMemo(
     () => fullAdres?.split(" ")[0]?.substring(0, 2) ?? "전국",
@@ -49,7 +51,12 @@ export function AnnouncementCard({
   );
 
   return (
-    <div className="p-5 bg-white border-b border-slate-100 last:border-none">
+    <div
+      className={cn(
+        "p-5 bg-white border-b border-slate-100 last:border-none",
+        className,
+      )}
+    >
       <div className="flex justify-between items-start mb-4">
         <div className="flex gap-2 flex-wrap">
           <Badge
@@ -63,9 +70,8 @@ export function AnnouncementCard({
           >
             {STATUS_MAP[status] ?? "확인 불가"}
           </Badge>
-
-          <SecondaryBadge>{regionBadge}</SecondaryBadge>
-          <SecondaryBadge>{publisherShort}</SecondaryBadge>
+          {regionBadge && <SecondaryBadge>{regionBadge}</SecondaryBadge>}
+          {publisherShort && <SecondaryBadge>{publisherShort}</SecondaryBadge>}
           {housingType && <SecondaryBadge>{housingType}</SecondaryBadge>}
         </div>
 
@@ -76,7 +82,7 @@ export function AnnouncementCard({
       </div>
 
       <div className="flex justify-between gap-4 mb-4">
-        <div className="flex-1">
+        <div className="flex-1 flex flex-col justify-between">
           <h2 className="text-[18px] font-bold text-slate-800 leading-tight break-keep">
             {title}
           </h2>
@@ -86,7 +92,7 @@ export function AnnouncementCard({
         </div>
 
         {/* 공고 이미지 영역 */}
-        <div className="relative w-20 h-20 bg-slate-100 rounded-xl overflow-hidden flex-shrink-0">
+        <div className="relative w-20 h-20 bg-slate-100 rounded-xl overflow-hidden shrink-0">
           {imageUrl ? (
             <Image
               src={imageUrl}
@@ -102,12 +108,14 @@ export function AnnouncementCard({
         </div>
       </div>
 
-      <OutboundAction
-        announcementId={announcementId}
-        externalApplyUrl={externalApplyUrl ?? ""}
-        status={status}
-        dDay={dDay ?? 0}
-      />
+      {externalApplyUrl && (
+        <OutboundAction
+          announcementId={announcementId}
+          externalApplyUrl={externalApplyUrl ?? ""}
+          status={status}
+          dDay={dDay ?? 0}
+        />
+      )}
     </div>
   );
 }
