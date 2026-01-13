@@ -1,55 +1,36 @@
 "use client";
 
-import { useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-
 import Button from "@/src/shared/ui/button";
 import Input from "@/src/shared/ui/input";
 import cn from "@/src/shared/lib/cn";
+import { useOnboardingStore } from "@/src/features/onboarding";
 
 const onlyDigits = (value: string) => value.replace(/\D/g, "");
-
 type Role = "householder" | "member";
 
 export default function Step4() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const { draft, updateDraft } = useOnboardingStore();
 
-  const [role, setRole] = useState<Role>(() => {
-    const value = searchParams.get("householdRole");
-    if (value === "householder" || value === "member") return value;
-    return "householder";
-  });
-
-  const householdSize = searchParams.get("householdSize") ?? "";
-
-  const replaceParams = (next: URLSearchParams) => {
-    router.replace(`${pathname}?${next.toString()}`);
-  };
-
-  const setQuery = (key: string, value?: string) => {
-    const next = new URLSearchParams(searchParams.toString());
-    if (!value) next.delete(key);
-    else next.set(key, value);
-    replaceParams(next);
-  };
+  const role: Role = draft.householdRole ?? "householder";
+  const householdSize = draft.householdSize ? String(draft.householdSize) : "";
 
   const handleHouseholdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value;
 
     if (raw === "") {
-      setQuery("householdSize");
+      updateDraft({ householdSize: undefined });
       return;
     }
 
-    const next = onlyDigits(raw);
-    setQuery("householdSize", next);
+    const cleaned = onlyDigits(raw);
+    const n = Number(cleaned);
+    if (!Number.isFinite(n)) return;
+
+    updateDraft({ householdSize: n });
   };
 
   const handleRoleSelect = (nextRole: Role) => {
-    setRole(nextRole);
-    setQuery("householdRole", nextRole);
+    updateDraft({ householdRole: nextRole });
   };
 
   const isHouseholderSelected = role === "householder";
