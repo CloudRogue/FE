@@ -11,6 +11,7 @@ interface SummaryCardProps {
 export default async function SummaryCard({
   announcementId,
 }: SummaryCardProps) {
+  // TODO: 쿼리 연결하기
   const { kvDigest } = await getAnnouncementSummary(String(announcementId));
   // const adminSummaryResult = await getAnnouncementSummary(
   //   String(announcementId),
