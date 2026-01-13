@@ -1,8 +1,17 @@
+"use client";
+
+import { Loader2 } from "lucide-react";
+
 export default function RootLoading() {
   return (
-    <>
-      <h1>로딩 페이지</h1>
-      <p>추후 작업 예정입니다.</p>
-    </>
+    <div className="flex flex-col items-center justify-center min-h-dvh w-full bg-white">
+      <Loader2
+        width={50}
+        height={50}
+        className="animate-spin text-gray-300"
+        strokeWidth={2}
+        style={{ animationDuration: "1s" }}
+      />
+    </div>
   );
 }
