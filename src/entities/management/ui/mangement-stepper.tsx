@@ -58,7 +58,7 @@ export function ManagementStepper({ status }: StepperProps) {
               <span
                 className={cn(
                   "text-sm font-semibold",
-                  isCompleted ? "text-blue-500" : "text-slate-100",
+                  isCompleted ? "text-blue-500" : "text-slate-400",
                 )}
               >
                 {step.label}

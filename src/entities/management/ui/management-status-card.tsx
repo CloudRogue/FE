@@ -12,7 +12,7 @@ function StatusItem({
   return (
     <div
       style={{ backgroundColor: colors.bg }}
-      className="flex flex-col gap-4 justify-between p-5 rounded-xl aspect-square w-full transition-transform active:scale-95"
+      className="flex flex-col gap-4 p-5 rounded-xl w-full h-auto"
     >
       <span className="text-[15px] text-slate-700">{label}</span>
       <span

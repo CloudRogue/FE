@@ -28,7 +28,7 @@ export const MANAGEMENT_STATUS = {
       buttonBg: "#FEF9F1",
     },
     position: "0%",
-    progress: 50,
+    progress: 28,
   },
   [MANAGEMENT_STATUS_TYPE.FINAL]: {
     label: "최종 대기",
@@ -40,7 +40,7 @@ export const MANAGEMENT_STATUS = {
       buttonBg: "#FDF5F5",
     },
     position: "-2%",
-    progress: 96,
+    progress: 73,
   },
   [MANAGEMENT_STATUS_TYPE.CLOSED]: {
     label: "발표 완료",
@@ -64,9 +64,9 @@ export const MANAGEMENT_TABS = [
 ] as const;
 
 export const STEPPER_STEPS = [
-  { id: MANAGEMENT_STATUS_TYPE.APPLYING, label: "지원 중" },
-  { id: MANAGEMENT_STATUS_TYPE.PENDING, label: "서류 대기" },
-  { id: MANAGEMENT_STATUS_TYPE.FINAL, label: "최종 대기" },
+  { id: MANAGEMENT_STATUS_TYPE.APPLYING, label: "지원 완료" },
+  { id: MANAGEMENT_STATUS_TYPE.PENDING, label: "서류 발표" },
+  { id: MANAGEMENT_STATUS_TYPE.FINAL, label: "최종 발표" },
 ] as const;
 
 export type ManagementStatus = keyof typeof MANAGEMENT_STATUS;
