@@ -18,8 +18,6 @@ export const onboardingSchema = z.object({
 
   householdSize: z.number().int().min(1, "가구원 수는 1명 이상이어야 합니다"),
 
-  isHouseholder: z.boolean(),
-
   householdRole: z.enum(HouseholdRoleValues, {
     message: "세대 내 역할은 필수입니다",
   }),
@@ -29,20 +27,6 @@ export const onboardingSchema = z.object({
     .int()
     .min(1, "소득분위는 1 이상이어야 합니다")
     .max(10, "소득분위는 10 이하여야 합니다"),
-});
-
-export const onboardingDraftSchema = z.object({
-  name: z.string(),
-  gender: z.enum(["male", "female"]),
-  birthYear: z.string(),
-  birthMonth: z.string(),
-  birthDay: z.string(),
-  regionCity: z.string(),
-  regionDistrict: z.string(),
-  householdSize: z.coerce.number().int().min(1),
-  householdRole: z.enum(["householder", "member"]),
-  monthlyIncome: z.coerce.number(),
-  incomeDecile: z.coerce.number().int().min(1).max(10),
 });
 
 export type OnboardingFormData = z.infer<typeof onboardingSchema>;
