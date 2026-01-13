@@ -15,22 +15,24 @@ export function ScrapList() {
     queryFn: () => getScrappedAnnouncements({ page: 0, size: 20 }),
   });
 
+  const items = data?.items;
+
   const sortedItems = useMemo(() => {
-    if (!data?.items) return [];
-    const items = [...data.items];
+    if (!items) return [];
+    const result = [...items];
 
     switch (appliedFilters.sort) {
       case "DEADLINE":
-        return items.sort(
+        return result.sort(
           (a, b) =>
             new Date(a.endDate).getTime() - new Date(b.endDate).getTime(),
         );
       case "LATEST":
-        return items.reverse();
+        return result.reverse();
       default:
-        return items;
+        return result;
     }
-  }, [data?.items, appliedFilters.sort]);
+  }, [items, appliedFilters.sort]);
 
   return (
     <>
@@ -55,9 +57,9 @@ export function ScrapList() {
               isScrapped={true}
               housingType={item.provider}
               fullAdres={null}
-              startDate={null as any}
+              startDate={null as unknown as string}
               endDate={item.endDate}
-              publishedAt={null as any}
+              publishedAt={null as unknown as string}
               externalApplyUrl=""
               className="rounded-2xl"
             />
