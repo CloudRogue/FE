@@ -24,5 +24,5 @@ export {
 } from "@/src/entities/announcement-detail/model/announcement.types";
 
 // ui
-export { default as AnnouncementCard } from "@/src/entities/announcement-detail/ui/announcement-card";
+export { AnnouncementCard } from "@/src/entities/announcement/ui/announcement-card";
 export { OverviewRow } from "@/src/entities/announcement-detail/ui/overview-row";
