@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { z } from "zod";
 import { Api } from "@/src/shared/api/api";
 import Button from "@/src/shared/ui/button";
-import Card from "@/src/shared/ui/card"; 
+import Card from "@/src/shared/ui/card";
 
 const BannerResponseSchema = z
   .object({
@@ -21,42 +21,31 @@ export function HomeBanner() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchBanner = async () => {
-      try {
-        const data = await Api.get(
-          "/api/announcements/banner",
-          BannerResponseSchema,
-        );
-        setBanner(data);
-      } catch (error) {
-        console.error("배너 로드 실패:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchBanner();
+    Api.get("/api/announcements/banner", BannerResponseSchema)
+      .then((data) => setBanner(data))
+      .catch(() => setBanner(null))
+      .finally(() => setIsLoading(false));
   }, []);
 
   return (
     <section className="px-5 py-6">
       <Card
         isLoading={isLoading}
-        padding="none" 
-        shadow="sm"
-        className="rounded-[32px] border-slate-50 overflow-hidden"
+        padding="none"
+        shadow="none"
+        className="rounded-[32px] border-slate-100 bg-white"
       >
-        <div className="p-10 flex flex-col items-center text-center">
+        <div className="p-10 flex flex-col items-start text-left">
           {banner ? (
             <>
               <span className="text-[#3B82F6] text-sm font-bold mb-2">
                 #{banner.reasonTag}
               </span>
-              <h2 className="text-[20px] font-bold text-slate-900 leading-tight mb-8 whitespace-pre-line">
+              <h2 className="text-[22px] font-bold text-slate-900 leading-tight mb-8">
                 {banner.title}
               </h2>
-              <Button className="w-full h-[56px] bg-[#3B82F6] text-white rounded-2xl text-lg font-bold">
-                공고 상세보기
+              <Button className="w-full h-[56px] bg-[#3B82F6] text-white rounded-2xl text-[16px] font-bold">
+                공고 확인하기
               </Button>
             </>
           ) : (
@@ -67,7 +56,7 @@ export function HomeBanner() {
               <p className="text-slate-500 text-[15px] mb-8">
                 복잡한 청년 주택 공고, 이제 간단하게 찾아보세요.
               </p>
-              <Button className="w-full h-[56px] bg-[#3B82F6] text-white rounded-2xl text-lg font-bold">
+              <Button className="w-full h-[56px] bg-[#3B82F6] text-white rounded-2xl text-[16px] font-bold">
                 집착 시작하기
               </Button>
             </>
