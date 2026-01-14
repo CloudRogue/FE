@@ -19,25 +19,19 @@ interface FilterState {
   };
   appliedFilters: AnnouncementFilterParams;
 
-  // Actions
   toggleFilter: (tab: FilterTab) => void;
   closeFilter: () => void;
   setActiveTab: (tab: FilterTab) => void;
   setStatusTab: (status: StatusType) => void;
   setIsPersonalized: (enabled: boolean) => void;
-
-  // 임시 필터 설정 (칩 선택 시)
   setTempFilter: (
     key: keyof FilterState["tempFilters"],
     value: string | undefined,
   ) => void;
-
-  // 즉시 필터 설정 (검색어 입력 등)
   setFilter: <K extends keyof AnnouncementFilterParams>(
     key: K,
     value: AnnouncementFilterParams[K],
   ) => void;
-
   setSort: (sort: SortType) => void;
   applyFilters: () => void;
   resetFilters: () => void;
@@ -55,7 +49,7 @@ export const useFilterStore = create<FilterState>((set) => ({
   activeTab: "region",
   statusTab: "OPEN",
   isPersonalized: false,
-  tempFilters: {},
+  tempFilters: initialFilterState,
   appliedFilters: { sort: "DEADLINE" },
 
   toggleFilter: (tab) =>
@@ -100,9 +94,9 @@ export const useFilterStore = create<FilterState>((set) => ({
     })),
 
   resetFilters: () =>
-    set((state) => ({
-      tempFilters: {},
-      appliedFilters: { sort: "DEADLINE" as const },
+    set({
+      tempFilters: initialFilterState,
+      appliedFilters: { sort: "DEADLINE" },
       isFilterOpen: false,
-    })),
+    }),
 }));

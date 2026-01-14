@@ -10,6 +10,7 @@ import {
   DropdownItem,
   DropdownTrigger,
 } from "@/src/shared/ui/dropdown";
+import Button from "@/src/shared/ui/button";
 
 const SORT_OPTIONS = [
   { label: "마감임박순", value: "DEADLINE" },
@@ -37,20 +38,24 @@ export function SortSelector() {
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [setIsOpen]);
 
   const handleSelect = (value: (typeof SORT_OPTIONS)[number]["value"]) => {
     setSort(value);
-    setIsOpen(false); // 아이템 선택 시 닫힘 상태 반영
+    setIsOpen(false);
   };
 
   return (
     <div ref={containerRef}>
       <Dropdown>
         <DropdownTrigger>
-          <button
+          <Button
             onClick={() => setIsOpen(!isOpen)}
-            className="flex items-center gap-1 text-[13px] font-medium text-slate-600 active:opacity-70 transition-opacity"
+            variant="ghost"
+            className={cn(
+              "h-auto p-0 flex items-center gap-1 text-[13px] font-medium text-slate-600 bg-transparent hover:bg-transparent shadow-none border-none",
+              "active:opacity-70 transition-opacity",
+            )}
           >
             {currentSort.label}
             <ChevronDown
@@ -60,7 +65,7 @@ export function SortSelector() {
                 isOpen && "rotate-180",
               )}
             />
-          </button>
+          </Button>
         </DropdownTrigger>
 
         <DropdownContent className="w-32">
