@@ -190,7 +190,7 @@ function DocumentManager({
       </div>
 
       <div className="flex flex-wrap gap-2 mt-3">
-        {documents.map((doc: any, idx: number) => (
+        {documents.map((doc: string | ResultDocument, idx: number) => (
           <div
             key={idx}
             className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-blue-100 text-blue-700 rounded-lg text-xs font-bold shadow-sm transition-all hover:border-blue-300"
