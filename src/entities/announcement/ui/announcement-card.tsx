@@ -22,7 +22,6 @@ interface AnnouncementCardProps extends Announcement {
   };
   imageUrl?: string;
   className?: string;
-  [key: string]: any;
 }
 
 export function AnnouncementCard({
@@ -44,7 +43,6 @@ export function AnnouncementCard({
     [fullAdres],
   );
 
-  const dDayDisplay = dDay !== null ? `D-${dDay}` : "상시";
   const publisherShort = useMemo(
     () => publisher?.split(" ")[0] ?? "기관",
     [publisher],
@@ -77,7 +75,7 @@ export function AnnouncementCard({
 
         <ScrapButton
           announcementId={announcementId}
-          initialIsScrapped={isScrapped}
+          initialIsScrapped={isScrapped ?? false} // null 대응
         />
       </div>
 
@@ -91,7 +89,6 @@ export function AnnouncementCard({
           </p>
         </div>
 
-        {/* 공고 이미지 영역 */}
         <div className="relative w-20 h-20 bg-slate-100 rounded-xl overflow-hidden shrink-0">
           {imageUrl ? (
             <Image
@@ -111,7 +108,7 @@ export function AnnouncementCard({
       {externalApplyUrl && (
         <OutboundAction
           announcementId={announcementId}
-          externalApplyUrl={externalApplyUrl ?? ""}
+          externalApplyUrl={externalApplyUrl}
           status={status}
           dDay={dDay ?? 0}
         />
