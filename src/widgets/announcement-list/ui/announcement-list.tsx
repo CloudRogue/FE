@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
 import { useAnnouncements } from "@/src/entities/announcement/api/use-announcements";
 import { AnnouncementCard } from "@/src/entities/announcement/ui/announcement-card";
@@ -9,8 +8,7 @@ import { useEffect } from "react";
 import type { Announcement } from "@/src/entities/announcement/model/types";
 
 export function AnnouncementList() {
-  const [isPersonalized, setIsPersonalized] = useState(false);
-
+  const isPersonalized = useFilterStore((state) => state.isPersonalized);
   const appliedFilters = useFilterStore((state) => state.appliedFilters);
 
   const {
@@ -26,6 +24,7 @@ export function AnnouncementList() {
 
   const announcements: Announcement[] =
     data?.pages.flatMap((page) => page.data) ?? [];
+
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
@@ -54,9 +53,9 @@ export function AnnouncementList() {
               start: item.startDate,
               end: item.endDate,
             }}
-            isScrapped={false}
-            externalApplyUrl={item.externalApplyUrl || ""}
-            fullAdres=""
+            isScrapped={item.isScrapped ?? false}
+            externalApplyUrl={item.externalApplyUrl ?? ""}
+            fullAdres={item.fullAdres ?? ""}
           />
         ))}
       </div>
