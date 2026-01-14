@@ -10,6 +10,8 @@ export { default as Step5 } from "@/src/features/onboarding/ui/steps/step-5";
 export { default as OnboardingShell } from "@/src/features/onboarding/ui/onboarding-shell";
 export { default as OnboardingCompleteDrawer } from "@/src/features/onboarding/ui/onboarding-complete-drawer";
 
-// model
+// model - types / transform / store / validators
 export * from "@/src/features/onboarding/model/onboarding.types";
 export * from "@/src/features/onboarding/model/onboarding-transform";
+export * from "@/src/features/onboarding/model/onboarding.store";
+export * from "@/src/features/onboarding/model/onboarding.validators";

@@ -1,7 +1,6 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-
+import { useOnboardingStore } from "@/src/features/onboarding";
 import Input from "@/src/shared/ui/input";
 import Label from "@/src/shared/ui/label";
 
@@ -9,36 +8,25 @@ const onlyDigits = (value: string) => value.replace(/\D/g, "");
 const clamp = (value: string, maxLength: number) => value.slice(0, maxLength);
 
 export default function Step2() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const { draft, updateDraft } = useOnboardingStore();
 
-  const birthYear = searchParams.get("birthYear") ?? "";
-  const birthMonth = searchParams.get("birthMonth") ?? "";
-  const birthDay = searchParams.get("birthDay") ?? "";
-
-  const replaceQuery = (key: string, value: string) => {
-    const next = new URLSearchParams(searchParams.toString());
-
-    if (value === "") next.delete(key);
-    else next.set(key, value);
-
-    router.replace(`${pathname}?${next.toString()}`);
-  };
+  const birthYear = draft.birthYear ?? "";
+  const birthMonth = draft.birthMonth ?? "";
+  const birthDay = draft.birthDay ?? "";
 
   const handleYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const next = clamp(onlyDigits(e.target.value), 4);
-    replaceQuery("birthYear", next);
+    updateDraft({ birthYear: next || undefined });
   };
 
   const handleMonthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const next = clamp(onlyDigits(e.target.value), 2);
-    replaceQuery("birthMonth", next);
+    updateDraft({ birthMonth: next || undefined });
   };
 
   const handleDayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const next = clamp(onlyDigits(e.target.value), 2);
-    replaceQuery("birthDay", next);
+    updateDraft({ birthDay: next || undefined });
   };
 
   return (

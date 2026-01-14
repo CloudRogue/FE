@@ -1,9 +1,9 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-import type { OnboardingDraft } from "@/src/features/onboarding/model/onboarding.types";
+import type { OnboardingDraft } from "@/src/features/onboarding";
+import { useOnboardingStore } from "@/src/features/onboarding";
 import Button from "@/src/shared/ui/button";
 import Input from "@/src/shared/ui/input";
 import Label from "@/src/shared/ui/label";
@@ -17,35 +17,20 @@ const GENDER_MAP = {
 } as const satisfies Record<Gender, Gender>;
 
 export default function Step1() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const { draft, updateDraft } = useOnboardingStore();
 
-  const [nameValue, setNameValue] = useState(
-    () => searchParams.get("name") ?? "",
-  );
+  const [nameValue, setNameValue] = useState(() => draft.name ?? "");
   const isComposingRef = useRef(false);
 
   const gender = useMemo<Gender | null>(() => {
-    const value = searchParams.get("gender");
+    const value = draft.gender;
     if (!value) return null;
     return value in GENDER_MAP ? (value as Gender) : null;
-  }, [searchParams]);
+  }, [draft.gender]);
 
-  const replaceQuery = (key: string, value: string | null) => {
-    const next = new URLSearchParams(searchParams.toString());
-
-    if (!value) {
-      next.delete(key);
-    } else {
-      next.set(key, value);
-    }
-
-    router.replace(`${pathname}?${next.toString()}`);
-  };
-
-  const commitNameToQuery = (value: string) => {
-    replaceQuery("name", value.trim() ? value : null);
+  const commitName = (value: string) => {
+    const next = value.trim() ? value : undefined;
+    updateDraft({ name: next });
   };
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,7 +38,7 @@ export default function Step1() {
     setNameValue(next);
 
     if (isComposingRef.current) return;
-    commitNameToQuery(next);
+    commitName(next);
   };
 
   const handleNameCompositionStart = () => {
@@ -67,16 +52,16 @@ export default function Step1() {
 
     const next = e.currentTarget.value;
     setNameValue(next);
-    commitNameToQuery(next);
+    commitName(next);
   };
 
   const handleNameBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     if (isComposingRef.current) return;
-    commitNameToQuery(e.currentTarget.value);
+    commitName(e.currentTarget.value);
   };
 
   const handleGenderSelect = (nextGender: Gender) => {
-    replaceQuery("gender", nextGender);
+    updateDraft({ gender: nextGender });
   };
 
   return (
