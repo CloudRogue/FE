@@ -14,6 +14,7 @@ export const ROUTES = {
   ONBOARDING: "/onboarding",
   ADMIN: "/admin",
   ADMIM_REVIEW: "/admin/review",
+  ADMIN_REVIEW_DETAIL: (id: number) => `/admin/review/${id}`,
   ADMIN_REGISTERED: "/admin/registered",
 } as const;
 
