@@ -23,7 +23,7 @@ export function ReviewDetailOneSection() {
   return (
     <form
       onSubmit={handleNextStep}
-      className="animate-in fade-in slide-in-from-bottom-2 duration-500"
+      className="animate-in fade-in slide-in-from-bottom-2 duration-500 flex flex-col gap-5"
     >
       {/* 공고 기본 정보 */}
       <DetailFormBasicInfo />
