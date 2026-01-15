@@ -19,8 +19,8 @@ export { DetailFormBasicInfo } from "@/src/features/admin-review-detail/ui/detai
 export { DetailFormSchedule } from "@/src/features/admin-review-detail/ui/detail-form-schedule";
 export { DetailFormSummary } from "@/src/features/admin-review-detail/ui/detail-form-summary";
 export { DetailFormrRquirements } from "@/src/features/admin-review-detail/ui/detail-from-requirements";
-export { DetailInputRow } from "@/src/features/admin-review-detail/ui/detail-input-row";
 export { RegionTag } from "@/src/features/admin-review-detail/ui/region-tag";
 export { RequirementCard } from "@/src/features/admin-review-detail/ui/requirements-card";
 export { RequirementCardOption } from "@/src/features/admin-review-detail/ui/requirements-card-option";
+export { RequirementsInputRow } from "@/src/features/admin-review-detail/ui/requirements-input-row";
 export { ScheduleDocument } from "@/src/features/admin-review-detail/ui/schedule-document";

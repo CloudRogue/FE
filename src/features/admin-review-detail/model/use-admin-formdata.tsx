@@ -50,12 +50,12 @@ interface AdminFormData {
   requirements: RequirementItem[];
   // 일정 및 서류 관리
   schedule: {
-    applyStart: string;
-    applyEnd: string;
-    requiredDocuments: string[]; // 주민등록등본 등
-    resultDate: string;
-    finalDate: string;
-    resultDocuments: ResultDocument[];
+    applyStart: string; // 접수 시작일
+    applyEnd: string; // 접수 마감일
+    requiredDocuments: string[]; // 공고 접수 시 필수 서류 리스트
+    resultDate: string; // 서류 대상자 발표일
+    resultDocuments: ResultDocument[]; // 서류 대상 시 필수 서류 리스트
+    finalDate: string; // 최종 당첨자 및 발표일
   };
 }
 

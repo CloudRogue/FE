@@ -1,7 +1,8 @@
+// 지역 태그 칩
+
 import Button from "@/src/shared/ui/button";
 import { X } from "lucide-react";
 
-// 지역 태그 칩
 interface RegionTagProps {
   label: string;
   onRemove?: () => void | null;

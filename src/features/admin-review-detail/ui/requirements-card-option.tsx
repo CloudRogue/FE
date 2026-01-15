@@ -1,3 +1,5 @@
+// 자격 조건 select 전용 option 컴포넌트
+
 import Button from "@/src/shared/ui/button";
 import Input from "@/src/shared/ui/input";
 import { X } from "lucide-react";

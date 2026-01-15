@@ -1,3 +1,5 @@
+// detail 기본 필드 및 인풋 필드
+
 import cn from "@/src/shared/lib/cn";
 import Field from "@/src/shared/ui/field";
 import Input from "@/src/shared/ui/input";

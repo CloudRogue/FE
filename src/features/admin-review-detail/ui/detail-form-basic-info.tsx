@@ -1,3 +1,5 @@
+// 공고 기본 정보 섹션 컴포넌트
+
 import {
   ANNOUNCEMENT_TYPE_MAP,
   APPLY_LINK_OPTIONS,
@@ -42,7 +44,7 @@ export function DetailFormBasicInfo() {
   }, [basicInfo.provider, basicInfo.announcementType, handleChange]);
 
   return (
-    <div className="bg-white border border-slate-100 rounded-2xl shadow-sm p-8 space-y-8">
+    <section className="bg-white border border-slate-100 rounded-2xl p-8 space-y-8">
       <h2 className="text-[18px] font-bold text-slate-800">공고 기본 정보</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
@@ -61,7 +63,7 @@ export function DetailFormBasicInfo() {
           options={PROVIDER_OPTIONS}
           value={basicInfo.provider}
           onChange={(e) => handleChange("provider", e.target.value)}
-          className="border-slate-200 font-bold text-slate-700 rounded-xl"
+          className="p-2 border-slate-200 font-bold text-slate-700 rounded-xl"
         />
 
         {/* 주택 유형 */}
@@ -70,7 +72,7 @@ export function DetailFormBasicInfo() {
           options={currentAnnouncementOptions}
           value={basicInfo.announcementType}
           onChange={(e) => handleChange("announcementType", e.target.value)}
-          className="border-slate-200 font-bold text-slate-700 rounded-xl"
+          className="p-2 border-slate-200 font-bold text-slate-700 rounded-xl"
         />
 
         {/* 원문 링크 */}
@@ -91,6 +93,6 @@ export function DetailFormBasicInfo() {
           className="border-slate-200 font-bold text-slate-700 rounded-xl"
         />
       </div>
-    </div>
+    </section>
   );
 }

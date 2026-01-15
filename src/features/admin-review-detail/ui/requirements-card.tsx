@@ -2,9 +2,9 @@
 "use clinet";
 
 import {
-  DetailInputRow,
   RequirementCardOption,
   RequirementItem,
+  RequirementsInputRow,
   TYPE_OPTION,
   type RequirementType,
 } from "@/src/features/admin-review-detail";
@@ -42,14 +42,14 @@ export function RequirementCard({
       </Button>
 
       <div className="space-y-3 pr-8">
-        <DetailInputRow
+        <RequirementsInputRow
           label="title"
           value={title}
           onChange={(v) => onUpdate({ title: v })}
           placeholder="내용을 입력해주세요"
           disabled={!isNew}
         />
-        <DetailInputRow
+        <RequirementsInputRow
           label="value"
           value={value}
           onChange={(v) => onUpdate({ value: v })}
@@ -65,14 +65,14 @@ export function RequirementCard({
           btnClassName="p-0 border-0 bg-transparent py-2"
         >
           <div className="space-y-3">
-            <DetailInputRow
+            <RequirementsInputRow
               label="question"
               value={question}
               onChange={(v) => onUpdate({ question: v })}
               placeholder="내용을 입력해주세요"
               disabled={!isNew}
             />
-            <DetailInputRow
+            <RequirementsInputRow
               label="description"
               value={description}
               onChange={(v) => onUpdate({ description: v })}

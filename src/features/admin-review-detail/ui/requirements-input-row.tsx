@@ -1,8 +1,10 @@
+// 개별 자격 조건 인풋 행
+
 import cn from "@/src/shared/lib/cn";
 import Input from "@/src/shared/ui/input";
 import { memo } from "react";
 
-interface DetailInputRowProps {
+interface RequirementsInputRowProps {
   label: "title" | "question" | "description" | "value";
   value: string;
   onChange: (value: string) => void;
@@ -11,7 +13,7 @@ interface DetailInputRowProps {
   disabled?: boolean;
 }
 
-export const DetailInputRow = memo(
+export const RequirementsInputRow = memo(
   ({
     label,
     value,
@@ -19,10 +21,10 @@ export const DetailInputRow = memo(
     placeholder,
     isBold,
     disabled,
-  }: DetailInputRowProps) => {
+  }: RequirementsInputRowProps) => {
     return (
       <div className="flex items-center gap-4">
-        <div className="w-20 text-center py-1.5 bg-slate-200 text-slate-500 text-[11px] font-bold rounded-md uppercase shrink-0">
+        <div className="w-22 text-center py-1.5 bg-slate-200 text-slate-500 text-[11px] font-bold rounded-md uppercase shrink-0">
           {label}
         </div>
         <Input
@@ -41,4 +43,4 @@ export const DetailInputRow = memo(
   },
 );
 
-DetailInputRow.displayName = "DetailInputRow";
+RequirementsInputRow.displayName = "RequirementsInputRow";

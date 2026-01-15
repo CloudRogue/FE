@@ -1,3 +1,5 @@
+// 공고 개요 섹션
+
 import {
   DetailField,
   SummaryItem,
@@ -7,13 +9,6 @@ import { RegionTag } from "@/src/features/admin-review-detail/ui/region-tag";
 import Button from "@/src/shared/ui/button";
 import { TextArea } from "@/src/shared/ui/textarea";
 import { Plus } from "lucide-react";
-
-interface SummaryData {
-  target: string;
-  method: string;
-  regions: string[];
-  description: string;
-}
 
 export function DetailFormSummary() {
   const { formData, updateSection, addItem, removeItem } = useAdminFormStore();
@@ -34,7 +29,7 @@ export function DetailFormSummary() {
   };
 
   return (
-    <div className="bg-white border border-slate-100 rounded-2xl p-8 space-y-8">
+    <section className="bg-white border border-slate-100 rounded-2xl p-8 space-y-8">
       <h2 className="text-[18px] font-bold text-slate-800">공고 개요</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
@@ -104,6 +99,6 @@ export function DetailFormSummary() {
           />
         </div>
       </div>
-    </div>
+    </section>
   );
 }

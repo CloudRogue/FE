@@ -1,3 +1,5 @@
+// 공고 일정 및 지원 관리 섹션
+
 import {
   DetailField,
   ScheduleDocument,
@@ -13,7 +15,7 @@ export function DetailFormSchedule() {
   };
 
   return (
-    <div className="bg-white border border-slate-100 rounded-2xl shadow-sm p-8 space-y-10">
+    <section className="bg-white border border-slate-100 rounded-2xl p-8 space-y-8">
       <h2 className="text-[18px] font-bold text-slate-800">
         공고 일정 및 지원 관리
       </h2>
@@ -75,7 +77,7 @@ export function DetailFormSchedule() {
           * 최종 대기 시 당첨 유의 사항은 공고 요약글과 동일하게 들어갑니다.
         </p>
       </ScheduleSection>
-    </div>
+    </section>
   );
 }
 

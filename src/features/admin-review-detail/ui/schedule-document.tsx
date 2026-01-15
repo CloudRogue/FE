@@ -1,3 +1,4 @@
+// 서류 종류 업로드 컴포넌트
 "use clinet";
 
 import {
