@@ -149,7 +149,7 @@ export const useAdminFormStore = create<AdminFormStore>((set) => ({
     set(
       produce((state: AdminFormStore) => {
         if (path === "requirements") {
-          // Requirements는 id(string) 기반 삭제 우선
+          // Requirements는 id(string) 기반 삭제
           if (typeof idOrIndex === "string") {
             state.formData.requirements = state.formData.requirements.filter(
               (req) => req.id !== idOrIndex,
@@ -164,7 +164,6 @@ export const useAdminFormStore = create<AdminFormStore>((set) => ({
             string,
           ];
 
-          // 타입 안전하게 배열 추출
           const targetArray = (
             state.formData[parent as keyof AdminFormData] as Record<
               string,
