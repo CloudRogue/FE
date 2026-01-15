@@ -9,7 +9,6 @@ export {
   useAdminFormStore,
   type RequirementItem,
   type RequirementType,
-  type ResultDocument,
   type SummaryItem,
 } from "@/src/features/admin-review-detail/model/use-admin-formdata";
 
@@ -24,6 +23,7 @@ export { RequirementCard } from "@/src/features/admin-review-detail/ui/requireme
 export { RequirementCardOption } from "@/src/features/admin-review-detail/ui/requirements/requirements-card-option";
 export { RequirementsInputRow } from "@/src/features/admin-review-detail/ui/requirements/requirements-input-row";
 //
+export { AdminReviewSubmitButton } from "@/src/features/admin-review-detail/ui/admin-review-submit-button";
 export { DetailField } from "@/src/features/admin-review-detail/ui/detail-field";
 export { RegionTag } from "@/src/features/admin-review-detail/ui/region-tag";
 export { ScheduleDocument } from "@/src/features/admin-review-detail/ui/schedule-document";
