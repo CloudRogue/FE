@@ -14,6 +14,8 @@ export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
 
+  const KAKAO_AUTH_URL = "http://43.202.161.219/oauth2/authorization/kakao";
+
   const config = PAGE_CONFIG[pathname];
   const isAnnDetail = ROUTE_CHECK.isAnnouncementDetail(pathname);
 
@@ -71,11 +73,12 @@ export default function Header() {
         {/* 우측 영역 */}
         <div className="flex min-w-25 justify-end z-10">
           {pathname === ROUTES.HOME && (
-            <Link href={ROUTES.LOGIN}>
-              <Button className="h-9 px-5 bg-black text-white rounded-lg font-bold text-sm">
-                로그인
-              </Button>
-            </Link>
+            <Button
+              onClick={() => (window.location.href = KAKAO_AUTH_URL)}
+              className="h-9 px-5 bg-black text-white rounded-lg font-bold text-sm"
+            >
+              로그인
+            </Button>
           )}
           {isAnnDetail && (
             <Button

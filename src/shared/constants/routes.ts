@@ -6,9 +6,11 @@ export const ROUTES = {
   ANNOUNCEMENT_DETAIL: (id: string) => `/announcement/${id}`,
   MANAGEMENT: "/management", // 지원 관리
   MYPAGE: "/mypage", // 마이페이지
-  // TODO: 마이페이지 경로 수정 필요
-  MYPAGE_QUALIFICATION: "/mypage/qualification",
-  MYPAGE_SCRAP: "/mypage/scrap",
+  MYPAGE_FAQ: "/mypage/faq", // 자주 묻는 질문
+  MYPAGE_IQUIRY: "/mypage/iquiry", // 1:1 문의
+  MYPAGE_TERMS: "/mypage/terms", // 이용 약관
+  MYPAGE_ELIGIBILITY: "/mypage/eligibility", // 내 지원 자격
+  MYPAGE_SCRAP: "/mypage/scrap", // 관심공고
   ONBOARDING: "/onboarding",
 } as const;
 
@@ -20,7 +22,10 @@ export const PAGE_CONFIG: Record<string, { title: string; type: HeaderType }> =
     [ROUTES.MANAGEMENT]: { title: "지원 관리", type: "LEFT_TITLE" },
     [ROUTES.MYPAGE]: { title: "마이페이지", type: "LEFT_TITLE" },
     [ROUTES.ANNOUNCEMENT]: { title: "주택 공고", type: "CENTER_TITLE" },
-    [ROUTES.MYPAGE_QUALIFICATION]: {
+    [ROUTES.MYPAGE_FAQ]: { title: "자주 묻는 질문", type: "CENTER_TITLE" },
+    [ROUTES.MYPAGE_IQUIRY]: { title: "1:1 문의", type: "CENTER_TITLE" },
+    [ROUTES.MYPAGE_TERMS]: { title: "이용 약관", type: "CENTER_TITLE" },
+    [ROUTES.MYPAGE_ELIGIBILITY]: {
       title: "내 지원 자격",
       type: "CENTER_TITLE",
     },
