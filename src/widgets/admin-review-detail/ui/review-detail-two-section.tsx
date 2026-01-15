@@ -56,7 +56,7 @@ export function ReviewDetailTwoSection() {
             <PreviewRow label="월 임대료 (최소)" value={summary.rent} />
             <PreviewRow
               label="지역"
-              value={summary.regions.join(", ")}
+              value={summary.regions}
               vertical
               badge={true}
             />

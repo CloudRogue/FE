@@ -41,8 +41,10 @@ export function ScheduleForm() {
         <ScheduleDocument
           title="공고 접수 시 필수 서류 리스트"
           documents={schedule.requiredDocuments}
-          onAdd={(name: string) => addItem("requiredDocuments", name)}
-          onRemove={(idx: number) => removeItem("requiredDocuments", idx)}
+          onAdd={(name: string) => addItem("schedule.requiredDocuments", name)}
+          onRemove={(idx: number) =>
+            removeItem("schedule.requiredDocuments", idx)
+          }
         />
       </ScheduleSection>
 
@@ -59,8 +61,10 @@ export function ScheduleForm() {
           title="서류 대상 시 필수 서류 리스트"
           documents={schedule.resultDocuments}
           hasTargetSelect
-          onAdd={(name: string) => addItem("resultDocuments", name)}
-          onRemove={(idx: number) => removeItem("resultDocuments", idx)}
+          onAdd={(name: string) => addItem("schedule.resultDocuments", name)}
+          onRemove={(idx: number) =>
+            removeItem("schedule.resultDocuments", idx)
+          }
         />
       </ScheduleSection>
 

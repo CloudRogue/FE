@@ -2,7 +2,6 @@
 
 import {
   ANNOUNCEMENT_TYPE_MAP,
-  APPLY_LINK_OPTIONS,
   DetailField,
   PROVIDER_OPTIONS,
   useAdminFormStore,
@@ -85,12 +84,12 @@ export function BasicInfoForm() {
         />
 
         {/* 신청 링크 */}
-        <Select
+        <DetailField
           label="신청 링크"
-          options={APPLY_LINK_OPTIONS}
+          required
+          placeholder="https://example.com/..."
           value={basicInfo.applyLink}
           onChange={(e) => handleChange("applyLink", e.target.value)}
-          className="border-slate-200 font-bold text-slate-700 rounded-xl"
         />
       </div>
     </section>

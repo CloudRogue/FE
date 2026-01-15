@@ -24,7 +24,7 @@ export function SummaryForm() {
   const handleAddRegion = () => {
     const newRegion = prompt("추가할 지역명을 입력하세요 (예: 송파구)");
     if (newRegion && !summary.regions.includes(newRegion)) {
-      addItem("regions", newRegion);
+      addItem("summary.regions", newRegion);
     }
   };
 
@@ -73,7 +73,7 @@ export function SummaryForm() {
                 <RegionTag
                   key={`${region}-${index}`}
                   label={region}
-                  onRemove={() => removeItem("regions", index)}
+                  onRemove={() => removeItem("summary.regions", index)}
                 />
               ))}
 

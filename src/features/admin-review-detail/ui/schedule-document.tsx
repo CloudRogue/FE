@@ -1,10 +1,7 @@
 // 서류 종류 업로드 컴포넌트
 "use clinet";
 
-import {
-  DetailField,
-  ResultDocument,
-} from "@/src/features/admin-review-detail";
+import { DetailField } from "@/src/features/admin-review-detail";
 import Button from "@/src/shared/ui/button";
 import Select from "@/src/shared/ui/select";
 import { Plus, X } from "lucide-react";
@@ -12,7 +9,7 @@ import { useState } from "react";
 
 interface ScheduleDocumentProps {
   title: string;
-  documents: (string | ResultDocument)[];
+  documents: string[];
   onAdd: (name: string) => void;
   onRemove: (idx: number) => void;
   hasTargetSelect?: boolean;
@@ -65,12 +62,12 @@ export function ScheduleDocument({
       </div>
 
       <div className="flex flex-wrap gap-2 mt-3">
-        {documents.map((doc: string | ResultDocument, idx: number) => (
+        {documents.map((doc: string, idx: number) => (
           <div
             key={idx}
             className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-blue-100 text-blue-700 rounded-lg text-xs font-bold shadow-sm transition-all hover:border-blue-300"
           >
-            {typeof doc === "string" ? doc : `${doc.name} (${doc.target})`}
+            {doc}
             <Button
               onClick={() => onRemove(idx)}
               className="text-black hover:text-red-500 p-0 h-3.5"

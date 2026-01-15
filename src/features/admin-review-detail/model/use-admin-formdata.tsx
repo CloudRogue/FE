@@ -1,3 +1,4 @@
+import { produce } from "immer";
 import { create } from "zustand";
 
 // 공고 개요
@@ -30,11 +31,6 @@ export interface RequirementItem {
   isNew?: boolean; // 신규 추가 항목 여부
 }
 
-export interface ResultDocument {
-  name: string;
-  target: string;
-}
-
 interface AdminFormData {
   // 공고 기본 정보
   basicInfo: {
@@ -54,197 +50,111 @@ interface AdminFormData {
     applyEnd: string; // 접수 마감일
     requiredDocuments: string[]; // 공고 접수 시 필수 서류 리스트
     resultDate: string; // 서류 대상자 발표일
-    resultDocuments: ResultDocument[]; // 서류 대상 시 필수 서류 리스트
+    resultDocuments: string[]; // 서류 대상 시 필수 서류 리스트
     finalDate: string; // 최종 당첨자 및 발표일
   };
 }
 
-type AddableItem = string | RequirementItem | ResultDocument;
-
 interface AdminFormStore {
   formData: AdminFormData;
+  // 특정 섹션의 데이터를 업데이트
   updateSection: <T extends keyof AdminFormData>(
     section: T,
     data: Partial<AdminFormData[T]>,
   ) => void;
+  // 배열형 데이터에 아이템 추가
   addItem: (
-    section:
-      | "extraPoints"
-      | "requirements"
-      | "regions"
-      | "requiredDocuments"
-      | "resultDocuments",
-    item: AddableItem,
+    path:
+      | "summary.regions"
+      | "schedule.requiredDocuments"
+      | "schedule.resultDocuments"
+      | "requirements",
+    item: any,
   ) => void;
+  // 배열형 데이터에서 아이템 삭제
   removeItem: (
-    section:
-      | "extraPoints"
-      | "requirements"
-      | "regions"
-      | "requiredDocuments"
-      | "resultDocuments",
+    path:
+      | "summary.regions"
+      | "schedule.requiredDocuments"
+      | "schedule.resultDocuments"
+      | "requirements",
     idOrIndex: string | number,
   ) => void;
 }
 
-export const useAdminFormStore = create<AdminFormStore>((set) => ({
-  formData: {
-    basicInfo: {
-      title: "",
-      provider: "LH",
-      announcementType: "행복주택",
-      originalLink: "",
-      applyLink: "",
-    },
-    summary: {
-      target: "",
-      method: "",
-      rental: "",
-      rent: "",
-      regions: ["강남구"],
-      description: "",
-    },
-    requirements: [],
-    extraPoints: [],
-    schedule: {
-      applyStart: "",
-      applyEnd: "",
-      requiredDocuments: [],
-      resultDate: "",
-      finalDate: "",
-      resultDocuments: [],
-    },
+const initialData: AdminFormData = {
+  basicInfo: {
+    title: "",
+    provider: "LH",
+    announcementType: "행복주택",
+    originalLink: "",
+    applyLink: "",
   },
+  summary: {
+    target: "",
+    method: "",
+    rental: "",
+    rent: "",
+    regions: ["강남구"],
+    description: "",
+  },
+  requirements: [],
+  schedule: {
+    applyStart: "",
+    applyEnd: "",
+    requiredDocuments: [],
+    resultDate: "",
+    finalDate: "",
+    resultDocuments: [],
+  },
+};
 
+export const useAdminFormStore = create<AdminFormStore>((set) => ({
+  formData: initialData,
   updateSection: (section, data) =>
-    set((state) => ({
-      formData: {
-        ...state.formData,
-        [section]: Array.isArray(data)
-          ? data
-          : { ...state.formData[section], ...data },
-      },
-    })),
+    set(
+      produce((state: AdminFormStore) => {
+        if (Array.isArray(data)) {
+          state.formData[section] = data as any;
+        } else {
+          state.formData[section] = { ...state.formData[section], ...data };
+        }
+      }),
+    ),
 
-  addItem: (section, item) =>
-    set((state) => {
-      const { formData } = state;
+  addItem: (path, item) =>
+    set(
+      produce((state: AdminFormStore) => {
+        const parts = path.split(".");
+        if (parts.length === 2) {
+          // 중첩 구조 처리 (summary.regions 등)
+          const [parent, child] = parts as [keyof AdminFormData, string];
+          (state.formData[parent] as any)[child].push(item);
+        } else {
+          // 루트 레벨 처리 (requirements)
+          (state.formData[path as keyof AdminFormData] as any[]).push(item);
+        }
+      }),
+    ),
 
-      // regions 처리 (string[])
-      if (section === "regions") {
-        return {
-          formData: {
-            ...formData,
-            summary: {
-              ...formData.summary,
-              regions: [...formData.summary.regions, item as string],
-            },
-          },
-        };
-      }
+  removeItem: (path, idOrIndex) =>
+    set(
+      produce((state: AdminFormStore) => {
+        const parts = path.split(".");
+        const targetArray =
+          parts.length === 2
+            ? (state.formData[parts[0] as keyof AdminFormData] as any)[parts[1]]
+            : (state.formData[path as keyof AdminFormData] as any[]);
 
-      // requiredDocuments 처리 (string[])
-      if (section === "requiredDocuments") {
-        return {
-          formData: {
-            ...formData,
-            schedule: {
-              ...formData.schedule,
-              requiredDocuments: [
-                ...formData.schedule.requiredDocuments,
-                item as string,
-              ],
-            },
-          },
-        };
-      }
-
-      // resultDocuments 처리 (ResultDocument[])
-      if (section === "resultDocuments") {
-        return {
-          formData: {
-            ...formData,
-            schedule: {
-              ...formData.schedule,
-              resultDocuments: [
-                ...formData.schedule.resultDocuments,
-                item as ResultDocument,
-              ],
-            },
-          },
-        };
-      }
-
-      // 루트 레벨 배열 (requirements)
-      if (section === "requirements") {
-        return {
-          formData: {
-            ...formData,
-            requirements: [...formData.requirements, item as RequirementItem],
-          },
-        };
-      }
-
-      return state;
-    }),
-
-  removeItem: (section, idOrIndex) =>
-    set((state) => {
-      const { formData } = state;
-
-      if (section === "regions") {
-        return {
-          formData: {
-            ...formData,
-            summary: {
-              ...formData.summary,
-              regions: formData.summary.regions.filter(
-                (_, i) => i !== idOrIndex,
-              ),
-            },
-          },
-        };
-      }
-
-      if (section === "requiredDocuments") {
-        return {
-          formData: {
-            ...formData,
-            schedule: {
-              ...formData.schedule,
-              requiredDocuments: formData.schedule.requiredDocuments.filter(
-                (_, i) => i !== idOrIndex,
-              ),
-            },
-          },
-        };
-      }
-
-      if (section === "resultDocuments") {
-        return {
-          formData: {
-            ...formData,
-            schedule: {
-              ...formData.schedule,
-              resultDocuments: formData.schedule.resultDocuments.filter(
-                (_, i) => i !== idOrIndex,
-              ),
-            },
-          },
-        };
-      }
-
-      // id가 있는 객체 배열 처리 requirements
-      const currentArray = formData[section as "requirements"];
-      return {
-        formData: {
-          ...formData,
-          [section]: currentArray.filter(
-            (item: RequirementItem, index: number) => {
-              return item.id ? item.id !== idOrIndex : index !== idOrIndex;
-            },
-          ),
-        },
-      };
-    }),
+        if (typeof idOrIndex === "number") {
+          targetArray.splice(idOrIndex, 1);
+        } else {
+          // id 기반 삭제 (RequirementItem 등)
+          const index = targetArray.findIndex(
+            (item: any) => item.id === idOrIndex,
+          );
+          if (index !== -1) targetArray.splice(index, 1);
+        }
+      }),
+    ),
 }));
