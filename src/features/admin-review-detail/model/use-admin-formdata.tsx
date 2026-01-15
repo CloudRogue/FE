@@ -55,6 +55,15 @@ interface AdminFormData {
   };
 }
 
+type PathMap = {
+  "summary.regions": string;
+  "schedule.requiredDocuments": string;
+  "schedule.resultDocuments": string;
+  requirements: RequirementItem;
+};
+
+type ArrayPath = keyof PathMap;
+
 interface AdminFormStore {
   formData: AdminFormData;
   // 특정 섹션의 데이터를 업데이트
@@ -63,14 +72,7 @@ interface AdminFormStore {
     data: Partial<AdminFormData[T]>,
   ) => void;
   // 배열형 데이터에 아이템 추가
-  addItem: (
-    path:
-      | "summary.regions"
-      | "schedule.requiredDocuments"
-      | "schedule.resultDocuments"
-      | "requirements",
-    item: any,
-  ) => void;
+  addItem: <T extends ArrayPath>(path: T, item: PathMap[T]) => void;
   // 배열형 데이터에서 아이템 삭제
   removeItem: (
     path:
@@ -115,7 +117,7 @@ export const useAdminFormStore = create<AdminFormStore>((set) => ({
     set(
       produce((state: AdminFormStore) => {
         if (Array.isArray(data)) {
-          state.formData[section] = data as any;
+          state.formData[section] = data as AdminFormData[typeof section];
         } else {
           state.formData[section] = { ...state.formData[section], ...data };
         }
@@ -125,14 +127,20 @@ export const useAdminFormStore = create<AdminFormStore>((set) => ({
   addItem: (path, item) =>
     set(
       produce((state: AdminFormStore) => {
-        const parts = path.split(".");
-        if (parts.length === 2) {
-          // 중첩 구조 처리 (summary.regions 등)
-          const [parent, child] = parts as [keyof AdminFormData, string];
-          (state.formData[parent] as any)[child].push(item);
+        if (path === "requirements") {
+          state.formData.requirements.push(item as RequirementItem);
         } else {
-          // 루트 레벨 처리 (requirements)
-          (state.formData[path as keyof AdminFormData] as any[]).push(item);
+          const [parent, child] = path.split(".") as [
+            keyof AdminFormData,
+            string,
+          ];
+          const target = state.formData[parent];
+          if (target && child in target) {
+            const array = (target as Record<string, unknown>)[child];
+            if (Array.isArray(array)) {
+              array.push(item);
+            }
+          }
         }
       }),
     ),
@@ -140,20 +148,33 @@ export const useAdminFormStore = create<AdminFormStore>((set) => ({
   removeItem: (path, idOrIndex) =>
     set(
       produce((state: AdminFormStore) => {
-        const parts = path.split(".");
-        const targetArray =
-          parts.length === 2
-            ? (state.formData[parts[0] as keyof AdminFormData] as any)[parts[1]]
-            : (state.formData[path as keyof AdminFormData] as any[]);
-
-        if (typeof idOrIndex === "number") {
-          targetArray.splice(idOrIndex, 1);
+        if (path === "requirements") {
+          // Requirements는 id(string) 기반 삭제 우선
+          if (typeof idOrIndex === "string") {
+            state.formData.requirements = state.formData.requirements.filter(
+              (req) => req.id !== idOrIndex,
+            );
+          } else {
+            state.formData.requirements.splice(idOrIndex, 1);
+          }
         } else {
-          // id 기반 삭제 (RequirementItem 등)
-          const index = targetArray.findIndex(
-            (item: any) => item.id === idOrIndex,
-          );
-          if (index !== -1) targetArray.splice(index, 1);
+          // 나머지 문자열 배열들 처리
+          const [parent, child] = path.split(".") as [
+            "summary" | "schedule",
+            string,
+          ];
+
+          // 타입 안전하게 배열 추출
+          const targetArray = (
+            state.formData[parent as keyof AdminFormData] as Record<
+              string,
+              unknown
+            >
+          )[child];
+
+          if (Array.isArray(targetArray) && typeof idOrIndex === "number") {
+            (targetArray as string[]).splice(idOrIndex, 1);
+          }
         }
       }),
     ),

@@ -96,8 +96,11 @@ export function ReviewDetailTwoSection() {
                     {req.type}
                   </span>
                   {req.type === "select_single" &&
-                    req.options?.map((item) => (
-                      <span className="p-2 bg-white text-blue-600 border border-blue-600 rounded-lg text-[13px]">
+                    req.options?.map((item, index) => (
+                      <span
+                        key={item || index}
+                        className="p-2 bg-white text-blue-600 border border-blue-600 rounded-lg text-[13px]"
+                      >
                         {item}
                       </span>
                     ))}
