@@ -1,5 +1,15 @@
 import { create } from "zustand";
 
+// 공고 개요
+export interface SummaryItem {
+  target: string; // 대상
+  method: string; // 접수방법
+  rental: string; // 임대 보증금(최소)
+  rent: string; // 월 임대로
+  regions: string[]; // 지역
+  description: string; // 공고 요약 및 유의사항
+}
+
 // 개별 자격 조건 데이터 인터페이스
 export type RequirementType =
   | "text_input"
@@ -28,20 +38,14 @@ export interface ResultDocument {
 interface AdminFormData {
   // 공고 기본 정보
   basicInfo: {
-    title: string;
-    provider: string; // LH, SH 등
-    announcementType: string; // 행복주택 등
-    originalLink: string;
-    applyLink: string;
-    images: string[];
+    title: string; // 공고명
+    provider: string; // 공급 주체
+    announcementType: string; // 주택 유형
+    originalLink: string; // 원문 링크
+    applyLink: string; // 신청 링크
   };
   // 공고 개요
-  summary: {
-    target: string;
-    method: string;
-    regions: string[]; // 강남구, 강동구 등
-    description: string;
-  };
+  summary: SummaryItem;
   // 필수 지원 자격 조건
   requirements: RequirementItem[];
   // 일정 및 서류 관리
@@ -91,9 +95,15 @@ export const useAdminFormStore = create<AdminFormStore>((set) => ({
       announcementType: "행복주택",
       originalLink: "",
       applyLink: "",
-      images: [],
     },
-    summary: { target: "", method: "", regions: ["강남구"], description: "" },
+    summary: {
+      target: "",
+      method: "",
+      rental: "",
+      rent: "",
+      regions: ["강남구"],
+      description: "",
+    },
     requirements: [],
     extraPoints: [],
     schedule: {
