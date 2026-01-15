@@ -1,3 +1,5 @@
+import AdminInboxesPage from "@/src/_pages/admin-inboxes/ui/admin-inboxes-page";
+
 export default function Page() {
-  return <div>검토 전 공고 페이지</div>;
+  return <AdminInboxesPage />;
 }
