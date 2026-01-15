@@ -1,24 +1,21 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import Button from "@/src/shared/ui/button";
 import cn from "@/src/shared/lib/cn";
+import { useOnboardingStore } from "@/src/features/onboarding";
 
 type Tab = "city" | "district";
 
 export default function Step3() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const { draft, updateDraft } = useOnboardingStore();
 
-  const regionCity = searchParams.get("regionCity") ?? undefined;
-  const regionDistrict = searchParams.get("regionDistrict") ?? undefined;
+  const regionCity = draft.regionCity ?? undefined;
+  const regionDistrict = draft.regionDistrict ?? undefined;
 
   const [tab, setTab] = useState<Tab>(() => (regionCity ? "district" : "city"));
 
-  // 임시
   const cities = useMemo(
     () => [
       "서울",
@@ -57,33 +54,18 @@ export default function Step3() {
     }),
     [],
   );
-  const districts = regionCity ? (districtsByCity[regionCity] ?? []) : [];
 
+  const districts = regionCity ? (districtsByCity[regionCity] ?? []) : [];
   const canSelectDistrict = Boolean(regionCity);
 
-  const replaceParams = (next: URLSearchParams) => {
-    router.replace(`${pathname}?${next.toString()}`);
-  };
-
-  const setQuery = (key: string, value?: string) => {
-    const next = new URLSearchParams(searchParams.toString());
-    if (!value) next.delete(key);
-    else next.set(key, value);
-    replaceParams(next);
-  };
-
   const handleSelectCity = (city: string) => {
-    const next = new URLSearchParams(searchParams.toString());
-    next.set("regionCity", city);
-    next.delete("regionDistrict");
-    replaceParams(next);
-
+    updateDraft({ regionCity: city, regionDistrict: undefined });
     setTab("district");
   };
 
   const handleSelectDistrict = (district: string) => {
     if (!canSelectDistrict) return;
-    setQuery("regionDistrict", district);
+    updateDraft({ regionDistrict: district });
   };
 
   return (

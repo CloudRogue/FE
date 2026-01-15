@@ -1,0 +1,44 @@
+import cn from "@/src/shared/lib/cn";
+import Input from "@/src/shared/ui/input";
+import { memo } from "react";
+
+interface DetailInputRowProps {
+  label: "title" | "question" | "description" | "value";
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+  isBold?: boolean;
+  disabled?: boolean;
+}
+
+export const DetailInputRow = memo(
+  ({
+    label,
+    value,
+    onChange,
+    placeholder,
+    isBold,
+    disabled,
+  }: DetailInputRowProps) => {
+    return (
+      <div className="flex items-center gap-4">
+        <div className="w-20 text-center py-1.5 bg-slate-200 text-slate-500 text-[11px] font-bold rounded-md uppercase shrink-0">
+          {label}
+        </div>
+        <Input
+          className={cn(
+            "flex-1 bg-white border-slate-100 h-10",
+            isBold && "font-bold text-slate-800",
+            disabled && "bg-slate-50 text-slate-400 cursor-not-allowed",
+          )}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          disabled={disabled}
+        />
+      </div>
+    );
+  },
+);
+
+DetailInputRow.displayName = "DetailInputRow";

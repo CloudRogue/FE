@@ -1,16 +1,15 @@
 "use client";
 
 import { useMemo } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import Input from "@/src/shared/ui/input";
+import { useOnboardingStore } from "@/src/features/onboarding";
 
 const onlyDigits = (value: string) => value.replace(/\D/g, "");
 
 // 임시 분위 계산 함수
 function calculateIncomeDecile(monthlyIncome: number): number {
   if (monthlyIncome <= 0) return 0;
-
   if (monthlyIncome < 200) return 1;
   if (monthlyIncome < 300) return 2;
   if (monthlyIncome < 400) return 3;
@@ -24,53 +23,31 @@ function calculateIncomeDecile(monthlyIncome: number): number {
 }
 
 export default function Step5() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const { draft, updateDraft } = useOnboardingStore();
 
-  const householdSize = searchParams.get("householdSize") ?? "";
-
-  const monthlyIncome = searchParams.get("monthlyIncome") ?? "";
-
-  const rawIncomeDecile = searchParams.get("incomeDecile");
-  const parsedIncomeDecile = rawIncomeDecile ? Number(rawIncomeDecile) : NaN;
-  const incomeDecile = Number.isFinite(parsedIncomeDecile)
-    ? parsedIncomeDecile
-    : 0;
-
-  const replaceParams = (next: URLSearchParams) => {
-    router.replace(`${pathname}?${next.toString()}`);
-  };
+  const householdSize = draft.householdSize ? String(draft.householdSize) : "";
+  const monthlyIncome = draft.monthlyIncome ? String(draft.monthlyIncome) : "";
+  const incomeDecile = draft.incomeDecile ?? 0;
 
   const handleIncomeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value;
 
     if (raw === "") {
-      const next = new URLSearchParams(searchParams.toString());
-      next.delete("monthlyIncome");
-      next.delete("incomeDecile");
-      replaceParams(next);
+      updateDraft({ monthlyIncome: undefined, incomeDecile: undefined });
       return;
     }
 
     const cleaned = onlyDigits(raw);
     if (cleaned === "") {
-      const next = new URLSearchParams(searchParams.toString());
-      next.delete("monthlyIncome");
-      next.delete("incomeDecile");
-      replaceParams(next);
+      updateDraft({ monthlyIncome: undefined, incomeDecile: undefined });
       return;
     }
 
     const nextIncome = Number(cleaned);
-    if (Number.isNaN(nextIncome)) return;
+    if (!Number.isFinite(nextIncome)) return;
 
     const nextDecile = calculateIncomeDecile(nextIncome);
-
-    const next = new URLSearchParams(searchParams.toString());
-    next.set("monthlyIncome", String(nextIncome));
-    next.set("incomeDecile", String(nextDecile));
-    replaceParams(next);
+    updateDraft({ monthlyIncome: nextIncome, incomeDecile: nextDecile });
   };
 
   const computedDecileForView = useMemo(() => {
