@@ -41,3 +41,12 @@ export const APPLY_LINK_OPTIONS = [
   { value: "LH 청약 플러스", label: "LH 청약 플러스" },
   { value: "SH 인터넷 청약 시스템", label: "SH 인터넷 청약 시스템" },
 ];
+
+// requirements-card
+export const TYPE_OPTION = [
+  { value: "boolean", label: "boolean" },
+  { value: "text_input", label: "text_input" },
+  { value: "number_input", label: "number_input" },
+  { value: "select_single", label: "select_single" },
+  { value: "select_multi", label: "select_multi" },
+];
