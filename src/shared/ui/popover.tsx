@@ -1,7 +1,13 @@
 "use client";
 
 import cn from "@/src/shared/lib/cn";
-import React, { forwardRef, useEffect, useRef, useState } from "react";
+import React, {
+  forwardRef,
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+} from "react";
 
 export interface PopoverProps {
   trigger: React.ReactNode;
@@ -10,6 +16,7 @@ export interface PopoverProps {
   align?: "left" | "right" | "center";
   isOpen?: boolean;
   onClose?: () => void;
+  center?: boolean;
 }
 
 const Popover = forwardRef<HTMLDivElement, PopoverProps>(
@@ -21,6 +28,7 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
       align = "center",
       isOpen: controlledIsOpen,
       onClose,
+      center = false,
     },
     ref,
   ) => {
@@ -31,12 +39,14 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
     const isOpen =
       controlledIsOpen !== undefined ? controlledIsOpen : internalIsOpen;
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const setIsOpen = (value: boolean | ((prev: boolean) => boolean)) => {
-      const newValue = typeof value === "function" ? value(isOpen) : value;
-      if (onClose && !newValue) onClose();
-      setInternalIsOpen(newValue);
-    };
+    const setIsOpen = useCallback(
+      (value: React.SetStateAction<boolean>) => {
+        const newValue = typeof value === "function" ? value(isOpen) : value;
+        if (onClose && !newValue) onClose();
+        setInternalIsOpen(newValue);
+      },
+      [isOpen, onClose],
+    );
 
     useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
@@ -50,12 +60,10 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
       document.addEventListener("mousedown", handleClickOutside);
       return () =>
         document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
+    }, [isOpen, setIsOpen]);
 
     useEffect(() => {
-      if (!isOpen) {
-        return;
-      }
+      if (!isOpen) return;
 
       const handleKeyDown = (event: KeyboardEvent) => {
         if (event.key === "Escape") {
@@ -64,10 +72,8 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
         }
       };
       document.addEventListener("keydown", handleKeyDown);
-      return () => {
-        document.removeEventListener("keydown", handleKeyDown);
-      };
-    }, [isOpen]);
+      return () => document.removeEventListener("keydown", handleKeyDown);
+    }, [isOpen, setIsOpen]);
 
     const alignClass = {
       left: "left-0",
@@ -75,12 +81,22 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
       center: "left-1/2 -translate-x-1/2",
     };
 
+    const popoverClass = cn(
+      "z-50 overflow-hidden bg-white shadow-[0_10px_40px_rgba(0,0,0,0.08)] border border-gray-100",
+      "animate-in fade-in zoom-in-95 duration-200 ease-out",
+      center
+        ? "fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[24px] p-6 w-[calc(100%-40px)] max-w-[400px]"
+        : cn("absolute mt-2 rounded-2xl p-2", alignClass[align]),
+      className,
+    );
+
     return (
       <div className="relative inline-block" ref={containerRef}>
         <button
+          ref={triggerButtonRef}
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
-          className="cursor-pointer"
+          className="cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 rounded-lg"
           aria-haspopup="true"
           aria-expanded={isOpen}
         >
@@ -88,17 +104,21 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
         </button>
 
         {isOpen && (
-          <div
-            ref={ref}
-            role="dialog"
-            className={cn(
-              "absolute z-50 mt-2 min-2-[150px] overflow-hidden rounded-lg border border-gray-200 bg-white p-3 shadow-lg animate-in fade-in zoom-in duration-150",
-              alignClass[align],
-              className,
+          <>
+            {center && (
+              <div
+                className="fixed inset-0 z-40 bg-black/40 backdrop-blur-[2px] animate-in fade-in duration-300"
+                onClick={() => setIsOpen(false)}
+              />
             )}
-          >
-            {children}
-          </div>
+            <div
+              ref={ref}
+              role={center ? "dialog" : "menu"}
+              className={popoverClass}
+            >
+              {children}
+            </div>
+          </>
         )}
       </div>
     );
@@ -106,5 +126,4 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
 );
 
 Popover.displayName = "Popover";
-
 export default Popover;
