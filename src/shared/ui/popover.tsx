@@ -1,7 +1,13 @@
 "use client";
 
 import cn from "@/src/shared/lib/cn";
-import React, { forwardRef, useEffect, useRef, useState } from "react";
+import React, {
+  forwardRef,
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+} from "react";
 
 export interface PopoverProps {
   trigger: React.ReactNode;
@@ -33,11 +39,14 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
     const isOpen =
       controlledIsOpen !== undefined ? controlledIsOpen : internalIsOpen;
 
-    const setIsOpen = (value: boolean | ((prev: boolean) => boolean)) => {
-      const newValue = typeof value === "function" ? value(isOpen) : value;
-      if (onClose && !newValue) onClose();
-      setInternalIsOpen(newValue);
-    };
+    const setIsOpen = useCallback(
+      (value: React.SetStateAction<boolean>) => {
+        const newValue = typeof value === "function" ? value(isOpen) : value;
+        if (onClose && !newValue) onClose();
+        setInternalIsOpen(newValue);
+      },
+      [isOpen, onClose],
+    );
 
     useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
@@ -51,7 +60,8 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
       document.addEventListener("mousedown", handleClickOutside);
       return () =>
         document.removeEventListener("mousedown", handleClickOutside);
-    }, [isOpen]);
+    }, [isOpen, setIsOpen]);
+
     useEffect(() => {
       if (!isOpen) return;
 
@@ -63,7 +73,7 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
       };
       document.addEventListener("keydown", handleKeyDown);
       return () => document.removeEventListener("keydown", handleKeyDown);
-    }, [isOpen]);
+    }, [isOpen, setIsOpen]);
 
     const alignClass = {
       left: "left-0",
