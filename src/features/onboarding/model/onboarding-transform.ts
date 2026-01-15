@@ -68,7 +68,6 @@ export function toOnboardingFormData(
     regionSigungu: formatRegionSigungu(draft),
     householdSize: draft.householdSize!,
     householdRole,
-    isHouseholder: householdRole === "HOUSEHOLDER",
     incomeDecile: draft.incomeDecile!,
   };
 }
