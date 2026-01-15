@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  ANNOUNCEMENT_TYPE_OPTIONS,
+  ANNOUNCEMENT_TYPE_MAP,
   APPLY_LINK_OPTIONS,
   DetailField,
   PROVIDER_OPTIONS,
@@ -9,6 +9,7 @@ import {
 } from "@/src/features/admin-review-detail";
 import Input from "@/src/shared/ui/input";
 import Select from "@/src/shared/ui/select";
+import { useEffect, useMemo } from "react";
 
 export function DetailFormBasicInfo() {
   const { formData, updateSection } = useAdminFormStore();
@@ -17,6 +18,25 @@ export function DetailFormBasicInfo() {
   const handleChange = (field: keyof typeof basicInfo, value: string) => {
     updateSection("basicInfo", { [field]: value });
   };
+
+  // 현재 선택된 공급 주체에 따른 주택 유형 옵션 필터링
+  const currentAnnouncementOptions = useMemo(() => {
+    return ANNOUNCEMENT_TYPE_MAP[basicInfo.provider] || [];
+  }, [basicInfo.provider]);
+
+  // 공급 주체가 변경될 때 주택 유형 초기화
+  useEffect(() => {
+    const options = ANNOUNCEMENT_TYPE_MAP[basicInfo.provider];
+    if (options && options.length > 0) {
+      // 현재 선택된 주택 유형이 새로운 옵션 리스트에 없는 경우에만 첫 번째 값으로 변경
+      const isValid = options.some(
+        (opt) => opt.value === basicInfo.announcementType,
+      );
+      if (!isValid) {
+        handleChange("announcementType", options[0].value);
+      }
+    }
+  }, [basicInfo.provider]);
 
   return (
     <div className="bg-white border border-slate-100 rounded-2xl shadow-sm p-8 space-y-8 mb-5">
@@ -54,7 +74,7 @@ export function DetailFormBasicInfo() {
         {/* 주택 유형 */}
         <Select
           label="주택 유형"
-          options={ANNOUNCEMENT_TYPE_OPTIONS}
+          options={currentAnnouncementOptions}
           value={basicInfo.announcementType}
           onChange={(e) => handleChange("announcementType", e.target.value)}
           className="border-slate-200 font-bold text-slate-700 rounded-xl"

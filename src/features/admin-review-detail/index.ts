@@ -1,6 +1,6 @@
 // model
 export {
-  ANNOUNCEMENT_TYPE_OPTIONS,
+  ANNOUNCEMENT_TYPE_MAP,
   APPLY_LINK_OPTIONS,
   PROVIDER_OPTIONS,
 } from "@/src/features/admin-review-detail/model/revie-detail-data.constants";
