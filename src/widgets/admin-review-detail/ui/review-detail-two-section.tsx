@@ -39,7 +39,7 @@ export function ReviewDetailTwoSection() {
                 <span className="flex items-center justify-center w-6 h-6 rounded-full bg-blue-600 text-white text-[12px] font-bold">
                   {index + 1}
                 </span>
-                <span className="font-bold text-slate-700">{req.label}</span>
+                {/* <span className="font-bold text-slate-700">{req.label}</span> */}
               </div>
               <div className="pl-9">
                 <p className="text-[13px] text-slate-400 font-medium">
