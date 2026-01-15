@@ -9,15 +9,21 @@ import {
 } from "@/src/features/admin-review-detail";
 import Input from "@/src/shared/ui/input";
 import Select from "@/src/shared/ui/select";
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 
 export function DetailFormBasicInfo() {
   const { formData, updateSection } = useAdminFormStore();
   const { basicInfo } = formData;
 
-  const handleChange = (field: keyof typeof basicInfo, value: string) => {
-    updateSection("basicInfo", { [field]: value });
-  };
+  const handleChange = useCallback(
+    (field: keyof typeof basicInfo, value: string) => {
+      updateSection("basicInfo", {
+        ...basicInfo,
+        [field]: value,
+      });
+    },
+    [basicInfo, updateSection],
+  );
 
   // 현재 선택된 공급 주체에 따른 주택 유형 옵션 필터링
   const currentAnnouncementOptions = useMemo(() => {
@@ -36,7 +42,7 @@ export function DetailFormBasicInfo() {
         handleChange("announcementType", options[0].value);
       }
     }
-  }, [basicInfo.provider]);
+  }, [basicInfo.provider, basicInfo.announcementType, handleChange]);
 
   return (
     <div className="bg-white border border-slate-100 rounded-2xl shadow-sm p-8 space-y-8 mb-5">

@@ -7,7 +7,7 @@ import Button from "@/src/shared/ui/button";
 import { Plus } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
-const mockPool: RequirementItem[] = [
+const MOCK_POOL: RequirementItem[] = [
   {
     id: "90001",
     title: "생년월일",
@@ -32,35 +32,32 @@ const mockPool: RequirementItem[] = [
 export function DetailFormrRquirements() {
   const { formData, addItem, removeItem, updateSection } = useAdminFormStore();
   const { requirements } = formData;
-  const [qualificationPool, setQualificationPool] = useState<RequirementItem[]>(
-    [],
-  );
+  const [qualificationPool] = useState<RequirementItem[]>(MOCK_POOL);
 
   useEffect(() => {
-    setQualificationPool(mockPool);
-
-    // 필수 항목(isRequired) 자동 추가
-    mockPool.forEach((item) => {
+    // TODO: 추후 API 연동 후 변경 예정
+    MOCK_POOL.forEach((item) => {
       if (item.isRequired && !requirements.some((r) => r.id === item.id)) {
         addItem("requirements", item);
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleUpdate = useCallback(
+    (id: string, updates: Partial<RequirementItem>) => {
+      const updated = requirements.map((r) =>
+        r.id === id ? { ...r, ...updates } : r,
+      );
+      updateSection("requirements", updated);
+    },
+    [requirements, updateSection],
+  );
 
   const handleSelectPoolItem = (item: RequirementItem) => {
     if (requirements.some((r) => r.id === item.id)) return;
     addItem("requirements", { ...item });
   };
-
-  const handleUpdate = useCallback(
-    (id: string, updates: Partial<RequirementItem>) => {
-      updateSection(
-        "requirements",
-        requirements.map((r) => (r.id === id ? { ...r, ...updates } : r)),
-      );
-    },
-    [requirements, updateSection],
-  );
 
   const handleAddNew = () => {
     const newId = `custom-${Date.now()}`;
