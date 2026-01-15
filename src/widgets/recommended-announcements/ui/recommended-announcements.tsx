@@ -7,6 +7,7 @@ import { Api } from "@/src/shared/api/api";
 import { AnnouncementCard } from "@/src/entities/announcement/ui/announcement-card";
 import Button from "@/src/shared/ui/button";
 import type { Announcement } from "@/src/entities/announcement/model/types";
+import { ROUTES } from "@/src/shared/constants/routes";
 
 const PersonalizedResponseSchema = z.object({
   data: z.array(
@@ -27,10 +28,7 @@ export function RecommendedAnnouncements() {
   const [items, setItems] = useState<Announcement[]>([]);
 
   useEffect(() => {
-    Api.get(
-      "/api/announcements/personalized?limit=2",
-      PersonalizedResponseSchema,
-    )
+    Api.get("/announcements/personalized?limit=2", PersonalizedResponseSchema)
       .then((res) => {
         setItems(res.data as unknown as Announcement[]);
       })
@@ -58,7 +56,7 @@ export function RecommendedAnnouncements() {
       <Button
         variant="ghost"
         className="w-full h-14 bg-slate-100 text-slate-500 rounded-2xl font-bold mt-2 shadow-none border-none"
-        onClick={() => router.push("/announcement?personalized=true")}
+        onClick={() => router.push(`${ROUTES.ANNOUNCEMENT}?personalized=true`)}
       >
         다른 추천 공고 더보기
       </Button>
