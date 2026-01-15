@@ -34,7 +34,7 @@ export function DetailFormBasicInfo() {
           />
         </DetailField>
 
-        {/* 공고 이미지 (로고 표시) */}
+        {/* 공고 이미지 */}
         <DetailField label="공고 이미지">
           <div className="flex gap-3">
             <LogoBadge label="SH" color="green" />

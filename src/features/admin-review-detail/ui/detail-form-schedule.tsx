@@ -2,7 +2,7 @@
 
 import {
   DetailField,
-  ResultDocument,
+  type ResultDocument,
   useAdminFormStore,
 } from "@/src/features/admin-review-detail";
 import Button from "@/src/shared/ui/button";
@@ -130,7 +130,7 @@ function DateField({ label, value, onChange }: DateFieldProps) {
   );
 }
 
-// 서류 리스트 관리 (추가/삭제/칩 표시)
+// 서류 리스트 관리
 interface DocumentManagerProps {
   title: string;
   documents: (string | ResultDocument)[];

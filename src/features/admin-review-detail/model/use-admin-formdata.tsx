@@ -1,33 +1,23 @@
 import { create } from "zustand";
 
-// 자격 조건 타입
-export type QualificationId =
-  | "age"
-  | "nationality" // 국적
-  | "student" // 대학생 여부
-  | "jobSeeker" // 취준생 여부
-  | "newWorker" // 사회초년생 여부
-  | "marriage" // 혼인 여부
-  | "householdHead" // 세대주 여부
-  | "housing" // 주택 소유 여부
-  | "carOwnership" // 차량 소유 여부
-  | "carValue" // 차량 가액
-  | "income" // 월평균 소득
-  | "assets" // 총 자산
-  | "parentHousing" // 부모 주택 소유 여부
-  | "parentIncome" // 부모 월평균 소득
-  | "parentAssets"; // 부모 총 자산
-
 // 개별 자격 조건 데이터 인터페이스
+export type RequirementType =
+  | "text_input"
+  | "number_input"
+  | "select_single"
+  | "select_multi"
+  | "boolean";
+
 export interface RequirementItem {
-  id: QualificationId;
-  label: string;
-  min?: number | string;
-  max?: number | string;
-  value?: number | string | boolean;
-  unit?: string;
-  condition?: string;
-  isBlank?: boolean; // 디자인이 아직 없는 경우 처리
+  id: string; // 일반 string 허용
+  title: string; // 화면에 표시될 제목
+  question: string; // 사용자에게 노출될 질문
+  description: string; // 질문에 대한 상세 설명
+  value: string; // 입력된 값
+  type: RequirementType; // 입력 폼 타입
+  options?: string[]; // select 타입일 때 선택지 리스트
+  isRequired?: boolean; // API에서 내려오는 필수 여부 플래그
+  isNew?: boolean; // 신규 추가 항목 여부
 }
 
 export interface ResultDocument {

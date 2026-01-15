@@ -1,57 +1,89 @@
 import {
-  ADD_QUALIFICATION_OPTIONS,
-  DEFAULT_DATA_MAP,
-  QualificationId,
   RequirementCard,
   RequirementItem,
   useAdminFormStore,
 } from "@/src/features/admin-review-detail";
-import cn from "@/src/shared/lib/cn";
+import Button from "@/src/shared/ui/button";
 import { Plus } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+
+const mockPool: RequirementItem[] = [
+  {
+    id: "90001",
+    title: "생년월일",
+    question: "생년월일을 알려주세요",
+    description: "특정 나이 대에만 지원할 수 있는 공고가 있어요",
+    value: "",
+    type: "number_input",
+    isRequired: true,
+  },
+  {
+    id: "90002",
+    title: "차량 소유",
+    question: "차량 소유 여부를 알려주세요",
+    description: "차량 무소유 시에만 지원 가능한 공고가 있어요",
+    value: "",
+    type: "select_single",
+    options: ["무소유", "유소유"],
+    isRequired: false,
+  },
+];
 
 export function DetailFormrRquirements() {
   const { formData, addItem, removeItem, updateSection } = useAdminFormStore();
   const { requirements } = formData;
+  const [qualificationPool, setQualificationPool] = useState<RequirementItem[]>(
+    [],
+  );
 
-  const isAlreadyAdded = (id: QualificationId) =>
-    requirements.some((req) => req.id === id);
+  useEffect(() => {
+    setQualificationPool(mockPool);
 
-  const handleAddRequirement = (
-    option: (typeof ADD_QUALIFICATION_OPTIONS)[number],
-  ) => {
-    const qualificationId = option.id as QualificationId;
+    // 필수 항목(isRequired) 자동 추가
+    mockPool.forEach((item) => {
+      if (item.isRequired && !requirements.some((r) => r.id === item.id)) {
+        addItem("requirements", item);
+      }
+    });
+  }, []);
 
-    if (isAlreadyAdded(qualificationId)) return;
-
-    const defaultExtra = DEFAULT_DATA_MAP[qualificationId] || { isBlank: true };
-    const newRequirement: RequirementItem = {
-      id: qualificationId,
-      label: option.label,
-      ...defaultExtra,
-    };
-
-    addItem("requirements", newRequirement);
+  const handleSelectPoolItem = (item: RequirementItem) => {
+    if (requirements.some((r) => r.id === item.id)) return;
+    addItem("requirements", { ...item });
   };
 
-  // 개별 값 업데이트
-  const handleUpdate = (
-    id: QualificationId,
-    updates: Partial<RequirementItem>,
-  ) => {
-    const updated = requirements.map((req) =>
-      req.id === id ? { ...req, ...updates } : req,
-    );
-    updateSection("requirements", updated);
+  const handleUpdate = useCallback(
+    (id: string, updates: Partial<RequirementItem>) => {
+      updateSection(
+        "requirements",
+        requirements.map((r) => (r.id === id ? { ...r, ...updates } : r)),
+      );
+    },
+    [requirements, updateSection],
+  );
+
+  const handleAddNew = () => {
+    const newId = `custom-${Date.now()}`;
+    addItem("requirements", {
+      id: newId,
+      title: "",
+      question: "",
+      description: "",
+      value: "",
+      type: "text_input",
+      isNew: true,
+    });
   };
 
   return (
-    <div className="bg-white border border-slate-100 rounded-2xl shadow-sm p-8 space-y-8 mb-5">
-      <h2 className="text-[18px] font-bold text-slate-800">
-        필수 지원 자격 조건
-      </h2>
+    <div className="bg-white border border-slate-100 rounded-3xl p-8 space-y-8 shadow-sm">
+      <div className="flex flex-col">
+        <h2 className="text-xl font-bold text-slate-800">자격 조건</h2>
+        <p>필수 조건의 경우에는 value만 입력 가능합니다</p>
+      </div>
 
-      {/* 조건 리스트 그리드 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* 입력 폼 리스트 */}
+      <div className="space-y-6">
         {requirements.map((req) => (
           <RequirementCard
             key={req.id}
@@ -62,33 +94,28 @@ export function DetailFormrRquirements() {
         ))}
       </div>
 
-      {/* 추가 버튼 섹션 */}
+      {/* 하단 풀 리스트 */}
       <div className="pt-6 border-t border-slate-100">
-        <p className="text-xs font-bold text-slate-500 mb-3">자격 조건 추가</p>
+        <p className="text-xs font-bold text-slate-400 mb-4">
+          자격 조건 리스트
+        </p>
         <div className="flex flex-wrap gap-2">
-          {ADD_QUALIFICATION_OPTIONS.map((option) => {
-            const added = isAlreadyAdded(option.id);
-            return (
-              <button
-                key={option.id}
-                type="button"
-                disabled={added}
-                onClick={() => handleAddRequirement(option)}
-                className={cn(
-                  "flex items-center gap-1 px-3 py-2 rounded-lg border text-xs font-bold transition-all",
-                  added
-                    ? "bg-slate-50 border-slate-200 text-slate-300 cursor-not-allowed"
-                    : "bg-white border-slate-200 text-slate-500 hover:border-blue-400 hover:text-blue-500",
-                )}
-              >
-                <Plus
-                  size={14}
-                  className={added ? "text-slate-300" : "text-slate-400"}
-                />
-                {option.label}
-              </button>
-            );
-          })}
+          <Button
+            onClick={handleAddNew}
+            className="flex items-center gap-1 px-4 py-2 bg-blue-600 text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-all"
+          >
+            <Plus size={16} /> 신규 조건
+          </Button>
+          {qualificationPool.map((item) => (
+            <Button
+              key={item.id}
+              disabled={requirements.some((r) => r.id === item.id)}
+              onClick={() => handleSelectPoolItem(item)}
+              className="px-4 py-2 rounded-xl border border-slate-200 text-sm font-medium text-slate-600 disabled:bg-slate-100 disabled:text-slate-400 hover:border-blue-400 hover:text-blue-600 transition-all"
+            >
+              {item.title}
+            </Button>
+          ))}
         </div>
       </div>
     </div>
