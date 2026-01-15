@@ -12,6 +12,7 @@ interface AccordionProps {
   defaultOpen?: boolean;
   children: ReactNode;
   className?: string;
+  btnClassName?: string;
 }
 
 export function Accordion({
@@ -21,6 +22,7 @@ export function Accordion({
   defaultOpen = false,
   children,
   className,
+  btnClassName,
 }: AccordionProps) {
   const [internalOpen, setInternalOpen] = useState(defaultOpen);
   const isCurrentlyOpen =
@@ -38,6 +40,7 @@ export function Accordion({
         className={cn(
           "flex justify-between items-center w-full p-4 bg-white",
           isCurrentlyOpen ? "border-b-2 border-gray-100" : "",
+          btnClassName,
         )}
       >
         <span className="font-bold text-[#1E293B]">{title}</span>

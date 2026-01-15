@@ -1,3 +1,5 @@
+// 자격 정보 섹션
+
 import {
   RequirementCard,
   RequirementItem,
@@ -29,7 +31,7 @@ const MOCK_POOL: RequirementItem[] = [
   },
 ];
 
-export function DetailFormrRquirements() {
+export function RquirementsForm() {
   const { formData, addItem, removeItem, updateSection } = useAdminFormStore();
   const { requirements } = formData;
   const [qualificationPool] = useState<RequirementItem[]>(MOCK_POOL);
@@ -73,9 +75,9 @@ export function DetailFormrRquirements() {
   };
 
   return (
-    <div className="bg-white border border-slate-100 rounded-3xl p-8 space-y-8 shadow-sm">
+    <section className="bg-white border border-slate-100 rounded-2xl p-8 space-y-8">
       <div className="flex flex-col">
-        <h2 className="text-xl font-bold text-slate-800">자격 조건</h2>
+        <h2 className="text-[18px] font-bold text-slate-800">자격 조건</h2>
         <p>필수 조건의 경우에는 value만 입력 가능합니다</p>
       </div>
 
@@ -93,7 +95,7 @@ export function DetailFormrRquirements() {
 
       {/* 하단 풀 리스트 */}
       <div className="pt-6 border-t border-slate-100">
-        <p className="text-xs font-bold text-slate-400 mb-4">
+        <p className="text-sm font-bold text-slate-400 mb-4">
           자격 조건 리스트
         </p>
         <div className="flex flex-wrap gap-2">
@@ -115,6 +117,6 @@ export function DetailFormrRquirements() {
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 }
