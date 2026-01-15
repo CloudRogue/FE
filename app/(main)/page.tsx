@@ -4,12 +4,13 @@ import { useUser } from "@/src/entities/user/lib/use-user";
 import { HomeBanner } from "@/src/widgets/home-banner";
 import { RecommendedAnnouncements } from "@/src/widgets/recommended-announcements";
 import { QuickNavigation } from "@/src/widgets/quick-navigation";
+import RootLoading from "@/app/loading";
 
 export default function MainPage() {
   const { user, isLoggedIn, isLoading } = useUser();
 
   if (isLoading) {
-    return <div className="min-h-screen bg-slate-50" />;
+    return <RootLoading />;
   }
 
   return (
