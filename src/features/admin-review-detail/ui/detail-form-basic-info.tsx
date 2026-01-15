@@ -1,5 +1,3 @@
-"use client";
-
 import {
   ANNOUNCEMENT_TYPE_MAP,
   APPLY_LINK_OPTIONS,
