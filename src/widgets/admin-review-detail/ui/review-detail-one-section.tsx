@@ -1,10 +1,10 @@
 "use client";
 
 import {
-  DetailFormBasicInfo,
-  DetailFormrRquirements,
-  DetailFormSchedule,
-  DetailFormSummary,
+  BasicInfoForm,
+  RquirementsForm,
+  ScheduleForm,
+  SummaryForm,
 } from "@/src/features/admin-review-detail";
 import Button from "@/src/shared/ui/button";
 import { useAdminStepperStore } from "@/src/widgets/admin-review-detail";
@@ -26,16 +26,16 @@ export function ReviewDetailOneSection() {
       className="animate-in fade-in slide-in-from-bottom-2 duration-500 flex flex-col gap-5"
     >
       {/* 공고 기본 정보 */}
-      <DetailFormBasicInfo />
+      <BasicInfoForm />
 
       {/* 공고 개요 */}
-      <DetailFormSummary />
+      <SummaryForm />
 
       {/* 필수 지원 자격 조건 */}
-      <DetailFormrRquirements />
+      <RquirementsForm />
 
       {/* 공고 일정 및 지원 관리 */}
-      <DetailFormSchedule />
+      <ScheduleForm />
 
       <div className="flex justify-end pt-6">
         <Button
