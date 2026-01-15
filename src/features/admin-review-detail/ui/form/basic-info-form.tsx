@@ -3,10 +3,11 @@
 import {
   ANNOUNCEMENT_TYPE_MAP,
   DetailField,
+  PROVIDER_OPTIONS,
   useAdminFormStore,
 } from "@/src/features/admin-review-detail";
 import Select from "@/src/shared/ui/select";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 
 export function BasicInfoForm() {
   const { formData, updateSection } = useAdminFormStore();
@@ -27,6 +28,20 @@ export function BasicInfoForm() {
     return ANNOUNCEMENT_TYPE_MAP[basicInfo.provider] || [];
   }, [basicInfo.provider]);
 
+  // 공급 주체가 변경될 때 주택 유형 초기화
+  useEffect(() => {
+    const options = ANNOUNCEMENT_TYPE_MAP[basicInfo.provider];
+    if (options && options.length > 0) {
+      // 현재 선택된 주택 유형이 새로운 옵션 리스트에 없는 경우에만 첫 번째 값으로 변경
+      const isValid = options.some(
+        (opt) => opt.value === basicInfo.announcementType,
+      );
+      if (!isValid) {
+        handleChange("announcementType", options[0].value);
+      }
+    }
+  }, [basicInfo.provider, basicInfo.announcementType, handleChange]);
+
   return (
     <section className="bg-white border border-slate-100 rounded-2xl p-8 space-y-8">
       <h2 className="text-[18px] font-bold text-slate-800">공고 기본 정보</h2>
@@ -42,7 +57,14 @@ export function BasicInfoForm() {
           containerClassName="md:col-span-2"
         />
         {/* 공급 주체 */}
-        <DetailField label="공급 주체">{basicInfo.provider}</DetailField>
+        <Select
+          label="공급 주체"
+          options={PROVIDER_OPTIONS}
+          value={basicInfo.provider}
+          onChange={(e) => handleChange("provider", e.target.value)}
+          className="p-2 border-slate-200 font-bold text-slate-700 rounded-xl"
+        />
+
         {/* 주택 유형 */}
         <Select
           label="주택 유형"

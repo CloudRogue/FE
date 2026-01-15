@@ -1,4 +1,10 @@
 // detail-from-basic
+export const PROVIDER_OPTIONS = [
+  { value: "LH", label: "LH" },
+  { value: "SH", label: "SH" },
+  { value: "GH", label: "GH" },
+];
+
 export const ANNOUNCEMENT_TYPE_MAP: Record<
   string,
   { value: string; label: string }[]
