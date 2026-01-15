@@ -2,6 +2,7 @@ import {
   AdminReviewSubmitButton,
   useAdminFormStore,
 } from "@/src/features/admin-review-detail";
+import { formatDateRange } from "@/src/shared/lib/date";
 import Button from "@/src/shared/ui/button";
 import {
   PreviewDocumentList,
@@ -167,10 +168,4 @@ export function ReviewDetailTwoSection() {
       </div>
     </form>
   );
-}
-
-function formatDateRange(start: string, end: string) {
-  const s = start.replace(/-/g, ".");
-  const e = end.slice(-5).replace(/-/g, ".");
-  return `${s} ~ ${e}`;
 }

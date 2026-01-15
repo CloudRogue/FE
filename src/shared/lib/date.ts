@@ -9,3 +9,9 @@ export function formatKST(dateTime?: string | null) {
 
   return `${yyyy}-${mm}-${dd} ${hh}:${mi}`;
 }
+
+export function formatDateRange(start: string, end: string) {
+  const s = start.replace(/-/g, ".");
+  const e = end.slice(-5).replace(/-/g, ".");
+  return `${s} ~ ${e}`;
+}
