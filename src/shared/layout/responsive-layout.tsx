@@ -9,7 +9,7 @@ export function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
     <div className="min-h-screen w-full bg-slate-50 flex justify-center items-center">
       <div
         className="
-        w-full max-w-[768px] min-h-screen bg-white shadow-2xl flex flex-col
+        w-full max-w-[768px] min-h-screen flex flex-col
         
         justify-end items-center
         
