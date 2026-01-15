@@ -10,7 +10,7 @@ import Button from "@/src/shared/ui/button";
 import { TextArea } from "@/src/shared/ui/textarea";
 import { Plus } from "lucide-react";
 
-export function DetailFormSummary() {
+export function SummaryForm() {
   const { formData, updateSection, addItem, removeItem } = useAdminFormStore();
   const { summary } = formData;
 

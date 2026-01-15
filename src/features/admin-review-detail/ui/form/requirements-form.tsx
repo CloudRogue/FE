@@ -31,7 +31,7 @@ const MOCK_POOL: RequirementItem[] = [
   },
 ];
 
-export function DetailFormrRquirements() {
+export function RquirementsForm() {
   const { formData, addItem, removeItem, updateSection } = useAdminFormStore();
   const { requirements } = formData;
   const [qualificationPool] = useState<RequirementItem[]>(MOCK_POOL);

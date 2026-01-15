@@ -10,7 +10,7 @@ import {
 import Select from "@/src/shared/ui/select";
 import { useCallback, useEffect, useMemo } from "react";
 
-export function DetailFormBasicInfo() {
+export function BasicInfoForm() {
   const { formData, updateSection } = useAdminFormStore();
   const { basicInfo } = formData;
 

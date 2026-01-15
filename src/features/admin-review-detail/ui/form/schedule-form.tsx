@@ -6,7 +6,7 @@ import {
   useAdminFormStore,
 } from "@/src/features/admin-review-detail";
 
-export function DetailFormSchedule() {
+export function ScheduleForm() {
   const { formData, updateSection, addItem, removeItem } = useAdminFormStore();
   const { schedule } = formData;
 
