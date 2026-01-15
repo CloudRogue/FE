@@ -9,6 +9,7 @@ import Button from "@/src/shared/ui/button";
 import Input from "@/src/shared/ui/input";
 import Select from "@/src/shared/ui/select";
 import { Trash2, X } from "lucide-react";
+import { useRef } from "react";
 
 interface RequirementCardProps {
   item: RequirementItem;
@@ -23,6 +24,19 @@ export function RequirementCard({
 }: RequirementCardProps) {
   const isSelectType =
     item.type === "select_single" || item.type === "select_multi";
+
+  const optionInputRef = useRef<HTMLInputElement>(null);
+
+  const handleAddOption = () => {
+    if (!optionInputRef.current) return;
+
+    const val = optionInputRef.current.value.trim();
+    if (val) {
+      onUpdate({ options: [...(item.options || []), val] });
+      optionInputRef.current.value = "";
+      optionInputRef.current.focus();
+    }
+  };
 
   return (
     <div className="p-6 bg-gray-50 rounded-2xl space-y-3 relative border border-transparent hover:border-slate-200 transition-all">
@@ -69,7 +83,7 @@ export function RequirementCard({
             type
           </div>
           <Select
-            className="flex-1 bg-white h-10 border-slate-100"
+            className="border-slate-200 font-bold text-slate-700 rounded-xl"
             value={item.type}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
               onUpdate({ type: e.target.value as RequirementType })
@@ -94,19 +108,20 @@ export function RequirementCard({
             <div className="flex-1 space-y-3">
               <div className="flex gap-2">
                 <Input
-                  className="bg-white h-10"
+                  ref={optionInputRef}
+                  className="p-2 border border-slate-200 rounded-xl focus:ring-2 flex-1 bg-white h-10"
                   placeholder="옵션을 입력하세요"
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
-                      const val = e.currentTarget.value.trim();
-                      if (val) {
-                        onUpdate({ options: [...(item.options || []), val] });
-                        e.currentTarget.value = "";
-                      }
+                      e.preventDefault();
+                      handleAddOption();
                     }
                   }}
                 />
-                <Button className="px-4 bg-blue-600 text-white rounded-xl text-xs font-bold shrink-0">
+                <Button
+                  onClick={handleAddOption}
+                  className="px-4 bg-blue-600 text-white rounded-xl text-xs font-bold shrink-0"
+                >
                   추가
                 </Button>
               </div>
@@ -114,7 +129,7 @@ export function RequirementCard({
                 {item.options?.map((opt, i) => (
                   <div
                     key={i}
-                    className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-blue-200 text-blue-600 rounded-lg text-xs font-bold"
+                    className="flex items-center gap-1.5 px-3 py-1 bg-white border border-blue-200 text-blue-600 rounded-lg text-xs font-bold"
                   >
                     {opt}
                     <Button
@@ -123,6 +138,7 @@ export function RequirementCard({
                           options: item.options?.filter((_, idx) => idx !== i),
                         })
                       }
+                      className="p-1 h-5"
                     >
                       <X size={12} />
                     </Button>

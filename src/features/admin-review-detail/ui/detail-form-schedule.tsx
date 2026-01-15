@@ -56,30 +56,34 @@ export function DetailFormSchedule() {
 
       {/* 2. 서류 발표 및 제출 서류 */}
       <ScheduleSection title="서류 발표 및 제출 서류">
-        <DateField
-          label="서류 대상자 발표일"
-          value={schedule.resultDate}
-          onChange={(val: string) => handleUpdate({ resultDate: val })}
-        />
+        <DetailField label="서류 대상자 발표일">
+          <Input
+            type="date"
+            value={schedule.resultDate}
+            onChange={(e) => handleUpdate({ resultDate: e.target.value })}
+            className="w-sm p-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-[15px]"
+          />
+        </DetailField>
 
         <DocumentManager
           title="서류 대상 시 필수 서류 리스트"
           documents={schedule.resultDocuments}
           hasTargetSelect
-          onAdd={(name: string, target: string) =>
-            addItem("resultDocuments", { name, target })
-          }
+          onAdd={(name: string) => addItem("resultDocuments", name)}
           onRemove={(idx: number) => removeItem("resultDocuments", idx)}
         />
       </ScheduleSection>
 
       {/* 3. 최종 발표 */}
       <ScheduleSection title="최종 발표 및 유의 사항">
-        <DateField
-          label="최종 당첨자 발표일"
-          value={schedule.finalDate}
-          onChange={(val: string) => handleUpdate({ finalDate: val })}
-        />
+        <DetailField label="최종 대상자 발표일">
+          <Input
+            type="date"
+            value={schedule.finalDate}
+            onChange={(e) => handleUpdate({ finalDate: e.target.value })}
+            className="w-sm p-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-[15px]"
+          />
+        </DetailField>
         <p className="text-[11px] text-slate-400 mt-4">
           *최종 대기 시 당첨 유의 사항은 공고 요약글과 동일하게 들어갑니다.
         </p>
@@ -102,39 +106,11 @@ function ScheduleSection({ title, children }: ScheduleSection) {
   );
 }
 
-// 날짜 입력 + 추후 입력 체크박스
-interface DateFieldProps {
-  label: string;
-  value: string;
-  onChange: (val: string) => void;
-}
-
-function DateField({ label, value, onChange }: DateFieldProps) {
-  return (
-    <div className="flex items-end gap-4">
-      <div className="flex-1 max-w-60">
-        <DetailField label={label}>
-          <Input
-            type="date"
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            className="w-full p-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-[15px]"
-          />
-        </DetailField>
-      </div>
-      <label className="flex items-center gap-2 text-xs text-slate-400 cursor-pointer pb-3">
-        <input type="checkbox" className="rounded border-slate-300 w-4 h-4" />
-        추후 입력
-      </label>
-    </div>
-  );
-}
-
 // 서류 리스트 관리
 interface DocumentManagerProps {
   title: string;
   documents: (string | ResultDocument)[];
-  onAdd: (name: string, target: string) => void;
+  onAdd: (name: string) => void;
   onRemove: (idx: number) => void;
   hasTargetSelect?: boolean;
 }
@@ -151,7 +127,7 @@ function DocumentManager({
 
   const handleAdd = () => {
     if (!inputValue.trim()) return;
-    onAdd(inputValue, target);
+    onAdd(`${inputValue}-${target}`);
     setInputValue("");
   };
 

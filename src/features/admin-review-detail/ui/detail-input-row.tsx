@@ -27,7 +27,7 @@ export const DetailInputRow = memo(
         </div>
         <Input
           className={cn(
-            "flex-1 bg-white border-slate-100 h-10",
+            " p-2 border border-slate-200 rounded-xl focus:ring-2 flex-1 bg-white h-10",
             isBold && "font-bold text-slate-800",
             disabled && "bg-slate-50 text-slate-400 cursor-not-allowed",
           )}
