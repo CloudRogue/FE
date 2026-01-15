@@ -30,7 +30,7 @@ export function ScheduleDocument({
 
   const handleAdd = () => {
     if (!inputValue.trim()) return;
-    onAdd(`${inputValue}-${target}`);
+    onAdd(`${inputValue}${hasTargetSelect ? `-${target}` : ""}`);
     setInputValue("");
   };
 
