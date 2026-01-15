@@ -3,6 +3,7 @@ export {
   ANNOUNCEMENT_TYPE_MAP,
   APPLY_LINK_OPTIONS,
   PROVIDER_OPTIONS,
+  TYPE_OPTION,
 } from "@/src/features/admin-review-detail/model/revie-detail-data.constants";
 export {
   useAdminFormStore,
@@ -21,4 +22,5 @@ export { DetailFormrRquirements } from "@/src/features/admin-review-detail/ui/de
 export { DetailInputRow } from "@/src/features/admin-review-detail/ui/detail-input-row";
 export { RegionTag } from "@/src/features/admin-review-detail/ui/region-tag";
 export { RequirementCard } from "@/src/features/admin-review-detail/ui/requirements-card";
+export { RequirementCardOption } from "@/src/features/admin-review-detail/ui/requirements-card-option";
 export { ScheduleDocument } from "@/src/features/admin-review-detail/ui/schedule-document";
