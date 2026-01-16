@@ -21,7 +21,7 @@ interface RequirementCardProps {
 }
 
 const LABEL_BADGE_STYLE =
-  "w-20 text-center py-1.5 bg-slate-200 text-slate-500 text-[11px] font-bold rounded-md uppercase shrink-0";
+  "w-22 text-center py-1.5 bg-slate-200 text-slate-500 text-[11px] font-bold rounded-md uppercase shrink-0";
 
 export function RequirementCard({
   item,
@@ -30,16 +30,23 @@ export function RequirementCard({
 }: RequirementCardProps) {
   const [isOpen, setIsOpen] = useState(!!item.isNew);
   const { isNew, type, title, value, question, description, options } = item;
-  const isSelectType = type === "select_single" || type === "select_multi";
+  const isSelectType = type === "SELECT_SINGLE" || type === "SELECT_MULTI";
 
   return (
     <div className="p-6 bg-gray-50 rounded-2xl space-y-3 relative border border-transparent hover:border-slate-200 transition-all">
-      <Button
-        onClick={onRemove}
-        className="absolute top-6 right-3 text-slate-300 hover:text-red-500 transition-colors"
-      >
-        <Trash2 size={18} />
-      </Button>
+      <div>
+        {isNew && (
+          <span className="px-4 py-2 bg-gray-600 rounded-lg text-white font-semibold">
+            신규 조건 입력하기
+          </span>
+        )}
+        <Button
+          onClick={onRemove}
+          className="absolute top-6 right-3 text-slate-300 hover:text-red-500 transition-colors"
+        >
+          <Trash2 size={18} />
+        </Button>
+      </div>
 
       <div className="space-y-3 pr-8">
         <RequirementsInputRow

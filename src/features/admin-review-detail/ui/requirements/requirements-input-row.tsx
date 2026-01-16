@@ -24,7 +24,7 @@ export const RequirementsInputRow = memo(
   }: RequirementsInputRowProps) => {
     return (
       <div className="flex items-center gap-4">
-        <div className="w-22 text-center py-1.5 bg-slate-200 text-slate-500 text-[11px] font-bold rounded-md uppercase shrink-0">
+        <div className="w-22 text-center py-2.5 bg-slate-200 text-slate-500 text-[11px] font-bold rounded-md uppercase shrink-0">
           {label}
         </div>
         <Input
