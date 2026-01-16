@@ -53,16 +53,16 @@ export function SummaryForm() {
         <DetailField
           label="임대 보증금 (최소)"
           placeholder="1000 만원"
-          value={summary.rental}
-          onChange={(e) => handleChange("rental", e.target.value)}
+          value={summary.rentGtn}
+          onChange={(e) => handleChange("rentGtn", e.target.value)}
         />
 
         {/* 월 임대로 (최소)) */}
         <DetailField
           label="월 임대로 (최소)"
           placeholder="1000 만원"
-          value={summary.rent}
-          onChange={(e) => handleChange("rent", e.target.value)}
+          value={summary.mtRntchrg}
+          onChange={(e) => handleChange("mtRntchrg", e.target.value)}
         />
 
         {/* 지역 태그 리스트 */}

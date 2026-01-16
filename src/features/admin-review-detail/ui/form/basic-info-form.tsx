@@ -23,24 +23,22 @@ export function BasicInfoForm() {
     [basicInfo, updateSection],
   );
 
-  // 현재 선택된 공급 주체에 따른 주택 유형 옵션 필터링
+  // 현재 선택된 공급 주체에 따른 공급 유형 옵션 필터링
   const currentAnnouncementOptions = useMemo(() => {
-    return ANNOUNCEMENT_TYPE_MAP[basicInfo.provider] || [];
-  }, [basicInfo.provider]);
+    return ANNOUNCEMENT_TYPE_MAP[basicInfo.publisher] || [];
+  }, [basicInfo.publisher]);
 
-  // 공급 주체가 변경될 때 주택 유형 초기화
+  // 공급 주체가 변경될 때 공급 유형 초기화
   useEffect(() => {
-    const options = ANNOUNCEMENT_TYPE_MAP[basicInfo.provider];
+    const options = ANNOUNCEMENT_TYPE_MAP[basicInfo.publisher];
     if (options && options.length > 0) {
-      // 현재 선택된 주택 유형이 새로운 옵션 리스트에 없는 경우에만 첫 번째 값으로 변경
-      const isValid = options.some(
-        (opt) => opt.value === basicInfo.announcementType,
-      );
+      // 현재 선택된 공급 유형이 새로운 옵션 리스트에 없는 경우에만 첫 번째 값으로 변경
+      const isValid = options.some((opt) => opt.value === basicInfo.supplyType);
       if (!isValid) {
-        handleChange("announcementType", options[0].value);
+        handleChange("supplyType", options[0].value);
       }
     }
-  }, [basicInfo.provider, basicInfo.announcementType, handleChange]);
+  }, [basicInfo.publisher, basicInfo.supplyType, handleChange]);
 
   return (
     <section className="bg-white border border-slate-100 rounded-2xl p-8 space-y-8">
@@ -60,17 +58,17 @@ export function BasicInfoForm() {
         <Select
           label="공급 주체"
           options={PROVIDER_OPTIONS}
-          value={basicInfo.provider}
-          onChange={(e) => handleChange("provider", e.target.value)}
+          value={basicInfo.publisher}
+          onChange={(e) => handleChange("publisher", e.target.value)}
           className="p-2 border-slate-200 font-bold text-slate-700 rounded-xl"
         />
 
         {/* 주택 유형 */}
         <Select
-          label="주택 유형"
+          label="공급 유형"
           options={currentAnnouncementOptions}
-          value={basicInfo.announcementType}
-          onChange={(e) => handleChange("announcementType", e.target.value)}
+          value={basicInfo.supplyType}
+          onChange={(e) => handleChange("supplyType", e.target.value)}
           className="p-2 border-slate-200 font-bold text-slate-700 rounded-xl"
         />
 
@@ -79,8 +77,8 @@ export function BasicInfoForm() {
           label="원문 링크"
           required
           placeholder="https://example.com/..."
-          value={basicInfo.originalLink}
-          onChange={(e) => handleChange("originalLink", e.target.value)}
+          value={basicInfo.originalUrl}
+          onChange={(e) => handleChange("originalUrl", e.target.value)}
         />
 
         {/* 신청 링크 */}
@@ -88,8 +86,8 @@ export function BasicInfoForm() {
           label="신청 링크"
           required
           placeholder="https://example.com/..."
-          value={basicInfo.applyLink}
-          onChange={(e) => handleChange("applyLink", e.target.value)}
+          value={basicInfo.applyUrl}
+          onChange={(e) => handleChange("applyUrl", e.target.value)}
         />
       </div>
     </section>

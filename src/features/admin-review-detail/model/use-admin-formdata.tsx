@@ -1,23 +1,31 @@
 import { produce } from "immer";
 import { create } from "zustand";
 
-// 공고 개요
+// [AI PDF 요약/추출 결과 조회]
+export interface KVDigestItem {
+  key: string;
+  value: string;
+}
+
+// 공고 개요/요약 수기 저장
 export interface SummaryItem {
   target: string; // 대상
   method: string; // 접수방법
-  rental: string; // 임대 보증금(최소)
-  rent: string; // 월 임대로
+  rentGtn: string; // 임대 보증금
+  mtRntchrg: string; // 월 임대료
   regions: string[]; // 지역
   description: string; // 공고 요약 및 유의사항
+  contentText: string; //  원문/가공 본문
+  kvDigest: KVDigestItem[]; // [AI PDF 요약 결과 조회]
 }
 
-// 개별 자격 조건 데이터 인터페이스
+// [지원 자격 입력 / 추가 온보딩 질문 생성]
 export type RequirementType =
-  | "text_input"
-  | "number_input"
-  | "select_single"
-  | "select_multi"
-  | "boolean";
+  | "TEXT_INPUT"
+  | "NUMBER_INPUT"
+  | "SELECT_SINGLE"
+  | "SELECT_MULTI"
+  | "BOOLEAN";
 
 export interface RequirementItem {
   id: string; // 일반 string 허용
@@ -28,38 +36,39 @@ export interface RequirementItem {
   type: RequirementType; // 입력 폼 타입
   options?: string[]; // select 타입일 때 선택지 리스트
   isRequired?: boolean; // API에서 내려오는 필수 여부 플래그
-  isNew?: boolean; // 신규 추가 항목 여부
+  isNew?: boolean; // [추가 온보딩 질문 생성 시 활용]
 }
 
 interface AdminFormData {
-  // 공고 기본 정보
+  // 공고 기본 정보 [SH 공고 필드 수기 작성]
   basicInfo: {
     title: string; // 공고명
-    provider: string; // 공급 주체
-    announcementType: string; // 주택 유형
-    originalLink: string; // 원문 링크
-    applyLink: string; // 신청 링크
+    publisher: string; // 공급 주체
+    supplyType: string; // 공급 유형
+    originalUrl: string; // 원문 링크
+    applyUrl: string; // 신청 링크
   };
   // 공고 개요
   summary: SummaryItem;
   // 필수 지원 자격 조건
-  requirements: RequirementItem[];
-  // 일정 및 서류 관리
+  requirements: RequirementItem[]; // [지원 자격 입력]
+  // 일정 및 서류 관리 [공고 제출서류/주요 일정 최초 등록]
   schedule: {
-    applyStart: string; // 접수 시작일
-    applyEnd: string; // 접수 마감일
+    applyStartDate: string; // 접수 시작일
+    applyEndDate: string; // 접수 마감일
     requiredDocuments: string[]; // 공고 접수 시 필수 서류 리스트
-    resultDate: string; // 서류 대상자 발표일
+    documentPublishedAt: string; // 서류 대상자 발표일
     resultDocuments: string[]; // 서류 대상 시 필수 서류 리스트
-    finalDate: string; // 최종 당첨자 및 발표일
+    finalPublishedAt: string; // 최종 당첨자 및 발표일
   };
 }
 
 type PathMap = {
-  "summary.regions": string;
-  "schedule.requiredDocuments": string;
-  "schedule.resultDocuments": string;
-  requirements: RequirementItem;
+  "summary.regions": string; // 개요 지역
+  "summary.kvDigest": KVDigestItem; // AI 요약 결과 추가용
+  "schedule.requiredDocuments": string; // 공고 접수 시 필수 서류 리스트
+  "schedule.resultDocuments": string; // 서류 대상 시 필수 서류 리스트
+  requirements: RequirementItem; // 자격 조건
 };
 
 type ArrayPath = keyof PathMap;
@@ -82,36 +91,40 @@ interface AdminFormStore {
       | "requirements",
     idOrIndex: string | number,
   ) => void;
+  // [공고 입력 최종 완료(확정) 처리]
+  submitForm: () => Promise<void>;
 }
 
 const initialData: AdminFormData = {
   basicInfo: {
     title: "",
-    provider: "LH",
-    announcementType: "행복주택",
-    originalLink: "",
-    applyLink: "",
+    publisher: "LH",
+    supplyType: "행복주택",
+    originalUrl: "",
+    applyUrl: "",
   },
   summary: {
     target: "",
     method: "",
-    rental: "",
-    rent: "",
+    rentGtn: "",
+    mtRntchrg: "",
     regions: ["강남구"],
     description: "",
+    contentText: "",
+    kvDigest: [],
   },
   requirements: [],
   schedule: {
-    applyStart: "",
-    applyEnd: "",
+    applyStartDate: "",
+    applyEndDate: "",
     requiredDocuments: [],
-    resultDate: "",
-    finalDate: "",
+    documentPublishedAt: "",
+    finalPublishedAt: "",
     resultDocuments: [],
   },
 };
 
-export const useAdminFormStore = create<AdminFormStore>((set) => ({
+export const useAdminFormStore = create<AdminFormStore>((set, get) => ({
   formData: initialData,
   updateSection: (section, data) =>
     set(
@@ -177,4 +190,10 @@ export const useAdminFormStore = create<AdminFormStore>((set) => ({
         }
       }),
     ),
+
+  submitForm: async () => {
+    const { formData } = get();
+    // [공고 입력 최종 완료 처리] API 연동
+    console.log("최종 제출 데이터:", formData);
+  },
 }));

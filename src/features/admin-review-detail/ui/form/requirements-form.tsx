@@ -16,7 +16,7 @@ const MOCK_POOL: RequirementItem[] = [
     question: "생년월일을 알려주세요",
     description: "특정 나이 대에만 지원할 수 있는 공고가 있어요",
     value: "",
-    type: "number_input",
+    type: "NUMBER_INPUT",
     isRequired: true,
   },
   {
@@ -25,7 +25,7 @@ const MOCK_POOL: RequirementItem[] = [
     question: "차량 소유 여부를 알려주세요",
     description: "차량 무소유 시에만 지원 가능한 공고가 있어요",
     value: "",
-    type: "select_single",
+    type: "SELECT_SINGLE",
     options: ["무소유", "유소유"],
     isRequired: false,
   },
@@ -69,7 +69,7 @@ export function RquirementsForm() {
       question: "",
       description: "",
       value: "",
-      type: "text_input",
+      type: "TEXT_INPUT",
       isNew: true,
     });
   };

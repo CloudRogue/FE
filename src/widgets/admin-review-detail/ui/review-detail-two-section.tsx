@@ -33,18 +33,14 @@ export function ReviewDetailTwoSection() {
         <PreviewSection title="공고 기본 정보">
           <ul className="divide-y divide-slate-50">
             <PreviewRow label="공고명" value={basicInfo.title} />
-            <PreviewRow label="공급 주체" value={basicInfo.provider} />
-            <PreviewRow label="주택 유형" value={basicInfo.announcementType} />
+            <PreviewRow label="공급 주체" value={basicInfo.publisher} />
+            <PreviewRow label="공급 유형" value={basicInfo.supplyType} />
             <PreviewRow
               label="원문 링크"
-              value={basicInfo.originalLink}
+              value={basicInfo.originalUrl}
               vertical
             />
-            <PreviewRow
-              label="공고 링크"
-              value={basicInfo.applyLink}
-              vertical
-            />
+            <PreviewRow label="공고 링크" value={basicInfo.applyUrl} vertical />
           </ul>
         </PreviewSection>
 
@@ -53,8 +49,8 @@ export function ReviewDetailTwoSection() {
           <ul className="divide-y divide-slate-50">
             <PreviewRow label="대상" value={summary.target} />
             <PreviewRow label="접수 방법" value={summary.method} />
-            <PreviewRow label="임대 보증금(최소)" value={summary.rental} />
-            <PreviewRow label="월 임대료 (최소)" value={summary.rent} />
+            <PreviewRow label="임대 보증금(최소)" value={summary.rentGtn} />
+            <PreviewRow label="월 임대료 (최소)" value={summary.mtRntchrg} />
             <PreviewRow
               label="지역"
               value={summary.regions}
@@ -96,7 +92,7 @@ export function ReviewDetailTwoSection() {
                   <span className="p-2 bg-gray-200 text-gray-400 rounded-lg text-[13px]">
                     {req.type}
                   </span>
-                  {req.type === "select_single" &&
+                  {req.type === "SELECT_SINGLE" &&
                     req.options?.map((item, index) => (
                       <span
                         key={item || index}
@@ -121,7 +117,7 @@ export function ReviewDetailTwoSection() {
           <div className="absolute left-2.75 top-2 bottom-2 w-0.5 bg-slate-100 z-0" />
 
           <PreviewTimelineItem
-            title={`공고 접수: ${formatDateRange(schedule.applyStart, schedule.applyEnd)}`}
+            title={`공고 접수: ${formatDateRange(schedule.applyStartDate, schedule.applyEndDate)}`}
           >
             <PreviewDocumentList
               label="필요 서류"
@@ -130,7 +126,7 @@ export function ReviewDetailTwoSection() {
           </PreviewTimelineItem>
 
           <PreviewTimelineItem
-            title={`서류대상자 발표: ${schedule.resultDate.replace(/-/g, ".")}`}
+            title={`서류대상자 발표: ${schedule.documentPublishedAt.replace(/-/g, ".")}`}
           >
             <PreviewDocumentList
               label="제출 서류"
@@ -139,7 +135,7 @@ export function ReviewDetailTwoSection() {
           </PreviewTimelineItem>
 
           <PreviewTimelineItem
-            title={`당첨자 발표: ${schedule.finalDate.replace(/-/g, ".")}`}
+            title={`당첨자 발표: ${schedule.finalPublishedAt.replace(/-/g, ".")}`}
           >
             <div className="bg-[#F8FAFF] p-5 rounded-xl border border-blue-50">
               <span className="text-[13px] font-bold text-slate-400 block mb-2">
