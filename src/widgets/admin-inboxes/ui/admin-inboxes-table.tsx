@@ -9,7 +9,7 @@ import cn from "@/src/shared/lib/cn";
 import { formatKST } from "@/src/shared/lib/date";
 
 import { PublisherBadge } from "@/src/widgets/admin-inboxes";
-import type { AdminInboxItem } from "@/src/widgets/admin-inboxes";
+import type { AdminInboxItem } from "@/src/entities/admin-inboxes";
 
 type Props = {
   items: AdminInboxItem[];
