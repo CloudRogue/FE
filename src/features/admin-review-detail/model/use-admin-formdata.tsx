@@ -397,8 +397,7 @@ export const useAdminFormStore = create<AdminFormStore>((set, get) => ({
       const response = await getAdminAdditionalOnboardings();
       const rawData = Array.isArray(response) ? response : response?.data || [];
 
-      // TODO: any 수정
-      const allData: RequirementItem[] = rawData.map((item: any) => ({
+      const allData: RequirementItem[] = rawData.map((item) => ({
         additionalOnboardingId: String(item.additionalOnboardingId),
         title: item.title || "",
         question: item.question || "",
