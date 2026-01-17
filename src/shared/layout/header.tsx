@@ -56,6 +56,13 @@ export default function Header() {
     );
   };
 
+  const blueButtonStyle = `
+    flex items-center justify-center
+    px-[10px] py-[6px] gap-[6px] 
+    rounded-[8px] bg-[#1778FF] 
+    text-white text-[14px] font-bold
+  `;
+
   return (
     <header className="sticky top-0 z-50 flex h-14 md:h-16 w-full items-center border-b bg-white px-4 md:px-8 shrink-0">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between relative">
@@ -85,8 +92,11 @@ export default function Header() {
 
           {isAnnDetail && (
             <Button
-              variant="outline"
-              className="gap-1 border-black text-black h-8 md:h-9 px-2 md:px-4 rounded-lg font-bold text-xs md:text-sm"
+              className={blueButtonStyle}
+              onClick={() => {
+                //추후 기능 추가
+                alert("공유하기 기능이 준비 중입니다.");
+              }}
             >
               <Share2 size={16} />
               <span className="hidden md:inline">공유하기</span>
@@ -96,7 +106,8 @@ export default function Header() {
           {(pathname === ROUTES.ANNOUNCEMENT ||
             pathname === ROUTES.MYPAGE_SCRAP) && (
             <Link href={ROUTES.MYPAGE_SCRAP}>
-              <Button className="h-8 md:h-9 px-3 md:px-4 bg-black text-white rounded-lg font-bold gap-1.5 text-xs md:text-sm">
+              <Button className={blueButtonStyle}>
+                {" "}
                 <Heart size={16} fill="white" /> 관심 공고{" "}
               </Button>
             </Link>
