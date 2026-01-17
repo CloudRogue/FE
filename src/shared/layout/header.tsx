@@ -9,10 +9,12 @@ import Button from "@/src/shared/ui/button";
 import { ChevronLeft, Heart, Home, Share2 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useUser } from "@/src/entities/user/lib/use-user";
 
 export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
+  const { isLoggedIn } = useUser();
 
   const KAKAO_AUTH_URL = "http://43.202.161.219/oauth2/authorization/kakao";
 
@@ -72,7 +74,7 @@ export default function Header() {
 
         {/* 우측 영역 */}
         <div className="flex min-w-25 justify-end z-10">
-          {pathname === ROUTES.HOME && (
+          {pathname === ROUTES.HOME && !isLoggedIn && (
             <Button
               onClick={() => (window.location.href = KAKAO_AUTH_URL)}
               className="h-9 px-5 bg-black text-white rounded-lg font-bold text-sm"
