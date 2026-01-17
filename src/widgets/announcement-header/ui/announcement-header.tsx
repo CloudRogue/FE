@@ -8,7 +8,7 @@ import { RecommendationToggle } from "@/src/features/toggle-recommend";
 import { AnnouncementFilter } from "@/src/features/filter-announcements";
 
 export function AnnouncementHeader() {
-  const { statusTab, setStatusTab, isFilterOpen, closeFilter } =
+  const { statusTab, setStatusTab, isFilterOpen, closeFilter, activeTab } =
     useFilterStore();
 
   return (
@@ -45,14 +45,12 @@ export function AnnouncementHeader() {
 
         <FilterTriggerBar />
 
-        <div className="flex items-center justify-between px-4 border-t border-slate-50">
-          <RecommendationToggle />
-          <SortSelector />
-        </div>
-
-        {isFilterOpen && (
-          <div className="absolute top-full left-0 w-full bg-white z-40 animate-in fade-in slide-in-from-top-2 duration-200 shadow-xl">
-            <AnnouncementFilter />
+        {isFilterOpen ? (
+          <AnnouncementFilter />
+        ) : (
+          <div className="flex items-center justify-between px-4 border-t border-slate-50 py-2">
+            <RecommendationToggle />
+            <SortSelector />
           </div>
         )}
       </header>
