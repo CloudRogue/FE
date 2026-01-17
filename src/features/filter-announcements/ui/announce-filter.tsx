@@ -17,25 +17,6 @@ export function AnnouncementFilter() {
 
   return (
     <div className="w-full bg-white shadow-lg rounded-t-[24px]">
-      {/* 탭 헤더 */}
-      <div className="flex border-b border-slate-100">
-        <TabHeader
-          label="희망 지역"
-          isActive={activeTab === "region"}
-          onClick={() => setActiveTab("region")}
-        />
-        <TabHeader
-          label="공급 주체"
-          isActive={activeTab === "publisher"}
-          onClick={() => setActiveTab("publisher")}
-        />
-        <TabHeader
-          label="주택 유형"
-          isActive={activeTab === "type"}
-          onClick={() => setActiveTab("type")}
-        />
-      </div>
-
       {/* 탭별 컨텐츠 */}
       <div className="p-5 h-[280px] overflow-y-auto">
         {activeTab === "region" && <RegionFilter />}
