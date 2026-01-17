@@ -1,3 +1,12 @@
+import {
+  getAdminAdditionalOnboardings,
+  getAdminAnnouncement,
+} from "@/src/entities/admin-review-detail";
+import {
+  AdminAnnouncementRequest,
+  AdminAnnouncementRequestSchema,
+  postAdminAnnouncement,
+} from "@/src/features/admin-review-detail";
 import { produce } from "immer";
 import { create } from "zustand";
 
@@ -11,8 +20,8 @@ export interface KVDigestItem {
 export interface SummaryItem {
   target: string; // 대상
   method: string; // 접수방법
-  rentGtn: string; // 임대 보증금
-  mtRntchrg: string; // 월 임대료
+  rentGtn: number; // 임대 보증금
+  mtRntchrg: number; // 월 임대료
   regions: string[]; // 지역
   description: string; // 공고 요약 및 유의사항
   contentText: string; //  원문/가공 본문
@@ -28,7 +37,7 @@ export type RequirementType =
   | "BOOLEAN";
 
 export interface RequirementItem {
-  id: string; // 일반 string 허용
+  additionalOnboardingId: string; // 일반 string 허용
   title: string; // 화면에 표시될 제목
   question: string; // 사용자에게 노출될 질문
   description: string; // 질문에 대한 상세 설명
@@ -75,6 +84,7 @@ type ArrayPath = keyof PathMap;
 
 interface AdminFormStore {
   formData: AdminFormData;
+  qualificationPool?: RequirementItem[]; // 하단 버튼 리스트(Pool)
   // 특정 섹션의 데이터를 업데이트
   updateSection: <T extends keyof AdminFormData>(
     section: T,
@@ -91,8 +101,15 @@ interface AdminFormStore {
       | "requirements",
     idOrIndex: string | number,
   ) => void;
+  // LH 여부 - 공급 주체 확장 가능
+  getPublisherStatus: () => { isLH: boolean; isSH: boolean; isGH: boolean };
   // [공고 입력 최종 완료(확정) 처리]
-  submitForm: () => Promise<void>;
+  submitForm: (announcementId: string) => Promise<void>;
+  // [공고 AI PDF 요약/추출 결과 조회]
+  setgetAdminAnnouncement: (digest: KVDigestItem[]) => void;
+  fetchAndSetgetAdminAnnouncement: (announcementId: string) => Promise<void>;
+  // [추가 온보딩 질문 목록 조회]
+  fetchAndSetAdditionalOnboardings: () => Promise<void>;
 }
 
 const initialData: AdminFormData = {
@@ -106,8 +123,8 @@ const initialData: AdminFormData = {
   summary: {
     target: "",
     method: "",
-    rentGtn: "",
-    mtRntchrg: "",
+    rentGtn: 0,
+    mtRntchrg: 0,
     regions: ["강남구"],
     description: "",
     contentText: "",
@@ -126,11 +143,13 @@ const initialData: AdminFormData = {
 
 export const useAdminFormStore = create<AdminFormStore>((set, get) => ({
   formData: initialData,
+  qualificationPool: [],
+
   updateSection: (section, data) =>
     set(
-      produce((state: AdminFormStore) => {
-        if (Array.isArray(data)) {
-          state.formData[section] = data as AdminFormData[typeof section];
+      produce((state) => {
+        if (Array.isArray(state.formData[section])) {
+          state.formData[section] = data;
         } else {
           state.formData[section] = { ...state.formData[section], ...data };
         }
@@ -162,10 +181,10 @@ export const useAdminFormStore = create<AdminFormStore>((set, get) => ({
     set(
       produce((state: AdminFormStore) => {
         if (path === "requirements") {
-          // Requirements는 id(string) 기반 삭제
+          // Requirements는 additionalOnboardingId 기반 삭제
           if (typeof idOrIndex === "string") {
             state.formData.requirements = state.formData.requirements.filter(
-              (req) => req.id !== idOrIndex,
+              (req) => req.additionalOnboardingId !== idOrIndex,
             );
           } else {
             state.formData.requirements.splice(idOrIndex, 1);
@@ -191,9 +210,222 @@ export const useAdminFormStore = create<AdminFormStore>((set, get) => ({
       }),
     ),
 
-  submitForm: async () => {
-    const { formData } = get();
-    // [공고 입력 최종 완료 처리] API 연동
-    console.log("최종 제출 데이터:", formData);
+  submitForm: async (announcementId: string) => {
+    const { formData, getPublisherStatus } = get();
+    const { isLH } = getPublisherStatus();
+
+    // 공통 매핑 데이터 (LH/SH 공통 활용 가능성 있는 부분)
+    const commonManualRequirements = formData.requirements.map((req) => ({
+      additionalOnboardingId: Number(req.additionalOnboardingId),
+      type: req.type,
+      unknown: false,
+      value: null, // 실제 답변값은 유저가 입력하므로 어드민 설정 시엔 null
+      options: req.options || null,
+    }));
+
+    const commonDocuments = [
+      ...formData.schedule.requiredDocuments.map((name) => ({
+        name,
+        type: "COMMON" as const,
+      })),
+      ...formData.schedule.resultDocuments.map((name) => ({
+        name,
+        type: "TARGET_ONLY" as const,
+      })),
+    ];
+
+    let payload: AdminAnnouncementRequest;
+
+    if (isLH) {
+      // LH: 최상위 필드 null 처리
+      payload = {
+        publisher: "LH",
+        housingType: null,
+        supplyType: null,
+        regionCode: null,
+        regionName: null,
+        applyUrl: null,
+        applyEntryUrl: formData.basicInfo.applyUrl,
+        rentGtn: null,
+        enty: null,
+        prtpay: null,
+        surlus: null,
+        mtRntchrg: null,
+        eligibility: {
+          answers: commonManualRequirements,
+        },
+        submission: {
+          dates: {
+            applyStartDate: null,
+            applyEndDate: null,
+            documentPublishedAt: formData.schedule.documentPublishedAt || null,
+            finalPublishedAt: null,
+          },
+          documents: commonDocuments,
+        },
+        overviewSummary: {
+          overview: {
+            content: formData.summary.description,
+            target: formData.summary.target,
+            regions: formData.summary.regions,
+            applyMethod: formData.summary.method,
+          },
+          summary: formData.summary.description || null,
+        },
+      };
+    } else {
+      // SH/일반: 모든 데이터 수기 필드 포함
+      payload = {
+        publisher: "SH",
+        housingType: null, // 스토어에 정의되지 않은 필드는 공란(null)
+        supplyType: formData.basicInfo.supplyType,
+        regionCode: null,
+        regionName: null,
+        applyUrl: formData.basicInfo.originalUrl,
+        applyEntryUrl: formData.basicInfo.applyUrl,
+        rentGtn: formData.summary.rentGtn,
+        enty: 0, // 스토어 정의 외 필드
+        prtpay: 0,
+        surlus: 0,
+        mtRntchrg: formData.summary.mtRntchrg,
+        eligibility: {
+          answers: commonManualRequirements,
+        },
+        submission: {
+          dates: {
+            applyStartDate: formData.schedule.applyStartDate,
+            applyEndDate: formData.schedule.applyEndDate,
+            documentPublishedAt: formData.schedule.documentPublishedAt,
+            finalPublishedAt: formData.schedule.finalPublishedAt,
+          },
+          documents: commonDocuments,
+        },
+        overviewSummary: {
+          overview: {
+            content: formData.summary.description,
+            target: formData.summary.target,
+            regions: formData.summary.regions,
+            applyMethod: formData.summary.method,
+          },
+          summary: formData.summary.description || null,
+        },
+      };
+    }
+
+    // Zod 유효성 검사
+    const validation = AdminAnnouncementRequestSchema.safeParse(payload);
+    if (!validation.success) {
+      console.error("검증 실패 상세:", validation.error.format());
+      alert(`입력값을 확인해주세요. (상세 에러는 콘솔을 확인하세요)`);
+      return;
+    }
+
+    try {
+      // POST API 호출
+      await postAdminAnnouncement(announcementId, payload);
+      alert("공고가 성공적으로 저장되었습니다.");
+    } catch (error) {
+      console.error("저장 실패:", error);
+      alert("저장에 실패했습니다. 다시 시도해주세요.");
+    }
+  },
+
+  setgetAdminAnnouncement: (digest) =>
+    set(
+      produce((state: AdminFormStore) => {
+        state.formData.summary.kvDigest = digest;
+      }),
+    ),
+
+  getPublisherStatus: () => {
+    const publisher = get().formData.basicInfo.publisher || "";
+    return {
+      isLH: publisher.includes("LH"),
+      isSH: publisher.includes("SH"),
+      isGH: publisher.includes("GH"),
+    };
+  },
+
+  // 공고 AI PDF 요약 결과 조회 후 스토어 반영
+  fetchAndSetgetAdminAnnouncement: async (announcementId: string) => {
+    try {
+      const response = await getAdminAnnouncement(announcementId);
+
+      if (response) {
+        set(
+          produce((state: AdminFormStore) => {
+            // 기본 정보 (Basic Info) 매핑
+            state.formData.basicInfo = {
+              title: response.title || "",
+              publisher: (response.publisher || "").includes("LH")
+                ? "LH"
+                : (response.publisher || "").includes("SH")
+                  ? "SH"
+                  : "GH",
+              supplyType: response.supplyType || "",
+              originalUrl: response.url || "",
+              applyUrl: response.applyUrl || "",
+            };
+
+            // 개요 및 요약 (Summary)
+            state.formData.summary = {
+              ...state.formData.summary, // 기존 값 유지 (regions 등)
+              rentGtn: response.rentGtn || 0,
+              mtRntchrg: response.mtRntchrg || 0,
+              kvDigest: response.kvDigest || [],
+            };
+
+            // 일정 관리 (Schedule)
+            state.formData.schedule = {
+              ...state.formData.schedule,
+              applyStartDate: response.startDate || "",
+              applyEndDate: response.endDate || "",
+              documentPublishedAt: response.documentPublishedAt || "",
+              finalPublishedAt: response.finalPublishedAt || "",
+            };
+          }),
+        );
+      }
+    } catch (error) {
+      console.error("공고 상세 데이터 로드 실패:", error);
+    }
+  },
+
+  // 추가 온보딩 질문 목록 조회
+  fetchAndSetAdditionalOnboardings: async () => {
+    try {
+      const response = await getAdminAdditionalOnboardings();
+      const rawData = Array.isArray(response) ? response : response?.data || [];
+
+      // TODO: any 수정
+      const allData: RequirementItem[] = rawData.map((item: any) => ({
+        additionalOnboardingId: String(item.additionalOnboardingId),
+        title: item.title || "",
+        question: item.question || "",
+        description: item.description ?? "",
+        isRequired: item.required,
+        type: (item.type?.toUpperCase() as RequirementType) || "TEXT_INPUT",
+        value: item.value || "",
+        isNew: false,
+        options: item.options || null,
+      }));
+
+      set(
+        produce((state: AdminFormStore) => {
+          state.formData.requirements = allData.filter(
+            (item) => item.isRequired,
+          );
+          state.qualificationPool = allData;
+        }),
+      );
+    } catch (error) {
+      console.error("온보딩 질문 로드 실패:", error);
+      set(
+        produce((state) => {
+          state.formData.requirements = [];
+          state.qualificationPool = [];
+        }),
+      );
+    }
   },
 }));
