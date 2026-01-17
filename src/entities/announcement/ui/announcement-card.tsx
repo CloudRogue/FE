@@ -81,7 +81,7 @@ export function AnnouncementCard({
 
       <div className="flex justify-between gap-4 mb-4">
         <div className="flex-1 flex flex-col justify-between">
-          <h2 className="text-[18px] font-bold text-slate-800 leading-tight break-keep">
+          <h2 className="text-[18px] font-bold text-slate-800 leading-tight break-keep line-clamp-2 overflow-hidden">
             {title}
           </h2>
           <p className="text-slate-500 mt-3 text-sm tracking-wide">
