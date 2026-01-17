@@ -6,12 +6,13 @@ interface ResponsiveLayoutProps {
 
 export function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
   return (
-    <div className="min-h-screen w-full bg-slate-50 flex justify-center items-center">
+    <div className="min-h-screen w-full bg-slate-50">
       <div
         className="
-          w-full max-w-[768px] min-h-screen flex flex-col
-          justify-center items-center
-          md:min-h-[1024px]
+          mx-auto w-full flex flex-col min-h-screen
+          max-w-[393px]
+          md:max-w-[1200px]
+          bg-white shadow-sm 
         "
       >
         {children}
