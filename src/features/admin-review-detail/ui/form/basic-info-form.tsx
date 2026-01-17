@@ -1,10 +1,12 @@
 // 공고 기본 정보 섹션 컴포넌트
+"use client";
 
 import {
   ANNOUNCEMENT_TYPE_MAP,
   DetailField,
   PROVIDER_OPTIONS,
   useAdminFormStore,
+  usePublisher,
 } from "@/src/features/admin-review-detail";
 import Select from "@/src/shared/ui/select";
 import { useCallback, useEffect, useMemo } from "react";
@@ -12,6 +14,7 @@ import { useCallback, useEffect, useMemo } from "react";
 export function BasicInfoForm() {
   const { formData, updateSection } = useAdminFormStore();
   const { basicInfo } = formData;
+  const { isLH, isSH } = usePublisher();
 
   const handleChange = useCallback(
     (field: keyof typeof basicInfo, value: string) => {
@@ -49,6 +52,7 @@ export function BasicInfoForm() {
         <DetailField
           label="공고명"
           required
+          disabled={isLH || isSH}
           placeholder="공고명을 입력하세요"
           value={basicInfo.title}
           onChange={(e) => handleChange("title", e.target.value)}
@@ -57,6 +61,8 @@ export function BasicInfoForm() {
         {/* 공급 주체 */}
         <Select
           label="공급 주체"
+          required
+          disabled={isLH || isSH}
           options={PROVIDER_OPTIONS}
           value={basicInfo.publisher}
           onChange={(e) => handleChange("publisher", e.target.value)}
@@ -66,6 +72,8 @@ export function BasicInfoForm() {
         {/* 주택 유형 */}
         <Select
           label="공급 유형"
+          required
+          disabled={isLH}
           options={currentAnnouncementOptions}
           value={basicInfo.supplyType}
           onChange={(e) => handleChange("supplyType", e.target.value)}
@@ -76,6 +84,7 @@ export function BasicInfoForm() {
         <DetailField
           label="원문 링크"
           required
+          disabled={isLH}
           placeholder="https://example.com/..."
           value={basicInfo.originalUrl}
           onChange={(e) => handleChange("originalUrl", e.target.value)}
@@ -85,6 +94,7 @@ export function BasicInfoForm() {
         <DetailField
           label="신청 링크"
           required
+          disabled={isLH}
           placeholder="https://example.com/..."
           value={basicInfo.applyUrl}
           onChange={(e) => handleChange("applyUrl", e.target.value)}

@@ -1,8 +1,12 @@
+"use client";
+
 import { ReviewDetailHeader } from "@/src/entities/admin-review-detail";
+import { useAdminFormStore } from "@/src/features/admin-review-detail";
 import {
   Stepper,
   useAdminStepperStore,
 } from "@/src/widgets/admin-review-detail";
+import { useEffect } from "react";
 
 const ADMIN_STEPS = [
   { number: 1, label: "통합 데이터 검수" },
@@ -10,11 +14,35 @@ const ADMIN_STEPS = [
 ];
 
 interface ReviewDetailWrapperProps {
+  announcementId: string;
   children: React.ReactNode;
 }
 
-export function ReviewDetailWrapper({ children }: ReviewDetailWrapperProps) {
+export function ReviewDetailWrapper({
+  announcementId,
+  children,
+}: ReviewDetailWrapperProps) {
   const { step } = useAdminStepperStore();
+
+  const fetchAndSetgetAdminAnnouncement = useAdminFormStore(
+    (state) => state.fetchAndSetgetAdminAnnouncement,
+  );
+  const fetchAndSetAdditionalOnboardings = useAdminFormStore(
+    (state) => state.fetchAndSetAdditionalOnboardings,
+  );
+
+  useEffect(() => {
+    if (announcementId) {
+      // 공고 데이터조회
+      fetchAndSetgetAdminAnnouncement(announcementId);
+      // 추가 온보딩 질문 목록 조회
+      fetchAndSetAdditionalOnboardings();
+    }
+  }, [
+    announcementId,
+    fetchAndSetgetAdminAnnouncement,
+    fetchAndSetAdditionalOnboardings,
+  ]);
   return (
     <>
       <ReviewDetailHeader

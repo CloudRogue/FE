@@ -1,4 +1,5 @@
 // 자격 정보 섹션
+"use client";
 
 import {
   RequirementCard,
@@ -7,49 +8,17 @@ import {
 } from "@/src/features/admin-review-detail";
 import Button from "@/src/shared/ui/button";
 import { Plus } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
-
-const MOCK_POOL: RequirementItem[] = [
-  {
-    id: "90001",
-    title: "생년월일",
-    question: "생년월일을 알려주세요",
-    description: "특정 나이 대에만 지원할 수 있는 공고가 있어요",
-    value: "",
-    type: "NUMBER_INPUT",
-    isRequired: true,
-  },
-  {
-    id: "90002",
-    title: "차량 소유",
-    question: "차량 소유 여부를 알려주세요",
-    description: "차량 무소유 시에만 지원 가능한 공고가 있어요",
-    value: "",
-    type: "SELECT_SINGLE",
-    options: ["무소유", "유소유"],
-    isRequired: false,
-  },
-];
+import { useCallback } from "react";
 
 export function RquirementsForm() {
-  const { formData, addItem, removeItem, updateSection } = useAdminFormStore();
+  const { formData, addItem, removeItem, updateSection, qualificationPool } =
+    useAdminFormStore();
   const { requirements } = formData;
-  const [qualificationPool] = useState<RequirementItem[]>(MOCK_POOL);
-
-  useEffect(() => {
-    // TODO: 추후 API 연동 후 변경 예정
-    MOCK_POOL.forEach((item) => {
-      if (item.isRequired && !requirements.some((r) => r.id === item.id)) {
-        addItem("requirements", item);
-      }
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleUpdate = useCallback(
     (id: string, updates: Partial<RequirementItem>) => {
       const updated = requirements.map((r) =>
-        r.id === id ? { ...r, ...updates } : r,
+        r.additionalOnboardingId === id ? { ...r, ...updates } : r,
       );
       updateSection("requirements", updated);
     },
@@ -57,14 +26,19 @@ export function RquirementsForm() {
   );
 
   const handleSelectPoolItem = (item: RequirementItem) => {
-    if (requirements.some((r) => r.id === item.id)) return;
+    if (
+      requirements.some(
+        (r) => r.additionalOnboardingId === item.additionalOnboardingId,
+      )
+    )
+      return;
     addItem("requirements", { ...item });
   };
 
   const handleAddNew = () => {
     const newId = `custom-${Date.now()}`;
     addItem("requirements", {
-      id: newId,
+      additionalOnboardingId: newId,
       title: "",
       question: "",
       description: "",
@@ -83,14 +57,25 @@ export function RquirementsForm() {
 
       {/* 입력 폼 리스트 */}
       <div className="space-y-6">
-        {requirements.map((req) => (
-          <RequirementCard
-            key={req.id}
-            item={req}
-            onUpdate={(updates) => handleUpdate(req.id, updates)}
-            onRemove={() => removeItem("requirements", req.id)}
-          />
-        ))}
+        {requirements.length === 0 ? (
+          <div className="py-10 text-center border-2 border-dashed border-slate-100 rounded-2xl text-slate-300">
+            등록된 자격 조건이 없습니다. 아래 리스트에서 선택하거나 신규 조건을
+            추가하세요.
+          </div>
+        ) : (
+          requirements.map((req, idx) => (
+            <RequirementCard
+              key={`${req.additionalOnboardingId}-${idx}`}
+              item={req}
+              onUpdate={(updates) =>
+                handleUpdate(req.additionalOnboardingId, updates)
+              }
+              onRemove={() =>
+                removeItem("requirements", req.additionalOnboardingId)
+              }
+            />
+          ))
+        )}
       </div>
 
       {/* 하단 풀 리스트 */}
@@ -105,10 +90,12 @@ export function RquirementsForm() {
           >
             <Plus size={16} /> 신규 조건
           </Button>
-          {qualificationPool.map((item) => (
+          {qualificationPool?.map((item, idx) => (
             <Button
-              key={item.id}
-              disabled={requirements.some((r) => r.id === item.id)}
+              key={`${item.additionalOnboardingId}-${idx}`}
+              disabled={qualificationPool.some(
+                (r) => r.additionalOnboardingId === item.additionalOnboardingId,
+              )}
               onClick={() => handleSelectPoolItem(item)}
               className="px-4 py-2 rounded-xl border border-slate-200 text-sm font-medium text-slate-600 disabled:bg-slate-100 disabled:text-slate-400 hover:border-blue-400 hover:text-blue-600 transition-all"
             >

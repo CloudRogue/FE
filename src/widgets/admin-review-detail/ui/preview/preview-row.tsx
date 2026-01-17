@@ -1,6 +1,6 @@
 interface PreviewRowProps {
   label: string;
-  value: string | string[];
+  value: string | number | string[];
   vertical?: boolean;
   badge?: boolean;
 }

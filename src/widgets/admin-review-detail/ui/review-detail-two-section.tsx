@@ -73,7 +73,7 @@ export function ReviewDetailTwoSection() {
         <div className="space-y-3">
           {requirements.map((req, index) => (
             <div
-              key={req.id}
+              key={req.additionalOnboardingId}
               className="group flex flex-col gap-2 p-5 bg-[#F4F7FF] border border-transparent rounded-xl transition-all hover:border-blue-200"
             >
               <div className="flex items-center gap-3">
