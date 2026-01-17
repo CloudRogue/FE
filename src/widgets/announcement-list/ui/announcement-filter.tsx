@@ -10,13 +10,13 @@ export function AnnouncementFilter() {
   const { activeTab, applyFilters, resetFilters } = useFilterStore();
   return (
     <div className="w-full bg-white flex flex-col">
-      {/* 2. 중앙 컨텐츠 */}
+      {/* 중앙 컨텐츠 */}
       <div className="p-5 min-h-[250px] max-h-[400px] overflow-y-auto">
         {activeTab === "region" && <RegionFilter />}
         {activeTab === "publisher" && <PublisherFilter />}
         {activeTab === "housingType" && <HousingTypeFilter />}
       </div>
-      {/* 3. 하단 액션 버튼 */}
+      {/* 하단 액션 버튼 */}
       <div className="p-4 flex justify-end gap-2 border-t bg-slate-50">
         <Button
           variant="ghost"
