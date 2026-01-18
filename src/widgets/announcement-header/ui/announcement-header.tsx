@@ -1,11 +1,13 @@
 "use client";
+
 import cn from "@/src/shared/lib/cn";
 import { useFilterStore } from "@/src/features/filter-announcements";
 import { SearchBar } from "@/src/features/search-announcements";
-import { FilterTriggerBar } from "@/src/features/filter-announcements";
-import { SortSelector } from "@/src/features/filter-announcements";
+import {
+  FilterTriggerBar,
+  SortSelector,
+} from "@/src/features/filter-announcements";
 import { RecommendationToggle } from "@/src/features/toggle-recommend";
-import { AnnouncementFilter } from "@/src/features/filter-announcements";
 
 export function AnnouncementHeader() {
   const { statusTab, setStatusTab, isFilterOpen, closeFilter, setSort } =
@@ -13,7 +15,6 @@ export function AnnouncementHeader() {
 
   const handleTabChange = (status: "OPEN" | "CLOSED") => {
     setStatusTab(status);
-
     if (status === "CLOSED") {
       setSort("LATEST");
     }
@@ -25,30 +26,21 @@ export function AnnouncementHeader() {
         <SearchBar />
 
         <div className="flex border-b border-slate-100 mt-1">
-          <button
-            onClick={() => setStatusTab("OPEN")}
-            className={cn(
-              "flex-1 py-4 text-center text-[15px] font-bold transition-colors relative",
-              statusTab === "OPEN" ? "text-slate-900" : "text-slate-400",
-            )}
-          >
-            접수 가능
-            {statusTab === "OPEN" && (
-              <div className="absolute bottom-0 left-0 w-full h-[2px] bg-slate-900" />
-            )}
-          </button>
-          <button
-            onClick={() => setStatusTab("CLOSED")}
-            className={cn(
-              "flex-1 py-4 text-center text-[15px] font-bold transition-colors relative",
-              statusTab === "CLOSED" ? "text-slate-900" : "text-slate-400",
-            )}
-          >
-            접수 마감
-            {statusTab === "CLOSED" && (
-              <div className="absolute bottom-0 left-0 w-full h-[2px] bg-slate-900" />
-            )}
-          </button>
+          {(["OPEN", "CLOSED"] as const).map((status) => (
+            <button
+              key={status}
+              onClick={() => handleTabChange(status)}
+              className={cn(
+                "flex-1 py-4 text-center text-[15px] font-bold transition-colors relative",
+                statusTab === status ? "text-slate-900" : "text-slate-400",
+              )}
+            >
+              {status === "OPEN" ? "접수 가능" : "접수 마감"}
+              {statusTab === status && (
+                <div className="absolute bottom-0 left-0 w-full h-[2px] bg-slate-900" />
+              )}
+            </button>
+          ))}
         </div>
 
         <FilterTriggerBar />
