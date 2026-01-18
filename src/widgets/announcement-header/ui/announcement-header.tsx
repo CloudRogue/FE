@@ -8,8 +8,16 @@ import { RecommendationToggle } from "@/src/features/toggle-recommend";
 import { AnnouncementFilter } from "@/src/features/filter-announcements";
 
 export function AnnouncementHeader() {
-  const { statusTab, setStatusTab, isFilterOpen, closeFilter, activeTab } =
+  const { statusTab, setStatusTab, isFilterOpen, closeFilter, setSort } =
     useFilterStore();
+
+  const handleTabChange = (status: "OPEN" | "CLOSED") => {
+    setStatusTab(status);
+
+    if (status === "CLOSED") {
+      setSort("LATEST");
+    }
+  };
 
   return (
     <>
@@ -45,12 +53,20 @@ export function AnnouncementHeader() {
 
         <FilterTriggerBar />
 
-        {isFilterOpen ? (
-          <AnnouncementFilter />
-        ) : (
-          <div className="flex items-center justify-between px-4 border-t border-slate-50 py-2">
-            <RecommendationToggle />
-            <SortSelector />
+        {!isFilterOpen && (
+          <div className="flex items-center justify-between px-4 border-t border-slate-50 py-2 min-h-[44px]">
+            {statusTab === "OPEN" ? (
+              <>
+                <RecommendationToggle />
+                <SortSelector />
+              </>
+            ) : (
+              <div className="flex items-center justify-end w-full">
+                <span className="text-[13px] text-slate-400 font-medium">
+                  마감순 정렬
+                </span>
+              </div>
+            )}
           </div>
         )}
       </header>
