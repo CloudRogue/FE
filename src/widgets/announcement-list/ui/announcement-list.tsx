@@ -1,12 +1,12 @@
 "use client";
 
-import Link from "next/link"; 
-import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
+import Link from "next/link";
 import { useAnnouncements } from "@/src/entities/announcement/api/use-announcements";
-import { AnnouncementCard } from "@/src/entities/announcement/ui/announcement-card";
-import { useInView } from "react-intersection-observer";
+import type { Announcement } from "@/src/entities/announcement/model/types";
+import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
+import { AnnouncementCard } from "@/src/widgets/announcement-card/ui/announcement-card";
 import { useEffect } from "react";
-import type { AnnouncementSummary } from "@/src/entities/announcement/model/types";
+import { useInView } from "react-intersection-observer";
 
 export function AnnouncementList() {
   const isPersonalized = useFilterStore((state) => state.isPersonalized);
@@ -31,7 +31,7 @@ export function AnnouncementList() {
 
   const { ref, inView } = useInView();
 
-  const announcements: AnnouncementSummary[] =
+  const announcements: Announcement[] =
     data?.pages.flatMap((page) => page.data) ?? [];
 
   useEffect(() => {
@@ -56,7 +56,6 @@ export function AnnouncementList() {
     <div className="bg-slate-50 min-h-screen">
       <div className="flex flex-col gap-px bg-slate-200">
         {announcements.map((item, index) => (
-          // 2. Link로 감싸고 key 이동, href 설정
           <Link
             key={`${item.announcementId}-${index}`}
             href={`/announcement/${item.announcementId}`}
@@ -68,7 +67,6 @@ export function AnnouncementList() {
                 start: item.startDate,
                 end: item.endDate,
               }}
-              // 리스트에서는 기본값 처리
               isScrapped={false}
               externalApplyUrl=""
               fullAdres=""

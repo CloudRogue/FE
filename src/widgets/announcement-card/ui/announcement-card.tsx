@@ -1,7 +1,8 @@
 "use client";
 
-import type { AnnouncementSummary } from "@/src/entities/announcement/model/types";
-import { OutboundAction } from "@/src/features/announcement-outbound";
+import type { Announcement } from "@/src/entities/announcement/model/types";
+import { useUser } from "@/src/entities/user";
+import { AnnouncementApplyAction } from "@/src/features/announcement-apply";
 import { ScrapButton } from "@/src/features/announcement-scrap";
 import cn from "@/src/shared/lib/cn";
 import { Badge } from "@/src/shared/ui/badge";
@@ -15,7 +16,7 @@ const STATUS_MAP = {
   CLOSED: "마감",
 } as const;
 
-interface AnnouncementCardProps extends AnnouncementSummary {
+interface AnnouncementCardProps extends Announcement {
   period: {
     start: string;
     end: string;
@@ -42,6 +43,7 @@ export function AnnouncementCard({
   imageUrl = "",
   className,
 }: AnnouncementCardProps) {
+  const { isLoggedIn } = useUser();
   const regionBadge = useMemo(
     () => fullAdres?.split(" ")[0]?.substring(0, 2) ?? "전국",
     [fullAdres],
@@ -116,20 +118,13 @@ export function AnnouncementCard({
         </div>
       </div>
 
-      {externalApplyUrl && (
-        <div
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-        >
-          <OutboundAction
-            announcementId={announcementId}
-            externalApplyUrl={externalApplyUrl}
-            status={status}
-            dDay={dDay ?? 0}
-          />
-        </div>
+      {isLoggedIn && externalApplyUrl && (
+        <AnnouncementApplyAction
+          announcementId={announcementId}
+          title={title}
+          status={status}
+          dDay={dDay ?? 0}
+        />
       )}
     </div>
   );
