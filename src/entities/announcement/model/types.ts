@@ -4,7 +4,7 @@ import type {
   AnnouncementFilterParamsSchema,
   AnnouncementListResponseSchema,
   RecentViewedResponseSchema,
-} from "./schemas";
+} from "@/src/entities/announcement/model/schemas";
 
 export type Announcement = z.infer<typeof AnnouncementSchema>;
 

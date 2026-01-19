@@ -7,7 +7,7 @@ export function useRecentViewedAnnouncements(limit = 20) {
     queryKey: ["announcements", "recent-viewed"],
     queryFn: ({ pageParam }) =>
       Api.get(
-        `/api/mypage/outbounds?limit=${limit}${pageParam ? `&cursor=${pageParam}` : ""}`,
+        `/mypage/outbounds?limit=${limit}${pageParam ? `&cursor=${pageParam}` : ""}`,
         RecentViewedResponseSchema,
       ),
     initialPageParam: null as number | null,
