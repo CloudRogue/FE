@@ -12,6 +12,7 @@ export const AnnouncementSummarySchema = z.object({
   publishedAt: z.string(),
   publisher: z.string(),
   status: z.enum(["OPEN", "DUE_SOON", "UPCOMING", "CLOSED"]),
+  isScrapped: z.boolean().nullable().optional(),
 });
 
 /**
@@ -46,6 +47,7 @@ export const CursorMetaSchema = z.object({
  * 변경된 필터 파라미터 스키마
  */
 export const AnnouncementFilterParamsSchema = z.object({
+  keyword: z.string().optional(),
   publisher: z.string().optional(),
   housingType: z.string().optional(),
   regionName: z.string().optional(),
