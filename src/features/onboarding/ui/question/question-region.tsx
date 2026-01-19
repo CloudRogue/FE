@@ -157,7 +157,7 @@ export default function QuestionRegion({ onChange }: Props) {
 
       <div className={listBoxClass}>
         {activeTab === "city" && (
-          <div className="max-h-[320px] overflow-auto py-2">
+          <div className="max-h-80 overflow-auto py-2">
             {isCitiesLoading && (
               <div className="px-4 py-3 text-sm text-gray-500">
                 불러오는 중...
@@ -196,7 +196,7 @@ export default function QuestionRegion({ onChange }: Props) {
         )}
 
         {activeTab === "sigungu" && (
-          <div className="max-h-[320px] overflow-auto py-2">
+          <div className="max-h-80 overflow-auto py-2">
             {isSigunguTabDisabled && (
               <div className="px-4 py-3 text-sm text-gray-500">
                 먼저 시/도를 선택해주세요.
