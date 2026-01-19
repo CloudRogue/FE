@@ -31,7 +31,7 @@ export function Accordion({
   return (
     <div
       className={cn(
-        "border-2 border-gray-100 rounded-2xl overflow-hidden transition-all",
+        "border border-gray-200 rounded-2xl overflow-hidden transition-all",
         className,
       )}
     >
