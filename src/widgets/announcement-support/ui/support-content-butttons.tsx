@@ -11,13 +11,13 @@ export function SupportContentButtons() {
     <div className="mt-4">
       {isLoggedIn ? (
         <Link href="/mypage">
-          <Button className="w-full bg-[#111111] text-white py-6 rounded-xl font-bold text-[16px]">
+          <Button className="w-full bg-[#ECEFF1] text-white py-6 rounded-xl font-bold text-[16px]">
             내 자격 정보 수정하기
           </Button>
         </Link>
       ) : (
         <Link href="/login">
-          <Button className="w-full bg-[#111111] text-white py-6 rounded-xl font-bold text-[16px]">
+          <Button className="w-full bg-[#1778FF] text-white py-6 rounded-xl font-bold text-[16px]">
             지원 자격 진단 받으려면 로그인 하기
           </Button>
         </Link>

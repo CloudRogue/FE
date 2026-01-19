@@ -70,9 +70,11 @@ export const AnnouncementDetailSchema = z.object({
   publisher: z.string(), // 발행처(기관/지자체 등)
   title: z.string(), // 공고명
   housingType: z.string(), // 주택 유형(앱 뱃지/필터에 사용)
+  supplyType: z.string(), // 공급 유형
   startDate: z.string(), // 공고 시작일
   endDate: z.string(), // 공고 마감일
-  publishedAt: z.string(), // 발표일(게시일)
+  documentPublishedAt: z.string().nullable().optional(), // 서류 발표일
+  finalPublishedAt: z.string().nullable().optional(), // 최종 발표일(당첨자 발표일)
   status: AnnouncementStatusSchema, // 공고 접수 상태
   dDay: z.int().nullable(), // 마감까지 남은 일수
   rentGtn: z.number().nullable(), // 최소임대보증금
@@ -81,11 +83,8 @@ export const AnnouncementDetailSchema = z.object({
   surlus: z.number().nullable(), // 최소 잔금
   mtRntchrg: z.number().nullable(), // 최소 월 임대료
   fullAdres: z.string().nullable(), // 전체주소
-  rnCodeNm: z.string().nullable(), // 도로명 주소(주소가 도로명 주소일 때 표시)
   refrnLegaldongNm: z.string().nullable(), // 참조_법정동명(주소가 지번 주소일 때 표시)
   url: z.string().url().nullable(), // 모집 공고 URL
-  originalUrl: z.string().url(), // 원문 공고 URL
-  externalApplyUrl: z.string().url(), // 신청하러가기 외부 링크
   isScrapped: z.boolean().nullable(), // 로그인 사용자 기준 찜 여부
 });
 
@@ -110,16 +109,25 @@ export const EligibilityResultSchema = z.object({
 
 export type EligibilityResult = z.infer<typeof EligibilityResultSchema>;
 
-// 공고 요약 항목
-export const KvDigestItemSchema = z.object({
-  key: z.string().describe("요약 항목명"),
-  value: z.string().describe("요약 내용"),
+// 공고 요약
+export const AnnouncementSummaryResponseSchema = z.object({
+  announcementId: z.number(),
+  summary: z.string(),
 });
 
-// 공고 요약 전체
-export const KvDigestResponseSchema = z.object({
-  kvDigest: z.array(KvDigestItemSchema).describe("공고 요약본 목록"),
+export type AnnouncementSummaryResponse = z.infer<
+  typeof AnnouncementSummaryResponseSchema
+>;
+
+// 공고 개요
+export const AnnouncementOverviewResponseSchema = z.object({
+  announcementId: z.number(),
+  content: z.string(),
+  target: z.string(),
+  regions: z.union([z.array(z.string()), z.string()]),
+  applyMethod: z.string(),
 });
 
-export type KvDigestItem = z.infer<typeof KvDigestItemSchema>;
-export type KvDigestResponse = z.infer<typeof KvDigestResponseSchema>;
+export type AnnouncementOverviewResponse = z.infer<
+  typeof AnnouncementOverviewResponseSchema
+>;
