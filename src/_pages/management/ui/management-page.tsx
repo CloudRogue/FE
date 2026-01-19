@@ -1,22 +1,33 @@
+"use client";
+
 import {
+  MANAGEMENT_STATUS_TYPE,
   MANAGEMENT_TABS,
-  ManagementListCard,
+  managementQueries,
   ManagementStatus,
   ManagementStatusCard,
 } from "@/src/entities/management";
+import { ManagementList } from "@/src/entities/management/ui/management-list";
 import {
   TabsContent,
   TabsList,
   TabsRoot,
   TabsTrigger,
 } from "@/src/shared/ui/tabs";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 export default function ManagementPage() {
+  const { data } = useInfiniteQuery(
+    managementQueries.list(MANAGEMENT_STATUS_TYPE.APPLYING),
+  );
+  const summary = data?.pages[0]?.summary;
+
   return (
     <div>
-      <ManagementStatusCard />
+      <h1 className="text-2xl font-bold text-slate-900 hidden">지원 관리</h1>
+      <ManagementStatusCard summary={summary} />
 
-      <TabsRoot defaultValue="applying" className="w-full">
+      <TabsRoot defaultValue="APPLYING" className="w-full">
         <TabsList className="w-full border-b border-gray-200 bg-transparent p-0">
           {MANAGEMENT_TABS.map((tab) => (
             <TabsTrigger
@@ -35,7 +46,7 @@ export default function ManagementPage() {
               value={tab.value}
               className="mt-0 outline-none"
             >
-              <ManagementListCard status={tab.value as ManagementStatus} />
+              <ManagementList status={tab.value as ManagementStatus} />
             </TabsContent>
           ))}
         </div>
