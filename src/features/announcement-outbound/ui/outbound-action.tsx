@@ -14,12 +14,12 @@ type AnnouncementStatus = z.infer<typeof AnnouncementStatusSchema>;
 
 type ApplyActionsProps = Pick<
   AnnouncementDetail,
-  "announcementId" | "externalApplyUrl" | "status" | "dDay"
+  "announcementId" | "url" | "status" | "dDay"
 >;
 
 export function OutboundAction({
   announcementId,
-  externalApplyUrl,
+  url,
   status,
   dDay,
 }: ApplyActionsProps) {
@@ -56,13 +56,13 @@ export function OutboundAction({
   }, [status, dDay]);
 
   const handleApplyClick = async () => {
-    if (!externalApplyUrl) return;
+    if (!url) return;
     try {
       await postOutboundLog(announcementId);
     } catch (error) {
       console.error("Outbound log failed", error);
     } finally {
-      window.open(externalApplyUrl, "_blank");
+      window.open(url, "_blank");
     }
   };
 

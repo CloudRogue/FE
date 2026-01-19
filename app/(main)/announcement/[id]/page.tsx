@@ -4,6 +4,7 @@ import { getAnnouncementDetail } from "@/src/entities/announcement-detail";
 type PageParams = Promise<{ id: string }>;
 
 export default async function Page({ params }: { params: PageParams }) {
+  // 쿼리 입히기
   const { id } = await params;
   const data = await getAnnouncementDetail(id);
 

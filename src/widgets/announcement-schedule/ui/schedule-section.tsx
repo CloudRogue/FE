@@ -21,11 +21,11 @@ export function ScheduleSection({
         />
         <OverviewRow
           label="서류 대상자 발표일"
-          value={announcement.publishedAt}
+          value={announcement.documentPublishedAt}
         />
         <OverviewRow
           label="최종 당첨자 발표일"
-          value={announcement.publishedAt}
+          value={announcement.finalPublishedAt}
         />
       </div>
     </section>

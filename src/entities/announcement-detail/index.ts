@@ -1,6 +1,7 @@
 // api
 export {
   getAnnouncementDetail,
+  getAnnouncementOverview,
   getAnnouncementSummary,
 } from "@/src/entities/announcement-detail/api/queries";
 
@@ -11,18 +12,19 @@ export { mapAnnouncementToSummary } from "@/src/entities/announcement-detail/lib
 export {
   AnnouncementDetailSchema,
   AnnouncementEligibilitySchema,
+  AnnouncementOverviewResponseSchema,
   AnnouncementStatusSchema,
+  AnnouncementSummaryResponseSchema,
   EligibilityResultSchema,
-  KvDigestItemSchema,
-  KvDigestResponseSchema,
   type AnnouncementDetail,
   type AnnouncementEligibility,
+  type AnnouncementOverviewResponse,
   type AnnouncementStatus,
+  type AnnouncementSummaryResponse,
   type EligibilityResult,
-  type KvDigestItem,
-  type KvDigestResponse,
 } from "@/src/entities/announcement-detail/model/announcement.types";
 
 // ui
-export { AnnouncementCard } from "@/src/entities/announcement/ui/announcement-card";
 export { OverviewRow } from "@/src/entities/announcement-detail/ui/overview-row";
+export { RegionOverviewRow } from "@/src/entities/announcement-detail/ui/region-overview-row";
+export { AnnouncementCard } from "@/src/entities/announcement/ui/announcement-card";

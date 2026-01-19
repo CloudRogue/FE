@@ -108,7 +108,7 @@ export function AnnouncementCard({
       {externalApplyUrl && (
         <OutboundAction
           announcementId={announcementId}
-          externalApplyUrl={externalApplyUrl}
+          url={externalApplyUrl}
           status={status}
           dDay={dDay ?? 0}
         />
