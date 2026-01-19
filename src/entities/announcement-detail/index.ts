@@ -27,4 +27,3 @@ export {
 // ui
 export { OverviewRow } from "@/src/entities/announcement-detail/ui/overview-row";
 export { RegionOverviewRow } from "@/src/entities/announcement-detail/ui/region-overview-row";
-export { AnnouncementCard } from "@/src/entities/announcement/ui/announcement-card";

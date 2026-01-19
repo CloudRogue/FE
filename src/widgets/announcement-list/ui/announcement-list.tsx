@@ -1,11 +1,11 @@
 "use client";
 
-import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
 import { useAnnouncements } from "@/src/entities/announcement/api/use-announcements";
-import { AnnouncementCard } from "@/src/entities/announcement/ui/announcement-card";
-import { useInView } from "react-intersection-observer";
-import { useEffect } from "react";
 import type { Announcement } from "@/src/entities/announcement/model/types";
+import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
+import { AnnouncementCard } from "@/src/widgets/announcement-card/ui/announcement-card";
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 
 export function AnnouncementList() {
   const isPersonalized = useFilterStore((state) => state.isPersonalized);
