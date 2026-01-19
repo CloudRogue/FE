@@ -10,7 +10,8 @@ import {
 import Button from "@/src/shared/ui/button";
 
 export function RegionFilter() {
-  const { setTempFilter } = useFilterStore();
+  const { tempFilters, setTempFilter } = useFilterStore();
+
   const [cities, setCities] = useState<
     { cityCode: string; cityName: string }[]
   >([]);
@@ -27,6 +28,12 @@ export function RegionFilter() {
   }, []);
 
   const handleCityClick = async (cityCode: string, cityName: string) => {
+    if (selectedCity?.code === cityCode) {
+      setSelectedCity(null);
+      setSigungus([]);
+      setTempFilter("regionName", undefined);
+      return;
+    }
     setSelectedCity({ code: cityCode, name: cityName });
     const res = await getSigungu(cityCode);
     setSigungus(res.data);
@@ -35,41 +42,69 @@ export function RegionFilter() {
   const handleSigunguClick = (sigunguName: string) => {
     if (!selectedCity) return;
     const fullName = `${selectedCity.name} ${sigunguName}`;
-    setTempFilter("regionName", fullName);
+    const isSelected = tempFilters.regionName === fullName;
+
+    setTempFilter("regionName", isSelected ? undefined : fullName);
   };
 
   return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-4 gap-2 border-b pb-4">
-        {cities.map((city) => (
-          <Button
-            key={city.cityCode}
-            variant="outline"
-            size="sm"
-            onClick={() => handleCityClick(city.cityCode, city.cityName)}
-            className={cn(
-              selectedCity?.code === city.cityCode &&
-                "bg-blue-50 border-blue-500 text-blue-600",
-            )}
-          >
-            {city.cityName}
-          </Button>
-        ))}
-      </div>
+    <div className="flex flex-col gap-6">
+      <section>
+        <p className="text-[12px] text-slate-400 font-bold mb-3 px-1">
+          시/도 선택
+        </p>
+        <div className="grid grid-cols-5 gap-2">
+          {cities.map((city) => {
+            const isCitySelected = selectedCity?.code === city.cityCode;
+            return (
+              <Button
+                key={city.cityCode}
+                onClick={() => handleCityClick(city.cityCode, city.cityName)}
+                className={cn(
+                  "h-auto py-2.5 px-1 rounded-full text-[13px] border transition-all shadow-none",
+                  isCitySelected
+                    ? "bg-[#3B82F6] border-[#3B82F6] text-white font-bold"
+                    : "bg-white border-[#E2E8F0] text-[#64748B] hover:bg-slate-50",
+                )}
+              >
+                <span className="truncate w-full inline-block text-center">
+                  {city.cityName}
+                </span>
+              </Button>
+            );
+          })}
+        </div>
+      </section>
 
       {selectedCity && (
-        <div className="grid grid-cols-3 gap-2 max-h-40 overflow-y-auto">
-          {sigungus.map((sigungu) => (
-            <Button
-              key={sigungu.sigunguCode}
-              variant="ghost"
-              onClick={() => handleSigunguClick(sigungu.sigunguName)}
-              className="justify-start text-sm"
-            >
-              {sigungu.sigunguName}
-            </Button>
-          ))}
-        </div>
+        <section className="animate-in fade-in slide-in-from-top-1">
+          <p className="text-[12px] text-slate-400 font-bold mb-3 px-1">
+            시/군/구 선택
+          </p>
+          <div className="grid grid-cols-5 gap-2 max-h-[180px] overflow-y-auto no-scrollbar pb-2">
+            {sigungus.map((sigungu) => {
+              const fullName = `${selectedCity.name} ${sigungu.sigunguName}`;
+              const isSelected = tempFilters.regionName === fullName;
+
+              return (
+                <Button
+                  key={sigungu.sigunguCode}
+                  onClick={() => handleSigunguClick(sigungu.sigunguName)}
+                  className={cn(
+                    "h-auto py-2.5 px-1 rounded-full text-[13px] border transition-all shadow-none",
+                    isSelected
+                      ? "bg-[#3B82F6] border-[#3B82F6] text-white font-bold"
+                      : "bg-white border-[#E2E8F0] text-[#64748B] hover:bg-slate-50",
+                  )}
+                >
+                  <span className="truncate w-full inline-block text-center">
+                    {sigungu.sigunguName}
+                  </span>
+                </Button>
+              );
+            })}
+          </div>
+        </section>
       )}
     </div>
   );
