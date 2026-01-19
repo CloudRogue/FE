@@ -30,7 +30,7 @@ export function ManagementListCard(props: ManagementListCardProps) {
     documentPublishedAt,
     finalPublishedAt,
   } = props;
-  const { colors, buttonLabel, label } = MANAGEMENT_STATUS[status];
+  const { colors, buttonLabel } = MANAGEMENT_STATUS[status];
 
   const dateMap = {
     [MANAGEMENT_STATUS_TYPE.APPLYING]: endDate,

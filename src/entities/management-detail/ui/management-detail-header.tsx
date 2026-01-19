@@ -1,10 +1,11 @@
 import { ManagementStatusBadge } from "@/src/entities/management";
+import { AnnouncementDetailManagement } from "@/src/entities/management-detail";
 import { ROUTES } from "@/src/shared/constants/routes";
 import Image from "next/image";
 import Link from "next/link";
 
 interface ManagementDetailHeaderProps {
-  data: any;
+  data: AnnouncementDetailManagement;
   announcementId: string;
 }
 
