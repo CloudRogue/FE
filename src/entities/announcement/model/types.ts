@@ -4,7 +4,8 @@ import type {
   AnnouncementDetailSchema,
   AnnouncementFilterParamsSchema,
   AnnouncementListResponseSchema,
-} from "./schemas";
+  RecentViewedResponseSchema,
+} from "@/src/entities/announcement/model/schemas";
 
 // 목록용 타입
 export type Announcement = z.infer<typeof AnnouncementSummarySchema>;
@@ -21,3 +22,5 @@ export type AnnouncementFilterParams = z.infer<
 export type AnnouncementListResponse = z.infer<
   typeof AnnouncementListResponseSchema
 >;
+
+export type RecentViewedResponse = z.infer<typeof RecentViewedResponseSchema>;
