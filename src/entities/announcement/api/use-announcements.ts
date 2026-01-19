@@ -15,7 +15,7 @@ type AnnouncementType =
   | "publisher"
   | "housing-type";
 
-export function useInfiniteAnnouncements(
+export function useAnnouncements(
   type: AnnouncementType,
   filters: AnnouncementFilterParams,
 ) {

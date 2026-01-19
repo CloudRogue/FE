@@ -1,6 +1,6 @@
 "use client";
 
-import type { Announcement } from "@/src/entities/announcement/model/types";
+import type { AnnouncementSummary } from "@/src/entities/announcement/model/types";
 import { OutboundAction } from "@/src/features/announcement-outbound";
 import { ScrapButton } from "@/src/features/announcement-scrap";
 import cn from "@/src/shared/lib/cn";
@@ -15,13 +15,17 @@ const STATUS_MAP = {
   CLOSED: "마감",
 } as const;
 
-interface AnnouncementCardProps extends Announcement {
+interface AnnouncementCardProps extends AnnouncementSummary {
   period: {
     start: string;
     end: string;
   };
   imageUrl?: string;
   className?: string;
+  fullAdres?: string | null;
+  externalApplyUrl?: string | null;
+  dDay?: number | null;
+  isScrapped?: boolean | null;
 }
 
 export function AnnouncementCard({
@@ -73,10 +77,17 @@ export function AnnouncementCard({
           {housingType && <SecondaryBadge>{housingType}</SecondaryBadge>}
         </div>
 
-        <ScrapButton
-          announcementId={announcementId}
-          initialIsScrapped={isScrapped ?? false} // null 대응
-        />
+        <div
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+        >
+          <ScrapButton
+            announcementId={announcementId}
+            initialIsScrapped={isScrapped ?? false}
+          />
+        </div>
       </div>
 
       <div className="flex justify-between gap-4 mb-4">
@@ -106,12 +117,19 @@ export function AnnouncementCard({
       </div>
 
       {externalApplyUrl && (
-        <OutboundAction
-          announcementId={announcementId}
-          externalApplyUrl={externalApplyUrl}
-          status={status}
-          dDay={dDay ?? 0}
-        />
+        <div
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+        >
+          <OutboundAction
+            announcementId={announcementId}
+            externalApplyUrl={externalApplyUrl}
+            status={status}
+            dDay={dDay ?? 0}
+          />
+        </div>
       )}
     </div>
   );

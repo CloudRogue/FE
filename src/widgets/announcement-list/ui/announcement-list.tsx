@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link"; 
 import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
 import { useAnnouncements } from "@/src/entities/announcement/api/use-announcements";
 import { AnnouncementCard } from "@/src/entities/announcement/ui/announcement-card";
@@ -55,17 +56,24 @@ export function AnnouncementList() {
     <div className="bg-slate-50 min-h-screen">
       <div className="flex flex-col gap-px bg-slate-200">
         {announcements.map((item, index) => (
-          <AnnouncementCard
+          // 2. Link로 감싸고 key 이동, href 설정
+          <Link
             key={`${item.announcementId}-${index}`}
-            {...item}
-            period={{
-              start: item.startDate,
-              end: item.endDate,
-            }}
-            isScrapped={false}
-            externalApplyUrl=""
-            fullAdres=""
-          />
+            href={`/announcement/${item.announcementId}`}
+            className="block active:opacity-70 transition-opacity"
+          >
+            <AnnouncementCard
+              {...item}
+              period={{
+                start: item.startDate,
+                end: item.endDate,
+              }}
+              // 리스트에서는 기본값 처리
+              isScrapped={false}
+              externalApplyUrl=""
+              fullAdres=""
+            />
+          </Link>
         ))}
       </div>
 
