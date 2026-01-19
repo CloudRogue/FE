@@ -1,6 +1,7 @@
 "use client";
 
 import type { Announcement } from "@/src/entities/announcement/model/types";
+import { useUser } from "@/src/entities/user";
 import { AnnouncementApplyAction } from "@/src/features/announcement-apply";
 import { ScrapButton } from "@/src/features/announcement-scrap";
 import cn from "@/src/shared/lib/cn";
@@ -38,6 +39,7 @@ export function AnnouncementCard({
   imageUrl = "",
   className,
 }: AnnouncementCardProps) {
+  const { isLoggedIn } = useUser();
   const regionBadge = useMemo(
     () => fullAdres?.split(" ")[0]?.substring(0, 2) ?? "전국",
     [fullAdres],
@@ -105,7 +107,7 @@ export function AnnouncementCard({
         </div>
       </div>
 
-      {externalApplyUrl && (
+      {isLoggedIn && externalApplyUrl && (
         <AnnouncementApplyAction
           announcementId={announcementId}
           title={title}
