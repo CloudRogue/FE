@@ -3,6 +3,7 @@ export { AnnouncementCard } from "@/src/entities/announcement/ui/announcement-ca
 
 // API
 export { announcementQueries } from "@/src/entities/announcement/api/queries";
+export { useRecentViewedAnnouncements } from "@/src/entities/announcement/api/use-recent-viewed";
 
 // Types
 export type {
@@ -16,4 +17,5 @@ export {
   AnnouncementSchema,
   AnnouncementFilterParamsSchema,
   AnnouncementListResponseSchema,
+  RecentViewedResponseSchema,
 } from "@/src/entities/announcement/model/schemas";
