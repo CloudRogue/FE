@@ -13,6 +13,7 @@ import Card from "@/src/shared/ui/card";
 
 interface ManagementListCardProps extends Partial<BaseManage> {
   status: ManagementStatus;
+  housingType?: string;
   endDate?: string; // APPLYING
   documentPublishedAt?: string; // DOCUMENT_WAITING
   finalPublishedAt?: string; // FINAL_WAITING, CLOSED
@@ -21,9 +22,10 @@ interface ManagementListCardProps extends Partial<BaseManage> {
 
 export function ManagementListCard(props: ManagementListCardProps) {
   const {
-    status,
-    title = "공고 제목을 불러올 수 없습니다.",
+    title,
     dDay = 0,
+    status,
+    housingType,
     endDate,
     documentPublishedAt,
     finalPublishedAt,
@@ -32,8 +34,8 @@ export function ManagementListCard(props: ManagementListCardProps) {
 
   const dateMap = {
     [MANAGEMENT_STATUS_TYPE.APPLYING]: endDate,
-    [MANAGEMENT_STATUS_TYPE.PENDING]: documentPublishedAt,
-    [MANAGEMENT_STATUS_TYPE.FINAL]: finalPublishedAt,
+    [MANAGEMENT_STATUS_TYPE.DOCUMENT_PENDING]: documentPublishedAt,
+    [MANAGEMENT_STATUS_TYPE.FINAL_PENDING]: finalPublishedAt,
     [MANAGEMENT_STATUS_TYPE.CLOSED]: finalPublishedAt,
   };
 
@@ -42,13 +44,17 @@ export function ManagementListCard(props: ManagementListCardProps) {
 
   return (
     <Card className="p-6 mb-4 bg-white rounded-2xl shadow-sm border-none">
-      <ManagementStatusBadge status={status} />
+      <ManagementStatusBadge
+        status={status}
+        publisher={props.publisher}
+        housingType={housingType}
+      />
 
       <h3 className="text-[18px] font-bold text-slate-900 mb-6 leading-snug">
         {title || "공고 제목을 불러올 수 없습니다."}
       </h3>
 
-      {isClosed && <ManagementStepper status={status} />}
+      {!isClosed && <ManagementStepper status={status} />}
 
       <Button
         style={{ backgroundColor: colors.buttonBg }}

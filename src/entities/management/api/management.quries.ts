@@ -11,8 +11,8 @@ import { infiniteQueryOptions } from "@tanstack/react-query";
 
 const fetcherMap = {
   [MANAGEMENT_STATUS_TYPE.APPLYING]: getManageApplied,
-  [MANAGEMENT_STATUS_TYPE.PENDING]: getManageDocumentWaiting,
-  [MANAGEMENT_STATUS_TYPE.FINAL]: getManageFinalWaiting,
+  [MANAGEMENT_STATUS_TYPE.DOCUMENT_PENDING]: getManageDocumentWaiting,
+  [MANAGEMENT_STATUS_TYPE.FINAL_PENDING]: getManageFinalWaiting,
   [MANAGEMENT_STATUS_TYPE.CLOSED]: getManageClosed,
 } as const;
 

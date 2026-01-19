@@ -35,9 +35,15 @@ interface ManagementStatusCardProps {
 export function ManagementStatusCard({ summary }: ManagementStatusCardProps) {
   return (
     <section className="flex gap-4 w-full max-w-7xl mx-auto px-4 py-6 bg-white">
-      <StatusItem type="applying" count={summary?.applyingCount ?? 0} />
-      <StatusItem type="pending" count={summary?.documentWaitingCount ?? 0} />
-      <StatusItem type="final" count={summary?.finalWaitingCount ?? 0} />
+      <StatusItem type="APPLYING" count={summary?.applyingCount ?? 0} />
+      <StatusItem
+        type="DOCUMENT_PENDING"
+        count={summary?.documentWaitingCount ?? 0}
+      />
+      <StatusItem
+        type="FINAL_PENDING"
+        count={summary?.finalWaitingCount ?? 0}
+      />
     </section>
   );
 }
