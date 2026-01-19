@@ -1,5 +1,4 @@
 // UI
-export { AnnouncementCard } from "@/src/entities/announcement/ui/announcement-card";
 
 // API
 export { announcementQueries } from "@/src/entities/announcement/api/queries";
@@ -14,8 +13,7 @@ export type {
 
 // Schemas
 export {
-  AnnouncementSchema,
   AnnouncementFilterParamsSchema,
   AnnouncementListResponseSchema,
-  RecentViewedResponseSchema,
+  AnnouncementSchema,
 } from "@/src/entities/announcement/model/schemas";

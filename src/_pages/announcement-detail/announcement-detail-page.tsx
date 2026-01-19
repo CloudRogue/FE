@@ -1,35 +1,38 @@
 import {
-  AnnouncementCard,
   AnnouncementDetail,
   mapAnnouncementToSummary,
 } from "@/src/entities/announcement-detail";
 import SummaryCard from "@/src/entities/announcement-detail/ui/summary-card";
+import { AnnouncementOutbound } from "@/src/features/announcement-outbound/ui/announcement-outbound";
 import {
   TabsContent,
   TabsList,
   TabsRoot,
   TabsTrigger,
 } from "@/src/shared/ui/tabs";
-import { CommentSection } from "@/src/widgets/announcement-comment";
+import { AnnouncementCard } from "@/src/widgets/announcement-card";
 import { ScheduleSection } from "@/src/widgets/announcement-schedule";
 import { SupportSection } from "@/src/widgets/announcement-support";
-import { useMemo } from "react";
 
 interface AnnouncementDetailPageProps {
   announcement: AnnouncementDetail;
 }
 
-export function AnnouncementDetailPage({
+export async function AnnouncementDetailPage({
   announcement,
 }: AnnouncementDetailPageProps) {
-  const period = useMemo(
-    () => mapAnnouncementToSummary(announcement),
-    [announcement],
-  );
+  const period = mapAnnouncementToSummary(announcement);
 
   return (
     <div className="bg-white">
-      <AnnouncementCard {...announcement} period={period} />
+      <AnnouncementOutbound announcementId={announcement.announcementId} />
+
+      <AnnouncementCard
+        {...announcement}
+        externalApplyUrl={announcement.url ?? ""}
+        publishedAt={new Date().toISOString()}
+        period={period}
+      />
       <TabsRoot defaultValue="support" className="w-full">
         <TabsList className="w-full border-b border-gray-200 bg-transparent p-0">
           <TabsTrigger value="support" className="flex-1 pt-4 pb-2">
@@ -39,11 +42,11 @@ export function AnnouncementDetailPage({
             공고 일정
           </TabsTrigger>
           <TabsTrigger value="summary" className="flex-1 pt-4 pb-2">
-            공고 요약
+            공고 개요
           </TabsTrigger>
-          <TabsTrigger value="comment" className="flex-1 pt-4 pb-2">
+          {/* <TabsTrigger value="comment" className="flex-1 pt-4 pb-2">
             공고 댓글
-          </TabsTrigger>
+          </TabsTrigger> */}
         </TabsList>
         <div className="bg-gray-100 min-h-[calc(100vh-200px)] p-5">
           {/* 지원 자격(support) */}
@@ -51,25 +54,20 @@ export function AnnouncementDetailPage({
             <SupportSection announcement={announcement} />
           </TabsContent>
           {/* 공고 일정(schedule) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-1 gap-5 w-full">
-            <TabsContent
-              value="schedule"
-              className="mt-0 outline-none md:!block"
-            >
-              <ScheduleSection period={period} announcement={announcement} />
-            </TabsContent>
-
-            <TabsContent
-              value="summary"
-              className="mt-0 outline-none md:!block"
-            >
-              <SummaryCard announcementId={announcement.announcementId} />
-            </TabsContent>
-          </div>
-          {/* 공고 댓글(comment) */}
-          <TabsContent value="comment" className="mt-0 outline-none">
-            <CommentSection announcementId={announcement.announcementId} />
+          <TabsContent value="schedule" className="mt-0 outline-none md:block!">
+            <ScheduleSection period={period} announcement={announcement} />
           </TabsContent>
+
+          <TabsContent value="summary" className="mt-0 outline-none md:block!">
+            <SummaryCard
+              announcementId={announcement.announcementId}
+              url={announcement.url}
+            />
+          </TabsContent>
+          {/* 공고 댓글(comment) */}
+          {/* <TabsContent value="comment" className="mt-0 outline-none">
+            <CommentSection announcementId={announcement.announcementId} />
+          </TabsContent> */}
         </div>
       </TabsRoot>
     </div>

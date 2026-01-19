@@ -3,15 +3,31 @@
 import cn from "@/src/shared/lib/cn";
 import React, {
   forwardRef,
+  useCallback,
   useEffect,
   useRef,
   useState,
-  useCallback,
 } from "react";
+
+type TriggerProps = {
+  onClick?: React.MouseEventHandler;
+  className?: string;
+  "aria-haspopup"?:
+    | boolean
+    | "false"
+    | "true"
+    | "menu"
+    | "listbox"
+    | "tree"
+    | "grid"
+    | "dialog";
+  "aria-expanded"?: boolean;
+};
 
 export interface PopoverProps {
   trigger: React.ReactNode;
   children: React.ReactNode;
+  containerClassName?: string;
   className?: string;
   align?: "left" | "right" | "center";
   isOpen?: boolean;
@@ -24,6 +40,7 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
     {
       trigger,
       children,
+      containerClassName,
       className,
       align = "center",
       isOpen: controlledIsOpen,
@@ -33,7 +50,6 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
     ref,
   ) => {
     const containerRef = useRef<HTMLDivElement>(null);
-    const triggerButtonRef = useRef<HTMLButtonElement>(null);
     const [internalIsOpen, setInternalIsOpen] = useState(false);
 
     const isOpen =
@@ -62,18 +78,22 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
         document.removeEventListener("mousedown", handleClickOutside);
     }, [isOpen, setIsOpen]);
 
-    useEffect(() => {
-      if (!isOpen) return;
+    const renderTrigger = () => {
+      if (React.isValidElement<TriggerProps>(trigger)) {
+        const triggerElement = trigger;
 
-      const handleKeyDown = (event: KeyboardEvent) => {
-        if (event.key === "Escape") {
-          setIsOpen(false);
-          triggerButtonRef.current?.focus();
-        }
-      };
-      document.addEventListener("keydown", handleKeyDown);
-      return () => document.removeEventListener("keydown", handleKeyDown);
-    }, [isOpen, setIsOpen]);
+        return React.cloneElement(triggerElement, {
+          onClick: (e: React.MouseEvent) => {
+            triggerElement.props.onClick?.(e);
+            setIsOpen((prev) => !prev);
+          },
+          "aria-haspopup": "true",
+          "aria-expanded": isOpen,
+          className: cn(triggerElement.props.className, "cursor-pointer"),
+        });
+      }
+      return trigger;
+    };
 
     const alignClass = {
       left: "left-0",
@@ -91,17 +111,11 @@ const Popover = forwardRef<HTMLDivElement, PopoverProps>(
     );
 
     return (
-      <div className="relative inline-block" ref={containerRef}>
-        <button
-          ref={triggerButtonRef}
-          type="button"
-          onClick={() => setIsOpen((prev) => !prev)}
-          className="cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 rounded-lg"
-          aria-haspopup="true"
-          aria-expanded={isOpen}
-        >
-          {trigger}
-        </button>
+      <div
+        className={cn("relative inline-block", containerClassName)}
+        ref={containerRef}
+      >
+        {renderTrigger()}
 
         {isOpen && (
           <>
