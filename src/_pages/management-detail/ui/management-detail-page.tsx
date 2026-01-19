@@ -4,9 +4,9 @@ import { ManagementStatusBadge } from "@/src/entities/management";
 import {
   managementDetailQueries,
   ManagementDocumentItem,
-  ManagementStepButton,
   ManagementStepSection,
 } from "@/src/entities/management-detail";
+import { ManagementStepButton } from "@/src/features/announcement-outbound";
 import { ROUTES } from "@/src/shared/constants/routes";
 import { formatDateStr } from "@/src/shared/lib/date";
 import { Accordion } from "@/src/shared/ui/arccordion";
@@ -87,7 +87,11 @@ export default function ManagementDetailPage({
               ))}
             </div>
           </Accordion>
-          <ManagementStepButton label="공고 지원하기" href={data.applyUrl} />
+          <ManagementStepButton
+            label="공고 지원하기"
+            href={data.applyUrl}
+            announcementId={data.announcementId}
+          />
         </ManagementStepSection>
 
         {/* 서류대상자 발표 */}
@@ -122,6 +126,7 @@ export default function ManagementDetailPage({
             label="서류 지원하기"
             href={data.applyUrl}
             disabled={!isStep2Done}
+            announcementId={data.announcementId}
           />
         </ManagementStepSection>
 
