@@ -1,5 +1,8 @@
 import AdminReviewDetail from "@/src/_pages/admin-review-detail/page";
 
-export default function Page() {
-  return <AdminReviewDetail />;
+type PageParams = Promise<{ id: string }>;
+
+export default async function Page({ params }: { params: PageParams }) {
+  const { id } = await params;
+  return <AdminReviewDetail announcementId={id} />;
 }

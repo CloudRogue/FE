@@ -4,11 +4,13 @@ import {
   DetailField,
   ScheduleDocument,
   useAdminFormStore,
+  usePublisher,
 } from "@/src/features/admin-review-detail";
 
 export function ScheduleForm() {
   const { formData, updateSection, addItem, removeItem } = useAdminFormStore();
   const { schedule } = formData;
+  const { isLH } = usePublisher();
 
   const handleUpdate = (updates: Partial<typeof schedule>) => {
     updateSection("schedule", updates);
@@ -26,15 +28,19 @@ export function ScheduleForm() {
           <DetailField
             label="접수 시작일"
             type="date"
-            value={schedule.applyStart}
-            onChange={(e) => handleUpdate({ applyStart: e.target.value })}
+            required
+            disabled={isLH}
+            value={schedule.applyStartDate}
+            onChange={(e) => handleUpdate({ applyStartDate: e.target.value })}
           />
 
           <DetailField
             label="접수 마감일"
             type="date"
-            value={schedule.applyEnd}
-            onChange={(e) => handleUpdate({ applyEnd: e.target.value })}
+            required
+            disabled={isLH}
+            value={schedule.applyEndDate}
+            onChange={(e) => handleUpdate({ applyEndDate: e.target.value })}
           />
         </div>
 
@@ -53,8 +59,11 @@ export function ScheduleForm() {
         <DetailField
           label="서류 대상자 발표일"
           type="date"
-          value={schedule.resultDate}
-          onChange={(e) => handleUpdate({ resultDate: e.target.value })}
+          required
+          value={schedule.documentPublishedAt}
+          onChange={(e) =>
+            handleUpdate({ documentPublishedAt: e.target.value })
+          }
         />
 
         <ScheduleDocument
@@ -73,8 +82,10 @@ export function ScheduleForm() {
         <DetailField
           label="최종 대상자 발표일"
           type="date"
-          value={schedule.finalDate}
-          onChange={(e) => handleUpdate({ finalDate: e.target.value })}
+          required
+          disabled={isLH}
+          value={schedule.finalPublishedAt}
+          onChange={(e) => handleUpdate({ finalPublishedAt: e.target.value })}
         />
 
         <p className="text-[11px] text-slate-400 mt-4">

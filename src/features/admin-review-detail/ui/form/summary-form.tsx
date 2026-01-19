@@ -4,6 +4,7 @@ import {
   DetailField,
   SummaryItem,
   useAdminFormStore,
+  usePublisher,
 } from "@/src/features/admin-review-detail";
 import { RegionTag } from "@/src/features/admin-review-detail/ui/region-tag";
 import Button from "@/src/shared/ui/button";
@@ -13,6 +14,7 @@ import { Plus } from "lucide-react";
 export function SummaryForm() {
   const { formData, updateSection, addItem, removeItem } = useAdminFormStore();
   const { summary } = formData;
+  const { isLH } = usePublisher();
 
   const handleChange = (
     field: keyof Omit<SummaryItem, "regions">,
@@ -36,6 +38,7 @@ export function SummaryForm() {
         {/* 대상 */}
         <DetailField
           label="대상"
+          required
           placeholder="만 19~39세 무주택 청년"
           value={summary.target}
           onChange={(e) => handleChange("target", e.target.value)}
@@ -44,6 +47,7 @@ export function SummaryForm() {
         {/* 접수 방법 */}
         <DetailField
           label="접수 방법"
+          required
           placeholder="LH 청약플러스 온라인 접수"
           value={summary.method}
           onChange={(e) => handleChange("method", e.target.value)}
@@ -52,22 +56,28 @@ export function SummaryForm() {
         {/* 임대 보증금 (최소) */}
         <DetailField
           label="임대 보증금 (최소)"
+          type="number"
+          // required
+          disabled={isLH}
           placeholder="1000 만원"
-          value={summary.rental}
-          onChange={(e) => handleChange("rental", e.target.value)}
+          value={summary.rentGtn}
+          onChange={(e) => handleChange("rentGtn", e.target.value)}
         />
 
         {/* 월 임대로 (최소)) */}
         <DetailField
           label="월 임대로 (최소)"
+          type="number"
+          // required
+          disabled={isLH}
           placeholder="1000 만원"
-          value={summary.rent}
-          onChange={(e) => handleChange("rent", e.target.value)}
+          value={summary.mtRntchrg}
+          onChange={(e) => handleChange("mtRntchrg", e.target.value)}
         />
 
         {/* 지역 태그 리스트 */}
         <div className="md:col-span-2">
-          <DetailField label="지역">
+          <DetailField label="지역" required>
             <div className="flex flex-wrap gap-2 p-4 border border-slate-100 rounded-xl bg-slate-50/50">
               {summary.regions.map((region, index) => (
                 <RegionTag

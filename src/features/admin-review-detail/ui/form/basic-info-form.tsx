@@ -1,10 +1,12 @@
 // 공고 기본 정보 섹션 컴포넌트
+"use client";
 
 import {
   ANNOUNCEMENT_TYPE_MAP,
   DetailField,
   PROVIDER_OPTIONS,
   useAdminFormStore,
+  usePublisher,
 } from "@/src/features/admin-review-detail";
 import Select from "@/src/shared/ui/select";
 import { useCallback, useEffect, useMemo } from "react";
@@ -12,6 +14,7 @@ import { useCallback, useEffect, useMemo } from "react";
 export function BasicInfoForm() {
   const { formData, updateSection } = useAdminFormStore();
   const { basicInfo } = formData;
+  const { isLH, isSH } = usePublisher();
 
   const handleChange = useCallback(
     (field: keyof typeof basicInfo, value: string) => {
@@ -23,24 +26,22 @@ export function BasicInfoForm() {
     [basicInfo, updateSection],
   );
 
-  // 현재 선택된 공급 주체에 따른 주택 유형 옵션 필터링
+  // 현재 선택된 공급 주체에 따른 공급 유형 옵션 필터링
   const currentAnnouncementOptions = useMemo(() => {
-    return ANNOUNCEMENT_TYPE_MAP[basicInfo.provider] || [];
-  }, [basicInfo.provider]);
+    return ANNOUNCEMENT_TYPE_MAP[basicInfo.publisher] || [];
+  }, [basicInfo.publisher]);
 
-  // 공급 주체가 변경될 때 주택 유형 초기화
+  // 공급 주체가 변경될 때 공급 유형 초기화
   useEffect(() => {
-    const options = ANNOUNCEMENT_TYPE_MAP[basicInfo.provider];
+    const options = ANNOUNCEMENT_TYPE_MAP[basicInfo.publisher];
     if (options && options.length > 0) {
-      // 현재 선택된 주택 유형이 새로운 옵션 리스트에 없는 경우에만 첫 번째 값으로 변경
-      const isValid = options.some(
-        (opt) => opt.value === basicInfo.announcementType,
-      );
+      // 현재 선택된 공급 유형이 새로운 옵션 리스트에 없는 경우에만 첫 번째 값으로 변경
+      const isValid = options.some((opt) => opt.value === basicInfo.supplyType);
       if (!isValid) {
-        handleChange("announcementType", options[0].value);
+        handleChange("supplyType", options[0].value);
       }
     }
-  }, [basicInfo.provider, basicInfo.announcementType, handleChange]);
+  }, [basicInfo.publisher, basicInfo.supplyType, handleChange]);
 
   return (
     <section className="bg-white border border-slate-100 rounded-2xl p-8 space-y-8">
@@ -51,6 +52,7 @@ export function BasicInfoForm() {
         <DetailField
           label="공고명"
           required
+          disabled={isLH || isSH}
           placeholder="공고명을 입력하세요"
           value={basicInfo.title}
           onChange={(e) => handleChange("title", e.target.value)}
@@ -59,18 +61,22 @@ export function BasicInfoForm() {
         {/* 공급 주체 */}
         <Select
           label="공급 주체"
+          required
+          disabled={isLH || isSH}
           options={PROVIDER_OPTIONS}
-          value={basicInfo.provider}
-          onChange={(e) => handleChange("provider", e.target.value)}
+          value={basicInfo.publisher}
+          onChange={(e) => handleChange("publisher", e.target.value)}
           className="p-2 border-slate-200 font-bold text-slate-700 rounded-xl"
         />
 
         {/* 주택 유형 */}
         <Select
-          label="주택 유형"
+          label="공급 유형"
+          required
+          disabled={isLH}
           options={currentAnnouncementOptions}
-          value={basicInfo.announcementType}
-          onChange={(e) => handleChange("announcementType", e.target.value)}
+          value={basicInfo.supplyType}
+          onChange={(e) => handleChange("supplyType", e.target.value)}
           className="p-2 border-slate-200 font-bold text-slate-700 rounded-xl"
         />
 
@@ -78,18 +84,20 @@ export function BasicInfoForm() {
         <DetailField
           label="원문 링크"
           required
+          disabled={isLH}
           placeholder="https://example.com/..."
-          value={basicInfo.originalLink}
-          onChange={(e) => handleChange("originalLink", e.target.value)}
+          value={basicInfo.originalUrl}
+          onChange={(e) => handleChange("originalUrl", e.target.value)}
         />
 
         {/* 신청 링크 */}
         <DetailField
           label="신청 링크"
           required
+          disabled={isLH}
           placeholder="https://example.com/..."
-          value={basicInfo.applyLink}
-          onChange={(e) => handleChange("applyLink", e.target.value)}
+          value={basicInfo.applyUrl}
+          onChange={(e) => handleChange("applyUrl", e.target.value)}
         />
       </div>
     </section>

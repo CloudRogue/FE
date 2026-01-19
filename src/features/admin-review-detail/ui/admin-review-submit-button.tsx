@@ -2,21 +2,28 @@
 
 import { useAdminFormStore } from "@/src/features/admin-review-detail";
 import Button from "@/src/shared/ui/button";
+import { useParams } from "next/navigation";
 
 interface SubmitButtonProps {
   className?: string;
 }
 
 export function AdminReviewSubmitButton({ className }: SubmitButtonProps) {
-  const { formData } = useAdminFormStore();
+  const { submitForm } = useAdminFormStore();
+
+  const params = useParams();
+  const announcementId = params?.id as string;
 
   const handleSubmit = async () => {
+    if (!announcementId) {
+      alert("공고 ID를 찾을 수 없습니다.");
+      return;
+    }
+
     try {
-      console.log("서버로 데이터 전송:", formData);
-      alert("공고가 성공적으로 등록되었습니다.");
+      await submitForm(announcementId);
     } catch (error) {
-      console.error("등록 중 오류 발생:", error);
-      alert("등록에 실패했습니다.");
+      console.error("등록 과정 중 예외 발생:", error);
     }
   };
 
