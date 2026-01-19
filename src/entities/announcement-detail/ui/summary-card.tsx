@@ -1,9 +1,9 @@
 import {
   AnnouncementDetail,
+  DetailRow,
   getAnnouncementOverview,
   getAnnouncementSummary,
-  OverviewRow,
-  RegionOverviewRow,
+  RegionRow,
 } from "@/src/entities/announcement-detail";
 import Button from "@/src/shared/ui/button";
 import { ExternalLink } from "lucide-react";
@@ -33,10 +33,9 @@ export default async function SummaryCard({
       <h3 className="text-lg font-bold text-gray-900 mb-5">공고 개요</h3>
 
       <div className="space-y-1 font-bold mb-4">
-        <OverviewRow label="항목" value="공고 내용" />
-        <OverviewRow label="대상" value={target} />
-        <RegionOverviewRow regions={regions} />
-        <OverviewRow label="접수 방법" value={applyMethod} />
+        <DetailRow label="항목" value="공고 내용" />
+        <RegionRow regions={regions} />
+        <DetailRow label="접수 방법" value={applyMethod} />
       </div>
 
       <div className="text-gray-600 leading-relaxed whitespace-pre-wrap">

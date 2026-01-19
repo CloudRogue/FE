@@ -25,5 +25,5 @@ export {
 } from "@/src/entities/announcement-detail/model/announcement.types";
 
 // ui
-export { OverviewRow } from "@/src/entities/announcement-detail/ui/overview-row";
-export { RegionOverviewRow } from "@/src/entities/announcement-detail/ui/region-overview-row";
+export { DetailRow } from "@/src/entities/announcement-detail/ui/detail-row";
+export { RegionRow } from "@/src/entities/announcement-detail/ui/region-row";
