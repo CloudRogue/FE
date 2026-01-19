@@ -1,4 +1,4 @@
-import OnboardingShell from "@/src/features/onboarding/ui/onboarding-shell";
+import OnboardingShell from "@/src/features/onboarding/ui/required-onboarding.shell";
 
 export default function Page() {
   return <OnboardingShell />;
