@@ -6,20 +6,17 @@ import type {
   AnnouncementListResponse,
 } from "@/src/entities/announcement/model/types";
 
-/**
- * 공고 목록을 조회하는 통합 인피니트 쿼리 훅
- * @param type - 조회 유형 ('personalized' | 'open' | 'upcoming' | 'closed' | 'region' | 'publisher' | 'housing-type')
- * @param filters - 검색 필터 파라미터
- */
-export function useAnnouncements(
-  type:
-    | "personalized"
-    | "open"
-    | "upcoming"
-    | "closed"
-    | "region"
-    | "publisher"
-    | "housing-type",
+type AnnouncementType =
+  | "personalized"
+  | "open"
+  | "upcoming"
+  | "closed"
+  | "region"
+  | "publisher"
+  | "housing-type";
+
+export function useInfiniteAnnouncements(
+  type: AnnouncementType,
   filters: AnnouncementFilterParams,
 ) {
   const getQueryConfig = () => {
@@ -27,11 +24,15 @@ export function useAnnouncements(
       return announcementQueries.personalized(filters);
     }
 
-    if (["open", "upcoming", "closed"].includes(type)) {
-      return announcementQueries.byStatus(type as any, filters);
+    if (type === "open" || type === "upcoming" || type === "closed") {
+      return announcementQueries.byStatus(type, filters);
     }
 
-    return announcementQueries.search(type as any, filters);
+    if (type === "region" || type === "publisher" || type === "housing-type") {
+      return announcementQueries.search(type, filters);
+    }
+
+    return announcementQueries.byStatus("open", filters);
   };
 
   const queryConfig = getQueryConfig();
