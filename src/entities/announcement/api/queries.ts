@@ -40,7 +40,7 @@ export const announcementQueries = {
       if (params.sort) searchParams.append("sort", params.sort);
 
       return Api.get(
-        `/api/announcements/search/${status}?${searchParams.toString()}`,
+        `/announcements/search/${status}?${searchParams.toString()}`,
         AnnouncementListResponseSchema,
       );
     },

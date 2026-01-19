@@ -5,11 +5,19 @@ import { useAnnouncements } from "@/src/entities/announcement/api/use-announceme
 import { AnnouncementCard } from "@/src/entities/announcement/ui/announcement-card";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
-import type { Announcement } from "@/src/entities/announcement/model/types";
+import type { AnnouncementSummary } from "@/src/entities/announcement/model/types";
 
 export function AnnouncementList() {
   const isPersonalized = useFilterStore((state) => state.isPersonalized);
   const appliedFilters = useFilterStore((state) => state.appliedFilters);
+
+  const getQueryType = () => {
+    if (isPersonalized) return "personalized";
+    if (appliedFilters.regionName) return "region";
+    if (appliedFilters.publisher) return "publisher";
+    if (appliedFilters.housingType) return "housing-type";
+    return "open";
+  };
 
   const {
     data,
@@ -18,11 +26,11 @@ export function AnnouncementList() {
     isFetchingNextPage,
     isLoading,
     isError,
-  } = useAnnouncements(appliedFilters, isPersonalized);
+  } = useAnnouncements(getQueryType(), appliedFilters);
 
   const { ref, inView } = useInView();
 
-  const announcements: Announcement[] =
+  const announcements: AnnouncementSummary[] =
     data?.pages.flatMap((page) => page.data) ?? [];
 
   useEffect(() => {
@@ -35,6 +43,7 @@ export function AnnouncementList() {
     return (
       <p className="p-10 text-center">공고 데이터를 불러오고 있습니다...</p>
     );
+
   if (isError)
     return (
       <p className="p-10 text-center text-red-500">
@@ -45,17 +54,17 @@ export function AnnouncementList() {
   return (
     <div className="bg-slate-50 min-h-screen">
       <div className="flex flex-col gap-px bg-slate-200">
-        {announcements.map((item) => (
+        {announcements.map((item, index) => (
           <AnnouncementCard
-            key={item.announcementId}
+            key={`${item.announcementId}-${index}`}
             {...item}
             period={{
               start: item.startDate,
               end: item.endDate,
             }}
-            isScrapped={item.isScrapped ?? false}
-            externalApplyUrl={item.externalApplyUrl ?? ""}
-            fullAdres={item.fullAdres ?? ""}
+            isScrapped={false}
+            externalApplyUrl=""
+            fullAdres=""
           />
         ))}
       </div>
