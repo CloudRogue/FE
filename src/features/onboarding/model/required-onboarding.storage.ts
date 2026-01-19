@@ -28,8 +28,8 @@ export function saveRequiredOnboardingDraft(
     };
 
     secureLocalStorage.setItem(STORAGE_KEY, payload);
-  } catch {
-    // ignore
+  } catch (error) {
+    console.error("저장 실패.", error);
   }
 }
 
@@ -57,7 +57,8 @@ export function loadRequiredOnboardingDraft(): {
       currentIndex:
         typeof parsed.currentIndex === "number" ? parsed.currentIndex : 0,
     };
-  } catch {
+  } catch (error) {
+    console.error("데이터를 불러오지 못했습니다.", error);
     return null;
   }
 }
@@ -65,7 +66,7 @@ export function loadRequiredOnboardingDraft(): {
 export function clearRequiredOnboardingDraft() {
   try {
     secureLocalStorage.removeItem(STORAGE_KEY);
-  } catch {
-    // ignore
+  } catch (error) {
+    console.error("데이터 삭제 실패.", error);
   }
 }

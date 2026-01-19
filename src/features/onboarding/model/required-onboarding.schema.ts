@@ -1,5 +1,3 @@
-// src/features/onboarding/model/required-onboarding.schema.ts
-
 import { z } from "zod";
 
 import { REQUIRED_ONBOARDING_QUESTION_TYPES } from "@/src/features/onboarding/model/required-onboarding.types";
