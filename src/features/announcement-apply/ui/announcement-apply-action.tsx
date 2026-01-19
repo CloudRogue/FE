@@ -102,18 +102,18 @@ export function AnnouncementApplyAction({
           일정과 서류를 편리하게 관리해보세요.
         </p>
         <div className="w-full flex flex-col gap-3">
-          <button
+          <Button
             onClick={handleFinalConfirm}
             className="w-full py-4 bg-[#1778FF] text-white rounded-2xl font-bold text-[16px] hover:bg-blue-600 transition-colors"
           >
             네, 담아주세요
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => setIsOpen(false)}
             className="w-full py-4 bg-[#F2F4F7] text-[#4E5968] rounded-2xl font-bold text-[16px] hover:bg-gray-200 transition-colors"
           >
             아니요, 괜찮아요
-          </button>
+          </Button>
         </div>
       </div>
     </Popover>
