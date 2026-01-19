@@ -1,14 +1,12 @@
-"use client";
-
 import {
   AnnouncementDetail,
   AnnouncementStatusSchema,
 } from "@/src/entities/announcement-detail";
-import { postOutboundLog } from "@/src/features/announcement-outbound";
 import cn from "@/src/shared/lib/cn";
 import Button from "@/src/shared/ui/button";
 import { useMemo } from "react";
 import z from "zod";
+import { postAnnouncementApply } from "../api/announcement-apply.action";
 
 type AnnouncementStatus = z.infer<typeof AnnouncementStatusSchema>;
 
@@ -17,7 +15,7 @@ type ApplyActionsProps = Pick<
   "announcementId" | "url" | "status" | "dDay"
 >;
 
-export function OutboundAction({
+export function AnnouncementApplyAction({
   announcementId,
   url,
   status,
@@ -58,11 +56,9 @@ export function OutboundAction({
   const handleApplyClick = async () => {
     if (!url) return;
     try {
-      await postOutboundLog(announcementId);
+      await postAnnouncementApply(announcementId);
     } catch (error) {
-      console.error("Outbound log failed", error);
-    } finally {
-      window.open(url, "_blank");
+      console.error("지원 관리 저장 실패", error);
     }
   };
 

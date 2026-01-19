@@ -1,7 +1,7 @@
 "use client";
 
 import type { Announcement } from "@/src/entities/announcement/model/types";
-import { OutboundAction } from "@/src/features/announcement-outbound";
+import { AnnouncementApplyAction } from "@/src/features/announcement-apply";
 import { ScrapButton } from "@/src/features/announcement-scrap";
 import cn from "@/src/shared/lib/cn";
 import { Badge } from "@/src/shared/ui/badge";
@@ -106,7 +106,7 @@ export function AnnouncementCard({
       </div>
 
       {externalApplyUrl && (
-        <OutboundAction
+        <AnnouncementApplyAction
           announcementId={announcementId}
           url={externalApplyUrl}
           status={status}

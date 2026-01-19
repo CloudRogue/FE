@@ -1,15 +1,16 @@
 import {
-  AnnouncementCard,
   AnnouncementDetail,
   mapAnnouncementToSummary,
 } from "@/src/entities/announcement-detail";
 import SummaryCard from "@/src/entities/announcement-detail/ui/summary-card";
+import { AnnouncementOutbound } from "@/src/features/announcement-outbound/ui/announcement-outbound";
 import {
   TabsContent,
   TabsList,
   TabsRoot,
   TabsTrigger,
 } from "@/src/shared/ui/tabs";
+import { AnnouncementCard } from "@/src/widgets/announcement-card";
 import { ScheduleSection } from "@/src/widgets/announcement-schedule";
 import { SupportSection } from "@/src/widgets/announcement-support";
 import { useMemo } from "react";
@@ -18,7 +19,7 @@ interface AnnouncementDetailPageProps {
   announcement: AnnouncementDetail;
 }
 
-export function AnnouncementDetailPage({
+export async function AnnouncementDetailPage({
   announcement,
 }: AnnouncementDetailPageProps) {
   const period = useMemo(
@@ -28,6 +29,8 @@ export function AnnouncementDetailPage({
 
   return (
     <div className="bg-white">
+      <AnnouncementOutbound announcementId={announcement.announcementId} />
+
       <AnnouncementCard
         {...announcement}
         externalApplyUrl={announcement.url ?? ""}
