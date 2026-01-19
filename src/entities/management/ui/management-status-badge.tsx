@@ -19,7 +19,7 @@ export function ManagementStatusBadge({
     MANAGEMENT_STATUS[status || MANAGEMENT_STATUS_TYPE.APPLYING];
 
   return (
-    <div className="flex gap-2 mb-5">
+    <div className="flex gap-2">
       <Badge
         style={{ backgroundColor: colors.badge }}
         className="border-none py-1 px-2 rounded-md text-sm text-white shadow-none"

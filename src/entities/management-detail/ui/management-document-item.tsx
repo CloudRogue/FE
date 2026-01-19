@@ -7,7 +7,7 @@ export const ManagementDocumentItem = ({
   title: string;
   description: string;
 }) => (
-  <div className="p-4 flex justify-between items-center bg-white rounded-xl">
+  <div className="p-4 flex justify-between items-center bg-white rounded-b-xl">
     <div className="min-w-0">
       <p className="font-bold text-slate-800 truncate">{title}</p>
       <p className="text-sm text-slate-400 truncate">{description}</p>

@@ -8,6 +8,7 @@ export { type AnnouncementDetailManagement } from "@/src/entities/management-det
 
 // api
 export { getAnnouncementApplicationDetail } from "@/src/entities/management-detail/api/management-detail.action";
+export { managementDetailQueries } from "@/src/entities/management-detail/api/management-detail.queries";
 
 // ui
 export { ManagementDocumentItem } from "@/src/entities/management-detail/ui/management-document-item";
