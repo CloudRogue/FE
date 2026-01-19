@@ -1,7 +1,8 @@
 "use client";
 
 import type { Announcement } from "@/src/entities/announcement/model/types";
-import { OutboundAction } from "@/src/features/announcement-outbound";
+import { useUser } from "@/src/entities/user";
+import { AnnouncementApplyAction } from "@/src/features/announcement-apply";
 import { ScrapButton } from "@/src/features/announcement-scrap";
 import cn from "@/src/shared/lib/cn";
 import { Badge } from "@/src/shared/ui/badge";
@@ -38,6 +39,7 @@ export function AnnouncementCard({
   imageUrl = "",
   className,
 }: AnnouncementCardProps) {
+  const { isLoggedIn } = useUser();
   const regionBadge = useMemo(
     () => fullAdres?.split(" ")[0]?.substring(0, 2) ?? "전국",
     [fullAdres],
@@ -81,7 +83,7 @@ export function AnnouncementCard({
 
       <div className="flex justify-between gap-4 mb-4">
         <div className="flex-1 flex flex-col justify-between">
-          <h2 className="text-[18px] font-bold text-slate-800 leading-tight break-keep">
+          <h2 className="text-[18px] font-bold text-slate-800 leading-tight break-keep line-clamp-2 overflow-hidden">
             {title}
           </h2>
           <p className="text-slate-500 mt-3 text-sm tracking-wide">
@@ -105,10 +107,10 @@ export function AnnouncementCard({
         </div>
       </div>
 
-      {externalApplyUrl && (
-        <OutboundAction
+      {isLoggedIn && externalApplyUrl && (
+        <AnnouncementApplyAction
           announcementId={announcementId}
-          externalApplyUrl={externalApplyUrl}
+          title={title}
           status={status}
           dDay={dDay ?? 0}
         />

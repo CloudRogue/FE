@@ -1,6 +1,6 @@
 import {
   AnnouncementDetail,
-  OverviewRow,
+  DetailRow,
 } from "@/src/entities/announcement-detail";
 
 export function ScheduleSection({
@@ -12,20 +12,20 @@ export function ScheduleSection({
 }) {
   return (
     <section className="bg-white p-6 rounded-2xl">
-      <h3 className="text-lg font-bold text-gray-900 mb-5">공고 개요</h3>
+      <h3 className="text-lg font-bold text-gray-900 mb-5">공고 일정</h3>
 
       <div className="space-y-1 font-bold">
-        <OverviewRow
+        <DetailRow
           label="접수 기간"
           value={`${period.start} ~ ${period.end}`}
         />
-        <OverviewRow
+        <DetailRow
           label="서류 대상자 발표일"
-          value={announcement.publishedAt}
+          value={announcement.documentPublishedAt}
         />
-        <OverviewRow
+        <DetailRow
           label="최종 당첨자 발표일"
-          value={announcement.publishedAt}
+          value={announcement.finalPublishedAt}
         />
       </div>
     </section>
