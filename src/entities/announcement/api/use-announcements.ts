@@ -1,58 +1,49 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import type { InfiniteData } from "@tanstack/react-query";
-import { Api } from "@/src/shared/api/api";
-import { AnnouncementListResponseSchema } from "@/src/entities/announcement/model/schemas";
+import { announcementQueries } from "@/src/entities/announcement/api/queries";
 import type {
   AnnouncementFilterParams,
   AnnouncementListResponse,
 } from "@/src/entities/announcement/model/types";
 
-const getAnnouncementList = async (
-  params: AnnouncementFilterParams,
-  isPersonalized: boolean,
-): Promise<AnnouncementListResponse> => {
-  const baseUrl = isPersonalized
-    ? "/api/announcements/personalized"
-    : "/api/announcements/open";
-
-  const searchParams = new URLSearchParams();
-
-  if (params.regionCode) searchParams.append("regionCode", params.regionCode);
-  if (params.publisher) searchParams.append("publisher", params.publisher);
-  if (params.housingType)
-    searchParams.append("housingType", params.housingType);
-  if (params.sort) searchParams.append("sort", params.sort);
-  if (params.cursor) searchParams.append("cursor", params.cursor);
-  if (params.limit) searchParams.append("limit", params.limit.toString());
-
-  const url = `${baseUrl}?${searchParams.toString()}`;
-
-  return await Api.get<AnnouncementListResponse>(
-    url,
-    AnnouncementListResponseSchema,
-  );
-};
-
+/**
+ * 공고 목록을 조회하는 통합 인피니트 쿼리 훅
+ * @param type - 조회 유형 ('personalized' | 'open' | 'upcoming' | 'closed' | 'region' | 'publisher' | 'housing-type')
+ * @param filters - 검색 필터 파라미터
+ */
 export function useAnnouncements(
+  type:
+    | "personalized"
+    | "open"
+    | "upcoming"
+    | "closed"
+    | "region"
+    | "publisher"
+    | "housing-type",
   filters: AnnouncementFilterParams,
-  isPersonalized: boolean = false,
 ) {
+  const getQueryConfig = () => {
+    if (type === "personalized") {
+      return announcementQueries.personalized(filters);
+    }
+
+    if (["open", "upcoming", "closed"].includes(type)) {
+      return announcementQueries.byStatus(type as any, filters);
+    }
+
+    return announcementQueries.search(type as any, filters);
+  };
+
+  const queryConfig = getQueryConfig();
+
   return useInfiniteQuery<
     AnnouncementListResponse,
     Error,
     InfiniteData<AnnouncementListResponse>,
-    ["announcements", "list", AnnouncementFilterParams, boolean],
+    ReturnType<typeof getQueryConfig>["queryKey"],
     string | null
   >({
-    queryKey: ["announcements", "list", filters, isPersonalized],
-    queryFn: ({ pageParam }) =>
-      getAnnouncementList(
-        {
-          ...filters,
-          cursor: pageParam,
-        },
-        isPersonalized,
-      ),
+    ...queryConfig,
     initialPageParam: null,
     getNextPageParam: (lastPage) =>
       lastPage.meta.hasNext ? lastPage.meta.nextCursor : undefined,

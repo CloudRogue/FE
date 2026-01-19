@@ -1,19 +1,22 @@
 // UI
-export { AnnouncementCard } from "@/src/entities/announcement/ui/announcement-card";
+export { AnnouncementCard } from "./ui/announcement-card";
 
-// API
-export { announcementQueries } from "@/src/entities/announcement/api/queries";
+// API (쿼리 객체 및 커스텀 훅)
+export { announcementQueries } from "./api/queries";
+export { useAnnouncements } from "./api/use-announcements"; 
 
 // Types
 export type {
-  Announcement,
+  AnnouncementSummary, 
+  AnnouncementDetail, 
   AnnouncementFilterParams,
   AnnouncementListResponse,
-} from "@/src/entities/announcement/model/types";
+} from "./model/types";
 
 // Schemas
 export {
-  AnnouncementSchema,
+  AnnouncementSummarySchema, 
+  AnnouncementDetailSchema, 
   AnnouncementFilterParamsSchema,
   AnnouncementListResponseSchema,
-} from "@/src/entities/announcement/model/schemas";
+} from "./model/schemas";
