@@ -3,6 +3,7 @@ import type {
   AnnouncementSchema,
   AnnouncementFilterParamsSchema,
   AnnouncementListResponseSchema,
+  RecentViewedResponseSchema,
 } from "./schemas";
 
 export type Announcement = z.infer<typeof AnnouncementSchema>;
@@ -14,3 +15,5 @@ export type AnnouncementFilterParams = z.infer<
 export type AnnouncementListResponse = z.infer<
   typeof AnnouncementListResponseSchema
 >;
+
+export type RecentViewedResponse = z.infer<typeof RecentViewedResponseSchema>;

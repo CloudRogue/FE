@@ -37,3 +37,10 @@ export const AnnouncementListResponseSchema = z.object({
   data: z.array(AnnouncementSchema),
   meta: CursorMetaSchema,
 });
+
+export const RecentViewedResponseSchema = z.object({
+  items: z.array(AnnouncementSchema),
+  nextCursor: z.number().nullable(),
+  hasNext: z.boolean(),
+});
+
