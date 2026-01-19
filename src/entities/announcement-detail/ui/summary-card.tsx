@@ -6,6 +6,7 @@ import {
   RegionOverviewRow,
 } from "@/src/entities/announcement-detail";
 import Button from "@/src/shared/ui/button";
+import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 
 interface SummaryCardProps {
@@ -42,9 +43,14 @@ export default async function SummaryCard({
         {announcementSummary}
       </div>
 
-      <Link href={url ?? ""} className="w-full mt-6 inline-block">
-        <Button className="w-full bg-[#F3F4F6] text-[#61666C] py-4 rounded-xl font-bold hover:bg-gray-100 border-none">
-          공고 보러가기
+      <Link
+        href={url ?? ""}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="w-full mt-6 inline-block"
+      >
+        <Button className="flex items-center gap-2 w-full bg-[#F3F4F6] text-[#61666C] py-4 rounded-xl font-bold hover:bg-gray-100 border-none">
+          공고 보러가기 <ExternalLink size={15} />
         </Button>
       </Link>
     </section>
