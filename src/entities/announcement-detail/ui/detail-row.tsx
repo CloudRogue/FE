@@ -23,6 +23,7 @@ export function DetailRow({ label, value, popover }: DetailRowProps) {
             center={true}
             isOpen={popover.isOpen}
             onClose={popover.onClose}
+            containerClassName="flex items-center"
             className="w-[calc(100%-40px)] max-w-100 p-6 rounded-2xl border-none shadow-[0_10px_40px_rgba(0,0,0,0.15)]"
             trigger={popover.trigger}
           >

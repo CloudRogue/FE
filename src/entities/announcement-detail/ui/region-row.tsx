@@ -32,12 +32,12 @@ export function RegionRow({ regions }: { regions: string[] | string }) {
               isOpen,
               onClose: handleClose,
               trigger: (
-                <span
+                <Button
                   onClick={() => setIsOpen(true)}
-                  className="-mt-0.5 px-2 py-1 text-[11px] font-bold text-white bg-[#437CFF] rounded-md cursor-pointer"
+                  className="-mt-0.5 px-1 py-0 h-6 text-[11px] font-bold text-white bg-[#437CFF] rounded-md cursor-pointer"
                 >
                   전체보기
-                </span>
+                </Button>
               ),
               children: (
                 <div className="flex flex-col gap-4">
