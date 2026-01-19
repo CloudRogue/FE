@@ -16,7 +16,7 @@ export function ManagementStepSection({
   children,
 }: StepSectionProps) {
   return (
-    <div className="flex justify-between gap-3 mb-7 last:mb-0">
+    <div className="flex justify-between gap-3 mb-10 last:mb-0">
       <Checkbox
         checked={isCompleted}
         readOnly
