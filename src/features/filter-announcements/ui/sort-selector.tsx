@@ -68,7 +68,7 @@ export function SortSelector() {
           </Button>
         </DropdownTrigger>
 
-        <DropdownContent className="w-32">
+        <DropdownContent className="w-32 border border-slate-100/50">
           {SORT_OPTIONS.map((option) => (
             <DropdownItem
               key={option.value}
@@ -76,7 +76,7 @@ export function SortSelector() {
               className={cn(
                 "px-4 py-2.5 text-[14px]",
                 appliedFilters.sort === option.value
-                  ? "text-blue-600 font-bold bg-blue-50"
+                  ? " bg-blue-50 "
                   : "text-slate-600",
               )}
             >

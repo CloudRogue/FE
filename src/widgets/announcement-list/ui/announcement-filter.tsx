@@ -1,55 +1,38 @@
 "use client";
 
 import Button from "@/src/shared/ui/button";
-import {
-  TabsRoot,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-} from "@/src/shared/ui/tabs";
 import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
 import { RegionFilter } from "@/src/features/filter-announcements/ui/region-filter";
 import { PublisherFilter } from "@/src/features/filter-announcements/ui/publisher-filter";
 import { HousingTypeFilter } from "@/src/features/filter-announcements/ui/housing-filter";
-import styles from "./announcement-filter.module.css";
 
 export function AnnouncementFilter() {
-  const { applyFilters, resetFilters } = useFilterStore();
-
+  const { activeTab, applyFilters, resetFilters } = useFilterStore();
   return (
-    <TabsRoot defaultValue="region" className={styles.container}>
-      {/* 1. 상단 탭 헤더 */}
-      <TabsList className={styles.tabHeader}>
-        <TabsTrigger value="region">희망 지역</TabsTrigger>
-        <TabsTrigger value="publisher">공급 주체</TabsTrigger>
-        <TabsTrigger value="housingType">주택 유형</TabsTrigger>
-      </TabsList>
-
-      {/* 2. 중앙 컨텐츠 */}
-      <div className={styles.content}>
-        <TabsContent value="region">
-          <RegionFilter />
-        </TabsContent>
-
-        <TabsContent value="publisher">
-          <PublisherFilter />
-        </TabsContent>
-
-        <TabsContent value="housingType">
-          <HousingTypeFilter />
-        </TabsContent>
+    <div className="w-full bg-white flex flex-col">
+      {/* 중앙 컨텐츠 */}
+      <div className="p-5 min-h-[250px] max-h-[400px] overflow-y-auto">
+        {activeTab === "region" && <RegionFilter />}
+        {activeTab === "publisher" && <PublisherFilter />}
+        {activeTab === "housingType" && <HousingTypeFilter />}
       </div>
-
-      {/* 3. 하단 액션 버튼 */}
-      <div className={styles.footer}>
-        <Button variant="ghost" size="lg" onClick={resetFilters}>
+      {/* 하단 액션 버튼 */}
+      <div className="p-4 flex justify-end gap-2 border-t bg-slate-50">
+        <Button
+          variant="ghost"
+          onClick={resetFilters}
+          className="px-6 py-2 bg-slate-200 text-slate-600 rounded-xl font-bold h-auto border-none"
+        >
           초기화
         </Button>
-
-        <Button variant="default" size="lg" onClick={applyFilters}>
+        <Button
+          variant="default"
+          onClick={applyFilters}
+          className="px-8 py-2 bg-blue-600 text-white rounded-xl font-bold h-auto border-none"
+        >
           결과 적용
         </Button>
       </div>
-    </TabsRoot>
+    </div>
   );
 }
