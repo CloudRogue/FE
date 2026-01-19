@@ -25,7 +25,7 @@ export default async function SummaryCard({
     getAnnouncementSummary(id),
   ]);
 
-  const { regions = [], applyMethod, target = "알 수 없음" } = overview;
+  const { regions = [], applyMethod } = overview;
   const announcementSummary = summary?.summary ?? "요약 정보가 없습니다.";
 
   return (

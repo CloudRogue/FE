@@ -13,7 +13,6 @@ import {
 import { AnnouncementCard } from "@/src/widgets/announcement-card";
 import { ScheduleSection } from "@/src/widgets/announcement-schedule";
 import { SupportSection } from "@/src/widgets/announcement-support";
-import { useMemo } from "react";
 
 interface AnnouncementDetailPageProps {
   announcement: AnnouncementDetail;
@@ -22,10 +21,7 @@ interface AnnouncementDetailPageProps {
 export async function AnnouncementDetailPage({
   announcement,
 }: AnnouncementDetailPageProps) {
-  const period = useMemo(
-    () => mapAnnouncementToSummary(announcement),
-    [announcement],
-  );
+  const period = mapAnnouncementToSummary(announcement);
 
   return (
     <div className="bg-white">
