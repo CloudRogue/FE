@@ -12,7 +12,7 @@ interface FilterState {
   isPersonalized: boolean;
 
   tempFilters: {
-    regionCode?: string;
+    regionName: string | undefined;
     publisher?: string;
     housingType?: string;
     keyword?: string;
@@ -38,7 +38,7 @@ interface FilterState {
 }
 
 const initialFilterState = {
-  regionCode: undefined,
+  regionName: undefined,
   publisher: undefined,
   housingType: undefined,
   keyword: undefined,
