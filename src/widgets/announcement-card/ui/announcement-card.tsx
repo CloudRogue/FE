@@ -23,6 +23,10 @@ interface AnnouncementCardProps extends Announcement {
   };
   imageUrl?: string;
   className?: string;
+  fullAdres?: string | null;
+  externalApplyUrl?: string | null;
+  dDay?: number | null;
+  isScrapped?: boolean | null;
 }
 
 export function AnnouncementCard({
@@ -75,10 +79,17 @@ export function AnnouncementCard({
           {housingType && <SecondaryBadge>{housingType}</SecondaryBadge>}
         </div>
 
-        <ScrapButton
-          announcementId={announcementId}
-          initialIsScrapped={isScrapped ?? false} // null 대응
-        />
+        <div
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+        >
+          <ScrapButton
+            announcementId={announcementId}
+            initialIsScrapped={isScrapped ?? false}
+          />
+        </div>
       </div>
 
       <div className="flex justify-between gap-4 mb-4">

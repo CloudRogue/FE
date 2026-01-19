@@ -6,6 +6,7 @@ import { SearchBar } from "@/src/features/search-announcements";
 import {
   FilterTriggerBar,
   SortSelector,
+  AnnouncementFilter,
 } from "@/src/features/filter-announcements";
 import { RecommendationToggle } from "@/src/features/toggle-recommend";
 
@@ -44,6 +45,11 @@ export function AnnouncementHeader() {
         </div>
 
         <FilterTriggerBar />
+        {isFilterOpen && (
+          <div className="absolute top-full left-0 w-full z-40">
+            <AnnouncementFilter />
+          </div>
+        )}
 
         {!isFilterOpen && (
           <div className="flex items-center justify-between px-4 border-t border-slate-50 py-2 min-h-[44px]">
