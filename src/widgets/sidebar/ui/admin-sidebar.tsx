@@ -2,13 +2,7 @@
 
 import { ROUTES } from "@/src/shared/constants/routes";
 import cn from "@/src/shared/lib/cn";
-import {
-  ChevronLeft,
-  ChevronRight,
-  LayoutGrid,
-  ListTodo,
-  RefreshCw,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight, LayoutGrid, ListTodo } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -17,7 +11,7 @@ const ADMIN_MENU = [
   {
     title: "검토 전 공고",
     icon: <LayoutGrid size={18} />,
-    href: ROUTES.ADMIM_REVIEW,
+    href: ROUTES.ADMIN_REVIEW,
   },
   {
     title: "등록한 공고",
@@ -33,14 +27,13 @@ export function AdminSidebar() {
   return (
     <aside
       className={cn(
-        "relative h-screen bg-white border-r border-slate-100 flex flex-col p-4 transition-all duration-300 ease-in-out",
-        isCollapsed ? "w-20" : "w-70",
-        "max-md:w-20",
+        "fixed h-screen z-10 bg-white border-r border-slate-100 flex flex-col transition-all duration-300 ease-in-out",
+        isCollapsed ? "p-2 w-0" : "p-4 w-70",
       )}
     >
       <button
         onClick={() => setIsCollapsed(!isCollapsed)}
-        className="absolute -right-3 top-10 bg-white border border-slate-200 rounded-full p-1 shadow-sm hover:bg-slate-50 transition-colors z-10 max-md:hidden"
+        className="absolute -right-3 top-10 bg-white border border-slate-200 rounded-full p-1 shadow-sm hover:bg-slate-50 transition-colors z-10"
       >
         {isCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
       </button>
@@ -57,7 +50,7 @@ export function AdminSidebar() {
             isCollapsed ? "text-[18px]" : "text-[24px]",
           )}
         >
-          {isCollapsed ? "집" : "집착"}
+          {isCollapsed ? "" : "집착"}
         </h1>
       </div>
 
@@ -89,34 +82,16 @@ export function AdminSidebar() {
       </nav>
 
       <div className="mt-auto pt-6 border-t border-slate-50">
-        <div
-          className={cn(
-            "flex items-center justify-between mb-2",
-            isCollapsed ? "flex-col gap-4" : "",
-          )}
-        >
-          {!isCollapsed && (
-            <div className="flex flex-col overflow-hidden">
-              <span className="text-sm font-bold text-slate-800 truncate">
-                관리자 이름
-              </span>
-              <span className="text-xs text-slate-400 truncate">
-                admin@kakao.com
-              </span>
-            </div>
-          )}
-
-          <button
-            className={cn(
-              "flex items-center justify-center gap-1 bg-blue-50 text-blue-600 rounded-lg text-xs font-bold hover:bg-blue-100 transition-colors",
-              isCollapsed ? "w-10 h-10 p-0" : "px-3 py-1.5",
-            )}
-            title="유저 모드"
-          >
-            <RefreshCw size={14} />
-            {!isCollapsed && <span>유저 모드</span>}
-          </button>
-        </div>
+        {!isCollapsed && (
+          <div className="flex flex-col overflow-hidden">
+            <span className="text-sm font-bold text-slate-800 truncate">
+              관리자 이름
+            </span>
+            <span className="text-xs text-slate-400 truncate">
+              admin@kakao.com
+            </span>
+          </div>
+        )}
       </div>
     </aside>
   );
