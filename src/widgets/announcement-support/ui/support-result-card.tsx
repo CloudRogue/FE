@@ -5,28 +5,11 @@ import type {
   EligibilityResult,
 } from "@/src/entities/announcement-detail";
 import { AnnouncementAddTodoButton } from "@/src/features/todo-add";
+import { ROUTES } from "@/src/shared/constants/routes";
 import cn from "@/src/shared/lib/cn";
 import Button from "@/src/shared/ui/button";
-import { formattedDate } from "@/src/widgets/announcement-support";
+import { formattedDate, THEME } from "@/src/widgets/announcement-support";
 import Link from "next/link";
-
-const THEME = {
-  ELIGIBLE: {
-    container: "bg-[#1788F0E5]",
-    statusText: "지원 가능",
-    buttonType: "add-todo",
-  },
-  INELIGIBLE: {
-    container: "bg-[#7C0505E5]",
-    statusText: "지원 불가능",
-    buttonType: "link-other",
-  },
-  "3순위": {
-    container: "bg-[#8F8F8FE5]",
-    statusText: "진단 보류",
-    buttonType: "link-auth",
-  },
-};
 
 interface SupportResultCardProps {
   result: EligibilityResult;
@@ -86,7 +69,7 @@ export function SupportResultCard({
         )}
 
         {theme.buttonType === "link-other" && (
-          <Link href="/announcements" className="block">
+          <Link href={ROUTES.ANNOUNCEMENT} className="block">
             <Button className="w-full bg-white hover:bg-gray-50 py-4 rounded-xl font-bold">
               다른 공고 보러 가기
             </Button>
@@ -94,7 +77,7 @@ export function SupportResultCard({
         )}
 
         {theme.buttonType === "link-auth" && (
-          <Link href="/login" className="block">
+          <Link href={ROUTES.LOGIN} className="block">
             <Button className="w-full bg-white hover:bg-gray-50 py-4 rounded-xl font-bold">
               자격 정보 입력하기
             </Button>
