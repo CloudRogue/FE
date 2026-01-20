@@ -2,7 +2,7 @@ import type {
   RequiredOnboardingAnswers,
   RequiredOnboardingQuestion,
   RequiredOnboardingQuestionType,
-} from "@/src/features/onboarding/model/required-onboarding.types";
+} from "@/src/features/onboarding/model/required-onboarding-types";
 
 export type ProfileDetailUpsertType =
   | "BOOLEAN"

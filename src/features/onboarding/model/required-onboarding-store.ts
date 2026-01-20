@@ -1,17 +1,17 @@
 import { create } from "zustand";
 
-import { getRequiredOnboardingQuestions } from "@/src/features/onboarding/api/required-onboarding.action";
+import { getRequiredOnboardingQuestions } from "@/src/features/onboarding/api/required-onboarding-action";
 import type {
   RequiredOnboardingAnswers,
   RequiredOnboardingQuestion,
   RequiredOnboardingQuestionId,
   RequiredOnboardingAnswerValue,
-} from "@/src/features/onboarding/model/required-onboarding.types";
+} from "@/src/features/onboarding/model/required-onboarding-types";
 import {
   clearRequiredOnboardingDraft,
   loadRequiredOnboardingDraft,
   saveRequiredOnboardingDraft,
-} from "@/src/features/onboarding/model/required-onboarding.storage";
+} from "@/src/features/onboarding/model/required-onboarding-storage";
 
 type RequiredOnboardingStatus = "idle" | "loading" | "success" | "error";
 

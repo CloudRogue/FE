@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { REQUIRED_ONBOARDING_QUESTION_TYPES } from "@/src/features/onboarding/model/required-onboarding.types";
+import { REQUIRED_ONBOARDING_QUESTION_TYPES } from "@/src/features/onboarding/model/required-onboarding-types";
 
 export const RequiredOnboardingQuestionTypeSchema = z.enum(
   REQUIRED_ONBOARDING_QUESTION_TYPES,
