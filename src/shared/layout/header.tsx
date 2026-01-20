@@ -67,7 +67,7 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 flex h-16 w-full items-center bg-white px-4 md:px-8 shrink-0 border border-gray-100">
+    <header className="sticky top-0 z-40 flex h-16 w-full items-center bg-white px-4 shrink-0 border border-gray-100">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between relative">
         {/* 좌측 영역 */}
         <div className="flex min-w-25 items-center z-10">{renderLeft()}</div>
