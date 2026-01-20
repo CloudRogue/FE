@@ -4,8 +4,28 @@ import Button from "@/src/shared/ui/button";
 import Card from "@/src/shared/ui/card";
 import { useState } from "react";
 
+// 분리 필요
+type AnswerValue = string | number | boolean | string[];
+interface OnboardingAnswer {
+  id: number;
+  title: string;
+  type:
+    | "SELECT_SINGLE"
+    | "SELECT_MULTI"
+    | "DATE"
+    | "TEXT_INPUT"
+    | "NUMBER_INPUT"
+    | "BOOLEAN";
+  options: string[] | null;
+  value: AnswerValue;
+}
+interface OnboardingData {
+  requiredOnboardingAnswers: OnboardingAnswer[];
+  additionalOnboardingAnswers: OnboardingAnswer[];
+}
+
 export default function MyPageEligibilityPage() {
-  const [data, setData] = useState(MOCK_DATA);
+  const [data, setData] = useState(MOCK_DATA as OnboardingData);
 
   const [editStatus, setEditStatus] = useState({
     required: false,
@@ -13,9 +33,9 @@ export default function MyPageEligibilityPage() {
   });
 
   const handleInputChange = (
-    section: keyof typeof MOCK_DATA,
+    section: keyof OnboardingData,
     id: number,
-    newValue: any,
+    newValue: AnswerValue,
   ) => {
     setData((prev) => ({
       ...prev,
@@ -106,20 +126,31 @@ export default function MyPageEligibilityPage() {
 // get에서 사용하니 같은 entities로 이동
 interface InfoRowProps {
   label: string;
-  value: any;
+  value: AnswerValue;
   isEditing: boolean;
-  onChange: (val: any) => void;
+  onChange: (val: AnswerValue) => void;
 }
 
 function InfoRow({ label, value, isEditing, onChange }: InfoRowProps) {
+  const renderValue = () => {
+    if (Array.isArray(value)) return value.join(", ");
+    if (typeof value === "boolean") return value ? "예" : "아니오";
+    return value;
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    onChange(val);
+  };
+
   return (
     <li className="flex items-center justify-between gap-4 h-8">
       <span className="text-slate-600 shrink-0">{label}</span>
       {isEditing ? (
         <input
           type="text"
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
+          value={Array.isArray(value) ? value.join(", ") : String(value)}
+          onChange={handleChange}
           className="min-w-40 md:min-w-50 border-b border-gray-400 text-right text-slate-900 focus:outline-none"
           autoFocus
         />
@@ -206,4 +237,4 @@ const MOCK_DATA = {
       value: ["옵션A", "옵션C"],
     },
   ],
-} as const;
+};
