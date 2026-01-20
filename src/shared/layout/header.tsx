@@ -90,9 +90,17 @@ export default function Header() {
           {isAnnDetail && (
             <Button
               className={BLUE_BUTTON_STYLE}
-              onClick={() => {
-                //추후 기능 추가
-                alert("공유하기 기능이 준비 중입니다.");
+              onClick={async () => {
+                try {
+                  const url = window.location.origin + window.location.pathname;
+                  await navigator.clipboard.writeText(url);
+                  alert("링크가 복사되었습니다.");
+                } catch (error) {
+                  console.error("링크 복사 실패:", error);
+                  alert(
+                    "링크 복사에 실패했습니다. 직접 주소창을 복사해주세요.",
+                  );
+                }
               }}
             >
               <Share2 size={16} />
