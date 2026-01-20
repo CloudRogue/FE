@@ -1,7 +1,7 @@
 // API (쿼리 객체 및 커스텀 훅)
-export { announcementQueries } from "@/src/entities/announcement/api/queries";
-export { useAnnouncements } from "@/src/entities/announcement/api/use-announcements";
-export { useRecentViewedAnnouncements } from "@/src/entities/announcement/api/use-recent-viewed";
+export { announcementQueries } from "@/src/entities/announcement/api/announcement.queries";
+export { useAnnouncements } from "@/src/entities/announcement/api/use-announcements.queries";
+export { useRecentViewedAnnouncements } from "@/src/entities/announcement/api/use-recent-viewed.queries";
 
 // Types
 export type {
