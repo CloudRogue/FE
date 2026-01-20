@@ -1,6 +1,8 @@
+"use client";
+
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { getProfile } from "@/src/entities/user/api/profile.action";
+import { getProfileBasic } from "@/src/entities/user/api/user.action";
 import { useUserStore } from "@/src/entities/user/model/use-user-store";
 
 export function useUser() {
@@ -8,7 +10,7 @@ export function useUser() {
 
   const query = useQuery({
     queryKey: ["user", "profile"],
-    queryFn: getProfile,
+    queryFn: getProfileBasic,
     retry: false,
     staleTime: 1000 * 60 * 5,
   });

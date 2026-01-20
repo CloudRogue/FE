@@ -1,28 +1,11 @@
 import { MenuItem, MenuSection } from "@/src/shared/components/mypage-menu";
-import Button from "@/src/shared/ui/button";
+import MypageProfile from "@/src/widgets/mypage-profile/ui/mypage-profile";
 import { Heart, User, Eye, FileText } from "lucide-react";
 
 export default function MyPage() {
   return (
     <div className="px-6 pb-10">
-      {/* Profile Section */}
-      <section className="mb-6 flex items-start justify-between py-6">
-        <div className="min-w-0">
-          <p className="text-2xl font-bold text-slate-900">
-            <span>김청년</span> 님
-          </p>
-          <p className="mt-2 text-base text-slate-500">
-            이메일: asdf1234@kakao.com
-          </p>
-        </div>
-
-        <Button
-          type="button"
-          className="shrink-0 rounded-xl bg-slate-600 px-5 py-3 text-base font-semibold text-white"
-        >
-          로그아웃
-        </Button>
-      </section>
+      <MypageProfile />
 
       <div className="space-y-10">
         {/* 개인 정보 */}
