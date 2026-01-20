@@ -13,6 +13,7 @@ export const ROUTES = {
   MYPAGE_ELIGIBILITY: "/mypage/eligibility", // 내 지원 자격
   MYPAGE_SCRAP: "/mypage/scrap", // 관심공고
   ONBOARDING: "/onboarding",
+  ONBOARDING_ADD: (ids: number[]) => `/onboarding-add?ids=${ids.join(",")}`,
   ADMIN_REVIEW: "/admin",
   ADMIN_REVIEW_DETAIL: (id: number) => `/admin/${id}`,
   ADMIN_REGISTERED: "/admin/registered",

@@ -77,7 +77,10 @@ export function SupportResultCard({
         )}
 
         {theme.buttonType === "link-auth" && (
-          <Link href={ROUTES.LOGIN} className="block">
+          <Link
+            href={ROUTES.ONBOARDING_ADD([announcement.announcementId])}
+            className="block"
+          >
             <Button className="w-full bg-white hover:bg-gray-50 py-4 rounded-xl font-bold">
               자격 정보 입력하기
             </Button>
