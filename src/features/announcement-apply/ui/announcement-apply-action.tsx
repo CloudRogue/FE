@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  AnnouncementDetail,
-  AnnouncementStatusSchema,
-} from "@/src/entities/announcement-detail";
+import { AnnouncementDetail } from "@/src/entities/announcement-detail";
 import { useUser } from "@/src/entities/user";
 import {
   ANNOUNCEMENT_STATUS_CONFIG,
@@ -16,9 +13,6 @@ import Popover from "@/src/shared/ui/popover";
 import { Home } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, useTransition } from "react";
-import z from "zod";
-
-type AnnouncementStatus = z.infer<typeof AnnouncementStatusSchema>;
 
 type ApplyActionsProps = Pick<
   AnnouncementDetail,
