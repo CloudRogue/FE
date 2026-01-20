@@ -1,12 +1,10 @@
 import {
+  AdminAnnouncementRequest,
+  AdminAnnouncementRequestSchema,
   getAdminAdditionalOnboardings,
   getAdminAnnouncement,
 } from "@/src/entities/admin-review-detail";
-import {
-  AdminAnnouncementRequest,
-  AdminAnnouncementRequestSchema,
-  postAdminAnnouncement,
-} from "@/src/features/admin-review-detail";
+import { postAdminAnnouncement } from "@/src/features/admin-review-detail";
 import { produce } from "immer";
 import { create } from "zustand";
 
