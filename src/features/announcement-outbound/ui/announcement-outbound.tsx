@@ -16,7 +16,7 @@ export function AnnouncementOutbound({
         console.error("Failed to post view log:", err),
       );
     }
-  }, [announcementId]);
+  }, [announcementId, isLoggedIn]);
 
   return null;
 }
