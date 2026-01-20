@@ -1,11 +1,11 @@
 "use client";
 
-import { AnnouncementCard } from "@/src/entities/announcement-detail";
 import { SortSelector } from "@/src/features/filter-announcements";
 import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
+import { AnnouncementCard } from "@/src/widgets/announcement-card";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
-import { getScrappedAnnouncements } from "../api/quries";
+import { getScrappedAnnouncements } from "../api/mypage-scrap.quries";
 
 export function ScrapList() {
   const { appliedFilters } = useFilterStore();

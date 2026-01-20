@@ -1,28 +1,32 @@
 // api
 export {
   getAnnouncementDetail,
+  getAnnouncementOverview,
   getAnnouncementSummary,
-} from "@/src/entities/announcement-detail/api/queries";
+} from "@/src/entities/announcement-detail/api/announcement-detail.action";
 
 // lib
 export { mapAnnouncementToSummary } from "@/src/entities/announcement-detail/lib/announcement.mapper";
 
 // model
 export {
-  AnnouncementDetailSchema,
-  AnnouncementEligibilitySchema,
-  AnnouncementStatusSchema,
-  EligibilityResultSchema,
-  KvDigestItemSchema,
-  KvDigestResponseSchema,
   type AnnouncementDetail,
   type AnnouncementEligibility,
+  type AnnouncementOverviewResponse,
   type AnnouncementStatus,
+  type AnnouncementSummaryResponse,
   type EligibilityResult,
-  type KvDigestItem,
-  type KvDigestResponse,
-} from "@/src/entities/announcement-detail/model/announcement.types";
+} from "@/src/entities/announcement-detail/model/announcement-detail.types";
+
+export {
+  AnnouncementDetailSchema,
+  AnnouncementEligibilitySchema,
+  AnnouncementOverviewResponseSchema,
+  AnnouncementStatusSchema,
+  AnnouncementSummaryResponseSchema,
+  EligibilityResultSchema,
+} from "@/src/entities/announcement-detail/model/announcement-detail.schema";
 
 // ui
-export { AnnouncementCard } from "@/src/entities/announcement/ui/announcement-card";
-export { OverviewRow } from "@/src/entities/announcement-detail/ui/overview-row";
+export { DetailRow } from "@/src/entities/announcement-detail/ui/detail-row";
+export { RegionRow } from "@/src/entities/announcement-detail/ui/region-row";

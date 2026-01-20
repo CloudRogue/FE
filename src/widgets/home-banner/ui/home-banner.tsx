@@ -1,31 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { z } from "zod";
-import { Api } from "@/src/shared/api/api";
+import { useRouter } from "next/navigation";
+import { useGetHomeBanner } from "@/src/entities/home";
 import Button from "@/src/shared/ui/button";
 import Card from "@/src/shared/ui/card";
 
-const BannerResponseSchema = z
-  .object({
-    announcementId: z.number().int(),
-    title: z.string(),
-    reasonTag: z.string(),
-  })
-  .nullable();
-
-type BannerData = z.infer<typeof BannerResponseSchema>;
-
 export function HomeBanner() {
-  const [banner, setBanner] = useState<BannerData>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
 
-  useEffect(() => {
-    Api.get("/api/announcements/banner", BannerResponseSchema)
-      .then((data) => setBanner(data))
-      .catch(() => setBanner(null))
-      .finally(() => setIsLoading(false));
-  }, []);
+  const { data: banner, isLoading } = useGetHomeBanner();
+
+  const handleStartOnboarding = () => {
+    router.push("/onboarding");
+  };
 
   return (
     <section className="px-5 py-6">
@@ -41,7 +28,10 @@ export function HomeBanner() {
               <h2 className="text-[22px] font-bold text-slate-900 leading-tight mb-8">
                 {banner.title}
               </h2>
-              <Button className="w-full h-[56px] bg-[#3B82F6] text-white rounded-2xl text-[16px] font-bold">
+              <Button
+                className="w-full h-[56px] bg-[#3B82F6] text-white rounded-2xl text-[16px] font-bold"
+                onClick={handleStartOnboarding}
+              >
                 가입하기
               </Button>
             </>
@@ -53,7 +43,10 @@ export function HomeBanner() {
               <p className="text-slate-500 text-[15px] mb-8">
                 복잡한 청년 주택 공고, 이제 간단하게 찾아보세요.
               </p>
-              <Button className="w-full h-[56px] bg-[#3B82F6] text-white rounded-2xl text-[16px] font-bold">
+              <Button
+                className="w-full h-[56px] bg-[#3B82F6] text-white rounded-2xl text-[16px] font-bold cursor-pointer"
+                onClick={handleStartOnboarding}
+              >
                 집착 시작하기
               </Button>
             </>

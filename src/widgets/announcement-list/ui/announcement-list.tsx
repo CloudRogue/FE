@@ -1,15 +1,24 @@
 "use client";
 
+import Link from "next/link";
+import { useAnnouncements } from "@/src/entities/announcement/api/use-announcements.queries";
+import type { Announcement } from "@/src/entities/announcement/model/announcement.types";
 import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
-import { useAnnouncements } from "@/src/entities/announcement/api/use-announcements";
-import { AnnouncementCard } from "@/src/entities/announcement/ui/announcement-card";
-import { useInView } from "react-intersection-observer";
+import { AnnouncementCard } from "@/src/widgets/announcement-card/ui/announcement-card";
 import { useEffect } from "react";
-import type { Announcement } from "@/src/entities/announcement/model/types";
+import { useInView } from "react-intersection-observer";
 
 export function AnnouncementList() {
   const isPersonalized = useFilterStore((state) => state.isPersonalized);
   const appliedFilters = useFilterStore((state) => state.appliedFilters);
+
+  const getQueryType = () => {
+    if (isPersonalized) return "personalized";
+    if (appliedFilters.regionName) return "region";
+    if (appliedFilters.publisher) return "publisher";
+    if (appliedFilters.housingType) return "housing-type";
+    return "open";
+  };
 
   const {
     data,
@@ -18,7 +27,7 @@ export function AnnouncementList() {
     isFetchingNextPage,
     isLoading,
     isError,
-  } = useAnnouncements(appliedFilters, isPersonalized);
+  } = useAnnouncements(getQueryType(), appliedFilters);
 
   const { ref, inView } = useInView();
 
@@ -35,6 +44,7 @@ export function AnnouncementList() {
     return (
       <p className="p-10 text-center">공고 데이터를 불러오고 있습니다...</p>
     );
+
   if (isError)
     return (
       <p className="p-10 text-center text-red-500">
@@ -45,18 +55,23 @@ export function AnnouncementList() {
   return (
     <div className="bg-slate-50 min-h-screen">
       <div className="flex flex-col gap-px bg-slate-200">
-        {announcements.map((item) => (
-          <AnnouncementCard
-            key={item.announcementId}
-            {...item}
-            period={{
-              start: item.startDate,
-              end: item.endDate,
-            }}
-            isScrapped={item.isScrapped ?? false}
-            externalApplyUrl={item.externalApplyUrl ?? ""}
-            fullAdres={item.fullAdres ?? ""}
-          />
+        {announcements.map((item, index) => (
+          <Link
+            key={`${item.announcementId}-${index}`}
+            href={`/announcement/${item.announcementId}`}
+            className="block active:opacity-70 transition-opacity"
+          >
+            <AnnouncementCard
+              {...item}
+              period={{
+                start: item.startDate,
+                end: item.endDate,
+              }}
+              isScrapped={false}
+              externalApplyUrl=""
+              fullAdres=""
+            />
+          </Link>
         ))}
       </div>
 

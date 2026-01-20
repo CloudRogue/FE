@@ -1,13 +1,13 @@
 "use client";
 
+import type { Announcement } from "@/src/entities/announcement/model/announcement.types";
+import { Api } from "@/src/shared/api/api";
+import { ROUTES } from "@/src/shared/constants/routes";
+import Button from "@/src/shared/ui/button";
+import { AnnouncementCard } from "@/src/widgets/announcement-card/ui/announcement-card";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { z } from "zod";
-import { useRouter } from "next/navigation";
-import { Api } from "@/src/shared/api/api";
-import { AnnouncementCard } from "@/src/entities/announcement/ui/announcement-card";
-import Button from "@/src/shared/ui/button";
-import type { Announcement } from "@/src/entities/announcement/model/types";
-import { ROUTES } from "@/src/shared/constants/routes";
 
 const PersonalizedResponseSchema = z.object({
   data: z.array(
@@ -47,7 +47,7 @@ export function RecommendedAnnouncements() {
           <AnnouncementCard
             key={item.announcementId}
             {...item}
-            className="rounded-[24px] border-none shadow-sm"
+            className="rounded-3xl border-none shadow-sm"
             period={{ start: item.startDate, end: item.endDate }}
             isScrapped={item.isScrapped ?? false}
           />

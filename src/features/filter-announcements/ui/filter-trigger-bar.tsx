@@ -12,8 +12,8 @@ export function FilterTriggerBar() {
   const filterTabs = [
     {
       id: "region" as const,
-      label: appliedFilters.regionCode ? "지역 선택됨" : "서울 전체",
-      hasValue: !!appliedFilters.regionCode,
+      label: appliedFilters.regionName || "지역 전체",
+      hasValue: !!appliedFilters.regionName,
     },
     {
       id: "publisher" as const,

@@ -5,6 +5,7 @@ export const ROUTES = {
   ANNOUNCEMENT: "/announcement",
   ANNOUNCEMENT_DETAIL: (id: string) => `/announcement/${id}`,
   MANAGEMENT: "/management", // 지원 관리
+  MANAGEMENT_DETAIL: (id: string | number) => `/management/${id}`,
   MYPAGE: "/mypage", // 마이페이지
   MYPAGE_FAQ: "/mypage/faq", // 자주 묻는 질문
   MYPAGE_IQUIRY: "/mypage/iquiry", // 1:1 문의
@@ -12,6 +13,9 @@ export const ROUTES = {
   MYPAGE_ELIGIBILITY: "/mypage/eligibility", // 내 지원 자격
   MYPAGE_SCRAP: "/mypage/scrap", // 관심공고
   ONBOARDING: "/onboarding",
+  ADMIN_REVIEW: "/admin",
+  ADMIN_REVIEW_DETAIL: (id: number) => `/admin/${id}`,
+  ADMIN_REGISTERED: "/admin/registered",
 } as const;
 
 export type HeaderType = "LOGO" | "LEFT_TITLE" | "CENTER_TITLE";

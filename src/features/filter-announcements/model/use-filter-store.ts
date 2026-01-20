@@ -1,44 +1,8 @@
 import { create } from "zustand";
-import type { AnnouncementFilterParams } from "@/src/entities/announcement/model/types";
-
-type SortType = "DEADLINE" | "LATEST" | "RELEVANCE";
-type FilterTab = "region" | "publisher" | "housingType";
-type StatusType = "OPEN" | "CLOSED";
-
-interface FilterState {
-  isFilterOpen: boolean;
-  activeTab: FilterTab;
-  statusTab: StatusType;
-  isPersonalized: boolean;
-
-  tempFilters: {
-    regionCode?: string;
-    publisher?: string;
-    housingType?: string;
-    keyword?: string;
-  };
-  appliedFilters: AnnouncementFilterParams;
-
-  toggleFilter: (tab: FilterTab) => void;
-  closeFilter: () => void;
-  setActiveTab: (tab: FilterTab) => void;
-  setStatusTab: (status: StatusType) => void;
-  setIsPersonalized: (enabled: boolean) => void;
-  setTempFilter: (
-    key: keyof FilterState["tempFilters"],
-    value: string | undefined,
-  ) => void;
-  setFilter: <K extends keyof AnnouncementFilterParams>(
-    key: K,
-    value: AnnouncementFilterParams[K],
-  ) => void;
-  setSort: (sort: SortType) => void;
-  applyFilters: () => void;
-  resetFilters: () => void;
-}
+import type { FilterState } from "@/src/features/filter-announcements/model/filter.types";
 
 const initialFilterState = {
-  regionCode: undefined,
+  regionName: undefined,
   publisher: undefined,
   housingType: undefined,
   keyword: undefined,
@@ -50,7 +14,7 @@ export const useFilterStore = create<FilterState>((set) => ({
   statusTab: "OPEN",
   isPersonalized: false,
   tempFilters: initialFilterState,
-  appliedFilters: { sort: "DEADLINE" },
+  appliedFilters: { sort: "DEADLINE", keyword: undefined },
 
   toggleFilter: (tab) =>
     set((state) => {
@@ -61,11 +25,8 @@ export const useFilterStore = create<FilterState>((set) => ({
     }),
 
   closeFilter: () => set({ isFilterOpen: false }),
-
   setActiveTab: (activeTab) => set({ activeTab }),
-
   setStatusTab: (statusTab) => set({ statusTab }),
-
   setIsPersonalized: (isPersonalized) => set({ isPersonalized }),
 
   setSort: (sort) =>
@@ -96,7 +57,10 @@ export const useFilterStore = create<FilterState>((set) => ({
   resetFilters: () =>
     set({
       tempFilters: initialFilterState,
-      appliedFilters: { sort: "DEADLINE" },
+      appliedFilters: {
+        sort: "DEADLINE",
+        keyword: undefined,
+      },
       isFilterOpen: false,
     }),
 }));
