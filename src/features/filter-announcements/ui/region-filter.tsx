@@ -6,7 +6,7 @@ import { useFilterStore } from "../model/use-filter-store";
 import {
   getCities,
   getSigungu,
-} from "@/src/features/filter-announcements/api/region";
+} from "@/src/features/filter-announcements/api/region.action";
 import Button from "@/src/shared/ui/button";
 
 export function RegionFilter() {

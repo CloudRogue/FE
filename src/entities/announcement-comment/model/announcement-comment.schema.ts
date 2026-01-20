@@ -47,6 +47,3 @@ export const CommentListResponseSchema = z.object({
   items: z.array(CommentItemSchema),
   meta: PageMetaSchema,
 });
-
-export type CommentItem = z.infer<typeof CommentItemSchema>;
-export type CommentListResponse = z.infer<typeof CommentListResponseSchema>;
