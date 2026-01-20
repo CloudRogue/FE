@@ -1,6 +1,6 @@
 import { Api } from "@/src/shared/api/api";
-import { AnnouncementListResponseSchema } from "@/src/entities/announcement/model/schemas";
-import type { AnnouncementFilterParams } from "@/src/entities/announcement/model/types";
+import { AnnouncementListResponseSchema } from "@/src/entities/announcement/model/announcement.schemas";
+import type { AnnouncementFilterParams } from "@/src/entities/announcement/model/announcement.types";
 
 export const announcementQueries = {
   /**

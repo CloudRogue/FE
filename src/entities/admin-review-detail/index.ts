@@ -2,7 +2,16 @@
 export {
   getAdminAdditionalOnboardings,
   getAdminAnnouncement,
-} from "@/src/entities/admin-review-detail/api/get-admin";
+} from "@/src/entities/admin-review-detail/api/get-admin-review-detail.action";
 
-// ui
-export { ReviewDetailHeader } from "@/src/widgets/admin-review-detail/ui/review-detail-header";
+// model
+export {
+  AdminAdditionalOnboardingSchema,
+  AdminAnnouncementRequestSchema,
+  AdminAnnouncementSchema,
+} from "@/src/entities/admin-review-detail/model/admin-review-detail.schema";
+export {
+  type AdminAdditionalOnboardingResponse,
+  type AdminAnnouncementRequest,
+  type AdminAnnouncementResponse,
+} from "@/src/entities/admin-review-detail/model/admin-review-detail.types";

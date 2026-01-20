@@ -1,7 +1,7 @@
 import {
   AdminAnnouncementRequest,
   AdminAnnouncementRequestSchema,
-} from "@/src/features/admin-review-detail";
+} from "@/src/entities/admin-review-detail";
 import { Api } from "@/src/shared/api/api";
 
 //  (어드민) 공고 AI PDF 요약/추출 결과 조회

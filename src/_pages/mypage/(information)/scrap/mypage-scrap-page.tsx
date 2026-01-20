@@ -1,5 +1,5 @@
 import { ScrapList } from "@/src/entities/mypage-scrap";
-import { getScrappedAnnouncements } from "@/src/entities/mypage-scrap/api/quries";
+import { getScrappedAnnouncements } from "@/src/entities/mypage-scrap/api/mypage-scrap.quries";
 import {
   dehydrate,
   HydrationBoundary,

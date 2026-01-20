@@ -1,7 +1,7 @@
 // API (쿼리 객체 및 커스텀 훅)
-export { announcementQueries } from "@/src/entities/announcement/api/queries";
-export { useAnnouncements } from "@/src/entities/announcement/api/use-announcements";
-export { useRecentViewedAnnouncements } from "@/src/entities/announcement/api/use-recent-viewed";
+export { announcementQueries } from "@/src/entities/announcement/api/announcement.queries";
+export { useAnnouncements } from "@/src/entities/announcement/api/use-announcements.queries";
+export { useRecentViewedAnnouncements } from "@/src/entities/announcement/api/use-recent-viewed.queries";
 
 // Types
 export type {
@@ -9,7 +9,7 @@ export type {
   AnnouncementDetail,
   AnnouncementFilterParams,
   AnnouncementListResponse,
-} from "@/src/entities/announcement/model/types";
+} from "@/src/entities/announcement/model/announcement.types";
 
 // Schemas
 export {
@@ -17,4 +17,4 @@ export {
   AnnouncementDetailSchema,
   AnnouncementFilterParamsSchema,
   AnnouncementListResponseSchema,
-} from "@/src/entities/announcement/model/schemas";
+} from "@/src/entities/announcement/model/announcement.schemas";

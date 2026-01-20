@@ -1,33 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { z } from "zod";
-import { Api } from "@/src/shared/api/api";
+import { useGetHomeBanner } from "@/src/entities/home";
 import Button from "@/src/shared/ui/button";
 import Card from "@/src/shared/ui/card";
 
-const BannerResponseSchema = z
-  .object({
-    announcementId: z.number().int(),
-    title: z.string(),
-    reasonTag: z.string(),
-  })
-  .nullable();
-
-type BannerData = z.infer<typeof BannerResponseSchema>;
-
 export function HomeBanner() {
   const router = useRouter();
-  const [banner, setBanner] = useState<BannerData>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    Api.get("/api/announcements/banner", BannerResponseSchema)
-      .then((data) => setBanner(data))
-      .catch(() => setBanner(null))
-      .finally(() => setIsLoading(false));
-  }, []);
+  const { data: banner, isLoading } = useGetHomeBanner();
 
   const handleStartOnboarding = () => {
     router.push("/onboarding");

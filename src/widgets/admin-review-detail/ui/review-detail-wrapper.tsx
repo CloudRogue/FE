@@ -1,8 +1,8 @@
 "use client";
 
-import { ReviewDetailHeader } from "@/src/entities/admin-review-detail";
 import { useAdminFormStore } from "@/src/features/admin-review-detail";
 import {
+  ReviewDetailHeader,
   Stepper,
   useAdminStepperStore,
 } from "@/src/widgets/admin-review-detail";
