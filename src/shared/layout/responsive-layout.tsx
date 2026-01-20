@@ -12,8 +12,13 @@ export async function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
   const isAdmin = pathname.startsWith("/admin");
 
   return (
-    <div data-admin={isAdmin} className="min-h-screen w-full bg-slate-50">
+    <div
+      data-admin={isAdmin}
+      className="min-h-screen w-full bg-slate-50"
+      suppressHydrationWarning
+    >
       <div
+        suppressHydrationWarning
         className={cn(
           " mx-auto w-full flex flex-col min-h-screen bg-white shadow-sm",
           isAdmin
