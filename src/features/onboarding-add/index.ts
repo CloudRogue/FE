@@ -1,14 +1,34 @@
-export { default as OnboardingAddControl } from "@/src/features/onboarding-add/ui/onboarding-add-control";
+export { ADDITIONAL_ONBOARDING_QUESTION_TYPES } from "@/src/features/onboarding-add/model/additional-onboarding-types";
 
 export type {
-  OnboardingAddQuestion,
-  OnboardingAddAnswers,
-} from "@/src/features/onboarding-add/model/onboarding-add.types";
+  AdditionalOnboardingQuestionId,
+  AdditionalOnboardingQuestion,
+  AdditionalOnboardingQuestionType,
+  AdditionalOnboardingAnswerValue,
+  AdditionalOnboardingDraft,
+  AdditionalOnboardingDraftItem,
+  AdditionalOnboardingSubmitItem,
+  AdditionalOnboardingSubmitRequest,
+} from "@/src/features/onboarding-add/model/additional-onboarding-types";
 
-export { default as OnboardingAddShell } from "@/src/features/onboarding-add/ui/onboarding-add-shell";
-export { default as OnboardingAddRenderer } from "@/src/features/onboarding-add/ui/onboarding-add-renderer";
+export {
+  AdditionalOnboardingQuestionsResponseSchema,
+  AdditionalOnboardingSubmitResponseSchema,
+  AdditionalOnboardingSubmitRequestSchema,
+  AdditionalOnboardingSubmitItemSchema,
+  AdditionalOnboardingQuestionApiItemSchema,
+  AdditionalOnboardingQuestionTypeSchema,
+} from "@/src/features/onboarding-add/model/additional-onboarding-schema";
 
-export { default as BooleanStep } from "@/src/features/onboarding-add/ui/steps/step-boolean";
-export { default as InputStep } from "@/src/features/onboarding-add/ui/steps/step-input";
-export { default as DateStep } from "@/src/features/onboarding-add/ui/steps/step-date";
-export { default as SelectStep } from "@/src/features/onboarding-add/ui/steps/step-select";
+export { buildAdditionalOnboardingSubmitRequest } from "@/src/features/onboarding-add/model/additional-onboarding-transform";
+
+export { useAdditionalOnboardingStore } from "@/src/features/onboarding-add/model/additional-onboarding-store";
+
+export {
+  getAdditionalOnboardingQuestions,
+  submitAdditionalOnboardingAnswers,
+} from "@/src/features/onboarding-add/api/additional-onboarding-action";
+
+export { default as AdditionalOnboardingShell } from "@/src/features/onboarding-add/ui/additional-onboarding-shell";
+
+export { default as AdditionalOnboardingRenderer } from "@/src/features/onboarding-add/ui/additional-renderer";
