@@ -3,12 +3,21 @@ export {
   getAnnouncementDetail,
   getAnnouncementOverview,
   getAnnouncementSummary,
-} from "@/src/entities/announcement-detail/api/queries";
+} from "@/src/entities/announcement-detail/api/announcement-detail.action";
 
 // lib
 export { mapAnnouncementToSummary } from "@/src/entities/announcement-detail/lib/announcement.mapper";
 
 // model
+export {
+  type AnnouncementDetail,
+  type AnnouncementEligibility,
+  type AnnouncementOverviewResponse,
+  type AnnouncementStatus,
+  type AnnouncementSummaryResponse,
+  type EligibilityResult,
+} from "@/src/entities/announcement-detail/model/announcement-detail.types";
+
 export {
   AnnouncementDetailSchema,
   AnnouncementEligibilitySchema,
@@ -16,13 +25,7 @@ export {
   AnnouncementStatusSchema,
   AnnouncementSummaryResponseSchema,
   EligibilityResultSchema,
-  type AnnouncementDetail,
-  type AnnouncementEligibility,
-  type AnnouncementOverviewResponse,
-  type AnnouncementStatus,
-  type AnnouncementSummaryResponse,
-  type EligibilityResult,
-} from "@/src/entities/announcement-detail/model/announcement.types";
+} from "@/src/entities/announcement-detail/model/announcement-detail.schema";
 
 // ui
 export { DetailRow } from "@/src/entities/announcement-detail/ui/detail-row";

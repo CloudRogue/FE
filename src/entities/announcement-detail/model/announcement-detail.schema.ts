@@ -60,10 +60,6 @@ export const AnnouncementEligibilitySchema = z
   })
   .nullable();
 
-export type AnnouncementEligibility = z.infer<
-  typeof AnnouncementEligibilitySchema
->;
-
 // 메인 공고 상세
 export const AnnouncementDetailSchema = z.object({
   announcementId: z.number().int(), // 공고 PK
@@ -88,9 +84,6 @@ export const AnnouncementDetailSchema = z.object({
   isScrapped: z.boolean().nullable(), // 로그인 사용자 기준 찜 여부
 });
 
-export type AnnouncementDetail = z.infer<typeof AnnouncementDetailSchema>;
-export type AnnouncementStatus = z.infer<typeof AnnouncementStatusSchema>;
-
 // 자격 진단
 export const EligibilityResultSchema = z.object({
   supportStatus: z.enum(["ELIGIBLE", "INELIGIBLE", "PENDING"]), // 지원 상태
@@ -107,17 +100,11 @@ export const EligibilityResultSchema = z.object({
   ),
 });
 
-export type EligibilityResult = z.infer<typeof EligibilityResultSchema>;
-
 // 공고 요약
 export const AnnouncementSummaryResponseSchema = z.object({
   announcementId: z.number(),
   summary: z.string(),
 });
-
-export type AnnouncementSummaryResponse = z.infer<
-  typeof AnnouncementSummaryResponseSchema
->;
 
 // 공고 개요
 export const AnnouncementOverviewResponseSchema = z.object({
@@ -127,7 +114,3 @@ export const AnnouncementOverviewResponseSchema = z.object({
   regions: z.union([z.array(z.string()), z.string()]),
   applyMethod: z.string(),
 });
-
-export type AnnouncementOverviewResponse = z.infer<
-  typeof AnnouncementOverviewResponseSchema
->;

@@ -2,7 +2,7 @@
 export {
   deleteScrap,
   patchScrap,
-} from "@/src/features/announcement-scrap/api/action";
+} from "@/src/features/announcement-scrap/api/announcement-scrap.action";
 
 // model
 
