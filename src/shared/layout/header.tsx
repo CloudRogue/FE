@@ -67,7 +67,7 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 flex h-16 w-full items-center bg-white px-4 md:px-8 shrink-0 border border-gray-100">
+    <header className="sticky top-0 z-40 flex h-16 w-full items-center bg-white px-4 shrink-0 border-b border-gray-100">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between relative">
         {/* 좌측 영역 */}
         <div className="flex min-w-25 items-center z-10">{renderLeft()}</div>
@@ -90,9 +90,17 @@ export default function Header() {
           {isAnnDetail && (
             <Button
               className={BLUE_BUTTON_STYLE}
-              onClick={() => {
-                //추후 기능 추가
-                alert("공유하기 기능이 준비 중입니다.");
+              onClick={async () => {
+                try {
+                  const url = window.location.origin + window.location.pathname;
+                  await navigator.clipboard.writeText(url);
+                  alert("링크가 복사되었습니다.");
+                } catch (error) {
+                  console.error("링크 복사 실패:", error);
+                  alert(
+                    "링크 복사에 실패했습니다. 직접 주소창을 복사해주세요.",
+                  );
+                }
               }}
             >
               <Share2 size={16} />

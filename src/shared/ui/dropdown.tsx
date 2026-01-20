@@ -76,7 +76,7 @@ export const DropdownContent = forwardRef<
     <div
       ref={ref}
       className={cn(
-        "absolute right-0 z-50 mt-2 min-w-32 overflow-hidden rounded-md border bg-white p-1 shadow-md",
+        "absolute right-0 z-30 mt-2 min-w-32 overflow-hidden rounded-md border bg-white p-1 shadow-md",
         "animate-in fade-in zoom-in-95 duration-100",
         className,
       )}

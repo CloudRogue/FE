@@ -58,7 +58,7 @@ export const AutoProgress = ({ isLoading, className }: AutoProgressProps) => {
   return (
     <Progress
       value={value}
-      className={cn("fixed top-0 left-0 w-full z-50", className)}
+      className={cn("fixed top-0 left-0 w-full z-30", className)}
     />
   );
 };
