@@ -1,5 +1,5 @@
 // api
-export { postOutboundLog } from "@/src/features/announcement-outbound/api/action";
+export { postOutboundLog } from "@/src/features/announcement-outbound/api/announcement-outbound.action";
 
 // model
 
