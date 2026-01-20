@@ -5,6 +5,7 @@ export const ROUTES = {
   ANNOUNCEMENT: "/announcement",
   ANNOUNCEMENT_DETAIL: (id: string) => `/announcement/${id}`,
   MANAGEMENT: "/management", // 지원 관리
+  MANAGEMENT_DETAIL: (id: string | number) => `/management/${id}`,
   MYPAGE: "/mypage", // 마이페이지
   MYPAGE_FAQ: "/mypage/faq", // 자주 묻는 질문
   MYPAGE_IQUIRY: "/mypage/iquiry", // 1:1 문의

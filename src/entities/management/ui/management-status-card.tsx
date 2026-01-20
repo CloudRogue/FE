@@ -1,12 +1,15 @@
-import { MANAGEMENT_STATUS, ManagementStatus } from "@/src/entities/management";
+import {
+  MANAGEMENT_STATUS,
+  ManagementStatus,
+  ManagementSummary,
+} from "@/src/entities/management";
 
-function StatusItem({
-  type,
-  count,
-}: {
+interface StatusItemProps {
   type: ManagementStatus;
   count: number;
-}) {
+}
+
+function StatusItem({ type, count }: StatusItemProps) {
   const { label, colors } = MANAGEMENT_STATUS[type];
 
   return (
@@ -25,12 +28,22 @@ function StatusItem({
   );
 }
 
-export function ManagementStatusCard() {
+interface ManagementStatusCardProps {
+  summary?: ManagementSummary;
+}
+
+export function ManagementStatusCard({ summary }: ManagementStatusCardProps) {
   return (
-    <section className="flex gap-4 w-full max-w-7xl mx-auto px-4 py-6">
-      <StatusItem type="applying" count={99} />
-      <StatusItem type="pending" count={99} />
-      <StatusItem type="final" count={99} />
+    <section className="flex gap-4 w-full max-w-7xl mx-auto px-4 py-6 bg-white">
+      <StatusItem type="APPLYING" count={summary?.applyingCount ?? 0} />
+      <StatusItem
+        type="DOCUMENT_PENDING"
+        count={summary?.documentWaitingCount ?? 0}
+      />
+      <StatusItem
+        type="FINAL_PENDING"
+        count={summary?.finalWaitingCount ?? 0}
+      />
     </section>
   );
 }

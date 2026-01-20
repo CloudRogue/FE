@@ -1,5 +1,6 @@
 "use client";
 
+import { useUser } from "@/src/entities/user/lib/use-user";
 import {
   PAGE_CONFIG,
   ROUTES,
@@ -9,28 +10,43 @@ import Button from "@/src/shared/ui/button";
 import { ChevronLeft, Heart, Home, Share2 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useUser } from "@/src/entities/user/lib/use-user";
+
+const BLUE_BUTTON_STYLE =
+  "flex items-center justify-center px-[10px] h-8 gap-[6px] rounded-[8px] bg-[#1778FF] text-white text-[14px] font-bold";
+// TODO: next.config.ts로 옮기기
+const KAKAO_AUTH_URL = process.env.NEXT_PUBLIC_KAKAO_AUTH_URL!;
 
 export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const { isLoggedIn } = useUser();
 
-  const KAKAO_AUTH_URL =
-    process.env.NEXT_PUBLIC_KAKAO_AUTH_URL ||
-    "http://43.202.161.219/oauth2/authorization/kakao";
-
   const config = PAGE_CONFIG[pathname];
   const isAnnDetail = ROUTE_CHECK.isAnnouncementDetail(pathname);
+  const isManDetail = ROUTE_CHECK.isManagementDetail(pathname);
+
+  // 뒤로가기 버튼 필요 여부
+  const showBackButton =
+    isAnnDetail || isManDetail || config?.type === "CENTER_TITLE";
+
+  // 중앙 타이틀
+  const centerTitle = isAnnDetail
+    ? "공고 상세"
+    : isManDetail
+      ? "지원 준비"
+      : config?.type === "CENTER_TITLE"
+        ? config.title
+        : "";
 
   const renderLeft = () => {
-    if (isAnnDetail || ROUTE_CHECK.isManagementDetail(pathname)) {
+    if (showBackButton) {
       return (
         <Button onClick={() => router.back()} className="p-1 -ml-1 text-black">
           <ChevronLeft size={24} />
         </Button>
       );
     }
+
     if (config?.type === "LEFT_TITLE") {
       return (
         <h1 className="text-[18px] md:text-[20px] font-bold text-slate-900">
@@ -38,13 +54,7 @@ export default function Header() {
         </h1>
       );
     }
-    if (config?.type === "CENTER_TITLE") {
-      return (
-        <Button onClick={() => router.back()} className="p-1 -ml-1 text-black">
-          <ChevronLeft size={24} />
-        </Button>
-      );
-    }
+
     return (
       <Link
         href={ROUTES.HOME}
@@ -56,31 +66,18 @@ export default function Header() {
     );
   };
 
-  const blueButtonStyle = `
-    flex items-center justify-center
-    px-[10px] py-[6px] gap-[6px] 
-    rounded-[8px] bg-[#1778FF] 
-    text-white text-[14px] font-bold
-  `;
-
   return (
-    <header className="sticky top-0 z-50 flex h-14 md:h-16 w-full items-center border-b bg-white px-4 md:px-8 shrink-0">
+    <header className="sticky top-0 z-50 flex h-16 w-full items-center bg-white px-4 md:px-8 shrink-0 border border-gray-100">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between relative">
         {/* 좌측 영역 */}
-        <div className="flex min-w-[100px] items-center z-10">
-          {renderLeft()}
-        </div>
+        <div className="flex min-w-25 items-center z-10">{renderLeft()}</div>
 
-        <div className="absolute left-1/2 -translate-x-1/2 font-bold text-[15px] md:text-[17px] text-slate-900 whitespace-nowrap">
-          {isAnnDetail
-            ? "공고 상세"
-            : config?.type === "CENTER_TITLE"
-              ? config.title
-              : ""}
+        <div className="absolute left-1/2 -translate-x-1/2 font-bold text-[18px] md:text-[20px] text-slate-900 whitespace-nowrap">
+          {centerTitle}
         </div>
 
         {/* 우측 영역 */}
-        <div className="flex min-w-[100px] justify-end z-10">
+        <div className="flex min-w-25 justify-end z-10">
           {pathname === ROUTES.HOME && !isLoggedIn && (
             <Button
               onClick={() => (window.location.href = KAKAO_AUTH_URL)}
@@ -92,7 +89,7 @@ export default function Header() {
 
           {isAnnDetail && (
             <Button
-              className={blueButtonStyle}
+              className={BLUE_BUTTON_STYLE}
               onClick={() => {
                 //추후 기능 추가
                 alert("공유하기 기능이 준비 중입니다.");
@@ -106,9 +103,9 @@ export default function Header() {
           {(pathname === ROUTES.ANNOUNCEMENT ||
             pathname === ROUTES.MYPAGE_SCRAP) && (
             <Link href={ROUTES.MYPAGE_SCRAP}>
-              <Button className={blueButtonStyle}>
-                {" "}
-                <Heart size={16} fill="white" /> 관심 공고{" "}
+              <Button className={BLUE_BUTTON_STYLE}>
+                <Heart size={16} fill="white" />
+                관심 공고
               </Button>
             </Link>
           )}

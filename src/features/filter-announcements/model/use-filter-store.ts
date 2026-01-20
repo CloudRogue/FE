@@ -12,7 +12,7 @@ interface FilterState {
   isPersonalized: boolean;
 
   tempFilters: {
-    regionCode?: string;
+    regionName: string | undefined;
     publisher?: string;
     housingType?: string;
     keyword?: string;
@@ -38,7 +38,7 @@ interface FilterState {
 }
 
 const initialFilterState = {
-  regionCode: undefined,
+  regionName: undefined,
   publisher: undefined,
   housingType: undefined,
   keyword: undefined,
@@ -50,7 +50,7 @@ export const useFilterStore = create<FilterState>((set) => ({
   statusTab: "OPEN",
   isPersonalized: false,
   tempFilters: initialFilterState,
-  appliedFilters: { sort: "DEADLINE" },
+  appliedFilters: { sort: "DEADLINE", keyword: undefined },
 
   toggleFilter: (tab) =>
     set((state) => {
@@ -96,7 +96,10 @@ export const useFilterStore = create<FilterState>((set) => ({
   resetFilters: () =>
     set({
       tempFilters: initialFilterState,
-      appliedFilters: { sort: "DEADLINE" },
+      appliedFilters: {
+        sort: "DEADLINE",
+        keyword: undefined,
+      },
       isFilterOpen: false,
     }),
 }));

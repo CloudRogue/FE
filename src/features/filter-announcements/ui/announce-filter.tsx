@@ -1,6 +1,5 @@
 "use client";
 
-import cn from "@/src/shared/lib/cn";
 import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
 import { RegionFilter } from "@/src/features/filter-announcements/ui/region-filter";
 import { PublisherFilter } from "@/src/features/filter-announcements/ui/publisher-filter";
@@ -11,14 +10,14 @@ export function AnnouncementFilter() {
   const { activeTab, applyFilters, resetFilters } = useFilterStore();
 
   return (
-    <div className="w-full bg-white shadow-lg rounded-t-[24px]">
+    <div className="w-full bg-white shadow-lg ">
       <div className="p-5 h-[280px] overflow-y-auto">
         {activeTab === "region" && <RegionFilter />}
         {activeTab === "publisher" && <PublisherFilter />}
         {activeTab === "housingType" && <HousingTypeFilter />}
       </div>
 
-      <div className="p-4 flex justify-end gap-2 border-t">
+      <div className="p-4 flex justify-end gap-2">
         <Button
           onClick={resetFilters}
           className="px-6 py-3 bg-[#E2E8F0] text-[#64748B] rounded-xl font-bold h-auto"
