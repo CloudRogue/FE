@@ -1,6 +1,6 @@
 "use client";
 
-import type { Announcement } from "@/src/entities/announcement/model/types";
+import type { Announcement } from "@/src/entities/announcement/model/announcement.types";
 import { useUser } from "@/src/entities/user";
 import { AnnouncementApplyAction } from "@/src/features/announcement-apply";
 import { ScrapButton } from "@/src/features/announcement-scrap";

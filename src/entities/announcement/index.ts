@@ -9,7 +9,7 @@ export type {
   AnnouncementDetail,
   AnnouncementFilterParams,
   AnnouncementListResponse,
-} from "@/src/entities/announcement/model/types";
+} from "@/src/entities/announcement/model/announcement.types";
 
 // Schemas
 export {
@@ -17,4 +17,4 @@ export {
   AnnouncementDetailSchema,
   AnnouncementFilterParamsSchema,
   AnnouncementListResponseSchema,
-} from "@/src/entities/announcement/model/schemas";
+} from "@/src/entities/announcement/model/announcement.schemas";

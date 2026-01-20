@@ -1,6 +1,6 @@
 "use client";
 
-import type { Announcement } from "@/src/entities/announcement/model/types";
+import type { Announcement } from "@/src/entities/announcement/model/announcement.types";
 import { Api } from "@/src/shared/api/api";
 import { ROUTES } from "@/src/shared/constants/routes";
 import Button from "@/src/shared/ui/button";

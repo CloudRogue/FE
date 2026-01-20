@@ -4,7 +4,7 @@ import { announcementQueries } from "@/src/entities/announcement/api/announcemen
 import type {
   AnnouncementFilterParams,
   AnnouncementListResponse,
-} from "@/src/entities/announcement/model/types";
+} from "@/src/entities/announcement/model/announcement.types";
 
 type AnnouncementType =
   | "personalized"
