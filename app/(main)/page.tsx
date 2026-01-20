@@ -1,6 +1,6 @@
 "use client";
 
-import { useUser } from "@/src/entities/user/lib/use-user";
+import { useUser } from "@/src/entities/user/lib/user.queries";
 import { HomeBanner } from "@/src/widgets/home-banner";
 import { RecommendedAnnouncements } from "@/src/widgets/recommended-announcements";
 import { QuickNavigation } from "@/src/widgets/quick-navigation";

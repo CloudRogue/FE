@@ -1,22 +1,19 @@
-import { z } from "zod";
+import type { z } from "zod";
+import type {
+  profileBasicSchema,
+  profileDetailSchema,
+  profileAnswerSchema,
+  profileUpdateAnswerSchema,
+} from "@/src/entities/user/model/user.schema";
 
-export const UserSchema = z.object({
-  name: z.string(),
-  gender: z.enum(["MALE", "FEMALE", "OTHER", "UNKNOWN"]),
-  birthDate: z.string(),
-  regionSigungu: z.string(),
-  householdSize: z.number().int().min(1),
-  isHouseholder: z.boolean(),
-  householdRole: z.enum(["HOUSEHOLDER", "MEMBER"]),
-  incomeDecile: z.number().int().min(1).max(10),
-  onboardingCompleted: z.boolean(),
-});
-
-export type User = z.infer<typeof UserSchema>;
+export type ProfileBasic = z.infer<typeof profileBasicSchema>;
+export type ProfileDetail = z.infer<typeof profileDetailSchema>;
+export type ProfileAnswer = z.infer<typeof profileAnswerSchema>;
+export type ProfileUpdateAnswer = z.infer<typeof profileUpdateAnswerSchema>;
 
 export interface UserState {
-  user: User | null;
+  user: ProfileBasic | null;
   isLoggedIn: boolean;
-  setUserInfo: (user: User) => void;
+  setUserInfo: (user: ProfileBasic) => void;
   clearUser: () => void;
 }

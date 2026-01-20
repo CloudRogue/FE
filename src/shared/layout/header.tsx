@@ -1,6 +1,6 @@
 "use client";
 
-import { useUser } from "@/src/entities/user/lib/use-user";
+import { useUser } from "@/src/entities/user/lib/user.queries";
 import {
   PAGE_CONFIG,
   ROUTES,
