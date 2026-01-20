@@ -1,6 +1,6 @@
 import secureLocalStorage from "react-secure-storage";
 
-import type { RequiredOnboardingAnswers } from "@/src/features/onboarding/model/required-onboarding.types";
+import type { RequiredOnboardingAnswers } from "@/src/features/onboarding/model/required-onboarding-types";
 
 const STORAGE_KEY = "required-onboarding-draft:v1";
 
