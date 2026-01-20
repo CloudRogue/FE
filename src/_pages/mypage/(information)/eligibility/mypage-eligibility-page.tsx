@@ -132,12 +132,6 @@ interface InfoRowProps {
 }
 
 function InfoRow({ label, value, isEditing, onChange }: InfoRowProps) {
-  const renderValue = () => {
-    if (Array.isArray(value)) return value.join(", ");
-    if (typeof value === "boolean") return value ? "예" : "아니오";
-    return value;
-  };
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     onChange(val);
