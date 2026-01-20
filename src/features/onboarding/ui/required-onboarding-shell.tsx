@@ -7,9 +7,9 @@ import Button from "@/src/shared/ui/button";
 import { Progress } from "@/src/shared/ui/progress";
 import cn from "@/src/shared/lib/cn";
 
-import { useRequiredOnboardingStore } from "@/src/features/onboarding/model/required-onboarding.store";
+import { useRequiredOnboardingStore } from "@/src/features/onboarding/model/required-onboarding-store";
 import QuestionRenderer from "@/src/features/onboarding/ui/question/question-renderer";
-import RequiredOnboardingDrawer from "@/src/features/onboarding/ui/required-onboarding.drawer";
+import RequiredOnboardingDrawer from "@/src/features/onboarding/ui/required-onboarding-drawer";
 
 export default function RequiredOnboardingShell() {
   const {
