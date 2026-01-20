@@ -3,11 +3,11 @@ import { Api } from "@/src/shared/api/api";
 import {
   RegionCitiesResponseSchema,
   RegionSigunguResponseSchema,
-} from "@/src/features/onboarding/model/required-onboarding.schema";
+} from "@/src/features/onboarding/model/required-onboarding-schema";
 import type {
   RegionCity,
   RegionSigungu,
-} from "@/src/features/onboarding/model/required-onboarding.types";
+} from "@/src/features/onboarding/model/required-onboarding-types";
 
 export async function getRegionCities(): Promise<RegionCity[]> {
   const res = await Api.get("/regions/cities", RegionCitiesResponseSchema);

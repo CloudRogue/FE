@@ -1,7 +1,7 @@
 import { Api } from "@/src/shared/api/api";
 
-import { RequiredOnboardingQuestionsResponseSchema } from "@/src/features/onboarding/model/required-onboarding.schema";
-import type { RequiredOnboardingQuestion } from "@/src/features/onboarding/model/required-onboarding.types";
+import { RequiredOnboardingQuestionsResponseSchema } from "@/src/features/onboarding/model/required-onboarding-schema";
+import type { RequiredOnboardingQuestion } from "@/src/features/onboarding/model/required-onboarding-types";
 
 export async function getRequiredOnboardingQuestions(): Promise<
   RequiredOnboardingQuestion[]

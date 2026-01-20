@@ -8,13 +8,13 @@ import Button from "@/src/shared/ui/button";
 import {
   getRegionCities,
   getRegionSigungu,
-} from "@/src/features/onboarding/api/regions.action";
+} from "@/src/features/onboarding/api/regions-action";
 
 import type {
   RegionCity,
   RegionSigungu,
   RequiredOnboardingAnswerValue,
-} from "@/src/features/onboarding/model/required-onboarding.types";
+} from "@/src/features/onboarding/model/required-onboarding-types";
 
 type Props = {
   value: RequiredOnboardingAnswerValue | undefined;
