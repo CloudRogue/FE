@@ -36,8 +36,6 @@ export const AdminAnnouncementSchema = z.object({
   ),
 });
 
-export type AdminAnnouncementResponse = z.infer<typeof AdminAnnouncementSchema>;
-
 // (어드민) 추가 온보딩 질문 목록 조회
 export const AdminAdditionalOnboardingSchema = z.object({
   data: z.array(
@@ -58,10 +56,6 @@ export const AdminAdditionalOnboardingSchema = z.object({
     }),
   ),
 });
-
-export type AdminAdditionalOnboardingResponse = z.infer<
-  typeof AdminAdditionalOnboardingSchema
->;
 
 export const AdminAnnouncementRequestSchema = z.object({
   publisher: z.enum(["LH", "SH"]), // 공고 기관
@@ -138,7 +132,3 @@ export const AdminAnnouncementRequestSchema = z.object({
     })
     .nullable(),
 });
-
-export type AdminAnnouncementRequest = z.infer<
-  typeof AdminAnnouncementRequestSchema
->;

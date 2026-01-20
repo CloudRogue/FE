@@ -1,15 +1,7 @@
 // api
-export { postAdminAnnouncement } from "@/src/features/admin-review-detail/api/post-admin";
+export { postAdminAnnouncement } from "@/src/features/admin-review-detail/api/admin-review-detail.action";
 
 // model
-export {
-  AdminAdditionalOnboardingSchema,
-  AdminAnnouncementRequestSchema,
-  AdminAnnouncementSchema,
-  type AdminAdditionalOnboardingResponse,
-  type AdminAnnouncementRequest,
-  type AdminAnnouncementResponse,
-} from "@/src/features/admin-review-detail/model/admin-review-detail.types";
 export {
   ANNOUNCEMENT_TYPE_MAP,
   APPLY_LINK_OPTIONS,
