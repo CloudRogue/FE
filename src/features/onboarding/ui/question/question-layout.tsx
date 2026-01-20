@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 
-import type { RequiredOnboardingQuestion } from "@/src/features/onboarding/model/required-onboarding.types";
+import type { RequiredOnboardingQuestion } from "@/src/features/onboarding/model/required-onboarding-types";
 
 type Props = {
   question: RequiredOnboardingQuestion;

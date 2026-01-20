@@ -4,7 +4,7 @@ import Input from "@/src/shared/ui/input";
 import type {
   RequiredOnboardingQuestion,
   RequiredOnboardingAnswerValue,
-} from "@/src/features/onboarding/model/required-onboarding.types";
+} from "@/src/features/onboarding/model/required-onboarding-types";
 
 type Props = {
   question: RequiredOnboardingQuestion;
