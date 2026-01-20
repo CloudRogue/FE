@@ -4,13 +4,12 @@ export { useAnnouncementComments } from "@/src/entities/announcement-comment/api
 // model
 export {
   CommentAuthorSchema,
-  CommentListQuerySchema,
+  CommentItemSchema,
+  CommentKindSchema,
   CommentListResponseSchema,
-  CommentSchema,
-  type Comment,
-  type CommentAuthor,
-  type CommentKind,
-  type CommentListQuery,
+  ContentFilterSchema,
+  PageMetaSchema,
+  type CommentItem,
   type CommentListResponse,
 } from "@/src/entities/announcement-comment/model/comment.types";
 

@@ -1,36 +1,57 @@
 import {
   AnnouncementDetail,
+  DetailRow,
+  getAnnouncementOverview,
   getAnnouncementSummary,
+  RegionRow,
 } from "@/src/entities/announcement-detail";
+import Button from "@/src/shared/ui/button";
+import { ExternalLink } from "lucide-react";
+import Link from "next/link";
 
 interface SummaryCardProps {
   announcementId: AnnouncementDetail["announcementId"];
+  url: AnnouncementDetail["url"];
 }
 
 export default async function SummaryCard({
   announcementId,
+  url,
 }: SummaryCardProps) {
-  const { kvDigest } = await getAnnouncementSummary(announcementId);
+  const id = String(announcementId);
+
+  const [overview, summary] = await Promise.all([
+    getAnnouncementOverview(id),
+    getAnnouncementSummary(id),
+  ]);
+
+  const { regions = [], applyMethod } = overview;
+  const announcementSummary = summary?.summary ?? "요약 정보가 없습니다.";
 
   return (
-    <section className="bg-white p-6 rounded-2xl">
-      <h3 className="text-lg font-bold text-gray-900">공고 요약</h3>
-      <ul className="space-y-4">
-        {kvDigest.map((item) => (
-          <li key={item.key} className="flex flex-col gap-1">
-            <span className="text-sm font-semibold text-blue-600">
-              {item.key}
-            </span>
-            <p className="text-[15px] text-gray-700 leading-relaxed whitespace-pre-wrap">
-              {item.value}
-            </p>
-          </li>
-        ))}
-      </ul>
+    <section className="bg-white p-6 rounded-2xl shadow-sm">
+      <h3 className="text-lg font-bold text-gray-900 mb-5">공고 개요</h3>
 
-      {kvDigest.length === 0 && (
-        <p className="text-gray-400 text-center py-4">요약 정보가 없습니다.</p>
-      )}
+      <div className="space-y-1 font-bold mb-4">
+        <DetailRow label="항목" value="공고 내용" />
+        <RegionRow regions={regions} />
+        <DetailRow label="접수 방법" value={applyMethod} />
+      </div>
+
+      <div className="text-gray-600 leading-relaxed whitespace-pre-wrap">
+        {announcementSummary}
+      </div>
+
+      <Link
+        href={url ?? ""}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="w-full mt-6 inline-block"
+      >
+        <Button className="flex items-center gap-2 w-full bg-[#F3F4F6] text-[#61666C] py-4 rounded-xl font-bold hover:bg-gray-100 border-none">
+          공고 보러가기 <ExternalLink size={15} />
+        </Button>
+      </Link>
     </section>
   );
 }

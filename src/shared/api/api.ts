@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { z } from "zod";
 
 export const ApiErrorSchema = z.object({
@@ -42,6 +43,11 @@ async function request<T>(
         details: null,
       };
     }
+
+    if (errorData.status === 404 || errorData.status === 422) {
+      notFound();
+    }
+
     throw new ApiRequestError(errorData);
   }
 

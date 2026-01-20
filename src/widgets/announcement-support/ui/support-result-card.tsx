@@ -4,81 +4,86 @@ import type {
   AnnouncementDetail,
   EligibilityResult,
 } from "@/src/entities/announcement-detail";
-import { AnnouncementAddTodoButton } from "@/src/features/todo-add/ui/announcement-add-todo-button";
+import { AnnouncementAddTodoButton } from "@/src/features/todo-add";
+import { ROUTES } from "@/src/shared/constants/routes";
 import cn from "@/src/shared/lib/cn";
-
-const RANK_THEMES = {
-  "1순위": {
-    container: "bg-[#1788F0E5]",
-    title: "축하해요!",
-    description: "지원 가능 및 1순위 가 예상돼요\n가점 3점을 모두 확보하셨어요",
-  },
-  "2순위": {
-    container: "bg-[#F7AF1EE5]",
-    description: "지원 가능 및 2순위 가 예상돼요\n한번 지원해볼까요~!",
-  },
-  "3순위": {
-    container: "bg-[#8F8F8FE5]",
-    description:
-      "지원 가능 및 3순위 가 예상돼요\n확률이 낮으니, 함께 다른 공고도 지원해보아요!",
-  },
-  "순위 없음": {
-    container: "bg-[#8F8F8FE5]",
-    description: "지원 가능해 보이네요!\n확률이 낮으니, 한번 지원해볼까요~!",
-  },
-};
-
-const INELIGIBLE_THEME = {
-  container: "bg-[#7C0505E5]",
-  description:
-    "해당 공고 지원 대상이 아니에요\n아쉽지만, 함께 다른 공고를 지원해보아요!",
-};
+import Button from "@/src/shared/ui/button";
+import { formattedDate, THEME } from "@/src/widgets/announcement-support";
+import Link from "next/link";
 
 interface SupportResultCardProps {
   result: EligibilityResult;
   announcement: AnnouncementDetail;
   userName: string;
-  isClosed: boolean;
 }
 export function SupportResultCard({
   result,
   announcement,
   userName,
-  isClosed,
 }: SupportResultCardProps) {
-  const { eligible, rank } = result;
+  const { supportStatus, diagnosedAt, predictedRank, predictedBonusPoints } =
+    result;
 
-  const theme = !eligible
-    ? INELIGIBLE_THEME
-    : RANK_THEMES[rank as keyof typeof RANK_THEMES] || RANK_THEMES["순위 없음"];
+  const theme = THEME[supportStatus as keyof typeof THEME] || THEME.ELIGIBLE;
 
   return (
-    <div className={cn("p-6 rounded-2xl text-white mb-6", theme.container)}>
-      <div className="mb-6">
-        <p className="text-[14px] opacity-90 mb-1">자격 자가 진단 결과</p>
-        <h4 className="text-[18px] font-bold leading-snug whitespace-pre-wrap">
-          {userName}님,
-          {"title" in theme && (
-            <>
-              {" "}
-              {theme.title}
-              {"\n"}
-            </>
-          )}
-          {!("title" in theme) && "\n"}
-          {theme.description}
-        </h4>
+    <div
+      className={cn("w-full rounded-2xl text-white mb-6 p-6", theme.container)}
+    >
+      <div className="flex justify-between items-end mb-4 w-full">
+        <p className="text-lg">
+          <span className="font-bold">{userName}</span>님의 진단 결과
+        </p>
+        <p>{formattedDate(diagnosedAt)}</p>
+      </div>
+      {/* 지원 여부 */}
+      <div className="flex flex-col gap-3 w-full">
+        <div className="w-full py-4 rounded-xl font-bold text-lg text-center">
+          {theme.statusText}
+        </div>
+        {/* NOTE: 항목 결과 디자인 변동 가능성 있음*/}
+        <div
+          className="grid gap-3 w-full"
+          style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}
+        >
+          <div className="flex items-center justify-center py-5 px-2 rounded-xl font-semibold text-center min-w-0 bg-white/15">
+            가산점 {predictedBonusPoints ?? "0"}점 확보
+          </div>
+          <div className="flex items-center justify-center py-5 px-2 rounded-xl font-semibold text-center min-w-0 bg-white/15">
+            소득 {predictedRank ?? "n"}순위 예상
+          </div>
+        </div>
       </div>
 
-      {!isClosed && (
-        <AnnouncementAddTodoButton
-          payload={{
-            announcementId: announcement.announcementId,
-            title: announcement.title,
-            dueDate: announcement.endDate,
-          }}
-        />
-      )}
+      {/* 하단 버튼 영역 */}
+      <div className="mt-6 text-black w-full">
+        {theme.buttonType === "add-todo" && (
+          <AnnouncementAddTodoButton
+            className="w-full bg-white hover:bg-gray-50 py-4 rounded-xl font-bold text-[16px]"
+            payload={{
+              announcementId: announcement.announcementId,
+              title: announcement.title,
+              dueDate: announcement.endDate,
+            }}
+          />
+        )}
+
+        {theme.buttonType === "link-other" && (
+          <Link href={ROUTES.ANNOUNCEMENT} className="block">
+            <Button className="w-full bg-white hover:bg-gray-50 py-4 rounded-xl font-bold">
+              다른 공고 보러 가기
+            </Button>
+          </Link>
+        )}
+
+        {theme.buttonType === "link-auth" && (
+          <Link href={ROUTES.LOGIN} className="block">
+            <Button className="w-full bg-white hover:bg-gray-50 py-4 rounded-xl font-bold">
+              자격 정보 입력하기
+            </Button>
+          </Link>
+        )}
+      </div>
     </div>
   );
 }

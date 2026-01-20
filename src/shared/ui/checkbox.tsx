@@ -1,7 +1,8 @@
 "use client";
 
-import React, { forwardRef } from "react";
 import cn from "@/src/shared/lib/cn";
+import { Check } from "lucide-react";
+import React, { forwardRef } from "react";
 
 export interface CheckboxProps extends Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -23,14 +24,32 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             type="checkbox"
             ref={ref}
             id={checkboxId}
-            className={cn(
-              "h-4 w-4 cursor-pointer rounded border-gray-300 text-blue-600 focus:ring-blue-500 disabled:cursor-not-allowed disabled:opacity-50",
-              error && "border-red-500 focus:ring-red-500",
-              className,
-            )}
+            className="peer sr-only"
             {...props}
           />
-
+          <div
+            className={cn(
+              "h-6 w-6 rounded-full border-2 border-gray-300 bg-white transition-all cursor-pointer",
+              "flex items-center justify-center shrink-0",
+              // 체크 시 배경/보더 변경
+              "peer-checked:border-blue-500 peer-checked:bg-blue-500",
+              // 에러 상태
+              error && "border-red-500",
+              "peer-checked:peer-invalid:border-red-500 peer-checked:peer-invalid:bg-red-500",
+              // 비활성화
+              "peer-disabled:cursor-not-allowed peer-disabled:bg-gray-100 peer-disabled:border-gray-200",
+              className,
+            )}
+          >
+            <Check
+              size={14}
+              strokeWidth={2}
+              className={cn(
+                "text-white transition-opacity",
+                props.checked ? "opacity-100" : "opacity-0",
+              )}
+            />
+          </div>
           {label && (
             <label
               htmlFor={checkboxId}

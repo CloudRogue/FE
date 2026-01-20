@@ -2,77 +2,75 @@
 
 import { EligibilityResult } from "@/src/entities/announcement-detail";
 import cn from "@/src/shared/lib/cn";
-import Button from "@/src/shared/ui/button";
-import { ChevronDown } from "lucide-react";
+import { Accordion } from "@/src/shared/ui/arccordion";
+import { useState } from "react";
 
 interface SupportInfoCardProps {
   userName: string;
   result: EligibilityResult | null;
-  isOpen: boolean;
-  onToggle: () => void;
+  isLoggedIn: boolean;
 }
 
 export function SupportInfoCard({
   userName,
   result,
-  isOpen,
-  onToggle,
+  isLoggedIn,
 }: SupportInfoCardProps) {
-  const hasResult = result && result.checks && result.checks.length > 0;
+  const [isOpen, setIsOpen] = useState(!isLoggedIn);
+  const [prevIsLoggedIn, setPrevIsLoggedIn] = useState(isLoggedIn);
+
+  if (isLoggedIn !== prevIsLoggedIn) {
+    setPrevIsLoggedIn(isLoggedIn);
+    setIsOpen(!isLoggedIn);
+  }
+
+  const hasResult = result && result.trace && result.trace.length > 0;
 
   return (
-    <div className="border-2 rounded-2xl overflow-hidden mb-6 transition-all">
-      <Button
-        onClick={onToggle}
-        className={cn(
-          "flex justify-between items-center w-full p-4 bg-white hover:bg-gray-50 transition-colors",
-          isOpen ? "border-b-2 border-gray-100" : "",
-        )}
-      >
-        <span className="font-bold text-[#1E293B]">
-          {userName}님의 자격 정보
-        </span>
-        <ChevronDown
-          className={cn(
-            "text-gray-900 transition-transform duration-200",
-            isOpen ? "rotate-180" : "rotate-0",
-          )}
-          size={24}
-        />
-      </Button>
-
-      <div
-        className={cn(
-          "overflow-hidden transition-all duration-300 ease-in-out",
-          isOpen ? "max-h-250 opacity-100" : "max-h-0 opacity-0",
-        )}
-      >
-        <div className="bg-gray-50 p-5 space-y-6">
-          {hasResult ? (
-            result.checks.map((check, i) => (
+    <Accordion
+      title={`${userName}님의 자격 정보`}
+      isOpen={isOpen}
+      onToggle={() => setIsOpen(!isOpen)}
+      className="mb-6"
+    >
+      <div className="bg-gray-50 p-5 space-y-6">
+        {hasResult
+          ? result.trace.map((check, i) => (
               <div key={i} className="flex justify-between items-center">
-                <span className="text-[#1E293B] font-medium">
-                  {check.message}
-                </span>
-                <span
+                <div>
+                  <p className="text-[#1E293B]">{check.key}</p>
+                  <p className="text-gray-500 text-sm">{check.message}</p>
+                </div>
+                <div
                   className={cn(
-                    "text-xs px-2 py-1 rounded",
+                    "text-[13px] px-3 py-1.5 rounded-lg font-bold border",
                     check.passed
-                      ? "bg-blue-50 text-blue-600"
-                      : "bg-red-50 text-red-600",
+                      ? "bg-blue-50 text-blue-600 border-blue-200"
+                      : "bg-red-50 text-red-500 border-red-200",
                   )}
                 >
-                  {check.passed ? "적합" : "부적합"}
-                </span>
+                  {check.passed ? "진단 통과" : "지원 불가"}
+                </div>
               </div>
             ))
-          ) : (
-            <p className="text-sm text-gray-500 text-center py-4">
-              진단을 완료하면 상세 정보가 나타납니다.
-            </p>
-          )}
-        </div>
+          : [
+              "항목 (공고 기준 or 가산점 여부)",
+              "나이 (만 00~00세)",
+              "청약 통장 가입 기간 (가산점)",
+            ].map((label, i) => (
+              <div key={i} className="flex justify-between items-start">
+                <div className="space-y-1">
+                  <p className="text-xs text-slate-500 font-medium">{label}</p>
+                  <p className="text-[15px] font-bold text-blue-600">
+                    입력 필요
+                  </p>
+                </div>
+                <div className="text-[13px] px-3 py-1.5 rounded-lg font-bold bg-slate-100 text-slate-300 border border-slate-200">
+                  진단 결과
+                </div>
+              </div>
+            ))}
       </div>
-    </div>
+    </Accordion>
   );
 }
