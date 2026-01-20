@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { getProfile } from "@/src/entities/user/api/get-profile";
-import { useUserStore } from "@/src/entities/user/model/user-store";
+import { getProfile } from "@/src/entities/user/api/profile.action";
+import { useUserStore } from "@/src/entities/user/model/use-user-store";
 
 export function useUser() {
   const { setUserInfo, clearUser, user, isLoggedIn } = useUserStore();
