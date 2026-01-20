@@ -1,7 +1,7 @@
 "use client";
 
-import * as React from "react";
 import cn from "@/src/shared/lib/cn";
+import * as React from "react";
 
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   className?: string;
@@ -9,7 +9,15 @@ export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type = "text", ...rest }, ref) => {
-    return <input ref={ref} type={type} className={cn(className)} {...rest} />;
+    return (
+      <input
+        ref={ref}
+        type={type}
+        autoComplete="one-time-code"
+        className={cn(className)}
+        {...rest}
+      />
+    );
   },
 );
 
