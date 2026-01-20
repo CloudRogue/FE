@@ -1,10 +1,10 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import type { InfiniteData } from "@tanstack/react-query";
-import { announcementQueries } from "@/src/entities/announcement/api/queries";
+import { announcementQueries } from "@/src/entities/announcement/api/announcement.queries";
 import type {
   AnnouncementFilterParams,
   AnnouncementListResponse,
-} from "@/src/entities/announcement/model/types";
+} from "@/src/entities/announcement/model/announcement.types";
 
 type AnnouncementType =
   | "personalized"
