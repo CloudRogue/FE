@@ -2,15 +2,13 @@ import {
   AnnouncementListResponseSchema,
   type AnnouncementListParams,
   type AnnouncementListResponse,
-} from "@/src/entities/mypage-scrap";
+} from "@/src/entities/mypage-scrap/model/scrap.types";
 import { Api } from "@/src/shared/api/api";
 
-// 내가 찜한 공고 리스트 조회
 export async function getScrappedAnnouncements(params: AnnouncementListParams) {
-  const searchParams = new URLSearchParams({
-    page: (params.page ?? 0).toString(),
-    size: (params.size ?? 20).toString(),
-  });
+  const searchParams = new URLSearchParams();
+  if (params.cursor) searchParams.append("cursor", params.cursor.toString());
+  searchParams.append("limit", (params.limit ?? 20).toString());
 
   return await Api.get<AnnouncementListResponse>(
     `/mypage/scraps?${searchParams.toString()}`,
