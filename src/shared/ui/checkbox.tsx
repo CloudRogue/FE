@@ -19,7 +19,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
 
     return (
       <div className="flex flex-col gap-1.5">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 group">
           <input
             type="checkbox"
             ref={ref}
@@ -29,15 +29,12 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           />
           <div
             className={cn(
-              "h-6 w-6 rounded-full border-2 border-gray-300 bg-white transition-all cursor-pointer",
+              "h-6 w-6 rounded-full bg-gray-100 transition-all cursor-pointer",
               "flex items-center justify-center shrink-0",
-              // 체크 시 배경/보더 변경
-              "peer-checked:border-blue-500 peer-checked:bg-blue-500",
-              // 에러 상태
-              error && "border-red-500",
-              "peer-checked:peer-invalid:border-red-500 peer-checked:peer-invalid:bg-red-500",
-              // 비활성화
-              "peer-disabled:cursor-not-allowed peer-disabled:bg-gray-100 peer-disabled:border-gray-200",
+              // 체크 상태
+              "peer-checked:bg-primary-blue",
+              "peer-disabled:cursor-not-allowed peer-disabled:bg-gray-100",
+
               className,
             )}
           >
