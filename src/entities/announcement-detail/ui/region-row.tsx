@@ -1,6 +1,7 @@
 "use client";
 
 import { DetailRow } from "@/src/entities/announcement-detail";
+import { Badge } from "@/src/shared/ui/badge";
 import Button from "@/src/shared/ui/button";
 import { X } from "lucide-react";
 import { useMemo, useState } from "react";
@@ -33,8 +34,9 @@ export function RegionRow({ regions }: { regions: string[] | string }) {
               onClose: handleClose,
               trigger: (
                 <Button
+                  variant="tertiary_gray"
+                  className="h-0"
                   onClick={() => setIsOpen(true)}
-                  className="-mt-0.5 px-1 py-0 h-6 text-[11px] font-bold text-white bg-[#437CFF] rounded-md cursor-pointer"
                 >
                   전체보기
                 </Button>
@@ -42,28 +44,22 @@ export function RegionRow({ regions }: { regions: string[] | string }) {
               children: (
                 <div className="flex flex-col gap-4">
                   <div className="flex justify-between items-center">
-                    <h4 className="text-lg font-bold text-gray-900">
+                    <h4 className="text-h3 text-gray-black">
                       전체 지역 ({isArrayRegions.length}개)
                     </h4>
                     <X onClick={handleClose} />
                   </div>
-                  <div className="grid grid-cols-4 gap-2 max-h-75 overflow-y-auto">
+                  <div className="flex flex-wrap gap-2 max-h-75 overflow-y-auto">
                     {isArrayRegions.map((region, idx) => (
-                      <span
+                      <Badge
                         key={`${region}-${idx}`}
-                        className="px-3 py-2 bg-[#EBF2FF] text-[#437CFF] text-[13px] font-bold rounded-full text-center"
+                        variant="recommend"
+                        className="px-3 py-1.5 text-primary-blue! text-h5 rounded-xl"
                       >
                         {region}
-                      </span>
+                      </Badge>
                     ))}
                   </div>
-
-                  <Button
-                    onClick={handleClose}
-                    className="w-full mt-2 py-4 bg-[#437CFF] text-white font-bold rounded-2xl"
-                  >
-                    확인
-                  </Button>
                 </div>
               ),
             }

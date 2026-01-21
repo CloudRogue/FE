@@ -13,10 +13,10 @@ interface DetailRowProps {
 
 export function DetailRow({ label, value, popover }: DetailRowProps) {
   return (
-    <div className="flex justify-between items-center py-2 text-[15px]">
-      <span className="text-gray-400 font-medium">{label}</span>
+    <div className="flex justify-between items-center mb-4 text-[15px]">
+      <span className="text-gray-700 text-h5">{label}</span>
       <div className="flex items-center gap-2">
-        <span className="text-gray-900 font-semibold">{value}</span>
+        <span className="text-h4 font-semibold">{value}</span>
         {popover && (
           <Popover
             align="right"
