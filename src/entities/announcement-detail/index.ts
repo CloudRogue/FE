@@ -2,11 +2,9 @@
 export {
   getAnnouncementDetail,
   getAnnouncementOverview,
-  getAnnouncementSummary,
+  getAnnouncementSummary
 } from "@/src/entities/announcement-detail/api/announcement-detail.action";
 
-// lib
-export { mapAnnouncementToSummary } from "@/src/entities/announcement-detail/lib/announcement.mapper";
 
 // model
 export {
@@ -16,6 +14,7 @@ export {
   type AnnouncementStatus,
   type AnnouncementSummaryResponse,
   type EligibilityResult,
+  type SupportStatus
 } from "@/src/entities/announcement-detail/model/announcement-detail.types";
 
 export {
@@ -24,9 +23,10 @@ export {
   AnnouncementOverviewResponseSchema,
   AnnouncementStatusSchema,
   AnnouncementSummaryResponseSchema,
-  EligibilityResultSchema,
+  EligibilityResultSchema
 } from "@/src/entities/announcement-detail/model/announcement-detail.schema";
 
 // ui
 export { DetailRow } from "@/src/entities/announcement-detail/ui/detail-row";
 export { RegionRow } from "@/src/entities/announcement-detail/ui/region-row";
+

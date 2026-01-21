@@ -1,10 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { useAnnouncements } from "@/src/entities/announcement/api/use-announcements.queries";
 import type { Announcement } from "@/src/entities/announcement/model/announcement.types";
 import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
 import { AnnouncementCard } from "@/src/widgets/announcement-card/ui/announcement-card";
+import Link from "next/link";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
@@ -63,10 +63,6 @@ export function AnnouncementList() {
           >
             <AnnouncementCard
               {...item}
-              period={{
-                start: item.startDate,
-                end: item.endDate,
-              }}
               isScrapped={false}
               externalApplyUrl=""
               fullAdres=""

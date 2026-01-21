@@ -5,8 +5,8 @@ import { useUser } from "@/src/entities/user";
 import { deleteScrap, patchScrap } from "@/src/features/announcement-scrap";
 import cn from "@/src/shared/lib/cn";
 import Button from "@/src/shared/ui/button";
+import Heart from "@/src/shared/ui/icons/policy/like.svg";
 import Popover from "@/src/shared/ui/popover";
-import { Heart } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 
@@ -93,17 +93,18 @@ export function ScrapButton({
           role="button"
           tabIndex={0}
           className={cn(
-            "cursor-pointer p-0 h-6 transition-transform inline-flex items-center justify-center",
+            "bg-gray-50 cursor-pointer p-4 transition-transform inline-flex items-center justify-center rounded-sm",
             isPending && "opacity-70 pointer-events-none",
           )}
         >
           <Heart
-            size={24}
+            width={20}
+            height={20}
             className={cn(
-              "p-0 transition-colors duration-200",
+              "p-0 duration-200",
               isScrapped
                 ? "text-red-500 fill-red-500"
-                : "text-gray-300 fill-gray-300",
+                : "text-gray-400 fill-none",
             )}
           />
         </div>

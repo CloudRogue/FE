@@ -1,11 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useUserStore } from "@/src/entities/user/model/use-user-store";
 import { useGetRecommendedAnnouncements } from "@/src/entities/announcement/api/use-get-recommended";
-import { AnnouncementCard } from "@/src/widgets/announcement-card/ui/announcement-card";
-import Button from "@/src/shared/ui/button";
+import { useUserStore } from "@/src/entities/user/model/use-user-store";
 import { ROUTES } from "@/src/shared/constants/routes";
+import Button from "@/src/shared/ui/button";
+import { AnnouncementCard } from "@/src/widgets/announcement-card/ui/announcement-card";
+import { useRouter } from "next/navigation";
 
 export function RecommendedAnnouncements() {
   const router = useRouter();
@@ -30,7 +30,6 @@ export function RecommendedAnnouncements() {
             key={`${item.announcementId}-${index}`}
             {...item}
             className="rounded-3xl border-none shadow-sm"
-            period={{ start: item.startDate, end: item.endDate }}
           />
         ))}
       </div>
