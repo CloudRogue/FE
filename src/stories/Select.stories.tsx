@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import Select from "@/src/shared/ui/select";
-import ClientSelect from "@/src/shared/ui/client-select";
 
 const meta: Meta<typeof Select> = {
   title: "ui-kit/Select",
@@ -46,20 +45,4 @@ export const Disabled: Story = {
     options: OPTIONS,
     disabled: true,
   },
-};
-
-/* ---------------- Client Select ---------------- */
-
-export const ClientSelectExample: StoryObj<typeof ClientSelect> = {
-  render: () => (
-    <ClientSelect
-      defaultValue=""
-      placeholder="선택하세요"
-      options={OPTIONS}
-      onValueChange={(value) => {
-        console.log("선택된 값:", value);
-      }}
-    />
-  ),
-  name: "ClientSelect (onValueChange)",
 };

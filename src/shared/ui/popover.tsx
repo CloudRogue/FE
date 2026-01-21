@@ -1,143 +1,105 @@
 "use client";
 
+import React, { forwardRef, useCallback, useEffect, useRef } from "react";
+import type { ReactNode } from "react";
 import cn from "@/src/shared/lib/cn";
-import React, {
-  forwardRef,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
 
-type TriggerProps = {
-  onClick?: React.MouseEventHandler;
+export interface PopupProps {
+  isOpen: boolean;
+  onClose: () => void;
+  children: ReactNode;
   className?: string;
-  "aria-haspopup"?:
-    | boolean
-    | "false"
-    | "true"
-    | "menu"
-    | "listbox"
-    | "tree"
-    | "grid"
-    | "dialog";
-  "aria-expanded"?: boolean;
-};
-
-export interface PopoverProps {
-  trigger: React.ReactNode;
-  children: React.ReactNode;
-  containerClassName?: string;
-  className?: string;
-  align?: "left" | "right" | "center";
-  isOpen?: boolean;
-  onClose?: () => void;
+  align?: "left" | "center" | "right";
   center?: boolean;
+  trigger?: ReactNode;
+  containerClassName?: string;
 }
 
-const Popover = forwardRef<HTMLDivElement, PopoverProps>(
+const Popup = forwardRef<HTMLDivElement, PopupProps>(
   (
     {
-      trigger,
+      isOpen,
+      onClose,
       children,
-      containerClassName,
       className,
       align = "center",
-      isOpen: controlledIsOpen,
-      onClose,
-      center = false,
+      center = true,
+      trigger,
+      containerClassName,
     },
     ref,
   ) => {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const [internalIsOpen, setInternalIsOpen] = useState(false);
+    const overlayRef = useRef<HTMLDivElement>(null);
 
-    const isOpen =
-      controlledIsOpen !== undefined ? controlledIsOpen : internalIsOpen;
-
-    const setIsOpen = useCallback(
-      (value: React.SetStateAction<boolean>) => {
-        const newValue = typeof value === "function" ? value(isOpen) : value;
-        if (onClose && !newValue) onClose();
-        setInternalIsOpen(newValue);
+    const handleKeyDown = useCallback(
+      (e: KeyboardEvent) => {
+        if (e.key === "Escape") onClose();
       },
-      [isOpen, onClose],
+      [onClose],
     );
 
     useEffect(() => {
-      const handleClickOutside = (event: MouseEvent) => {
-        if (
-          containerRef.current &&
-          !containerRef.current.contains(event.target as Node)
-        ) {
-          setIsOpen(false);
-        }
-      };
-      document.addEventListener("mousedown", handleClickOutside);
-      return () =>
-        document.removeEventListener("mousedown", handleClickOutside);
-    }, [isOpen, setIsOpen]);
-
-    const renderTrigger = () => {
-      if (React.isValidElement<TriggerProps>(trigger)) {
-        const triggerElement = trigger;
-
-        return React.cloneElement(triggerElement, {
-          onClick: (e: React.MouseEvent) => {
-            triggerElement.props.onClick?.(e);
-            setIsOpen((prev) => !prev);
-          },
-          "aria-haspopup": "true",
-          "aria-expanded": isOpen,
-          className: cn(triggerElement.props.className, "cursor-pointer"),
-        });
+      if (isOpen) {
+        document.addEventListener("keydown", handleKeyDown);
+        document.body.style.overflow = "hidden";
       }
-      return trigger;
-    };
 
-    const alignClass = {
-      left: "left-0",
-      right: "right-0",
-      center: "left-1/2 -translate-x-1/2",
-    };
+      return () => {
+        document.removeEventListener("keydown", handleKeyDown);
+        document.body.style.overflow = "unset";
+      };
+    }, [isOpen, handleKeyDown]);
 
-    const popoverClass = cn(
-      "z-50 overflow-hidden bg-white shadow-[0_10px_40px_rgba(0,0,0,0.08)] border border-gray-100",
-      "animate-in fade-in zoom-in-95 duration-200 ease-out",
-      center
-        ? "fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[24px] p-6 w-[calc(100%-40px)] max-w-[400px]"
-        : cn("absolute mt-2 rounded-2xl p-2", alignClass[align]),
-      className,
-    );
+    const positionClasses = center
+      ? "items-center justify-center"
+      : cn(
+          "items-center",
+          align === "left" && "justify-start",
+          align === "right" && "justify-end",
+          align === "center" && "justify-center",
+        );
 
     return (
-      <div
-        className={cn("relative inline-block", containerClassName)}
-        ref={containerRef}
-      >
-        {renderTrigger()}
+      <>
+        {trigger && (
+          <div className={cn("inline-block", containerClassName)}>
+            {trigger}
+          </div>
+        )}
 
         {isOpen && (
-          <>
-            {center && (
-              <div
-                className="fixed inset-0 z-40 bg-black/40 backdrop-blur-[2px] animate-in fade-in duration-300"
-                onClick={() => setIsOpen(false)}
-              />
+          <div
+            className={cn(
+              "fixed inset-0 z-50 flex p-5 font-sans",
+              positionClasses,
             )}
+          >
+            <div
+              ref={overlayRef}
+              className="fixed inset-0 bg-black/40 backdrop-blur-[2px] animate-in fade-in duration-300"
+              onClick={onClose}
+            />
+
             <div
               ref={ref}
-              role={center ? "dialog" : "menu"}
-              className={popoverClass}
+              role="dialog"
+              aria-modal="true"
+              className={cn(
+                "relative z-50 flex w-[340px] flex-col items-center bg-gray-white rounded-lg shadow-card-hover",
+                "p-[32px_24px] gap-6 transition-all",
+                "animate-in fade-in zoom-in-95 duration-200 ease-out",
+                className,
+              )}
             >
               {children}
             </div>
-          </>
+          </div>
         )}
-      </div>
+      </>
     );
   },
 );
 
-Popover.displayName = "Popover";
-export default Popover;
+Popup.displayName = "Popup";
+
+export default Popup;
