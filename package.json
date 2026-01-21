@@ -11,10 +11,10 @@
     "build-storybook": "storybook build",
     "postinstall": "node ./postinstall.mjs",
     "test": "jest --passWithNoTests",
-    "chromatic": "chromatic --exit-zero-on-changes"
+    "chromatic": "chromatic --exit-zero-on-changes",
+    "dev:https": "next dev --https --ssl-cert localhost.pem --ssl-key localhost-key.pem"
   },
   "dependencies": {
-    "@svgr/webpack": "^8.1.0",
     "@tanstack/react-query": "^5.90.12",
     "@tanstack/react-query-devtools": "^5.91.1",
     "clsx": "^2.1.1",
@@ -38,6 +38,7 @@
     "@storybook/addon-onboarding": "^10.1.10",
     "@storybook/addon-vitest": "^10.1.10",
     "@storybook/nextjs-vite": "^10.1.10",
+    "@svgr/webpack": "^8.1.0",
     "@tailwindcss/postcss": "^4.1.18",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
