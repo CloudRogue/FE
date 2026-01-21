@@ -63,7 +63,9 @@ export function Accordion({
           />
         </button>
       ) : (
-        <div className="px-4 py-3 bg-white text-h5 text-black">{title}</div>
+        <div className="px-4 py-3 bg-white border-b border-gray-100 text-h5 text-black">
+          {title}
+        </div>
       )}
 
       {/* 애니메이션 핵심 영역 */}
@@ -76,7 +78,7 @@ export function Accordion({
         )}
       >
         <div className="overflow-hidden">
-          <div className="bg-gray-50 p-4">{children}</div>
+          <div className="bg-gray-white p-4">{children}</div>
         </div>
       </div>
 

@@ -16,6 +16,7 @@ export {
   type AnnouncementStatus,
   type AnnouncementSummaryResponse,
   type EligibilityResult,
+  type SupportStatus,
 } from "@/src/entities/announcement-detail/model/announcement-detail.types";
 
 export {
