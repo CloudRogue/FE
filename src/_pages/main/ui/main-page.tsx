@@ -31,22 +31,7 @@ export function MainPage() {
 
         <HomeBanner />
 
-        {isLoggedIn && user && (
-          <div className="flex flex-col gap-4 px-6 mt-8">
-            <h3 className="text-lg font-bold text-slate-900">
-              {user.name}님을 위한 추천 공고
-            </h3>
-
-            <RecommendedAnnouncements />
-
-            <Button
-              className="w-full h-12 bg-slate-100 text-slate-600 rounded-xl text-sm font-medium mt-2"
-              onClick={() => router.push("/announcements/personalized")}
-            >
-              다른 추천 공고 더보기
-            </Button>
-          </div>
-        )}
+        <RecommendedAnnouncements />
 
         <div className={isLoggedIn ? "mt-10" : "mt-4"}>
           <QuickNavigation />
