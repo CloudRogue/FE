@@ -1,10 +1,10 @@
 "use client";
 
-import Link from "next/link";
-import { ROUTES } from "@/src/shared/constants/routes";
-import Card from "@/src/shared/ui/card";
-import { useIntersection } from "@/src/shared/hooks/use-intersection";
 import { useRecentViewedAnnouncements } from "@/src/entities/announcement";
+import { ROUTES } from "@/src/shared/constants/routes";
+import { useIntersection } from "@/src/shared/hooks/use-intersection";
+import Card from "@/src/shared/ui/card";
+import Link from "next/link";
 
 export default function MypageRecentPage() {
   const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } =
@@ -22,7 +22,7 @@ export default function MypageRecentPage() {
     return (
       <div className="p-4 space-y-3">
         {[1, 2, 3].map((i) => (
-          <Card key={i} isLoading padding="medium" />
+          <Card key={i} isLoading />
         ))}
       </div>
     );
@@ -36,11 +36,7 @@ export default function MypageRecentPage() {
             key={item.announcementId}
             href={ROUTES.ANNOUNCEMENT_DETAIL(String(item.announcementId))}
           >
-            <Card
-              padding="medium"
-              shadow="sm"
-              className="flex items-center gap-4 active:scale-[0.98]"
-            >
+            <Card className="flex items-center gap-4 active:scale-[0.98]">
               <div className="flex-1 min-w-0">
                 <h3 className="text-[16px] font-bold text-slate-800 line-clamp-2 leading-snug">
                   {item.title}
@@ -66,13 +62,7 @@ export default function MypageRecentPage() {
       </div>
 
       <div ref={observerRef} className="h-20 flex items-center justify-center">
-        {isFetchingNextPage && (
-          <Card
-            isLoading
-            shadow="none"
-            className="bg-transparent border-none"
-          />
-        )}
+        {isFetchingNextPage && <Card isLoading className="bg-transparent" />}
       </div>
     </div>
   );

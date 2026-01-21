@@ -1,5 +1,5 @@
-import Card from "@/src/shared/ui/card";
 import cn from "@/src/shared/lib/cn";
+import Card from "@/src/shared/ui/card";
 import Link from "next/link";
 
 interface CtaCardProps {
@@ -20,8 +20,6 @@ export default function CtaCard({
   return (
     <Card
       as="section"
-      shadow={variant === "hero" ? "sm" : "none"}
-      padding="medium"
       className={cn(
         "flex flex-col gap-4",
         variant === "hero"
