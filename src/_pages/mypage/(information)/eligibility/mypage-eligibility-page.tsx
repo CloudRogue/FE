@@ -1,234 +1,150 @@
 "use client";
 
-import Button from "@/src/shared/ui/button";
-import Card from "@/src/shared/ui/card";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-// 분리 필요
+import Button from "@/src/shared/ui/button";
+
+import { getMyPageEligibility } from "@/src/entities/mypage-eligibility";
+import type {
+  MyPageEligibilityAnswer,
+  MyPageEligibilityResponse,
+} from "@/src/entities/mypage-eligibility";
+
+import {
+  putMyPageEligibilityDetail,
+  toMyPageEligibilityUpsertRequestFromAdditionalDraft,
+  toMyPageEligibilityUpsertRequestFromRequiredDraft,
+} from "@/src/features/mypage-eligibility";
+
+import { MyPageEligibilityWidget } from "@/src/widgets/mypage-eligibility";
+
 type AnswerValue = string | number | boolean | string[];
-interface OnboardingAnswer {
-  id: number;
-  title: string;
-  type:
-    | "SELECT_SINGLE"
-    | "SELECT_MULTI"
-    | "DATE"
-    | "TEXT_INPUT"
-    | "NUMBER_INPUT"
-    | "BOOLEAN";
-  options: string[] | null;
-  value: AnswerValue;
-}
-interface OnboardingData {
-  requiredOnboardingAnswers: OnboardingAnswer[];
-  additionalOnboardingAnswers: OnboardingAnswer[];
+
+const QUERY_KEY = ["mypage-eligibility"];
+
+const EMPTY: MyPageEligibilityResponse = {
+  requiredOnboardingAnswers: [],
+  additionalOnboardingAnswers: [],
+};
+
+function toDraft(
+  items: MyPageEligibilityAnswer[],
+): Record<number, AnswerValue> {
+  const draft: Record<number, AnswerValue> = {};
+  for (const item of items) {
+    draft[item.id] = item.value as AnswerValue;
+  }
+  return draft;
 }
 
 export default function MyPageEligibilityPage() {
-  const [data, setData] = useState(MOCK_DATA as OnboardingData);
+  const queryClient = useQueryClient();
 
   const [editStatus, setEditStatus] = useState({
     required: false,
     additional: false,
   });
 
-  const handleInputChange = (
-    section: keyof OnboardingData,
-    id: number,
-    newValue: AnswerValue,
-  ) => {
-    setData((prev) => ({
-      ...prev,
-      [section]: prev[section].map((item) =>
-        item.id === id ? { ...item, value: newValue } : item,
-      ),
-    }));
+  const [requiredDraft, setRequiredDraft] = useState<
+    Record<number, AnswerValue | undefined>
+  >({});
+  const [additionalDraft, setAdditionalDraft] = useState<
+    Record<number, AnswerValue | undefined>
+  >({});
+
+  const { data, isLoading, isError, refetch } = useQuery({
+    queryKey: QUERY_KEY,
+    queryFn: getMyPageEligibility,
+    staleTime: 10_000,
+  });
+
+  const safeData = useMemo(() => data ?? EMPTY, [data]);
+
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: putMyPageEligibilityDetail,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: QUERY_KEY });
+    },
+  });
+
+  const handleChangeRequired = (id: number, next: AnswerValue) => {
+    setRequiredDraft((prev) => ({ ...prev, [id]: next }));
   };
 
-  const handleSave = (section: "required" | "additional") => {
-    setEditStatus((prev) => ({ ...prev, [section]: false }));
-    console.log(`${section} 저장 데이터:`, data);
+  const handleChangeAdditional = (id: number, next: AnswerValue) => {
+    setAdditionalDraft((prev) => ({ ...prev, [id]: next }));
   };
+
+  const handleToggleRequired = async () => {
+    if (isPending) return;
+
+    if (editStatus.required) {
+      const payload = toMyPageEligibilityUpsertRequestFromRequiredDraft(
+        safeData.requiredOnboardingAnswers,
+        requiredDraft,
+      );
+
+      await mutateAsync(payload);
+      setEditStatus((prev) => ({ ...prev, required: false }));
+      return;
+    }
+
+    setRequiredDraft(toDraft(safeData.requiredOnboardingAnswers));
+    setEditStatus((prev) => ({ ...prev, required: true }));
+  };
+
+  const handleToggleAdditional = async () => {
+    if (isPending) return;
+
+    if (editStatus.additional) {
+      const payload = toMyPageEligibilityUpsertRequestFromAdditionalDraft(
+        safeData.additionalOnboardingAnswers,
+        additionalDraft,
+      );
+
+      await mutateAsync(payload);
+      setEditStatus((prev) => ({ ...prev, additional: false }));
+      return;
+    }
+
+    setAdditionalDraft(toDraft(safeData.additionalOnboardingAnswers));
+    setEditStatus((prev) => ({ ...prev, additional: true }));
+  };
+
+  if (isLoading) {
+    return <div className="p-6 text-sm text-slate-700">로딩중...</div>;
+  }
+
+  if (isError) {
+    return (
+      <div className="p-6">
+        <div className="mb-3 text-sm text-slate-700">
+          지원 자격 정보를 불러오지 못했습니다.
+        </div>
+        <Button
+          type="button"
+          onClick={() => refetch()}
+          className="rounded-md border px-3 py-2 text-sm"
+        >
+          다시 시도
+        </Button>
+      </div>
+    );
+  }
 
   return (
-    <div className="space-y-6 px-6 pb-12 pt-6">
-      {/* 나의 핵심 정보 */}
-      <Card padding="large" shadow="sm" className="rounded-3xl border-0">
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-slate-900">
-            나의 핵심 정보
-          </h2>
-          {/* put이니 feature로 분리 */}
-          <Button
-            onClick={() =>
-              editStatus.required
-                ? handleSave("required")
-                : setEditStatus((prev) => ({ ...prev, required: true }))
-            }
-            className="px-0 text-sm font-medium text-blue-600"
-          >
-            {editStatus.required ? "저장" : "수정"}
-          </Button>
-        </div>
-
-        {/* get - entities로 list로 분리 */}
-        <ul className="space-y-4 text-sm">
-          {data.requiredOnboardingAnswers.map((item) => (
-            <InfoRow
-              key={item.id}
-              label={item.title}
-              value={item.value}
-              isEditing={editStatus.required}
-              onChange={(val) =>
-                handleInputChange("requiredOnboardingAnswers", item.id, val)
-              }
-            />
-          ))}
-        </ul>
-      </Card>
-
-      {/* 추가 정보 */}
-      <Card padding="large" shadow="sm" className="rounded-3xl border-0">
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-slate-900">추가 정보</h2>
-          {/* put이니 feature로 분리 */}
-          <Button
-            onClick={() =>
-              editStatus.additional
-                ? handleSave("additional")
-                : setEditStatus((prev) => ({ ...prev, additional: true }))
-            }
-            className="px-0 text-sm font-medium text-blue-600"
-          >
-            {editStatus.additional ? "저장" : "수정"}
-          </Button>
-        </div>
-
-        <ul className="space-y-4 text-sm">
-          {/* get - entities로 list로 분리 */}
-          {data.additionalOnboardingAnswers.map((item) => (
-            <InfoRow
-              key={item.id}
-              label={item.title}
-              value={item.value}
-              isEditing={editStatus.additional}
-              onChange={(val) =>
-                handleInputChange("additionalOnboardingAnswers", item.id, val)
-              }
-            />
-          ))}
-        </ul>
-      </Card>
+    <div className={isPending ? "pointer-events-none opacity-60" : undefined}>
+      <MyPageEligibilityWidget
+        data={safeData}
+        editStatus={editStatus}
+        requiredDraft={requiredDraft}
+        additionalDraft={additionalDraft}
+        onChangeRequired={handleChangeRequired}
+        onChangeAdditional={handleChangeAdditional}
+        onToggleRequired={handleToggleRequired}
+        onToggleAdditional={handleToggleAdditional}
+      />
     </div>
   );
 }
-
-// get에서 사용하니 같은 entities로 이동
-interface InfoRowProps {
-  label: string;
-  value: AnswerValue;
-  isEditing: boolean;
-  onChange: (val: AnswerValue) => void;
-}
-
-function InfoRow({ label, value, isEditing, onChange }: InfoRowProps) {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    onChange(val);
-  };
-
-  return (
-    <li className="flex items-center justify-between gap-4 h-8">
-      <span className="text-slate-600 shrink-0">{label}</span>
-      {isEditing ? (
-        <input
-          type="text"
-          value={Array.isArray(value) ? value.join(", ") : String(value)}
-          onChange={handleChange}
-          className="min-w-40 md:min-w-50 border-b border-gray-400 text-right text-slate-900 focus:outline-none"
-          autoFocus
-        />
-      ) : (
-        <span className="text-right text-slate-900">{value}</span>
-      )}
-    </li>
-  );
-}
-
-// api 연동 이후 제거 필요
-const MOCK_DATA = {
-  requiredOnboardingAnswers: [
-    {
-      id: 100001,
-      title: "성별",
-      type: "SELECT_SINGLE",
-      options: ["MALE", "FEMALE", "OTHER", "UNKNOWN"],
-      value: "MALE",
-    },
-    {
-      id: 100002,
-      title: "생년월일",
-      type: "DATE",
-      options: null,
-      value: "1999-01-01",
-    },
-    {
-      id: 100003,
-      title: "거주지역(시군구)",
-      type: "TEXT_INPUT",
-      options: null,
-      value: "서울특별시 마포구",
-    },
-    {
-      id: 100004,
-      title: "결혼 여부",
-      type: "BOOLEAN",
-      options: null,
-      value: false,
-    },
-    {
-      id: 100005,
-      title: "무주택 여부",
-      type: "BOOLEAN",
-      options: null,
-      value: true,
-    },
-    {
-      id: 100006,
-      title: "세대 내 역할",
-      type: "SELECT_SINGLE",
-      options: ["HOUSEHOLDER", "MEMBER"],
-      value: "HOUSEHOLDER",
-    },
-    {
-      id: 100007,
-      title: "가구원 수",
-      type: "NUMBER_INPUT",
-      options: null,
-      value: 1,
-    },
-    {
-      id: 100008,
-      title: "가구 총 월 수입(원)",
-      type: "NUMBER_INPUT",
-      options: null,
-      value: 4000000,
-    },
-  ],
-  additionalOnboardingAnswers: [
-    {
-      id: 900001,
-      title: "청약통장 정보 입력해주세요",
-      type: "BOOLEAN",
-      options: null,
-      value: true,
-    },
-    {
-      id: 900005,
-      title: "복수 선택 질문",
-      type: "SELECT_MULTI",
-      options: ["옵션A", "옵션B", "옵션C"],
-      value: ["옵션A", "옵션C"],
-    },
-  ],
-};
