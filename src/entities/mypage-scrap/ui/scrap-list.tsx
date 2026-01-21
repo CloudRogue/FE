@@ -11,8 +11,8 @@ export function ScrapList() {
   const { appliedFilters } = useFilterStore();
 
   const { data } = useQuery({
-    queryKey: ["mypage", "scrap", { page: 0, size: 20 }],
-    queryFn: () => getScrappedAnnouncements({ page: 0, size: 20 }),
+    queryKey: ["mypage", "scrap", { limit: 20 }],
+    queryFn: () => getScrappedAnnouncements({ limit: 20 }),
   });
 
   const items = data?.items;
@@ -28,7 +28,11 @@ export function ScrapList() {
             new Date(a.endDate).getTime() - new Date(b.endDate).getTime(),
         );
       case "LATEST":
-        return result.reverse();
+        return result.sort(
+          (a, b) =>
+            new Date(b.publishedAt).getTime() -
+            new Date(a.publishedAt).getTime(),
+        );
       default:
         return result;
     }
@@ -42,25 +46,22 @@ export function ScrapList() {
 
       <div className="flex flex-col gap-4">
         {sortedItems.length > 0 ? (
-          sortedItems.map((item) => (
+          sortedItems.map((item, index) => (
             <AnnouncementCard
-              key={item.announcementId}
+              key={`${item.announcementId}-${index}`}
               announcementId={item.announcementId}
               title={item.title}
               publisher={item.publisher}
-              status="OPEN"
+              status={item.status}
               period={{
-                start: "접수 중",
+                start: item.startDate,
                 end: item.endDate,
               }}
-              dDay={null}
               isScrapped={true}
-              housingType={item.provider}
-              fullAdres={null}
-              startDate={null as unknown as string}
+              housingType={item.housingType}
+              startDate={item.startDate}
               endDate={item.endDate}
-              publishedAt={null as unknown as string}
-              externalApplyUrl=""
+              publishedAt={item.publishedAt}
               className="rounded-2xl"
             />
           ))
