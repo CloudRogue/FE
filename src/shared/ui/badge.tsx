@@ -1,20 +1,44 @@
+import type { HTMLAttributes, KeyboardEvent, MouseEvent } from "react";
 import cn from "@/src/shared/lib/cn";
 
-// style은 shadcn 기준으로 정의함
 const badgeVariants = {
-  base: "inline-flex items-center justify-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 w-fit",
+  base: [
+    "inline-flex",
+    "items-center",
+    "justify-center",
+    "h-[24px]",
+    "px-2",
+    "gap-[10px]",
+    "rounded-[4px]",
+    "text-[13px]",
+    "font-semibold",
+    "leading-[1.4]",
+    "w-fit",
+    "transition-colors",
+  ].join(" "),
+
   variants: {
-    default:
-      "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
-    secondary:
-      "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
-    destructive:
-      "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
-    outline: "text-foreground border-border",
+    /** type=기본 */
+    default: "bg-[#FCFCFC] text-[#54647A]",
+
+    /** type=추천 */
+    recommend: "bg-[#E3F3FF] text-[#2942CD]",
+
+    /** type=디데이-마감임박 */
+    dDayUrgent: "bg-[#FFEAEF] text-[#C80018]",
+
+    /** type=디데이-보통 */
+    dDay: "bg-[#ECEFF1] text-[#54647A]",
+
+    /** type=예정 */
+    scheduled: "bg-[#ECEFF1] text-[#90A4AE]",
+
+    /** type=마감 */
+    closed: "bg-[#54647A] text-white",
   },
 };
 
-export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface BadgeProps extends HTMLAttributes<HTMLDivElement> {
   variant?: keyof typeof badgeVariants.variants;
 }
 
@@ -26,13 +50,14 @@ export const Badge = ({
 }: BadgeProps) => {
   const isClickable = !!props.onClick;
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     if (isClickable && (e.key === "Enter" || e.key === " ")) {
       e.preventDefault();
-      props.onClick?.(e as unknown as React.MouseEvent<HTMLDivElement>);
+      props.onClick?.(e as unknown as MouseEvent<HTMLDivElement>);
     }
     onKeyDown?.(e);
   };
+
   return (
     <div
       role={isClickable ? "button" : undefined}

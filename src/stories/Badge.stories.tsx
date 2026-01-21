@@ -1,18 +1,27 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { fn } from "storybook/test";
 
 import { Badge } from "@/src/shared/ui/badge";
-import { fn } from "storybook/test";
 
 const meta: Meta<typeof Badge> = {
   title: "ui-kit/Badge",
   component: Badge,
-  parameters: { layout: "centered" },
-  tags: ["autodocs"],
+  parameters: {
+    layout: "centered",
+  },
+  tags: ["autodocs"], 
   argTypes: {
     variant: {
       control: "select",
-      options: ["default", "secondary", "destructive", "outline"],
-      description: "배지의 디자인 스타일을 선택합니다.",
+      options: [
+        "default",
+        "recommend",
+        "dDayUrgent",
+        "dDay",
+        "scheduled",
+        "closed",
+      ],
+      description: "배지의 상태/의미에 따른 스타일을 선택합니다.",
     },
     children: {
       control: "text",
@@ -27,58 +36,64 @@ const meta: Meta<typeof Badge> = {
       description: "클릭 시 실행되는 이벤트 핸들러입니다.",
     },
   },
-  args: { children: "Badge", variant: "default", onClick: fn() },
+  args: {
+    variant: "default",
+    children: "Badge",
+    onClick: fn(),
+  },
 };
 
 export default meta;
 type Story = StoryObj<typeof Badge>;
 
-// 기본
+
 export const Default: Story = {
   args: {
     variant: "default",
-    children: "Default",
+    children: "기본 배지",
   },
 };
 
-// Secondary
-export const Secondary: Story = {
+export const Recommend: Story = {
   args: {
-    variant: "secondary",
-    children: "Secondary",
+    variant: "recommend",
+    children: "추천",
   },
 };
 
-// Destructive
-export const Destructive: Story = {
+export const DDayUrgent: Story = {
   args: {
-    variant: "destructive",
-    children: "Destructive",
+    variant: "dDayUrgent",
+    children: "D-1",
   },
 };
 
-// Outline
-export const Outline: Story = {
+export const DDay: Story = {
   args: {
-    variant: "outline",
-    children: "Outline",
+    variant: "dDay",
+    children: "D-7",
   },
 };
 
-// 커스텀 스타일
-export const CustomStyle: Story = {
+export const Scheduled: Story = {
   args: {
-    variant: "default",
-    children: "Custom Color",
-    className: "bg-amber-500 hover:bg-amber-600 text-white border-none",
+    variant: "scheduled",
+    children: "예정됨",
   },
 };
 
-// 뱃지를 클릭하는 형태일 때
+export const Closed: Story = {
+  args: {
+    variant: "closed",
+    children: "마감",
+  },
+};
+
+
 export const Interactive: Story = {
   args: {
-    variant: "secondary",
-    children: "Clickable Badge",
+    variant: "default",
+    children: "클릭 가능",
     onClick: fn(),
   },
 };
