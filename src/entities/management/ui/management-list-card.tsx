@@ -4,11 +4,10 @@ import {
   MANAGEMENT_STATUS_TYPE,
   ManagementStatus,
   ManagementStatusBadge,
-  ManagementStepper,
 } from "@/src/entities/management";
+import cn from "@/src/shared/lib/cn";
 import { formatToDotDate } from "@/src/shared/lib/date";
 import { Badge } from "@/src/shared/ui/badge";
-import Button from "@/src/shared/ui/button";
 import Card from "@/src/shared/ui/card";
 
 interface ManagementListCardProps extends Partial<BaseManage> {
@@ -20,56 +19,65 @@ interface ManagementListCardProps extends Partial<BaseManage> {
   noticeType?: string; // CLOSED
 }
 
+const BADGE_STYLE_MAP: Record<string, string> = {
+  [MANAGEMENT_STATUS_TYPE.APPLYING]: "bg-blue-50 text-primary-blue",
+  [MANAGEMENT_STATUS_TYPE.DOCUMENT_PENDING]: "bg-yellow-50 text-yellow-default",
+  [MANAGEMENT_STATUS_TYPE.FINAL_PENDING]: "bg-green-50 text-green-default",
+  [MANAGEMENT_STATUS_TYPE.CLOSED]: "bg-gray-100 text-gray-500",
+};
+
 export function ManagementListCard(props: ManagementListCardProps) {
   const {
     title,
-    dDay = 0,
+    dDay,
     status,
     housingType,
+    noticeType,
     endDate,
     documentPublishedAt,
     finalPublishedAt,
   } = props;
-  const { colors, buttonLabel } = MANAGEMENT_STATUS[status];
 
-  const dateMap = {
-    [MANAGEMENT_STATUS_TYPE.APPLYING]: endDate,
-    [MANAGEMENT_STATUS_TYPE.DOCUMENT_PENDING]: documentPublishedAt,
-    [MANAGEMENT_STATUS_TYPE.FINAL_PENDING]: finalPublishedAt,
-    [MANAGEMENT_STATUS_TYPE.CLOSED]: finalPublishedAt,
-  };
+  const targetDate = (() => {
+    switch (status) {
+      case MANAGEMENT_STATUS_TYPE.APPLYING:
+        return endDate;
+      case MANAGEMENT_STATUS_TYPE.DOCUMENT_PENDING:
+        return documentPublishedAt;
+      case MANAGEMENT_STATUS_TYPE.FINAL_PENDING:
+      case MANAGEMENT_STATUS_TYPE.CLOSED:
+        return finalPublishedAt;
+      default:
+        return undefined;
+    }
+  })();
 
-  const formattedDate = formatToDotDate(dateMap[status]);
-  const isClosed = status === MANAGEMENT_STATUS_TYPE.CLOSED;
+  const { buttonLabel } = MANAGEMENT_STATUS[status];
+  const formattedDate = formatToDotDate(targetDate) || "일정 미정";
 
   return (
-    <Card className="p-6 mb-4 bg-white rounded-2xl shadow-sm border-none">
+    <Card className="flex flex-col gap-3 mb-4 bg-white">
       <ManagementStatusBadge
-        status={status}
         publisher={props.publisher}
-        housingType={housingType}
+        housingType={housingType ?? noticeType}
       />
 
-      <h3 className="text-[18px] font-bold text-slate-900 mb-6 leading-snug">
+      <h3 className="text-h3 text-gray-black">
         {title || "공고 제목을 불러올 수 없습니다."}
       </h3>
 
-      {!isClosed && <ManagementStepper status={status} />}
-
-      <Button
-        style={{ backgroundColor: colors.buttonBg }}
-        className="w-full flex justify-between items-center  text-slate-900 border-none h-14 px-5 rounded-xl font-bold mt-4"
-      >
-        <span className="text-[15px]">
+      <div className="flex justify-between w-full p-4 border border-gray-100 rounded-md">
+        <span className="text-h5 font-medium">
           {buttonLabel} {formattedDate}
         </span>
-        <Badge
-          style={{ backgroundColor: colors.badge }}
-          className="border-none py-1 px-2 rounded-md text-sm text-white shadow-none"
-        >
-          D-{dDay ?? 0}
-        </Badge>
-      </Button>
+        {!!dDay && (
+          <Badge
+            className={cn("text-caption1! font-bold", BADGE_STYLE_MAP[status])}
+          >
+            D-{dDay}
+          </Badge>
+        )}
+      </div>
     </Card>
   );
 }

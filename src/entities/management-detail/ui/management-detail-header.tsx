@@ -16,7 +16,6 @@ export function ManagementDetailHeader({
   return (
     <div className="p-5">
       <ManagementStatusBadge
-        status={data.currentStatus}
         publisher={data.publisher}
         housingType={data.housingType}
       />

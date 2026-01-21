@@ -8,13 +8,11 @@ import {
   ManageClosedSchema,
   ManageDocumentWaitingSchema,
   ManageFinalWaitingSchema,
-  ManagementSummarySchema,
 } from "@/src/entities/management/model/management.schema";
 import { z } from "zod";
 
 // 기본 정보 타입
 export type BaseManage = z.infer<typeof BaseManageSchema>;
-export type ManagementSummary = z.infer<typeof ManagementSummarySchema>;
 
 export type ManagementResponse =
   | z.infer<typeof GetManageAppliedSchema>
