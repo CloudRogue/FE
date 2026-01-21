@@ -27,8 +27,8 @@ export default function ManagementPage() {
       <h1 className="text-2xl font-bold text-slate-900 hidden">지원 관리</h1>
       <ManagementStatusCard summary={summary} />
 
-      <TabsRoot defaultValue="APPLYING" className="w-full">
-        <TabsList className="w-full border-b border-gray-200 bg-transparent p-0">
+      <TabsRoot defaultValue="APPLYING">
+        <TabsList>
           {MANAGEMENT_TABS.map((tab) => (
             <TabsTrigger
               key={tab.value}

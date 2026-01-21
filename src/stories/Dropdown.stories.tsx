@@ -23,7 +23,7 @@ export const Default: Story = {
   render: () => (
     <Dropdown>
       <DropdownTrigger>
-        <Button variant="outline">메뉴 열기</Button>
+        <Button>메뉴 열기</Button>
       </DropdownTrigger>
       <DropdownContent className="w-48">
         <DropdownItem onClick={() => alert("프로필 클릭")}>프로필</DropdownItem>

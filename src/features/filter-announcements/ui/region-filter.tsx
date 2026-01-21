@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import cn from "@/src/shared/lib/cn";
-import { useFilterStore } from "../model/use-filter-store";
 import {
   getCities,
   getSigungu,
 } from "@/src/features/filter-announcements/api/region.action";
+import cn from "@/src/shared/lib/cn";
 import Button from "@/src/shared/ui/button";
+import { useEffect, useState } from "react";
+import { useFilterStore } from "../model/use-filter-store";
 
 export function RegionFilter() {
   const { tempFilters, setTempFilter } = useFilterStore();
