@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/src/entities/user/model/use-user-store";
 import { useGetRecommendedAnnouncements } from "@/src/entities/announcement/api/use-get-recommended";
@@ -31,9 +32,12 @@ export function RecommendedAnnouncements() {
           const isFullWidth = index === 0;
 
           return (
-            <div
+            <Link
               key={`${item.announcementId}-${index}`}
-              className={isFullWidth ? "col-span-2" : "col-span-1"}
+              href={`/announcement/${item.announcementId}`}
+              className={`${
+                isFullWidth ? "col-span-2" : "col-span-1"
+              } block active:opacity-80 transition-opacity`}
             >
               <div
                 style={{
@@ -48,7 +52,7 @@ export function RecommendedAnnouncements() {
                   period={{ start: item.startDate, end: item.endDate }}
                 />
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>
