@@ -1,12 +1,117 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Font Family */
+  --font-sans: "Pretendard", ui-sans-serif, system-ui, sans-serif;
+
+  /* Border Radius System */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+
+  /* Primary Blue System */
+  --color-primary-50: #e3f3ff;
+  --color-primary-blue: #1778ff;
+  --color-blue-900: #2942cd;
+
+  /* Gray System */
+  --color-gray-white: #ffffff;
+  --color-gray-bg: #fcfcfc;
+  --color-gray-50: #f3f5f6;
+  --color-gray-100: #eceff1;
+  --color-gray-200: #cfd8dc;
+  --color-gray-400: #90a4ae;
+  --color-gray-700: #54647a;
+  --color-gray-black: #262838;
+
+  /* Red System */
+  --color-red-50: #ffeaef;
+  --color-red-default: #ff384f;
+  --color-red-900: #c80018;
+
+  /* Green System */
+  --color-green-50: #ebf9f1;
+  --color-green-default: #34b169;
+  --color-green-800: #113b23;
+
+  /* Yellow System */
+  --color-yellow-50: #fff9e5;
+  --color-yellow-400: #ffc94a;
+  --color-yellow-default: #e5a100;
+  --color-yellow-kakao: #fee500;
+
+  /* Typography System (FontSize + LineHeight + Weight) */
+  --text-hero: 24px;
+  --text-hero--line-height: 1.4;
+  --text-hero--font-weight: 600;
+
+  --text-h1: 20px;
+  --text-h1--line-height: 1.4;
+  --text-h1--font-weight: 600;
+
+  --text-h2: 18px;
+  --text-h2--line-height: 1.4;
+  --text-h2--font-weight: 600;
+
+  --text-h3: 16px;
+  --text-h3--line-height: 1.4;
+  --text-h3--font-weight: 600;
+
+  --text-h4: 15px;
+  --text-h4--line-height: 1.4;
+  --text-h4--font-weight: 600;
+
+  --text-body1: 15px;
+  --text-body1--line-height: 1.4;
+  --text-body1--font-weight: 400;
+
+  --text-h5: 14px;
+  --text-h5--line-height: 1.4;
+  --text-h5--font-weight: 600;
+
+  --text-body2: 14px;
+  --text-body2--line-height: 1.4;
+  --text-body2--font-weight: 400;
+
+  --text-caption1: 13px;
+  --text-caption1--line-height: 1.4;
+  --text-caption1--font-weight: 600;
+
+  --text-caption2: 13px;
+  --text-caption2--line-height: 1.4;
+  --text-caption2--font-weight: 400;
+
+  /* button effect */
+  --shadow-button: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  --shadow-button-hover: 0px 4px 8px 0px rgba(0, 0, 0, 0.1);
+  /* card effect */
+  --shadow-card:
+    0px 2px 8px rgba(0, 0, 0, 0.04), 0px 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-card-hover: 0px 8px 16px rgba(0, 0, 0, 0.08);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  body {
+    @apply bg-gray-bg text-gray-black font-sans antialiased;
+  }
+
+  button {
+    color: inherit;
+    &:active {
+      transform: translateY(1px);
+    }
+    transition: all 0.2s ease;
+  }
+}
+
+/* 유틸리티 */
+@layer utilities {
+  /* 말줄임 처리 */
+  .text-ellipsis-2 {
+    display: -webkit-box;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 }

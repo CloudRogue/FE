@@ -14,12 +14,7 @@ export default function PolicyCard({
   imageUrl,
 }: PolicyCardProps) {
   return (
-    <Card
-      as="article"
-      padding="small"
-      shadow="sm"
-      className="flex gap-4 items-center"
-    >
+    <Card as="article" className="flex gap-4 items-center">
       <div className="flex-1 space-y-1">
         <span className="text-xs text-gray-400">{provider}</span>
         <h3 className="font-medium text-gray-900 leading-snug">{title}</h3>

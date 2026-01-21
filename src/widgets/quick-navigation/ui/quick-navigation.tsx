@@ -40,9 +40,7 @@ export function QuickNavigation() {
           <Card
             key={item.title}
             as="button"
-            onClick={() => handleNavClick(item.sortType)}
-            padding="medium"
-            shadow="none" // AnnouncementCard와 맞춰서 shadow 제거 혹은 아주 연하게
+            onClick={() => handleNavClick(item.sortType)}          
             className="w-full flex items-center justify-between text-left hover:bg-slate-50 transition-all border-slate-100 rounded-[24px] active:scale-[0.98]"
           >
             <div className="flex-1 pr-4">

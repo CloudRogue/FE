@@ -36,7 +36,6 @@ export function RecommendedAnnouncements() {
       </div>
 
       <Button
-        variant="ghost"
         className="w-full h-14 bg-slate-100 text-slate-500 rounded-2xl font-bold mt-2 shadow-none border-none"
         onClick={() => router.push(`${ROUTES.ANNOUNCEMENT}/personalized`)}
       >

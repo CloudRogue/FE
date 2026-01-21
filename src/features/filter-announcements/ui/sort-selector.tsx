@@ -51,7 +51,6 @@ export function SortSelector() {
         <DropdownTrigger>
           <Button
             onClick={() => setIsOpen(!isOpen)}
-            variant="ghost"
             className={cn(
               "h-auto p-0 flex items-center gap-1 text-[13px] font-medium text-slate-600 bg-transparent hover:bg-transparent shadow-none border-none",
               "active:opacity-70 transition-opacity",

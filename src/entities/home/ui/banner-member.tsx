@@ -1,9 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import type { HomeBannerData } from "@/src/entities/home/api/use-get-home-banner";
 import Button from "@/src/shared/ui/button";
 import Card from "@/src/shared/ui/card";
-import type { HomeBannerData } from "@/src/entities/home/api/use-get-home-banner";
+import { useRouter } from "next/navigation";
 
 interface BannerMemberProps {
   banner: HomeBannerData | undefined;
@@ -20,11 +20,7 @@ export function BannerMember({ banner, isLoading }: BannerMemberProps) {
   };
 
   return (
-    <Card
-      isLoading={isLoading}
-      padding="none"
-      className="rounded-[32px] border-slate-100 bg-white"
-    >
+    <Card isLoading={isLoading}>
       <div className="p-10 flex flex-col items-start text-left">
         <h2 className="mb-8 text-[22px] font-bold leading-tight text-slate-900">
           {banner ? banner.title : "맞춤 공고를 분석하고 있습니다"}
