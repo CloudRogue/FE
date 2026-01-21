@@ -110,7 +110,15 @@ export const AdminAnnouncementRequestSchema = z.object({
         documentPublishedAt: z.string().nullable(), // 서류 발표일
         finalPublishedAt: z.string().nullable(), // 최종 발표일
       }),
-      documents: z.array(
+      // 공고 접수 시 필수 서류 리스트 - requiredDocuments
+      applyDocuments: z.array(
+        z.object({
+          name: z.string(), // 서류명
+          type: z.enum(["COMMON", "TARGET_ONLY"]), // 서류타입
+        }),
+      ),
+      // 서류 대상 시 필수 서류 리스트 - resultDocuments
+      atDocument: z.array(
         z.object({
           name: z.string(), // 서류명
           type: z.enum(["COMMON", "TARGET_ONLY"]), // 서류타입

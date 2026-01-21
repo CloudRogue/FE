@@ -221,17 +221,6 @@ export const useAdminFormStore = create<AdminFormStore>((set, get) => ({
       options: req.options || null,
     }));
 
-    const commonDocuments = [
-      ...formData.schedule.requiredDocuments.map((name) => ({
-        name,
-        type: "COMMON" as const,
-      })),
-      ...formData.schedule.resultDocuments.map((name) => ({
-        name,
-        type: "TARGET_ONLY" as const,
-      })),
-    ];
-
     let payload: AdminAnnouncementRequest;
 
     if (isLH) {
@@ -259,7 +248,18 @@ export const useAdminFormStore = create<AdminFormStore>((set, get) => ({
             documentPublishedAt: formData.schedule.documentPublishedAt || null,
             finalPublishedAt: null,
           },
-          documents: commonDocuments,
+          applyDocuments: [
+            ...formData.schedule.requiredDocuments.map((name) => ({
+              name,
+              type: "COMMON" as const,
+            })),
+          ],
+          atDocument: [
+            ...formData.schedule.resultDocuments.map((name) => ({
+              name,
+              type: "TARGET_ONLY" as const,
+            })),
+          ],
         },
         overviewSummary: {
           overview: {
@@ -296,7 +296,18 @@ export const useAdminFormStore = create<AdminFormStore>((set, get) => ({
             documentPublishedAt: formData.schedule.documentPublishedAt,
             finalPublishedAt: formData.schedule.finalPublishedAt,
           },
-          documents: commonDocuments,
+          applyDocuments: [
+            ...formData.schedule.requiredDocuments.map((name) => ({
+              name,
+              type: "COMMON" as const,
+            })),
+          ],
+          atDocument: [
+            ...formData.schedule.resultDocuments.map((name) => ({
+              name,
+              type: "TARGET_ONLY" as const,
+            })),
+          ],
         },
         overviewSummary: {
           overview: {
