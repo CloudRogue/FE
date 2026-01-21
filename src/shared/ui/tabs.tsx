@@ -95,6 +95,7 @@ export const TabsTrigger = ({
     <button
       role="tab"
       aria-selected={isActive}
+      data-state={isActive ? "active" : "inactive"}
       onClick={() => changeTab(value)}
       className={cn(
         "inline-flex items-center justify-center whitespace-nowrap py-3 transition-all",

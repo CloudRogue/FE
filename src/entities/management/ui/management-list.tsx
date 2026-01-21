@@ -2,6 +2,7 @@
 
 import {
   AnyManagedAnnouncement,
+  MANAGEMENT_STATUS,
   ManagementListCard,
   managementQueries,
   ManagementStatus,
@@ -25,8 +26,41 @@ export function ManagementList({ status }: ManagementListProps) {
     }
   });
 
+  const getStatusSummary = () => {
+    const summary = data?.pages[0]?.summary;
+    if (!summary) return { label: MANAGEMENT_STATUS[status].label, count: 0 };
+
+    switch (status) {
+      case "APPLYING":
+        return { label: "지원 중 공고", count: summary.applyingCount };
+      case "DOCUMENT_PENDING":
+        return {
+          label: "서류대상자 발표 대기 중 공고",
+          count: summary.documentWaitingCount,
+        };
+      case "FINAL_PENDING":
+        return {
+          label: "최종당첨자 발표 대기 중 공고",
+          count: summary.finalWaitingCount,
+        };
+      case "CLOSED":
+      default:
+        return {
+          label: "발표 완료된 공고",
+          // API 수정 필요
+          count: 0,
+        };
+    }
+  };
+
+  const { label, count } = getStatusSummary();
+
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-5">
+      <div className="flex justify-between text-h4 font-gray-700">
+        <span className="font-medium">{label}</span>
+        <span className="font-semibold">{count}</span>
+      </div>
       {data?.pages.map((page) =>
         page.data.map((item: AnyManagedAnnouncement, idx) => (
           <Link
