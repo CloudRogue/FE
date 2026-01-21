@@ -3,38 +3,21 @@
 import cn from "@/src/shared/lib/cn";
 import React, { useState } from "react";
 
-const variants = {
-  default: "bg-transparent",
-  outline:
-    "border border-slate-200 bg-transparent hover:bg-slate-100 hover:text-slate-900",
-};
-
-const sizes = {
-  default: "h-10 px-3",
-  sm: "h-9 px-2.5",
-  lg: "h-11 px-5",
-};
-
 interface ToggleProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  toggleName: string;
+  label?: string;
   active?: boolean;
   defaultActive?: boolean;
   onActiveChange?: (active: boolean) => void;
-  className?: string;
-  variant?: "default" | "outline";
-  size?: "default" | "sm" | "lg";
 }
 
 export const Toggle = React.forwardRef<HTMLButtonElement, ToggleProps>(
   (
     {
-      toggleName,
+      label,
       active: externalActive,
       defaultActive = false,
       onActiveChange,
       className,
-      variant = "default",
-      size = "default",
       ...props
     },
     ref,
@@ -51,24 +34,40 @@ export const Toggle = React.forwardRef<HTMLButtonElement, ToggleProps>(
     };
 
     return (
-      <button
-        type="button"
-        ref={ref}
-        aria-label={toggleName}
-        aria-pressed={currentPressed}
-        data-state={currentPressed ? "on" : "off"}
-        onClick={handleToggle}
-        className={cn(
-          "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors",
-          "hover:bg-slate-100 hover:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 disabled:pointer-events-none disabled:opacity-50",
-          // active
-          "data-[state=on]:bg-slate-200 data-[state=on]:text-slate-900",
-          variants[variant],
-          sizes[size],
-          className,
+      <div className={cn("flex items-center gap-1.5", className)}>
+        <button
+          type="button"
+          ref={ref}
+          role="switch"
+          aria-checked={currentPressed}
+          data-state={currentPressed ? "on" : "off"}
+          onClick={handleToggle}
+          className={cn(
+            "relative inline-flex h-4 w-8.25 shrink-0 cursor-pointer items-center rounded-full transition-colors duration-200",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-blue/20 disabled:cursor-not-allowed disabled:opacity-50",
+            currentPressed ? "bg-primary-blue" : "bg-gray-100",
+          )}
+          {...props}
+        >
+          <span
+            className={cn(
+              "pointer-events-none block h-3.5 w-3.5 rounded-full bg-white transition-transform duration-200",
+              currentPressed ? "translate-x-4.5" : "translate-x-0.5",
+            )}
+          />
+        </button>
+
+        {label && (
+          <span
+            className={cn(
+              "text-body2  select-none transition-colors",
+              currentPressed ? "text-primary-blue" : "text-gray-400",
+            )}
+          >
+            {label}
+          </span>
         )}
-        {...props}
-      />
+      </div>
     );
   },
 );
