@@ -49,19 +49,7 @@ export function ScrapList() {
           sortedItems.map((item, index) => (
             <AnnouncementCard
               key={`${item.announcementId}-${index}`}
-              announcementId={item.announcementId}
-              title={item.title}
-              publisher={item.publisher}
-              status={item.status}
-              period={{
-                start: item.startDate,
-                end: item.endDate,
-              }}
-              isScrapped={true}
-              housingType={item.housingType}
-              startDate={item.startDate}
-              endDate={item.endDate}
-              publishedAt={item.publishedAt}
+              {...item}
               className="rounded-2xl"
             />
           ))
