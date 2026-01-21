@@ -25,9 +25,9 @@ export function RecommendedAnnouncements() {
       </h3>
 
       <div className="flex flex-col gap-3">
-        {items.map((item) => (
+        {items.map((item, index) => (
           <AnnouncementCard
-            key={item.announcementId}
+            key={`${item.announcementId}-${index}`}
             {...item}
             className="rounded-3xl border-none shadow-sm"
             period={{ start: item.startDate, end: item.endDate }}
