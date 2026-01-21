@@ -9,32 +9,19 @@ const badgeVariants = {
     "h-[24px]",
     "px-2",
     "gap-[10px]",
-    "rounded-[4px]",
-    "text-[13px]",
-    "font-semibold",
-    "leading-[1.4]",
+    "rounded-xs",
+    "text-caption1",
     "w-fit",
     "transition-colors",
   ].join(" "),
 
   variants: {
-    /** type=기본 */
-    default: "bg-[#FCFCFC] text-[#54647A]",
-
-    /** type=추천 */
-    recommend: "bg-[#E3F3FF] text-[#2942CD]",
-
-    /** type=디데이-마감임박 */
-    dDayUrgent: "bg-[#FFEAEF] text-[#C80018]",
-
-    /** type=디데이-보통 */
-    dDay: "bg-[#ECEFF1] text-[#54647A]",
-
-    /** type=예정 */
-    scheduled: "bg-[#ECEFF1] text-[#90A4AE]",
-
-    /** type=마감 */
-    closed: "bg-[#54647A] text-white",
+    default: "bg-gray-bg text-gray-700",
+    recommend: "bg-primary-50 text-blue-900",
+    dDayUrgent: "bg-red-50 text-red-900",
+    dDay: "bg-gray-100 text-gray-700",
+    scheduled: "bg-gray-100 text-gray-400",
+    closed: "bg-gray-700 text-gray-white",
   },
 };
 
