@@ -10,8 +10,8 @@ export default async function MyPageScrapPage() {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ["mypage", "scrap", { page: 0, size: 20 }],
-    queryFn: () => getScrappedAnnouncements({ page: 0, size: 20 }),
+    queryKey: ["mypage", "scrap", { limit: 20 }],
+    queryFn: () => getScrappedAnnouncements({ limit: 20 }),
   });
 
   return (

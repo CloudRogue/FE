@@ -2,11 +2,10 @@ export {
   AnnouncementItemSchema,
   AnnouncementListParamsSchema,
   AnnouncementListResponseSchema,
-  AnnouncementProviderSchema,
+  AnnouncementStatusSchema,
   type AnnouncementItem,
   type AnnouncementListParams,
   type AnnouncementListResponse,
-  type AnnouncementProvider,
 } from "@/src/entities/mypage-scrap/model/scrap.types";
 
 // ui
