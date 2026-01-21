@@ -87,6 +87,10 @@
   body {
     @apply bg-gray-bg text-gray-black font-sans antialiased;
   }
+
+  button {
+    color: inherit;
+  }
 }
 
 /* 유틸리티 */
