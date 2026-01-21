@@ -1,9 +1,9 @@
 "use client";
 
-import { ChevronDown } from "lucide-react";
 import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
-import { Toggle } from "@/src/shared/ui/toggle";
 import cn from "@/src/shared/lib/cn";
+import Button from "@/src/shared/ui/button";
+import { ChevronDown } from "lucide-react";
 
 export function FilterTriggerBar() {
   const { appliedFilters, activeTab, isFilterOpen, toggleFilter } =
@@ -28,33 +28,39 @@ export function FilterTriggerBar() {
   ];
 
   return (
-    <div className="flex gap-2 px-4 py-2 bg-white overflow-x-auto no-scrollbar">
+    <div className="flex gap-3 p-4">
       {filterTabs.map((tab) => {
         const isSelected = isFilterOpen && activeTab === tab.id;
-        const isActive = isSelected || tab.hasValue;
+        const isActive = tab.hasValue;
 
         return (
-          <Toggle
+          <Button
             key={tab.id}
-            toggleName={`${tab.id}-filter`}
-            variant="outline"
-            size="sm"
-            active={isActive}
+            variant="secondary"
             onClick={() => toggleFilter(tab.id)}
             className={cn(
-              "rounded-full border-slate-200 text-slate-600 font-medium whitespace-nowrap gap-1 px-3 py-1.5 h-auto transition-colors",
-              isActive && "bg-blue-50 border-blue-200 text-[#3B82F6]",
+              "flex items-center justify-between gap-1 transition-all duration-200 bg-white border-gray-100",
             )}
           >
-            {tab.label}
-            <ChevronDown
-              size={14}
+            <span
               className={cn(
-                "transition-transform duration-200",
-                isSelected && "rotate-180",
+                "text-body2",
+                isSelected && "text-gray-black",
+                isActive && "text-gray-black",
+              )}
+            >
+              {tab.label}
+            </span>
+            <ChevronDown
+              size={20}
+              strokeWidth={2.5}
+              className={cn(
+                "transition-transform duration-200 text-gray-400",
+                isSelected && "rotate-180 text-gray-black",
+                isActive && "text-gray-black",
               )}
             />
-          </Toggle>
+          </Button>
         );
       })}
     </div>

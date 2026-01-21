@@ -1,9 +1,9 @@
 "use client";
 
 import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
-import { RegionFilter } from "@/src/features/filter-announcements/ui/region-filter";
-import { PublisherFilter } from "@/src/features/filter-announcements/ui/publisher-filter";
 import { HousingTypeFilter } from "@/src/features/filter-announcements/ui/housing-filter";
+import { PublisherFilter } from "@/src/features/filter-announcements/ui/publisher-filter";
+import { RegionFilter } from "@/src/features/filter-announcements/ui/region-filter";
 import Button from "@/src/shared/ui/button";
 
 export function AnnouncementFilter() {
@@ -11,7 +11,7 @@ export function AnnouncementFilter() {
 
   return (
     <div className="w-full bg-white shadow-lg ">
-      <div className="p-5 h-[280px] overflow-y-auto">
+      <div className="p-5 h-70 overflow-y-auto">
         {activeTab === "region" && <RegionFilter />}
         {activeTab === "publisher" && <PublisherFilter />}
         {activeTab === "housingType" && <HousingTypeFilter />}
@@ -19,15 +19,13 @@ export function AnnouncementFilter() {
 
       <div className="p-4 flex justify-end gap-2">
         <Button
+          variant="secondary"
           onClick={resetFilters}
-          className="px-6 py-3 bg-[#E2E8F0] text-[#64748B] rounded-xl font-bold h-auto"
+          className="w-16.5px-4 py-3 border-0"
         >
           초기화
         </Button>
-        <Button
-          onClick={applyFilters}
-          className="px-8 py-3 bg-[#3B82F6] text-white rounded-xl font-bold h-auto"
-        >
+        <Button onClick={applyFilters} className="px-4 py-3 border-0">
           결과 적용
         </Button>
       </div>
