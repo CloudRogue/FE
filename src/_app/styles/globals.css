@@ -81,6 +81,10 @@
   --text-caption2: 13px;
   --text-caption2--line-height: 1.4;
   --text-caption2--font-weight: 400;
+
+  /* button effect */
+  --shadow-button: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  --shadow-button-hover: 0px 4px 8px 0px rgba(0, 0, 0, 0.1);
 }
 
 @layer base {
@@ -90,6 +94,10 @@
 
   button {
     color: inherit;
+    &:active {
+      transform: translateY(1px);
+    }
+    transition: all 0.2s ease;
   }
 }
 
