@@ -15,7 +15,7 @@ export default function MyPageEligibilitySectionCard({
   children,
 }: Props) {
   return (
-    <Card padding="large" shadow="sm" className="rounded-3xl border-0">
+    <Card >
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-lg font-semibold text-slate-900">{title}</h2>
 

@@ -20,10 +20,18 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 }
 
 const variants: Record<ButtonVariant, string> = {
-  primary:
-    "px-3 bg-primary-blue !text-gray-white hover:opacity-90 disabled:bg-gray-100 disabled:text-gray-200 font-semibold",
-  secondary:
-    "px-3 bg-gray-50 text-gray-700 hover:bg-gray-100 disabled:bg-gray-bg disabled:text-gray-100 font-semibold",
+  primary: cn(
+    "px-3  bg-primary-blue !text-white font-semibold shadow-button",
+    "border border-border-primary",
+    "hover:opacity-90 hover:shadow-button-hover",
+    "disabled:bg-gray-100 disabled:text-gray-200 disabled:border-none disabled:shadow-none",
+  ),
+  secondary: cn(
+    "px-3 bg-gray-50 text-gray-700 font-semibold shadow-button",
+    "border border-border-secondary",
+    "hover:bg-gray-100 hover:shadow-button-hover",
+    "disabled:bg-gray-bg disabled:text-gray-100 disabled:border-gray-100",
+  ),
   tertiary_blue: "text-primary-blue bg-transparent p-0 h-auto underline", // 링크형
   tertiary_black: "text-gray-black bg-transparent p-0 h-auto underline", // 링크형
   tertiary_gray: "text-gray-400 bg-transparent p-0 h-auto underline", // 링크형
