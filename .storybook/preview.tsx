@@ -1,5 +1,14 @@
 import type { Preview } from "@storybook/nextjs-vite";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "../src/_app/styles/globals.css";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false, // 테스트 환경이므로 재시도 방지
+    },
+  },
+});
 
 const preview: Preview = {
   parameters: {
@@ -21,6 +30,14 @@ const preview: Preview = {
       test: "todo",
     },
   },
+
+  decorators: [
+    (Story) => (
+      <QueryClientProvider client={queryClient}>
+        <Story />
+      </QueryClientProvider>
+    ),
+  ],
 };
 
 export default preview;
