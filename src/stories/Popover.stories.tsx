@@ -8,111 +8,95 @@ const meta: Meta<typeof Popover> = {
   component: Popover,
   tags: ["autodocs"],
   argTypes: {
-    align: {
-      control: "select",
-      options: ["left", "center", "right"],
-      description: "트리거 기준 팝오버 정렬 위치",
-    },
-    center: {
-      control: "boolean",
-      description: "팝오버를 화면 중앙에 표시",
-    },
     isOpen: {
-      control: false,
-      description: "Controlled 모드에서 팝오버 열림 상태",
+      control: "boolean",
+      description: "팝업의 표시 여부",
     },
     onClose: {
-      action: "close",
-      description: "팝오버가 닫힐 때 호출",
+      action: "closed",
+      description: "배경이나 ESC 클릭 시 호출되는 함수",
+    },
+    className: {
+      control: "text",
+      description: "높이(height) 등 디자인 수정을 위한 추가 클래스",
     },
   },
+  decorators: [
+    (Story) => (
+      <div className="h-[400px] w-full">
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export default meta;
 type Story = StoryObj<typeof Popover>;
 
-export const Default: Story = {
+export const LogoutType: Story = {
   args: {
-    trigger: <Button>팝오버 열기</Button>,
+    isOpen: true,
+    className: "h-[350px]",
     children: (
-      <div className="inline-flex whitespace-nowrap p-2">
-        가장 기본적인 팝오버 내용입니다.
-      </div>
-    ),
-    align: "left",
-  },
-};
-
-export const DetailedMenu: Story = {
-  args: {
-    trigger: (
-      <span className="cursor-pointer font-medium text-blue-600 underline hover:text-blue-800">
-        도움말 확인하기
-      </span>
-    ),
-    children: (
-      <div className="flex w-[220px] flex-col gap-3">
-        <div className="border-b pb-2">
-          <p className="font-bold text-gray-900">정책 신청 가이드</p>
+      <>
+        <div className="flex flex-1 flex-col items-center justify-center gap-2 text-center">
+          <h3 className="text-h3 text-gray-black">로그아웃 하시겠습니까?</h3>
+          <p className="text-body2 text-gray-700">
+            로그아웃 시 맞춤 공고 확인 및<br />
+            커뮤니티 이용이 제한될 수 있습니다.
+          </p>
         </div>
-        <p className="text-sm leading-relaxed text-gray-600">
-          거주 지역과 연령을 입력하면{" "}
-          <span className="font-semibold text-green-600">
-            맞춤형 정부 지원금
-          </span>{" "}
-          목록을 확인할 수 있습니다.
-        </p>
-        <Button className="w-full py-2 text-xs">가이드 전체보기</Button>
-      </div>
+        <div className="flex w-full flex-col gap-3">
+          <Button className="w-full bg-red-default text-gray-white">
+            로그아웃 하기
+          </Button>
+        </div>
+      </>
     ),
-    align: "left",
   },
 };
 
-export const Centered: Story = {
+/**
+ * 2. 공유하기 팝업 디자인 (Height 206px)
+ * 상대적으로 낮은 높이의 정보 제공용 팝업입니다.
+ */
+export const ShareType: Story = {
   args: {
-    trigger: <Button>중앙 팝오버</Button>,
-    center: true,
+    isOpen: true,
+    className: "h-[206px]",
     children: (
-      <div className="w-64 text-center">
-        <p className="mb-2 font-medium">화면 중앙 팝오버</p>
-        <p className="text-sm text-gray-600">
-          기존 Popover API를 유지하면서
-          <br />
-          중앙 배치 옵션만 추가했습니다.
-        </p>
-      </div>
+      <>
+        <div className="flex flex-1 flex-col items-center justify-center gap-2 text-center">
+          <h3 className="text-h3 text-gray-black">공유하기</h3>
+          <p className="text-body2 text-gray-700">
+            이 공고를 친구에게 공유해보세요.
+          </p>
+        </div>
+        <div className="flex w-full gap-3">
+          <Button className="flex-1">링크 복사</Button>
+        </div>
+      </>
     ),
   },
 };
 
-export const Controlled: Story = {
+export const Interactive: Story = {
   render: () => {
     const [isOpen, setIsOpen] = useState(false);
-
     return (
-      <div className="flex flex-col items-center gap-4">
-        <p className="text-sm text-gray-500">
-          외부 상태로 제어됨: {isOpen ? "열림" : "닫힘"}
-        </p>
-
+      <div className="flex justify-center">
+        <Button onClick={() => setIsOpen(true)}>팝업 열기 테스트</Button>
         <Popover
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
-          trigger={
-            <Button onClick={() => setIsOpen(true)}>외부에서 열기</Button>
-          }
-          center
+          className="h-[250px]"
         >
-          <div className="p-4">
-            <p className="mb-4 text-sm">Controlled Popover (기존 API 기반)</p>
-            <Button
-              className="w-full bg-red-600 py-2 text-white hover:bg-red-700"
-              onClick={() => setIsOpen(false)}
-            >
-              닫기
-            </Button>
+          <div className="flex flex-1 items-center">
+            <p className="text-h4">인터랙티브 팝업입니다.</p>
           </div>
+          <Button onClick={() => setIsOpen(false)} className="w-full">
+            확인
+          </Button>
         </Popover>
       </div>
     );
