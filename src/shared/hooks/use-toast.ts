@@ -4,7 +4,7 @@ import { create } from "zustand";
 
 export type ToastType = {
   id: string;
-  message: string;
+  message: React.ReactNode;
   type: "success" | "error";
   duration?: number;
 };
@@ -40,8 +40,8 @@ export const useToast = create<ToastState>((set, get) => ({
 
 // 전역 호출 헬퍼
 export const toast = {
-  success: (msg: string) =>
+  success: (msg: React.ReactNode) =>
     useToast.getState().add({ message: msg, type: "success" }),
-  error: (msg: string) =>
+  error: (msg: React.ReactNode) =>
     useToast.getState().add({ message: msg, type: "error" }),
 };

@@ -14,15 +14,15 @@ export default function Toast() {
         <div
           key={t.id}
           className={cn(
-            "rounded-lg border border-border bg-cream-white text-card-foreground shadow-sm",
-            "px-5 py-4",
+            "rounded-sm bg-gray-700 text-white shadow-sm",
+            "p-2 pr-3",
             "flex items-center gap-2",
           )}
         >
           {t.type === "success" ? (
-            <CheckCircle2Icon className="size-6 text-white fill-black" />
+            <CheckCircle2Icon className="size-5 text-gray-700 fill-white" />
           ) : (
-            <AlertCircleIcon className="size-6 text-white fill-black" />
+            <AlertCircleIcon className="size-5 text-gray-700 fill-white" />
           )}
           {/* 메시지 텍스트 */}
           <span className="text-sm">{t.message}</span>
