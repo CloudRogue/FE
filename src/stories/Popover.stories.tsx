@@ -58,7 +58,6 @@ export const LogoutType: Story = {
 
 /**
  * 2. 공유하기 팝업 디자인 (Height 206px)
- * 상대적으로 낮은 높이의 정보 제공용 팝업입니다.
  */
 export const ShareType: Story = {
   args: {

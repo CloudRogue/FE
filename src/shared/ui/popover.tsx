@@ -9,10 +9,26 @@ export interface PopupProps {
   onClose: () => void;
   children: ReactNode;
   className?: string;
+  align?: "left" | "center" | "right";
+  center?: boolean;
+  trigger?: ReactNode;
+  containerClassName?: string;
 }
 
 const Popup = forwardRef<HTMLDivElement, PopupProps>(
-  ({ isOpen, onClose, children, className }, ref) => {
+  (
+    {
+      isOpen,
+      onClose,
+      children,
+      className,
+      align = "center",
+      center = true,
+      trigger,
+      containerClassName,
+    },
+    ref,
+  ) => {
     const overlayRef = useRef<HTMLDivElement>(null);
 
     const handleKeyDown = useCallback(
@@ -34,30 +50,52 @@ const Popup = forwardRef<HTMLDivElement, PopupProps>(
       };
     }, [isOpen, handleKeyDown]);
 
-    if (!isOpen) return null;
+    const positionClasses = center
+      ? "items-center justify-center"
+      : cn(
+          "items-center",
+          align === "left" && "justify-start",
+          align === "right" && "justify-end",
+          align === "center" && "justify-center",
+        );
 
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-5 font-sans">
-        <div
-          ref={overlayRef}
-          className="fixed inset-0 bg-black/40 backdrop-blur-[2px] animate-in fade-in duration-300"
-          onClick={onClose}
-        />
+      <>
+        {trigger && (
+          <div className={cn("inline-block", containerClassName)}>
+            {trigger}
+          </div>
+        )}
 
-        <div
-          ref={ref}
-          role="dialog"
-          aria-modal="true"
-          className={cn(
-            "relative z-50 flex w-[340px] flex-col items-center bg-gray-white rounded-lg shadow-card-hover",
-            "p-[32px_24px] gap-6 transition-all",
-            "animate-in fade-in zoom-in-95 duration-200 ease-out",
-            className,
-          )}
-        >
-          {children}
-        </div>
-      </div>
+        {isOpen && (
+          <div
+            className={cn(
+              "fixed inset-0 z-50 flex p-5 font-sans",
+              positionClasses,
+            )}
+          >
+            <div
+              ref={overlayRef}
+              className="fixed inset-0 bg-black/40 backdrop-blur-[2px] animate-in fade-in duration-300"
+              onClick={onClose}
+            />
+
+            <div
+              ref={ref}
+              role="dialog"
+              aria-modal="true"
+              className={cn(
+                "relative z-50 flex w-[340px] flex-col items-center bg-gray-white rounded-lg shadow-card-hover",
+                "p-[32px_24px] gap-6 transition-all",
+                "animate-in fade-in zoom-in-95 duration-200 ease-out",
+                className,
+              )}
+            >
+              {children}
+            </div>
+          </div>
+        )}
+      </>
     );
   },
 );
