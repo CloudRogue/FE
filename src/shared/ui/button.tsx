@@ -28,7 +28,6 @@ const variants: Record<ButtonVariant, string> = {
   ),
   secondary: cn(
     "px-3 bg-gray-50 text-gray-700 font-semibold shadow-button",
-    "border border-border-secondary",
     "hover:bg-gray-100 hover:shadow-button-hover",
     "disabled:bg-gray-bg disabled:text-gray-100 disabled:border-gray-100",
   ),
