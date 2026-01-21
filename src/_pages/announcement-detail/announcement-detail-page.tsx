@@ -1,7 +1,4 @@
-import {
-  AnnouncementDetail,
-  mapAnnouncementToSummary,
-} from "@/src/entities/announcement-detail";
+import { AnnouncementDetail } from "@/src/entities/announcement-detail";
 import SummaryCard from "@/src/entities/announcement-detail/ui/summary-card";
 import { AnnouncementOutbound } from "@/src/features/announcement-outbound/ui/announcement-outbound";
 import { ErrorBoundary } from "@/src/shared/api/error-boundary";
@@ -23,8 +20,6 @@ interface AnnouncementDetailPageProps {
 export async function AnnouncementDetailPage({
   announcement,
 }: AnnouncementDetailPageProps) {
-  const period = mapAnnouncementToSummary(announcement);
-
   return (
     <div className="bg-white">
       <AnnouncementOutbound announcementId={announcement.announcementId} />
@@ -33,7 +28,6 @@ export async function AnnouncementDetailPage({
         {...announcement}
         externalApplyUrl={announcement.url ?? ""}
         publishedAt={new Date().toISOString()}
-        period={period}
       />
       <TabsRoot defaultValue="support" className="w-full">
         <TabsList>
@@ -74,7 +68,7 @@ export async function AnnouncementDetailPage({
           </TabsContent>
           {/* 공고 일정(schedule) */}
           <TabsContent value="schedule" className="mt-0 outline-none md:block!">
-            <ScheduleSection period={period} announcement={announcement} />
+            <ScheduleSection announcement={announcement} />
           </TabsContent>
 
           <TabsContent value="summary" className="mt-0 outline-none md:block!">

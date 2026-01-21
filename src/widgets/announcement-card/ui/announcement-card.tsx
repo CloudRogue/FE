@@ -4,22 +4,12 @@ import type { Announcement } from "@/src/entities/announcement/model/announcemen
 import { AnnouncementApplyAction } from "@/src/features/announcement-apply";
 import { ScrapButton } from "@/src/features/announcement-scrap";
 import cn from "@/src/shared/lib/cn";
+import { formatDateSpot } from "@/src/shared/lib/date";
 import { Badge } from "@/src/shared/ui/badge";
 import Image from "next/image";
 import { useMemo } from "react";
 
-const STATUS_MAP = {
-  OPEN: "접수 중",
-  DUE_SOON: "마감 임박",
-  UPCOMING: "접수 예정",
-  CLOSED: "마감",
-} as const;
-
 interface AnnouncementCardProps extends Announcement {
-  period: {
-    start: string;
-    end: string;
-  };
   imageUrl?: string;
   className?: string;
   fullAdres?: string | null;
@@ -36,9 +26,9 @@ export function AnnouncementCard({
   status,
   fullAdres,
   externalApplyUrl,
+  endDate,
   dDay,
   isScrapped = false,
-  period,
   imageUrl = "",
   className,
 }: AnnouncementCardProps) {
@@ -55,48 +45,43 @@ export function AnnouncementCard({
   return (
     <div
       className={cn(
-        "p-5 bg-white border-b border-slate-100 last:border-none",
+        "p-4 bg-white border-b border-slate-100 last:border-none",
         className,
       )}
     >
-      <div className="flex justify-between items-start mb-4">
-        <div className="flex gap-2 flex-wrap">
-          <Badge
-            className={cn(
-              "border-none px-2 py-0.5 rounded-md text-[13px] font-bold text-white",
-              status === "OPEN" && "bg-red-500",
-              status === "DUE_SOON" && "bg-orange-500",
-              status === "UPCOMING" && "bg-blue-500",
-              status === "CLOSED" && "bg-gray-400",
+      {/* 뱃지 */}
+      <div className="flex justify-between items-start mb-3">
+        <div className="flex justify-between">
+          <div className="flex gap-2 flex-wrap">
+            <Badge className="bg-blue-50 text-primary-blue text-caption1!">
+              추천
+            </Badge>
+            {regionBadge && <SecondaryBadge>{regionBadge}</SecondaryBadge>}
+            {publisherShort && (
+              <SecondaryBadge>{publisherShort}</SecondaryBadge>
             )}
-          >
-            {STATUS_MAP[status] ?? "확인 불가"}
-          </Badge>
-          {regionBadge && <SecondaryBadge>{regionBadge}</SecondaryBadge>}
-          {publisherShort && <SecondaryBadge>{publisherShort}</SecondaryBadge>}
-          {housingType && <SecondaryBadge>{housingType}</SecondaryBadge>}
+            {housingType && <SecondaryBadge>{housingType}</SecondaryBadge>}
+          </div>
         </div>
-
-        <div
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
+        <Badge
+          className={cn(
+            "text-caption1!",
+            status === "OPEN" && "bg-red-50 text-red-900",
+            status === "DUE_SOON" && "bg-gray-100 text-gray-700",
+            status === "UPCOMING" && "bg-gray-100 text-gray-700",
+            status === "CLOSED" && "bg-gray-700 text-gray-white",
+          )}
         >
-          <ScrapButton
-            announcementId={announcementId}
-            initialIsScrapped={isScrapped ?? false}
-          />
-        </div>
+          D-{dDay ?? "확인 불가"}
+        </Badge>
       </div>
 
-      <div className="flex justify-between gap-4 mb-4">
+      {/* 공고명, 날짜, 이미지 */}
+      <div className="flex justify-between gap-3 mb-4">
         <div className="flex-1 flex flex-col justify-between">
-          <h2 className="text-[18px] font-bold text-slate-800 leading-tight break-keep line-clamp-2 overflow-hidden">
-            {title}
-          </h2>
+          <h2 className="text-h2 text-ellipsis-2">{title}</h2>
           <p className="text-slate-500 mt-3 text-sm tracking-wide">
-            {period.start} ~ {period.end}
+            접수 마감 {formatDateSpot(endDate)}
           </p>
         </div>
 
@@ -116,13 +101,27 @@ export function AnnouncementCard({
         </div>
       </div>
 
+      {/* 공고 상세 전용 버튼들 */}
       {externalApplyUrl && (
-        <AnnouncementApplyAction
-          announcementId={announcementId}
-          title={title}
-          status={status}
-          dDay={dDay ?? 0}
-        />
+        <div className="flex gap-2">
+          <div
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+          >
+            <ScrapButton
+              announcementId={announcementId}
+              initialIsScrapped={isScrapped ?? false}
+            />
+          </div>
+          <AnnouncementApplyAction
+            announcementId={announcementId}
+            title={title}
+            status={status}
+            dDay={dDay ?? 0}
+          />
+        </div>
       )}
     </div>
   );
@@ -130,7 +129,7 @@ export function AnnouncementCard({
 
 function SecondaryBadge({ children }: { children: React.ReactNode }) {
   return (
-    <Badge className="bg-slate-100 hover:bg-slate-100 text-slate-500 border-none px-2 py-0.5 rounded-md text-[12px] font-medium shadow-none">
+    <Badge className="bg-gray-bg text-gray-700 text-caption1!">
       {children}
     </Badge>
   );

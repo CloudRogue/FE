@@ -63,7 +63,7 @@ export function SupportSection({ announcement }: SupportSectionProps) {
           진단 일시{" "}
           {data?.diagnosedAt
             ? new Date(data.diagnosedAt).toLocaleString("ko-KR")
-            : "진단 정보 없음"}
+            : "2000.00.00 00:00"}
         </p>
       </div>
 
