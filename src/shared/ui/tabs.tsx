@@ -51,7 +51,7 @@ export const TabsRoot = ({
   );
   return (
     <TabsContext value={{ activeTab, changeTab }}>
-      <div className={cn("flex flex-col", className)}>{children}</div>
+      <div className={cn("flex flex-col w-full", className)}>{children}</div>
     </TabsContext>
   );
 };
@@ -66,7 +66,10 @@ export const TabsList = ({ children, className }: TabsListProps) => {
   return (
     <div
       role="tablist"
-      className={cn("inline-flex items-center justify-center", className)}
+      className={cn(
+        "inline-flex items-center justify-center w-full ",
+        className,
+      )}
     >
       {children}
     </div>
@@ -94,12 +97,12 @@ export const TabsTrigger = ({
       aria-selected={isActive}
       onClick={() => changeTab(value)}
       className={cn(
-        "inline-flex items-center justify-center whitespace-nowrap px-3 py-1.5 transition-all",
+        "inline-flex items-center justify-center whitespace-nowrap py-3 transition-all",
         "focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
         "border-b-2",
         isActive
-          ? "border-black text-black font-bold"
-          : "border-transparent text-gray-400 font-medium",
+          ? "border-primary-blue text-primary-blue font-bold"
+          : "border-transparent text-gray-700 font-medium",
         className,
       )}
     >
