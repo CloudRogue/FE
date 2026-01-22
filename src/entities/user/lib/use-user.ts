@@ -12,6 +12,7 @@ export function useUser() {
     queryKey: ["user", "profile"],
     queryFn: getProfileBasic,
     retry: false,
+    
     staleTime: 1000 * 60 * 5,
   });
 
