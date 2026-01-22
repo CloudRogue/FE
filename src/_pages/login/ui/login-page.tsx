@@ -22,28 +22,33 @@ export function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-      <div className="max-w-md w-full space-y-8 p-10 bg-white rounded-2xl shadow-sm">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
-            로그인
-          </h1>
-          <p className="mt-3 text-sm text-gray-500">
-            집착에 오신 것을 환영합니다. <br />
-            카카오 계정으로 간편하게 시작하세요.
+    <>
+      <Popup
+        isOpen={true}
+        onClose={() => {}}
+        center
+        className="w-full max-w-md"
+      >
+        <div className="w-full space-y-8 p-10 bg-white rounded-2xl shadow-sm">
+          <div className="text-center">
+            <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
+              로그인
+            </h1>
+            <p className="mt-3 text-sm text-gray-500">
+              집착에 오신 것을 환영합니다. <br />
+              카카오 계정으로 간편하게 시작하세요.
+            </p>
+          </div>
+
+          <KakaoLoginButton />
+
+          <p className="text-center text-xs text-gray-400">
+            로그인 시 서비스 이용약관 및 개인정보 처리방침에 동의하게 됩니다.
           </p>
         </div>
+      </Popup>
 
-        <div className="mt-8">
-          <KakaoLoginButton />
-        </div>
-
-        <p className="text-center text-xs text-gray-400 mt-6">
-          로그인 시 서비스 이용약관 및 개인정보 처리방침에 동의하게 됩니다.
-        </p>
-      </div>
-
-      <Popup isOpen={isPopupOpen} onClose={handleClosePopup}>
+      <Popup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} center>
         <div className="flex flex-col items-center text-center space-y-4">
           <div className="flex flex-col space-y-2">
             <span className="text-xl font-bold text-gray-900">로그인 실패</span>
@@ -60,13 +65,13 @@ export function LoginPage() {
           )}
 
           <button
-            onClick={handleClosePopup}
+            onClick={() => setIsPopupOpen(false)}
             className="w-full py-3 bg-gray-900 text-white rounded-lg font-bold text-sm hover:bg-gray-800 transition-colors"
           >
             확인
           </button>
         </div>
       </Popup>
-    </div>
+    </>
   );
 }

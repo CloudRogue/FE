@@ -1,4 +1,5 @@
 import QueryProviders from "@/app/_providers/query-providers";
+import { AuthInitializer } from "@/app/_providers/auth-initializer"; 
 import { ResponsiveLayout } from "@/src/shared/layout/responsive-layout";
 import Toast from "@/src/shared/ui/toast";
 import type { Metadata } from "next";
@@ -31,8 +32,10 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <QueryProviders>
-          <ResponsiveLayout>{children}</ResponsiveLayout>
-          <Toast />
+          <AuthInitializer>
+            <ResponsiveLayout>{children}</ResponsiveLayout>
+            <Toast />
+          </AuthInitializer>
         </QueryProviders>
       </body>
     </html>

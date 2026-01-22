@@ -13,7 +13,6 @@ export function useUser() {
     queryKey: USER_QUERY_KEYS.profile(),
     queryFn: getProfileBasic,
     retry: false,
-    
     staleTime: 1000 * 60 * 5,
   });
 

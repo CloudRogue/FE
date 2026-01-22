@@ -1,13 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import Button from "@/src/shared/ui/button";
 import cn from "@/src/shared/lib/cn";
-import { useState } from "react";
 
-type KakaoLoginButtonProps = {
+interface KakaoLoginButtonProps {
   className?: string;
   children?: React.ReactNode;
-};
+}
 
 export function KakaoLoginButton({
   className,
@@ -16,12 +16,10 @@ export function KakaoLoginButton({
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = () => {
-    const envUrl = process.env.NEXT_PUBLIC_KAKAO_AUTH_URL;
-    const fallbackUrl = "https://zipchak.deving.xyz/oauth2/authorization/kakao";
-    const KAKAO_AUTH_URL = envUrl || fallbackUrl;
+    const KAKAO_AUTH_URL =
+      process.env.NEXT_PUBLIC_KAKAO_AUTH_URL ||
+      "https://zipchak.deving.xyz/oauth2/authorization/kakao";
 
-
-    
     setIsLoading(true);
 
     window.location.href = KAKAO_AUTH_URL;

@@ -4,6 +4,7 @@ import {
   getProfileDetail,
 } from "@/src/entities/user/api/user.action";
 import { useUserStore } from "@/src/entities/user";
+import { USER_QUERY_KEYS } from "@/src/entities/user/model/user.query-keys";
 
 /**
  * 프로필 기본 정보 조회
