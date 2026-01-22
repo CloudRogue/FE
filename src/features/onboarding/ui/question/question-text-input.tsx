@@ -1,10 +1,11 @@
 "use client";
 
-import Input from "@/src/shared/ui/input";
 import type {
   RequiredOnboardingQuestion,
   RequiredOnboardingAnswerValue,
 } from "@/src/features/onboarding/model/required-onboarding-types";
+
+import OnboardingInput from "@/src/features/onboarding/ui/onboarding-input";
 
 type Props = {
   question: RequiredOnboardingQuestion;
@@ -16,11 +17,10 @@ export default function QuestionTextInput({ value, onChange }: Props) {
   const safeValue = typeof value === "string" ? value : "";
 
   return (
-    <Input
+    <OnboardingInput
       value={safeValue}
       placeholder=""
       onChange={(e) => onChange(e.target.value)}
-      className="h-14 w-full rounded-xl border px-4 text-base"
     />
   );
 }

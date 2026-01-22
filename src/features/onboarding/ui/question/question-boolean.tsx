@@ -1,10 +1,10 @@
 "use client";
 
-import Button from "@/src/shared/ui/button";
-import cn from "@/src/shared/lib/cn";
+import OnboardingButton from "@/src/features/onboarding/ui/onboarding-button";
+
 import type {
-  RequiredOnboardingQuestion,
   RequiredOnboardingAnswerValue,
+  RequiredOnboardingQuestion,
 } from "@/src/features/onboarding/model/required-onboarding-types";
 
 type Props = {
@@ -16,28 +16,23 @@ type Props = {
 export default function QuestionBoolean({ value, onChange }: Props) {
   const current = typeof value === "boolean" ? value : null;
 
-  const base =
-    "h-20 flex-1 rounded-2xl border text-base font-semibold shadow-none";
-
-  const selected = "border-blue-600 bg-blue-50 text-blue-700";
-
   return (
-    <div className="flex gap-4">
-      <Button
+    <div className="grid grid-cols-2 gap-4">
+      <OnboardingButton
         type="button"
-        onClick={() => onChange(true)}
-        className={cn(base, current === true ? selected : "")}
-      >
-        예
-      </Button>
-
-      <Button
-        type="button"
+        selected={current === false}
         onClick={() => onChange(false)}
-        className={cn(base, current === false ? selected : "")}
       >
-        아니오
-      </Button>
+        무소유
+      </OnboardingButton>
+
+      <OnboardingButton
+        type="button"
+        selected={current === true}
+        onClick={() => onChange(true)}
+      >
+        소유
+      </OnboardingButton>
     </div>
   );
 }

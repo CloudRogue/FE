@@ -32,6 +32,18 @@ export default function QuestionSelectMulti({
     onChange([...current, option]);
   };
 
+  const baseClass = cn(
+    "h-14 w-full justify-start rounded-xl",
+    "border border-gray-100 bg-gray-white shadow-button",
+    "px-4 text-base font-medium text-gray-700",
+    "hover:bg-primary-blue hover:text-white hover:shadow-button hover:opacity-100",
+    "transition-none",
+  );
+
+  const selectedClass = cn(
+    "border-primary-blue bg-primary-blue text-gray-white",
+  );
+
   return (
     <div className="flex flex-col gap-3">
       {options.map((option) => {
@@ -41,11 +53,10 @@ export default function QuestionSelectMulti({
           <Button
             key={option}
             type="button"
+            variant="secondary"
+            size="md"
             onClick={() => toggle(option)}
-            className={cn(
-              "h-14 w-full justify-start rounded-xl border px-4 text-base shadow-none",
-              isSelected ? "border-blue-600 bg-blue-50 text-blue-700" : "",
-            )}
+            className={cn(baseClass, isSelected && selectedClass)}
           >
             {option}
           </Button>
