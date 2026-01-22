@@ -29,7 +29,6 @@ export function HeaderShare() {
       isOpen={isOpen}
       onClose={() => setIsOpen(false)}
       containerClassName="flex items-center py-8"
-      className="w-[calc(100%-40px)] max-w-100 p-6 rounded-2xl border-none shadow-[0_10px_40px_rgba(0,0,0,0.15)]"
       trigger={
         <div role="button" onClick={() => setIsOpen(true)}>
           <Share width={24} />

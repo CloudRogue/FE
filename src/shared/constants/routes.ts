@@ -9,10 +9,12 @@ export const ROUTES = {
   MANAGEMENT_DETAIL: (id: string | number) => `/management/${id}`,
   MYPAGE: "/mypage", // 마이페이지
   MYPAGE_FAQ: "/mypage/faq", // 자주 묻는 질문
-  MYPAGE_TERMS: "/mypage/terms", // 이용 약관
+  MYPAGE_TERMS: "/mypage/terms", // 서비스 이용 약관
+  MYPAGE_PERSONAL: "/mypage/personal", // 개인정보 처리 방침
   MYPAGE_ELIGIBILITY: "/mypage/eligibility", // 내 지원 자격
   MYPAGE_SCRAP: "/mypage/scrap", // 관심 공고
   MYPAGE_RECENT: "/mypage/recent", // 최근 열람 공고
+  MYPAGE_ALARM: "/mypage/alram", // 알림 설정
   ONBOARDING: "/onboarding",
   ONBOARDING_ADD: (ids: number[]) => `/onboarding-add?ids=${ids.join(",")}`,
   ADMIN_REVIEW: "/admin",
@@ -37,11 +39,12 @@ export const PAGE_CONFIG: Record<string, { title: string; type: HeaderType }> =
     [ROUTES.ANNOUNCEMENT_SEARCH]: { title: "주택 검색", type: "SEARCH" },
     "/search": { title: "", type: "SEARCH" },
 
-    // 마이페이지 - 알림 설정, 서비스 이용 약관 추가 필요
+    // 마이페이지 - 알림 설정
     [ROUTES.MYPAGE]: { title: "마이페이지", type: "LEFT_TITLE" },
     [ROUTES.MYPAGE_ELIGIBILITY]: { title: "지원 자격", type: "CENTER_TITLE" },
     [ROUTES.MYPAGE_SCRAP]: { title: "관심 공고", type: "CENTER_TITLE" },
     [ROUTES.MYPAGE_RECENT]: { title: "최근 열람 공고", type: "CENTER_TITLE" },
+    [ROUTES.MYPAGE_ALARM]: { title: "알림 설정", type: "CENTER_TITLE" },
     [ROUTES.MYPAGE_FAQ]: { title: "자주 묻는 질문", type: "CENTER_TITLE" },
     [ROUTES.MYPAGE_TERMS]: { title: "서비스 이용 약관", type: "CENTER_TITLE" },
 
