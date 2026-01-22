@@ -34,3 +34,5 @@ export const formatDateStr = (dateStr?: string | null) => {
   if (!dateStr) return "일정 미정";
   return `${dateStr.replace(/-/g, ".")} 00시`;
 };
+
+export const formatDateSpot = (dateStr: string) => dateStr.replaceAll("-", ".");

@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useMemo, useCallback } from "react";
-import { ChevronLeft } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import Button from "@/src/shared/ui/button";
 import { Progress } from "@/src/shared/ui/progress";
 import cn from "@/src/shared/lib/cn";
+import LeftIcon from "@/src/shared/ui/icons/arroaw/left.svg";
 
 import {
   useAdditionalOnboardingStore,
@@ -88,7 +88,7 @@ export default function AdditionalOnboardingShell() {
 
   const canGoNext = isCurrentValid();
 
-  // ✅ 완료되면 홈으로 이동 (뒤로가기 시 다시 온보딩으로 안 오게 replace)
+  // 완료되면 홈으로 이동 (뒤로가기 시 다시 온보딩으로 안 오게 replace)
   useEffect(() => {
     if (!isComplete) return;
     reset(); // 상태 정리(선택): 뒤로 왔을 때 완료 화면 같은 거 안 남김
@@ -136,26 +136,25 @@ export default function AdditionalOnboardingShell() {
     );
   }
 
-  // isComplete는 위 useEffect에서 즉시 홈으로 보내므로 별도 완료 화면 불필요
   if (!currentQuestion) {
     return <div className="p-6">질문이 없습니다.</div>;
   }
 
   return (
-    <div className="flex min-h-dvh flex-col bg-white">
-      <header className="flex items-center gap-3 px-6 pt-6">
+    <div className="flex min-h-dvh flex-col bg-gray-bg">
+      <header className="flex items-center gap-3 px-4 pt-6">
         <button
           type="button"
           onClick={handleClickPrev}
           aria-label="이전"
-          disabled={isFirst || status === "submitting"}
+          disabled={isFirst}
           className={cn(
-            "inline-flex h-8 w-8 items-center justify-center rounded-md",
-            (isFirst || status === "submitting") &&
-              "pointer-events-none opacity-30",
+            "inline-flex h-10 w-10 items-center justify-center rounded-md",
+            "text-gray-black",
+            isFirst && "pointer-events-none opacity-30",
           )}
         >
-          <ChevronLeft className="h-6 w-6" />
+          <LeftIcon className="h-6 w-6" />
         </button>
 
         <div className="flex-1">
@@ -175,15 +174,23 @@ export default function AdditionalOnboardingShell() {
           }
         />
       </main>
-
-      <footer className="sticky bottom-0 bg-white px-6 pb-6 pt-4">
+      <footer className="sticky bottom-0 bg-gray-bg px-6 pb-6 pt-4">
         <Button
           type="button"
           onClick={handleClickNext}
-          disabled={!canGoNext || status === "submitting"}
-          className="h-14 w-full rounded-xl text-base font-semibold shadow-none"
+          variant="primary"
+          size="lg"
+          disabled={status === "submitting"}
+          className={cn(
+            "w-full shadow-button",
+            !canGoNext && "pointer-events-none",
+          )}
         >
-          {status === "submitting" ? "제출 중..." : isLast() ? "완료" : "다음"}
+          {status === "submitting"
+            ? "제출 중..."
+            : isLast()
+              ? "완료"
+              : "다음으로"}
         </Button>
       </footer>
     </div>

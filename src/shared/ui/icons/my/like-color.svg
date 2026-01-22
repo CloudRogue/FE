@@ -1,7 +1,9 @@
 <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g filter="url(#filter0_d_1392_4610)">
-<path d="M3 14C3 7.37258 8.37258 2 15 2C21.6274 2 27 7.37258 27 14C27 20.6274 21.6274 26 15 26C8.37258 26 3 20.6274 3 14Z" fill="white" fill-opacity="0.5" shape-rendering="crispEdges"/>
-<path d="M15 20.845L13.985 19.921C10.38 16.652 8 14.489 8 11.85C8 9.687 9.694 8 11.85 8C13.068 8 14.237 8.567 15 9.456C15.763 8.567 16.932 8 18.15 8C20.306 8 22 9.687 22 11.85C22 14.489 19.62 16.652 16.015 19.921L15 20.845Z" fill="#FF384F"/>
+<path d="M3 14C3 7.37258 8.37258 2 15 2C21.6274 2 27 7.37258 27 14C27 20.6274 21.6274 26 15 26C8.37258 26 3 20.6274 3 14Z" 
+fill="white" fill-opacity="0.8" shape-rendering="crispEdges"
+     fill-opacity="0.5" shape-rendering="crispEdges"/>
+<path d="M15 20.845L13.985 19.921C10.38 16.652 8 14.489 8 11.85C8 9.687 9.694 8 11.85 8C13.068 8 14.237 8.567 15 9.456C15.763 8.567 16.932 8 18.15 8C20.306 8 22 9.687 22 11.85C22 14.489 19.62 16.652 16.015 19.921L15 20.845Z" fill="currentColor"/>
 </g>
 <defs>
 <filter id="filter0_d_1392_4610" x="0" y="0" width="30" height="30" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">

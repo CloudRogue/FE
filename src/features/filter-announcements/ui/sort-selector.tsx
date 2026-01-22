@@ -1,8 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
 import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
-import { ChevronDown } from "lucide-react";
 import cn from "@/src/shared/lib/cn";
 import {
   Dropdown,
@@ -10,7 +8,8 @@ import {
   DropdownItem,
   DropdownTrigger,
 } from "@/src/shared/ui/dropdown";
-import Button from "@/src/shared/ui/button";
+import { ChevronDown } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 const SORT_OPTIONS = [
   { label: "마감임박순", value: "DEADLINE" },
@@ -49,12 +48,9 @@ export function SortSelector() {
     <div ref={containerRef}>
       <Dropdown>
         <DropdownTrigger>
-          <Button
+          <button
             onClick={() => setIsOpen(!isOpen)}
-            className={cn(
-              "h-auto p-0 flex items-center gap-1 text-[13px] font-medium text-slate-600 bg-transparent hover:bg-transparent shadow-none border-none",
-              "active:opacity-70 transition-opacity",
-            )}
+            className="h-auto p-0 flex items-center gap-1 text-body2 text-gray-700 active:opacity-70 transition-opacit"
           >
             {currentSort.label}
             <ChevronDown
@@ -64,7 +60,7 @@ export function SortSelector() {
                 isOpen && "rotate-180",
               )}
             />
-          </Button>
+          </button>
         </DropdownTrigger>
 
         <DropdownContent className="w-32 border border-slate-100/50">

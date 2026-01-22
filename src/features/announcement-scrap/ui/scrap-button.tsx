@@ -5,23 +5,25 @@ import { useUser } from "@/src/entities/user";
 import { deleteScrap, patchScrap } from "@/src/features/announcement-scrap";
 import cn from "@/src/shared/lib/cn";
 import Button from "@/src/shared/ui/button";
+import LikeColor from "@/src/shared/ui/icons/my/like-color.svg";
+import Heart from "@/src/shared/ui/icons/policy/like.svg";
 import Popover from "@/src/shared/ui/popover";
-import { Heart } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 
 interface ScrapButtonProps {
   announcementId: AnnouncementDetail["announcementId"];
   initialIsScrapped: AnnouncementDetail["isScrapped"];
+  isAboveTheImage?: boolean;
 }
 
 export function ScrapButton({
   announcementId,
   initialIsScrapped,
+  isAboveTheImage = false,
 }: ScrapButtonProps) {
   const { user, isLoggedIn } = useUser();
   const router = useRouter();
-
   const [isScrapped, setIsScrapped] = useState(initialIsScrapped);
   const [isPending, startTransition] = useTransition();
   const [isLoginPromptOpen, setIsLoginPromptOpen] = useState(false);
@@ -83,30 +85,18 @@ export function ScrapButton({
     </div>
   );
 
+  const CommonUIProps = { isScrapped, isPending, onClick: handleToggleScrap };
+
   return (
     <Popover
       isOpen={isLoginPromptOpen}
       onClose={() => setIsLoginPromptOpen(false)}
       trigger={
-        <div
-          onClick={handleToggleScrap}
-          role="button"
-          tabIndex={0}
-          className={cn(
-            "cursor-pointer p-0 h-6 transition-transform inline-flex items-center justify-center",
-            isPending && "opacity-70 pointer-events-none",
-          )}
-        >
-          <Heart
-            size={24}
-            className={cn(
-              "p-0 transition-colors duration-200",
-              isScrapped
-                ? "text-red-500 fill-red-500"
-                : "text-gray-300 fill-gray-300",
-            )}
-          />
-        </div>
+        isAboveTheImage ? (
+          <AboveImageScrapUI {...CommonUIProps} />
+        ) : (
+          <DefaultScrapUI {...CommonUIProps} />
+        )
       }
       className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 m-0 w-70"
     >
@@ -114,3 +104,62 @@ export function ScrapButton({
     </Popover>
   );
 }
+
+interface UIProps {
+  isScrapped: boolean | null | undefined;
+  isPending: boolean;
+  onClick: (e: React.MouseEvent) => void;
+}
+
+// 일반 공고 상세용 버튼 (회색 배경)
+export const DefaultScrapUI = ({ isScrapped, isPending, onClick }: UIProps) => (
+  <div
+    onClick={onClick}
+    role="button"
+    tabIndex={0}
+    className={cn(
+      "bg-gray-50 cursor-pointer p-4 transition-transform inline-flex items-center justify-center rounded-sm",
+      isPending && "opacity-70 pointer-events-none",
+    )}
+  >
+    <Heart
+      width={20}
+      height={20}
+      className={cn(
+        "duration-200",
+        isScrapped ? "text-red-500 fill-red-500" : "text-gray-400 fill-none",
+      )}
+    />
+  </div>
+);
+
+// 이미지 위에 올라가는 버튼 (원형)
+export const AboveImageScrapUI = ({
+  isScrapped,
+  isPending,
+  onClick,
+}: UIProps) => (
+  <div
+    className="absolute bottom-1.5 right-1.5 z-10"
+    onClick={(e) => {
+      e.preventDefault();
+      e.stopPropagation();
+    }}
+  >
+    <div
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
+      className={cn(
+        "cursor-pointer w-7 h-7",
+        isPending && "opacity-70 pointer-events-none",
+      )}
+    >
+      {isScrapped ? (
+        <LikeColor className="text-red-default" />
+      ) : (
+        <LikeColor className="text-gray-100" />
+      )}
+    </div>
+  </div>
+);

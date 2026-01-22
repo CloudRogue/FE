@@ -1,8 +1,8 @@
 import type { MyPageEligibilityResponse } from "@/src/entities/mypage-eligibility";
 
 import {
-  MyPageEligibilitySectionCard,
   MyPageEligibilityAnswerList,
+  MyPageEligibilitySectionCard,
 } from "@/src/widgets/mypage-eligibility";
 
 type AnswerValue = string | number | boolean | string[];
@@ -39,7 +39,7 @@ export default function MyPageEligibilityWidget({
   onToggleAdditional,
 }: Props) {
   return (
-    <div className="space-y-6 px-6 pb-12 pt-6">
+    <div className="space-y-4 p-4">
       <MyPageEligibilitySectionCard
         title="나의 핵심 정보"
         isEditing={editStatus.required}

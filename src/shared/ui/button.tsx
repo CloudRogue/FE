@@ -29,7 +29,7 @@ const variants: Record<ButtonVariant, string> = {
   secondary: cn(
     "px-3 bg-gray-50 text-gray-700 font-semibold shadow-button",
     "hover:bg-gray-100 hover:shadow-button-hover",
-    "disabled:bg-gray-bg disabled:text-gray-100 disabled:border-gray-100",
+    "disabled:bg-gray-bg disabled:text-gray-200 disabled:border-gray-100",
   ),
   tertiary_blue: "text-primary-blue bg-transparent p-0 h-auto underline", // 링크형
   tertiary_black: "text-gray-black bg-transparent p-0 h-auto underline", // 링크형

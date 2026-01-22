@@ -22,7 +22,7 @@ export function RecommendationToggle() {
   return (
     <div
       className={cn(
-        "py-3 bg-white transition-all duration-200",
+        " bg-white transition-all duration-200",
         isSearchActive && "opacity-40 pointer-events-none grayscale",
       )}
     >
@@ -31,7 +31,7 @@ export function RecommendationToggle() {
         active={isPersonalized}
         onActiveChange={handleToggle}
         disabled={isSearchActive}
-        className="w-fit"
+        className="w-fit text-body2"
       />
     </div>
   );

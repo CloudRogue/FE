@@ -1,6 +1,6 @@
-import { ChevronRight } from "lucide-react";
+import Card from "@/src/shared/ui/card";
+import Right from "@/src/shared/ui/icons/arroaw/right.svg";
 import Link from "next/link";
-import Button from "../ui/button";
 
 export function MenuSection({
   title,
@@ -10,11 +10,9 @@ export function MenuSection({
   children: React.ReactNode;
 }) {
   return (
-    <section>
-      <h2 className="mb-3 px-1 text-sm font-bold text-gray-900">{title}</h2>
-      <div className="overflow-hidden rounded-2xl shadow-sm border border-gray-100 bg-white">
-        {children}
-      </div>
+    <section className="space-y-4">
+      <h2 className="text-h2">{title}</h2>
+      <Card className="p-0">{children}</Card>
     </section>
   );
 }
@@ -29,14 +27,12 @@ export function MenuItem({
   label: string;
 }) {
   return (
-    <Link href={link}>
-      <Button className="flex w-full items-center justify-between border-b border-gray-50 p-6 last:border-none hover:bg-gray-50 transition-colors">
-        <div className="flex items-center gap-3">
-          <div className="text-gray-500">{icon}</div>
-          <span className="text-sm font-medium text-gray-700">{label}</span>
-        </div>
-        <ChevronRight size={20} className="text-black" />
-      </Button>
+    <Link href={link} className="flex justify-between p-4 hover:bg-gray-50">
+      <div className="flex items-center gap-3">
+        <div className="text-gray-500">{icon}</div>
+        <span className="text-sm font-medium text-gray-700">{label}</span>
+      </div>
+      <Right />
     </Link>
   );
 }

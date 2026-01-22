@@ -3,22 +3,18 @@ import {
   getProfileBasic,
   getProfileDetail,
 } from "@/src/entities/user/api/user.action";
-import { USER_QUERY_KEYS } from "@/src/entities/user/model/user.query-keys";
+import { useUserStore } from "@/src/entities/user";
 
 /**
  * 프로필 기본 정보 조회
  *
  */
 export const useGetProfileBasic = () => {
+  const isLoggedIn = useUserStore((s) => s.isLoggedIn);
   return useQuery({
     queryKey: USER_QUERY_KEYS.profile(),
     queryFn: getProfileBasic,
-    retry: (failureCount, error: any) => {
-      if (error?.response?.status === 401 || error?.response?.status === 403) {
-        return false;
-      }
-      return failureCount < 2;
-    },
+    enabled: isLoggedIn,
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 10,
     refetchOnWindowFocus: false,
@@ -29,15 +25,11 @@ export const useGetProfileBasic = () => {
  * 프로필 상세 정보 조회
  */
 export const useGetProfileDetail = () => {
+  const isLoggedIn = useUserStore((s) => s.isLoggedIn);
   return useQuery({
     queryKey: USER_QUERY_KEYS.detail(),
     queryFn: getProfileDetail,
-    retry: (failureCount, error: any) => {
-      if (error?.response?.status === 401 || error?.response?.status === 403) {
-        return false;
-      }
-      return failureCount < 2;
-    },
+    enabled: isLoggedIn,
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 10,
     refetchOnWindowFocus: false,

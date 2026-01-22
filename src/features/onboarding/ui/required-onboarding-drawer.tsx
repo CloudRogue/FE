@@ -2,6 +2,7 @@
 
 import { KakaoLoginButton } from "@/src/features/auth/ui/kakao-login";
 import Button from "@/src/shared/ui/button";
+import Tooltip from "@/src/shared/ui/tooltip";
 
 type Props = {
   open: boolean;
@@ -20,19 +21,23 @@ export default function RequiredOnboardingDrawer({ open, onClose }: Props) {
         tabIndex={0}
       />
 
-      <div className="absolute bottom-0 left-0 right-0 rounded-t-2xl bg-white p-6 shadow-lg">
-        <div className="mb-2 text-lg font-semibold">온보딩 완료</div>
-        <div className="mb-6 text-sm text-gray-600">
-          카카오 로그인 후 서비스를 이용할 수 있어요.
+      <div className="absolute bottom-0 left-0 right-0 rounded-t-2xl bg-white px-6 pt-8 pb-6 shadow-lg">
+        <div className="mb-6 text-center text-h4 font-semibold text-gray-black">
+          내 조건에 딱 맞는 주택 공고, 바로 확인해볼까요?
         </div>
 
-        <KakaoLoginButton />
+        <Tooltip content="카카오로 1초 만에 시작하기">
+          <div className="w-full">
+            <KakaoLoginButton />
+          </div>
+        </Tooltip>
 
         {onClose && (
           <Button
             type="button"
             onClick={onClose}
-            className="mt-3 h-12 w-full rounded-md border text-sm"
+            variant="secondary"
+            className="mt-3 h-12 w-full"
           >
             닫기
           </Button>
