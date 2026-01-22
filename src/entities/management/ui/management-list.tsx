@@ -56,7 +56,7 @@ export function ManagementList({ status }: ManagementListProps) {
   const { label, count } = getStatusSummary();
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-4">
       <div className="flex justify-between text-h4 font-gray-700">
         <span className="font-medium">{label}</span>
         <span className="font-semibold">{count}</span>

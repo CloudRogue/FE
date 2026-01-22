@@ -1,24 +1,11 @@
 import { AnnouncementDocument } from "@/src/entities/management-detail";
-import { Badge } from "@/src/shared/ui/badge";
 
 interface ManagementDocumentListProps {
   documents: AnnouncementDocument[];
-  type: "APPLY" | "DOC_RESULT";
 }
-
-const getDocumentDescription = (
-  type: "APPLY" | "DOC_RESULT",
-  scope: string,
-) => {
-  if (type === "APPLY") {
-    return scope === "COMMON" ? "공통 제출 서류" : "대상자 한정";
-  }
-  return scope === "TARGET_ONLY" ? "해당자 추가 제출" : "공통 서류";
-};
 
 export function ManagementDocumentList({
   documents,
-  type,
 }: ManagementDocumentListProps) {
   if (documents.length === 0) {
     return (
@@ -29,34 +16,12 @@ export function ManagementDocumentList({
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <ul className="flex flex-col gap-2">
       {documents.map((doc) => (
-        <ManagementDocumentItem
-          key={doc.id}
-          title={doc.name}
-          description={getDocumentDescription(type, doc.scope)}
-        />
+        <li key={doc.id} className="text-h4 font-medium">
+          {doc.name}
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }
-
-interface ManagementDocumentItemProps {
-  title: string;
-  description: string;
-}
-
-const ManagementDocumentItem = ({
-  title,
-  description,
-}: ManagementDocumentItemProps) => (
-  <div className="p-4 flex justify-between items-center bg-white rounded-b-xl">
-    <div className="min-w-0">
-      <p className="text-sm font-bold text-slate-800 truncate">{title}</p>
-      <p className="text-sm text-slate-400 truncate">{description}</p>
-    </div>
-    <Badge className="bg-slate-100 text-slate-400 font-bold px-2 py-1 rounded-md shrink-0 ml-2">
-      발급처
-    </Badge>
-  </div>
-);
