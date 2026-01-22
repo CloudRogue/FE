@@ -1,8 +1,7 @@
 import { z } from "zod";
 
 /**
- * 프로필 기본 정보 스키마 (GET /api/mypage/profile)
- *
+ * 프로필 기본 정보 스키마
  */
 export const profileBasicSchema = z.object({
   name: z.string(),
@@ -11,8 +10,7 @@ export const profileBasicSchema = z.object({
 });
 
 /**
- * 개별 온보딩 답변 항목 스키마 (GET /api/mypage/profile/detail 응답 내 개별 항목)
- *
+ * 개별 온보딩 답변 항목 스키마
  */
 export const profileAnswerSchema = z.object({
   id: z.number().int(),
@@ -32,8 +30,7 @@ export const profileAnswerSchema = z.object({
 });
 
 /**
- * 맞춤 프로필 상세 조회 스키마 (GET /api/mypage/profile/detail)
- *
+ * 맞춤 프로필 상세 조회 스키마
  */
 export const profileDetailSchema = z.object({
   requiredOnboardingAnswers: z.array(profileAnswerSchema),
@@ -41,8 +38,7 @@ export const profileDetailSchema = z.object({
 });
 
 /**
- * 프로필 상세 수정 답변 스키마 (PUT /api/mypage/profile/detail)
- *
+ * 프로필 상세 수정 답변 스키마
  */
 export const profileUpdateAnswerSchema = z.object({
   additionalOnboardingId: z.number().int(),

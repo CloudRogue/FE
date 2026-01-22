@@ -2,7 +2,6 @@
 export {
   useGetProfileBasic,
   useGetProfileDetail,
-  USER_QUERY_KEYS,
 } from "@/src/entities/user/api/use-user.queries";
 
 export {

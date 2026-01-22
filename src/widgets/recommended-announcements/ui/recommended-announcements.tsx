@@ -11,7 +11,7 @@ export function RecommendedAnnouncements() {
   const router = useRouter();
   const userName = useUserStore((state) => state.user?.name);
 
-  const { data, isLoading } = useGetRecommendedAnnouncements(2);
+  const { data, isLoading } = useGetRecommendedAnnouncements(5);
   const items = data?.data ?? [];
 
   if (!isLoading && items.length === 0) return null;
@@ -35,7 +35,8 @@ export function RecommendedAnnouncements() {
       </div>
 
       <Button
-        className="w-full h-14 bg-slate-100 text-slate-500 rounded-2xl font-bold mt-2 shadow-none border-none"
+        style={{ width: "361px" }}
+        className="h-14 bg-slate-100 text-slate-500 rounded-2xl font-bold shadow-none border-none active:bg-slate-200 transition-colors"
         onClick={() => router.push(`${ROUTES.ANNOUNCEMENT}/personalized`)}
       >
         다른 추천 공고 더보기
