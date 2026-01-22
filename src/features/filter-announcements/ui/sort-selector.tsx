@@ -50,10 +50,7 @@ export function SortSelector() {
         <DropdownTrigger>
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className={cn(
-              "h-auto p-0 flex items-center gap-1 text-[13px] font-medium text-slate-600 bg-transparent hover:bg-transparent shadow-none border-none",
-              "active:opacity-70 transition-opacity",
-            )}
+            className="h-auto p-0 flex items-center gap-1 text-body2 text-gray-700 active:opacity-70 transition-opacit"
           >
             {currentSort.label}
             <ChevronDown

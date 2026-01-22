@@ -45,12 +45,7 @@ export function AnnouncementCard({
   );
 
   return (
-    <div
-      className={cn(
-        "p-4 bg-white border-b border-slate-100 last:border-none",
-        className,
-      )}
-    >
+    <div className={cn("p-4 bg-white rounded-lg", className)}>
       {/* 뱃지 */}
       <div className="flex justify-between items-start mb-3">
         <div className="flex justify-between">

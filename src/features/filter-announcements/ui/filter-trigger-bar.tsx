@@ -28,7 +28,7 @@ export function FilterTriggerBar() {
   ];
 
   return (
-    <div className="flex gap-3 p-4">
+    <div className="flex gap-3 p-4 pb-0">
       {filterTabs.map((tab) => {
         const isSelected = isFilterOpen && activeTab === tab.id;
         const isActive = tab.hasValue;
