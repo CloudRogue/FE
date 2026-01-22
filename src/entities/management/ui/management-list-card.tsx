@@ -56,7 +56,7 @@ export function ManagementListCard(props: ManagementListCardProps) {
   const formattedDate = formatToDotDate(targetDate) || "일정 미정";
 
   return (
-    <Card className="flex flex-col gap-3 mb-4 bg-white">
+    <Card className="flex flex-col gap-3 bg-white">
       <ManagementStatusBadge
         publisher={props.publisher}
         housingType={housingType ?? noticeType}

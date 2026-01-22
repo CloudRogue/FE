@@ -17,7 +17,7 @@ export default function ManagementPage() {
     <div>
       <h1 className="sr-only">지원 관리</h1>
       <TabsRoot defaultValue="APPLYING">
-        <TabsList>
+        <TabsList className="bg-white">
           {MANAGEMENT_TABS.map((tab) => {
             const config = MANAGEMENT_STATUS[tab.value as ManagementStatus];
 
