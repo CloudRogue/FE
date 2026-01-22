@@ -36,6 +36,10 @@ export default function OnboardingButton({
           "bg-primary-blue",
           "border-primary-blue",
           "text-gray-white",
+
+          "hover:bg-primary-blue",
+          "hover:border-primary-blue",
+          "hover:text-gray-white",
         ],
 
         className,

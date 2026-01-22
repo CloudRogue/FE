@@ -2,9 +2,13 @@
 
 import OnboardingButton from "@/src/features/onboarding/ui/onboarding-button";
 
-import type { RequiredOnboardingAnswerValue } from "@/src/features/onboarding/model/required-onboarding-types";
+import type {
+  RequiredOnboardingAnswerValue,
+  RequiredOnboardingQuestion,
+} from "@/src/features/onboarding/model/required-onboarding-types";
 
 type Props = {
+  question: RequiredOnboardingQuestion;
   value: RequiredOnboardingAnswerValue | undefined;
   onChange: (next: RequiredOnboardingAnswerValue) => void;
 };
