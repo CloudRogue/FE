@@ -2,7 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { useUser } from "@/src/entities/user/lib/use-user";
-import { HomeBanner } from "@/src/widgets/home-banner";
+import { HomeBannerList } from "@/src/widgets/home";
+import { BannerGuest } from "@/src/features/guest";
 import { RecommendedAnnouncements } from "@/src/widgets/recommended-announcements";
 import { QuickNavigation } from "@/src/widgets/quick-navigation";
 import RootLoading from "@/app/loading";
@@ -27,7 +28,11 @@ export function MainPage() {
           </div>
         )}
 
-        <HomeBanner />
+        {isLoggedIn ? (
+          <HomeBannerList />
+        ) : (
+            <BannerGuest />
+        )}
 
         {isLoggedIn && <RecommendedAnnouncements />}
 
