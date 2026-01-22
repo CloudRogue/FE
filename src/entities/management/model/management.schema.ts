@@ -52,7 +52,7 @@ const CursorMetaSchema = z.object({
   size: z.number().int(),
 });
 
-export const ManagementSummarySchema = z.object({
+const ManagementSummarySchema = z.object({
   applyingCount: z.number().int().nonnegative(), // 지원 완료 수
   documentWaitingCount: z.number().int().nonnegative(), // 서류 대기 수
   finalWaitingCount: z.number().int().nonnegative(), // 최종 대기 수

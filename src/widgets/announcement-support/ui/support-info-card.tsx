@@ -1,72 +1,95 @@
 "use client";
 
 import { EligibilityResult } from "@/src/entities/announcement-detail";
+import { ROUTES } from "@/src/shared/constants/routes";
 import cn from "@/src/shared/lib/cn";
 import { Accordion } from "@/src/shared/ui/arccordion";
-import { useState } from "react";
+import Button from "@/src/shared/ui/button";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+
+import NoOne from "@/src/shared/ui/icons/eligibility/no1.svg";
+import OkayOne from "@/src/shared/ui/icons/eligibility/okay1.svg";
+import QuestionTwo from "@/src/shared/ui/icons/eligibility/question2.svg";
 
 interface SupportInfoCardProps {
-  userName: string;
   result: EligibilityResult | null;
   isLoggedIn: boolean;
 }
 
-export function SupportInfoCard({
-  userName,
-  result,
-  isLoggedIn,
-}: SupportInfoCardProps) {
+export function SupportInfoCard({ result, isLoggedIn }: SupportInfoCardProps) {
   const [isOpen, setIsOpen] = useState(!isLoggedIn);
-  const [prevIsLoggedIn, setPrevIsLoggedIn] = useState(isLoggedIn);
 
-  if (isLoggedIn !== prevIsLoggedIn) {
-    setPrevIsLoggedIn(isLoggedIn);
+  useEffect(() => {
     setIsOpen(!isLoggedIn);
-  }
+  }, [isLoggedIn]);
 
-  const hasResult = result && result.trace && result.trace.length > 0;
+  const traceData = result?.trace ?? [];
+  const hasResult = isLoggedIn && traceData.length > 0;
 
   return (
     <Accordion
-      title={`${userName}님의 자격 정보`}
+      title={
+        <div className="flex items-center justify-between w-full">
+          <span>나의 지원 자격</span>
+          <Link href={ROUTES.MYPAGE_ELIGIBILITY}>
+            <Button
+              variant="tertiary_gray"
+              className="h-auto p-0 text-gray-400 font-medium"
+            >
+              수정하기
+            </Button>
+          </Link>
+        </div>
+      }
+      subTitle={isOpen ? "상세 정보 닫기" : "상세 정보 열기"}
+      useIcon={false}
       isOpen={isOpen}
       onToggle={() => setIsOpen(!isOpen)}
-      className="mb-6"
     >
-      <div className="bg-gray-50 p-5 space-y-6">
+      <div className="space-y-6">
         {hasResult
-          ? result.trace.map((check, i) => (
-              <div key={i} className="flex justify-between items-center">
-                <div>
-                  <p className="text-[#1E293B]">{check.key}</p>
-                  <p className="text-gray-500 text-sm">{check.message}</p>
+          ? traceData.map((item, i) => {
+              const isPending = result?.supportStatus === "PENDING";
+              const isIneligible = result?.supportStatus === "INELIGIBLE";
+
+              const StatusIcon = item.passed
+                ? OkayOne
+                : isPending
+                  ? QuestionTwo
+                  : NoOne;
+
+              return (
+                <div key={i} className="flex items-start gap-3">
+                  <div className="mt-1">
+                    <StatusIcon />
+                  </div>
+                  <div className="flex flex-col gap-0.5">
+                    <p
+                      className={cn(
+                        "text-h5 font-semibold",
+                        !item.passed && isIneligible
+                          ? "text-red-500"
+                          : "text-gray-800",
+                      )}
+                    >
+                      {item.key}
+                    </p>
+                    <div className="text-caption1 text-gray-700 leading-relaxed">
+                      <RenderStyledMessage message={item.message} />
+                    </div>
+                  </div>
                 </div>
-                <div
-                  className={cn(
-                    "text-[13px] px-3 py-1.5 rounded-lg font-bold border",
-                    check.passed
-                      ? "bg-blue-50 text-blue-600 border-blue-200"
-                      : "bg-red-50 text-red-500 border-red-200",
-                  )}
-                >
-                  {check.passed ? "진단 통과" : "지원 불가"}
-                </div>
-              </div>
-            ))
-          : [
-              "항목 (공고 기준 or 가산점 여부)",
-              "나이 (만 00~00세)",
-              "청약 통장 가입 기간 (가산점)",
-            ].map((label, i) => (
-              <div key={i} className="flex justify-between items-start">
-                <div className="space-y-1">
-                  <p className="text-xs text-slate-500 font-medium">{label}</p>
-                  <p className="text-[15px] font-bold text-blue-600">
-                    입력 필요
+              );
+            })
+          : ["나이", "월평균 소득", "자산"].map((label, i) => (
+              <div key={i} className="flex items-center gap-3">
+                <QuestionTwo />
+                <div className="flex flex-col gap-1">
+                  <p className="text-body2 font-bold text-gray-400">{label}</p>
+                  <p className="text-caption1 text-gray-300">
+                    로그인 후 확인 가능합니다.
                   </p>
-                </div>
-                <div className="text-[13px] px-3 py-1.5 rounded-lg font-bold bg-slate-100 text-slate-300 border border-slate-200">
-                  진단 결과
                 </div>
               </div>
             ))}
@@ -74,3 +97,31 @@ export function SupportInfoCard({
     </Accordion>
   );
 }
+
+const HIGHLIGHT_STYLES: Record<string, string> = {
+  "지원 가능": "text-blue-600 font-bold",
+  "조건 불일치": "text-red-500 font-bold",
+  "입력 필요": "text-gray-400 font-bold",
+};
+
+const RenderStyledMessage = ({ message }: { message: string }) => {
+  return (
+    <>
+      {message.split("\n").map((line, idx) => {
+        const parts = line.split(/(지원 가능|조건 불일치|입력 필요)/g);
+        return (
+          <span key={idx} className="block">
+            {parts.map((part, pIdx) => (
+              <strong
+                key={pIdx}
+                className={HIGHLIGHT_STYLES[part] || "font-normal"}
+              >
+                {part}
+              </strong>
+            ))}
+          </span>
+        );
+      })}
+    </>
+  );
+};

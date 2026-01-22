@@ -2,34 +2,29 @@
 
 import { postOutboundLog } from "@/src/features/announcement-outbound";
 import { ROUTES } from "@/src/shared/constants/routes";
-import cn from "@/src/shared/lib/cn";
 import Button from "@/src/shared/ui/button";
 import Popover from "@/src/shared/ui/popover";
-import { CircleAlert, ExternalLink } from "lucide-react";
+import { Check, ExternalLink } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface ManagementStepButtonProps {
-  label: string;
-  title?: string;
   href: string;
   disabled?: boolean;
   announcementId: number;
 }
 
 export const ManagementStepButton = ({
-  label,
-  title,
   href,
   disabled,
   announcementId,
 }: ManagementStepButtonProps) => {
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-
-  const handleLogClick = () => {
-    if (disabled) return;
+  const handleLinkClick = (e: React.MouseEvent) => {
+    if (disabled) {
+      e.preventDefault();
+      return;
+    }
     postOutboundLog(announcementId).catch((err) =>
       console.error("Failed to post outbound log:", err),
     );
@@ -44,52 +39,37 @@ export const ManagementStepButton = ({
       containerClassName="block"
       trigger={
         <Link
-          href={disabled ? "#" : href}
+          href={disabled ? "" : href}
           target={disabled ? undefined : "_blank"}
-          onClick={handleLogClick}
+          onClick={handleLinkClick}
         >
-          <Button
-            disabled={disabled}
-            className={cn(
-              "w-full h-11 rounded-xl flex items-center justify-center gap-2 font-bold transition-colors",
-              disabled
-                ? "bg-slate-200 text-slate-500"
-                : "bg-blue-500 text-white hover:bg-blue-600",
-            )}
-          >
-            {label} <ExternalLink size={18} />
+          <Button disabled={disabled} className="w-full">
+            공고 지원하기 <ExternalLink size={18} />
           </Button>
         </Link>
       }
     >
-      <div className="flex flex-col items-center text-center">
-        <div className="w-16 h-16 bg-[#1778FF] rounded-full flex items-center justify-center mb-6">
-          <CircleAlert size={30} className="text-white" />
+      <div className="w-full flex flex-col items-center text-center">
+        <div className="p-4 bg-primary-50 rounded-full flex items-center justify-center mb-6">
+          <Check width={32} height={32} className="text-primary-blue" />
         </div>
         <h3 className="text-[20px] font-bold text-gray-900 mb-2 leading-tight">
-          지원이 완료되었습니다!
+          지원을 무사히 마쳤어요!
         </h3>
         <p className="text-[14px] text-gray-500 mb-8 whitespace-pre-wrap leading-relaxed">
-          <span className="font-semibold">{title}</span>
+          다음 단계도 놓치지 않게
           {"\n"}
-          지원이 성공적으로 접수되었습니다.
+          '집착'이 꼼꼼히 알려드릴게요.
         </p>
         <div className="w-full flex flex-col gap-3">
-          <Button
-            onClick={() => router.push(ROUTES.MANAGEMENT)}
-            className="w-full py-4 bg-[#1778FF] text-white rounded-2xl font-bold text-[16px] hover:bg-blue-600 transition-colors"
-          >
-            지원관리 보기
-          </Button>
-          <Button
-            onClick={() => {
-              setIsOpen(false);
-              router.push(ROUTES.HOME);
-            }}
-            className="w-full py-4 bg-[#F2F4F7] text-[#4E5968] rounded-2xl font-bold text-[16px] hover:bg-gray-200 transition-colors"
-          >
-            홈으로 가기
-          </Button>
+          <Link href={ROUTES.MANAGEMENT}>
+            <Button className="w-full">내 지원 현황 보기</Button>
+          </Link>
+          <Link href={ROUTES.HOME}>
+            <Button className="w-full" variant="secondary">
+              홈으로 가기
+            </Button>
+          </Link>
         </div>
       </div>
     </Popover>

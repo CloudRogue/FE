@@ -16,10 +16,3 @@ export const ANNOUNCEMENT_STATUS_CONFIG = {
     isDisabled: false,
   },
 } as const;
-
-export const UI_COLORS = {
-  PRIMARY: "bg-[#1778FF]",
-  SECONDARY: "bg-[#F2F4F7]",
-  DISABLED: "bg-gray-400",
-  TEXT_SECONDARY: "text-[#4E5968]",
-};

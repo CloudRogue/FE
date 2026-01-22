@@ -1,45 +1,38 @@
-"use client";
-
 import {
-  MANAGEMENT_STATUS_TYPE,
+  MANAGEMENT_STATUS,
   MANAGEMENT_TABS,
-  managementQueries,
   ManagementStatus,
-  ManagementStatusCard,
 } from "@/src/entities/management";
 import { ManagementList } from "@/src/entities/management/ui/management-list";
+import cn from "@/src/shared/lib/cn";
 import {
   TabsContent,
   TabsList,
   TabsRoot,
   TabsTrigger,
 } from "@/src/shared/ui/tabs";
-import { useInfiniteQuery } from "@tanstack/react-query";
 
 export default function ManagementPage() {
-  const { data } = useInfiniteQuery(
-    managementQueries.list(MANAGEMENT_STATUS_TYPE.APPLYING),
-  );
-  const summary = data?.pages[0]?.summary;
-
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-900 hidden">지원 관리</h1>
-      <ManagementStatusCard summary={summary} />
-
+      <h1 className="sr-only">지원 관리</h1>
       <TabsRoot defaultValue="APPLYING">
-        <TabsList>
-          {MANAGEMENT_TABS.map((tab) => (
-            <TabsTrigger
-              key={tab.value}
-              value={tab.value}
-              className="flex-1 pt-4 pb-2"
-            >
-              {tab.label}
-            </TabsTrigger>
-          ))}
+        <TabsList className="bg-white">
+          {MANAGEMENT_TABS.map((tab) => {
+            const config = MANAGEMENT_STATUS[tab.value as ManagementStatus];
+
+            return (
+              <TabsTrigger
+                key={tab.value}
+                value={tab.value}
+                className={cn("flex-1", config.activeClass)}
+              >
+                {tab.label}
+              </TabsTrigger>
+            );
+          })}
         </TabsList>
-        <div className="bg-gray-100 min-h-[calc(100vh-200px)] p-5">
+        <div className="bg-gray-bg min-h-[calc(100vh-200px)] p-5">
           {MANAGEMENT_TABS.map((tab) => (
             <TabsContent
               key={tab.value}

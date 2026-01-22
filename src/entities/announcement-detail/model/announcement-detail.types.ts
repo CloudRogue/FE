@@ -24,3 +24,9 @@ export type AnnouncementSummaryResponse = z.infer<
 export type AnnouncementOverviewResponse = z.infer<
   typeof AnnouncementOverviewResponseSchema
 >;
+
+export type SupportStatus =
+  | "ELIGIBLE"
+  | "INELIGIBLE"
+  | "PENDING"
+  | "LOGIN_REQUIRED";

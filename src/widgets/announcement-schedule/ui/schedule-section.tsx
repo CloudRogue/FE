@@ -2,22 +2,21 @@ import {
   AnnouncementDetail,
   DetailRow,
 } from "@/src/entities/announcement-detail";
+import { formatDateSpot } from "@/src/shared/lib/date";
 
 export function ScheduleSection({
   announcement,
-  period,
 }: {
   announcement: AnnouncementDetail;
-  period: { start: string; end: string };
 }) {
   return (
-    <section className="bg-white p-6 rounded-2xl">
-      <h3 className="text-lg font-bold text-gray-900 mb-5">공고 일정</h3>
+    <section className="bg-white p-4 rounded-lg">
+      <h3 className="text-h2 font-semibold mb-4">공고 일정</h3>
 
       <div className="space-y-1 font-bold">
         <DetailRow
           label="접수 기간"
-          value={`${period.start} ~ ${period.end}`}
+          value={`${formatDateSpot(announcement.startDate)} ~ ${formatDateSpot(announcement.endDate)}`}
         />
         <DetailRow
           label="서류 대상자 발표일"

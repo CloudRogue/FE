@@ -1,12 +1,11 @@
 "use client";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useUserStore } from "@/src/entities/user/model/use-user-store";
 import { useGetRecommendedAnnouncements } from "@/src/entities/announcement/api/use-get-recommended";
-import { AnnouncementCard } from "@/src/widgets/announcement-card/ui/announcement-card";
-import Button from "@/src/shared/ui/button";
+import { useUserStore } from "@/src/entities/user/model/use-user-store";
 import { ROUTES } from "@/src/shared/constants/routes";
+import Button from "@/src/shared/ui/button";
+import { AnnouncementCard } from "@/src/widgets/announcement-card/ui/announcement-card";
+import { useRouter } from "next/navigation";
 
 export function RecommendedAnnouncements() {
   const router = useRouter();
@@ -27,34 +26,14 @@ export function RecommendedAnnouncements() {
         </h3>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        {items.map((item, index) => {
-          const isFullWidth = index === 0;
-
-          return (
-            <Link
-              key={`${item.announcementId}-${index}`}
-              href={`/announcement/${item.announcementId}`}
-              className={`${
-                isFullWidth ? "col-span-2" : "col-span-1"
-              } block active:opacity-80 transition-opacity`}
-            >
-              <div
-                style={{
-                  width: isFullWidth ? "361px" : "172.5px",
-                  height: isFullWidth ? "148px" : "176px",
-                }}
-                className="overflow-hidden bg-white rounded-3xl shadow-sm border border-slate-100"
-              >
-                <AnnouncementCard
-                  {...item}
-                  className="w-full h-full border-none"
-                  period={{ start: item.startDate, end: item.endDate }}
-                />
-              </div>
-            </Link>
-          );
-        })}
+      <div className="flex flex-col gap-3">
+        {items.map((item, index) => (
+          <AnnouncementCard
+            key={`${item.announcementId}-${index}`}
+            {...item}
+            className="rounded-3xl border-none shadow-sm"
+          />
+        ))}
       </div>
 
       <Button

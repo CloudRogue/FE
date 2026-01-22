@@ -2,8 +2,10 @@
 
 import { SortSelector } from "@/src/features/filter-announcements";
 import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
+import { ROUTES } from "@/src/shared/constants/routes";
 import { AnnouncementCard } from "@/src/widgets/announcement-card";
 import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 import { useMemo } from "react";
 import { getScrappedAnnouncements } from "../api/mypage-scrap.quries";
 
@@ -40,30 +42,22 @@ export function ScrapList() {
 
   return (
     <>
-      <div className="text-right mb-2">
+      <div className="text-right mb-4">
         <SortSelector />
       </div>
 
       <div className="flex flex-col gap-4">
         {sortedItems.length > 0 ? (
           sortedItems.map((item, index) => (
-            <AnnouncementCard
-              key={`${item.announcementId}-${index}`}
-              announcementId={item.announcementId}
-              title={item.title}
-              publisher={item.publisher}
-              status={item.status}
-              period={{
-                start: item.startDate,
-                end: item.endDate,
-              }}
-              isScrapped={true}
-              housingType={item.housingType}
-              startDate={item.startDate}
-              endDate={item.endDate}
-              publishedAt={item.publishedAt}
-              className="rounded-2xl"
-            />
+            <Link
+              href={ROUTES.ANNOUNCEMENT_DETAIL(String(item.announcementId))}
+            >
+              <AnnouncementCard
+                isAboveTheImage={true}
+                key={`${item.announcementId}-${index}`}
+                {...item}
+              />
+            </Link>
           ))
         ) : (
           <div className="py-20 text-center text-slate-400">

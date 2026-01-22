@@ -16,6 +16,8 @@ import type {
   RequiredOnboardingAnswerValue,
 } from "@/src/features/onboarding/model/required-onboarding-types";
 
+import CheckIcon from "@/src/shared/ui/icons/arroaw/check.svg";
+
 type Props = {
   value: RequiredOnboardingAnswerValue | undefined;
   onChange: (next: RequiredOnboardingAnswerValue | undefined) => void;
@@ -39,16 +41,36 @@ export default function QuestionRegion({ onChange }: Props) {
 
   const isSigunguTabDisabled = selectedCity === null;
 
-  const tabBase =
-    "h-12 flex-1 rounded-xl border text-sm font-semibold shadow-none";
-  const tabSelected = "border-blue-600 bg-blue-50 text-blue-700";
-  const tabNormal = "border-gray-200 bg-white text-gray-900";
+  const tabBase = cn(
+    "h-12 flex-1",
+    "inline-flex items-center justify-center",
+    "rounded-md border border-gray-100 bg-gray-white",
+    "text-body2 font-semibold text-gray-700",
+    "shadow-button transition-all",
+  );
 
-  const listBoxClass =
-    "mt-4 overflow-hidden rounded-2xl border border-gray-200 bg-white";
-  const listItemClass =
-    "flex h-12 w-full items-center justify-between px-4 text-sm shadow-none";
-  const checkClass = "text-base";
+  const tabSelected = "border-primary-blue text-gray-black";
+
+  const tabDisabled = cn(
+    "disabled:bg-gray-white",
+    "disabled:text-gray-700",
+    "disabled:border-gray-100",
+    "disabled:opacity-100",
+  );
+
+  const listBoxClass = cn(
+    "mt-4 overflow-hidden",
+    "rounded-md border border-gray-100 bg-gray-white",
+    "shadow-button",
+  );
+
+  const listItemClass = cn(
+    "flex h-12 w-full items-center justify-between px-4",
+    "text-body2 text-gray-700",
+    "transition-colors",
+  );
+
+  const checkClass = "shrink-0";
 
   useEffect(() => {
     let cancelled = false;
@@ -129,10 +151,13 @@ export default function QuestionRegion({ onChange }: Props) {
       <div className="flex gap-3">
         <Button
           type="button"
+          variant="secondary"
+          size="md"
           onClick={() => setActiveTab("city")}
           className={cn(
             tabBase,
-            activeTab === "city" ? tabSelected : tabNormal,
+            activeTab === "city" && tabSelected,
+            "hover:bg-gray-white hover:shadow-button-hover hover:opacity-100",
           )}
         >
           {selectedCityLabel}
@@ -140,6 +165,8 @@ export default function QuestionRegion({ onChange }: Props) {
 
         <Button
           type="button"
+          variant="secondary"
+          size="md"
           onClick={() => {
             if (isSigunguTabDisabled) return;
             setActiveTab("sigungu");
@@ -147,8 +174,10 @@ export default function QuestionRegion({ onChange }: Props) {
           disabled={isSigunguTabDisabled}
           className={cn(
             tabBase,
-            activeTab === "sigungu" ? tabSelected : tabNormal,
-            isSigunguTabDisabled && "cursor-not-allowed opacity-40",
+            activeTab === "sigungu" && tabSelected,
+            isSigunguTabDisabled && tabDisabled,
+
+            "hover:bg-gray-white hover:shadow-button-hover hover:opacity-100",
           )}
         >
           {selectedSigunguLabel}
@@ -159,7 +188,7 @@ export default function QuestionRegion({ onChange }: Props) {
         {activeTab === "city" && (
           <div className="max-h-80 overflow-auto py-2">
             {isCitiesLoading && (
-              <div className="px-4 py-3 text-sm text-gray-500">
+              <div className="px-4 py-3 text-body2 text-gray-400">
                 불러오는 중...
               </div>
             )}
@@ -172,23 +201,23 @@ export default function QuestionRegion({ onChange }: Props) {
                   <Button
                     key={city.cityCode}
                     type="button"
+                    variant="tertiary_black"
+                    size="md"
                     onClick={() => handleSelectCity(city)}
                     className={cn(
                       listItemClass,
-                      "justify-between",
-                      isSelected ? "text-blue-700" : "text-gray-900",
+                      "no-underline p-0 h-12 w-full justify-between px-4 rounded-none",
+                      "hover:bg-transparent hover:shadow-none hover:opacity-100",
+                      isSelected && "text-gray-black font-semibold",
                     )}
                   >
                     <span>{city.cityName}</span>
-                    <span
-                      className={cn(
-                        checkClass,
-                        isSelected ? "opacity-100" : "opacity-20",
-                      )}
-                      aria-hidden
-                    >
-                      ✓
-                    </span>
+
+                    {isSelected && (
+                      <span className={checkClass} aria-hidden>
+                        <CheckIcon className="h-4 w-4 text-gray-400" />
+                      </span>
+                    )}
                   </Button>
                 );
               })}
@@ -198,13 +227,13 @@ export default function QuestionRegion({ onChange }: Props) {
         {activeTab === "sigungu" && (
           <div className="max-h-80 overflow-auto py-2">
             {isSigunguTabDisabled && (
-              <div className="px-4 py-3 text-sm text-gray-500">
+              <div className="px-4 py-3 text-body2 text-gray-400">
                 먼저 시/도를 선택해주세요.
               </div>
             )}
 
             {!isSigunguTabDisabled && isSigungusLoading && (
-              <div className="px-4 py-3 text-sm text-gray-500">
+              <div className="px-4 py-3 text-body2 text-gray-400">
                 불러오는 중...
               </div>
             )}
@@ -219,23 +248,23 @@ export default function QuestionRegion({ onChange }: Props) {
                   <Button
                     key={sigungu.sigunguCode}
                     type="button"
+                    variant="tertiary_black"
+                    size="md"
                     onClick={() => handleSelectSigungu(sigungu)}
                     className={cn(
                       listItemClass,
-                      "justify-between",
-                      isSelected ? "text-blue-700" : "text-gray-900",
+                      "no-underline p-0 h-12 w-full justify-between px-4 rounded-none",
+                      "hover:bg-transparent hover:shadow-none hover:opacity-100",
+                      isSelected && "text-gray-black font-semibold",
                     )}
                   >
                     <span>{sigungu.sigunguName}</span>
-                    <span
-                      className={cn(
-                        checkClass,
-                        isSelected ? "opacity-100" : "opacity-20",
-                      )}
-                      aria-hidden
-                    >
-                      ✓
-                    </span>
+
+                    {isSelected && (
+                      <span className={checkClass} aria-hidden>
+                        <CheckIcon className="h-4 w-4 text-gray-400" />
+                      </span>
+                    )}
                   </Button>
                 );
               })}
