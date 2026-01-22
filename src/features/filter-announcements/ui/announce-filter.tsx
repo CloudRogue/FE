@@ -1,8 +1,7 @@
 "use client";
 
 import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
-import { HousingTypeFilter } from "@/src/features/filter-announcements/ui/housing-filter";
-import { PublisherFilter } from "@/src/features/filter-announcements/ui/publisher-filter";
+import { PublisherFilter } from "@/src/features/filter-announcements/ui/housing-filter";
 import { RegionFilter } from "@/src/features/filter-announcements/ui/region-filter";
 import Button from "@/src/shared/ui/button";
 
@@ -14,7 +13,6 @@ export function AnnouncementFilter() {
       <div className="p-5 h-70 overflow-y-auto">
         {activeTab === "region" && <RegionFilter />}
         {activeTab === "publisher" && <PublisherFilter />}
-        {activeTab === "housingType" && <HousingTypeFilter />}
       </div>
 
       <div className="p-4 flex justify-end gap-2">
