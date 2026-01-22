@@ -44,7 +44,7 @@ export async function AnnouncementDetailPage({
             공고 댓글
           </TabsTrigger> */}
         </TabsList>
-        <div className="bg-gray-bg min-h-[calc(100vh-200px)] p-4">
+        <div className="bg-gray-bg p-4">
           {/* 지원 자격(support) */}
           <TabsContent value="support" className="mt-0 outline-none">
             <ErrorBoundary
