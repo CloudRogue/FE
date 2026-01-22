@@ -1,9 +1,9 @@
 import type { MyPageEligibilityAnswer } from "@/src/entities/mypage-eligibility";
 
-import Input from "@/src/shared/ui/input";
-import Select from "@/src/shared/ui/select";
 import Checkbox from "@/src/shared/ui/checkbox";
+import Input from "@/src/shared/ui/input";
 import Label from "@/src/shared/ui/label";
+import Select from "@/src/shared/ui/select";
 
 type AnswerValue = string | number | boolean | string[];
 
@@ -22,7 +22,7 @@ export default function MyPageEligibilityEditableRow({
 
   return (
     <li className="flex h-8 items-center justify-between gap-4">
-      <span className="shrink-0 text-slate-600">{title}</span>
+      <span className="text-h5 font-semibold">{title}</span>
 
       <div className="min-w-40 md:min-w-50 flex justify-end">
         {type === "TEXT_INPUT" && (
@@ -30,7 +30,7 @@ export default function MyPageEligibilityEditableRow({
             type="text"
             value={typeof value === "string" ? value : ""}
             onChange={(e) => onChange(e.target.value)}
-            className="w-full border-b border-gray-400 text-right text-slate-900 focus:outline-none"
+            className="w-full border-b border-gray-400 text-body2 text-right focus:outline-none"
           />
         )}
 
@@ -39,7 +39,7 @@ export default function MyPageEligibilityEditableRow({
             type="number"
             value={typeof value === "number" ? value : ""}
             onChange={(e) => onChange(Number(e.target.value))}
-            className="w-full border-b border-gray-400 text-right text-slate-900 focus:outline-none"
+            className="w-full border-b border-gray-400 text-body2 text-right focus:outline-none"
           />
         )}
 
@@ -48,7 +48,7 @@ export default function MyPageEligibilityEditableRow({
             type="date"
             value={typeof value === "string" ? value : ""}
             onChange={(e) => onChange(e.target.value)}
-            className="w-full border-b border-gray-400 text-right text-slate-900 focus:outline-none"
+            className="w-full border-b border-gray-400 text-body2 text-right focus:outline-none"
           />
         )}
 
@@ -57,14 +57,14 @@ export default function MyPageEligibilityEditableRow({
             const id = `mypage-eligibility-${answer.id}`;
 
             return (
-              <div className="flex items-center gap-2 text-slate-900">
+              <div className="flex items-center gap-2 text-body2">
                 <Checkbox
                   id={id}
                   checked={typeof value === "boolean" ? value : false}
                   onChange={(e) => onChange(e.target.checked)}
                 />
 
-                <Label htmlFor={id} className="text-sm cursor-pointer">
+                <Label htmlFor={id} className="text-body2 cursor-pointer">
                   {typeof value === "boolean" && value ? "예" : "아니오"}
                 </Label>
               </div>
@@ -75,7 +75,7 @@ export default function MyPageEligibilityEditableRow({
           <Select
             value={typeof value === "string" ? value : ""}
             onChange={(e) => onChange(e.target.value)}
-            className="w-full border-b border-gray-400 bg-transparent text-right text-slate-900 focus:outline-none"
+            className="w-full border-b border-gray-400 bg-transparent text-right text-body2 focus:outline-none"
           >
             {(options ?? []).map((opt) => (
               <option key={opt} value={opt}>
@@ -109,7 +109,7 @@ export default function MyPageEligibilityEditableRow({
                     }}
                   />
 
-                  <Label htmlFor={id} className="cursor-pointer">
+                  <Label htmlFor={id} className="text-body2 cursor-pointer">
                     {opt}
                   </Label>
                 </div>

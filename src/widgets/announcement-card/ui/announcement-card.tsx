@@ -16,6 +16,7 @@ interface AnnouncementCardProps extends Announcement {
   externalApplyUrl?: string | null;
   dDay?: number | null;
   isScrapped?: boolean | null;
+  isAboveTheImage?: boolean;
 }
 
 export function AnnouncementCard({
@@ -29,6 +30,7 @@ export function AnnouncementCard({
   endDate,
   dDay,
   isScrapped = false,
+  isAboveTheImage = false,
   imageUrl = "",
   className,
 }: AnnouncementCardProps) {
@@ -77,7 +79,7 @@ export function AnnouncementCard({
       </div>
 
       {/* 공고명, 날짜, 이미지 */}
-      <div className="flex justify-between gap-3 mb-4">
+      <div className="flex justify-between gap-3">
         <div className="flex-1 flex flex-col justify-between">
           <h2 className="text-h2 text-ellipsis-2">{title}</h2>
           <p className="text-slate-500 mt-3 text-sm tracking-wide">
@@ -98,12 +100,19 @@ export function AnnouncementCard({
               No Image
             </div>
           )}
+          {isAboveTheImage && (
+            <ScrapButton
+              announcementId={announcementId}
+              initialIsScrapped={isScrapped ?? false}
+              isAboveTheImage={isAboveTheImage}
+            />
+          )}
         </div>
       </div>
 
       {/* 공고 상세 전용 버튼들 */}
       {externalApplyUrl && (
-        <div className="flex gap-2">
+        <div className="flex gap-2 mt-4">
           <div
             onClick={(e) => {
               e.preventDefault();
