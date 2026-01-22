@@ -88,7 +88,7 @@ export default function AdditionalOnboardingShell() {
 
   const canGoNext = isCurrentValid();
 
-  // ✅ 완료되면 홈으로 이동 (뒤로가기 시 다시 온보딩으로 안 오게 replace)
+  // 완료되면 홈으로 이동 (뒤로가기 시 다시 온보딩으로 안 오게 replace)
   useEffect(() => {
     if (!isComplete) return;
     reset(); // 상태 정리(선택): 뒤로 왔을 때 완료 화면 같은 거 안 남김
@@ -136,7 +136,6 @@ export default function AdditionalOnboardingShell() {
     );
   }
 
-  // isComplete는 위 useEffect에서 즉시 홈으로 보내므로 별도 완료 화면 불필요
   if (!currentQuestion) {
     return <div className="p-6">질문이 없습니다.</div>;
   }
