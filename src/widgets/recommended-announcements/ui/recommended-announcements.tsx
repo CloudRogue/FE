@@ -17,14 +17,12 @@ export function RecommendedAnnouncements() {
   if (!isLoading && items.length === 0) return null;
 
   return (
-    <section className="px-5 pb-6 flex flex-col gap-4 items-center">
-      <div className="w-[361px] px-1">
-        <h3 className="text-[18px] font-bold text-slate-900">
-          {userName
-            ? `${userName}님을 위한 추천 공고`
-            : "청년님을 위한 추천 공고"}
-        </h3>
-      </div>
+    <section className="px-5 py-4 space-y-4">
+      <h3 className="text-[18px] font-bold text-slate-900 px-1">
+        {userName
+          ? `${userName}님을 위한 추천 공고`
+          : "청년님을 위한 추천 공고"}
+      </h3>
 
       <div className="flex flex-col gap-3">
         {items.map((item, index) => (

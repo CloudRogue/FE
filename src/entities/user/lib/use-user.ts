@@ -12,16 +12,9 @@ export function useUser() {
   const query = useQuery({
     queryKey: USER_QUERY_KEYS.profile(),
     queryFn: getProfileBasic,
-    retry: (failureCount, error: any) => {
-      if (error?.response?.status === 401 || error?.response?.status === 403) {
-        return false;
-      }
-      return failureCount < 2;
-    },
-    staleTime: 1000 * 60 * 5, 
-    gcTime: 1000 * 60 * 10, 
-    refetchOnWindowFocus: false,
-    refetchOnMount: "always",
+    retry: false,
+    
+    staleTime: 1000 * 60 * 5,
   });
 
   const handleSetUser = useCallback(
