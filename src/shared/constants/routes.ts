@@ -37,7 +37,6 @@ export const PAGE_CONFIG: Record<string, { title: string; type: HeaderType }> =
     // 공고
     [ROUTES.ANNOUNCEMENT]: { title: "주택 공고", type: "CENTER_TITLE" },
     [ROUTES.ANNOUNCEMENT_SEARCH]: { title: "주택 검색", type: "SEARCH" },
-    "/search": { title: "", type: "SEARCH" },
 
     // 마이페이지 - 알림 설정
     [ROUTES.MYPAGE]: { title: "마이페이지", type: "LEFT_TITLE" },

@@ -53,8 +53,8 @@ export function AnnouncementList() {
     );
 
   return (
-    <div className="bg-slate-50 min-h-screen">
-      <div className="flex flex-col gap-px bg-slate-200">
+    <div className="min-h-screen">
+      <div className="flex flex-col gap-4 ">
         {announcements.map((item, index) => (
           <Link
             key={`${item.announcementId}-${index}`}

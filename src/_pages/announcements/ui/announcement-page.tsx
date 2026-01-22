@@ -10,7 +10,7 @@ export function AnnouncementPage() {
       <AnnouncementHeader />
 
       {/* 스크롤 가능한 공고 목록 영역 */}
-      <main className="flex-1 overflow-y-auto pb-20">
+      <main className="flex-1 overflow-y-auto p-4">
         <AnnouncementList />
       </main>
     </div>
