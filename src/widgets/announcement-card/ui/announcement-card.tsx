@@ -82,7 +82,7 @@ export function AnnouncementCard({
       <div className="flex justify-between gap-3">
         <div className="flex-1 flex flex-col justify-between">
           <h2 className="text-h2 text-ellipsis-2">{title}</h2>
-          <p className="text-slate-500 mt-3 text-sm tracking-wide">
+          <p className="text-body1 text-gray-700 font-normal">
             접수 마감 {formatDateSpot(endDate)}
           </p>
         </div>
