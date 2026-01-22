@@ -2,14 +2,12 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
-
   if (request.nextUrl.pathname === "/") {
     return NextResponse.next();
   }
 
   const hasAccessToken = request.cookies.has("ACCESS_TOKEN");
   const hasRefreshToken = request.cookies.has("REFRESH_TOKEN");
-
 
   const isAuthenticated = hasAccessToken;
 
@@ -37,6 +35,7 @@ export const config = {
   matcher: [
     "/mypage/:path*",
 
+    // 인증이 필요한 API 경로들 (OpenAPI 명세 기준)
     "/api/mypage/:path*",
     "/api/announcements/search/personalized",
     "/api/announcements/filters/:path*",
@@ -50,6 +49,7 @@ export const config = {
     "/api/onboardings",
     "/api/community/:path*",
 
+    // 관리자 페이지
     "/admin/:path*",
     "/api/admin/:path*",
   ],

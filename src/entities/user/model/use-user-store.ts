@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { devtools } from "zustand/middleware";
+import { devtools, persist } from "zustand/middleware";
 import type {
   UserState,
   ProfileBasic,
@@ -7,14 +7,23 @@ import type {
 
 export const useUserStore = create<UserState>()(
   devtools(
-    (set) => ({
-      user: null,
-      isLoggedIn: false,
-      setUserInfo: (user: ProfileBasic) =>
-        set({ user, isLoggedIn: true }, false, "user/setUserInfo"),
-      clearUser: () =>
-        set({ user: null, isLoggedIn: false }, false, "user/clearUser"),
-    }),
+    persist(
+      (set) => ({
+        user: null,
+        isLoggedIn: false,
+        setUserInfo: (user: ProfileBasic) =>
+          set({ user, isLoggedIn: true }, false, "user/setUserInfo"),
+        clearUser: () =>
+          set({ user: null, isLoggedIn: false }, false, "user/clearUser"),
+      }),
+      {
+        name: "user-storage",
+        partialize: (state) => ({
+          user: state.user,
+          isLoggedIn: state.isLoggedIn,
+        }),
+      },
+    ),
     { name: "UserStore" },
   ),
 );
