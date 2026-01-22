@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/src/entities/user/model/use-user-store";
 import { useGetRecommendedAnnouncements } from "@/src/entities/announcement/api/use-get-recommended";
@@ -11,32 +12,54 @@ export function RecommendedAnnouncements() {
   const router = useRouter();
   const userName = useUserStore((state) => state.user?.name);
 
-  const { data, isLoading } = useGetRecommendedAnnouncements(2);
+  const { data, isLoading } = useGetRecommendedAnnouncements(5);
   const items = data?.data ?? [];
 
   if (!isLoading && items.length === 0) return null;
 
   return (
-    <section className="px-5 py-4 space-y-4">
-      <h3 className="text-[18px] font-bold text-slate-900 px-1">
-        {userName
-          ? `${userName}님을 위한 추천 공고`
-          : "청년님을 위한 추천 공고"}
-      </h3>
+    <section className="px-5 pb-6 flex flex-col gap-4 items-center">
+      <div className="w-[361px] px-1">
+        <h3 className="text-[18px] font-bold text-slate-900">
+          {userName
+            ? `${userName}님을 위한 추천 공고`
+            : "청년님을 위한 추천 공고"}
+        </h3>
+      </div>
 
-      <div className="flex flex-col gap-3">
-        {items.map((item, index) => (
-          <AnnouncementCard
-            key={`${item.announcementId}-${index}`}
-            {...item}
-            className="rounded-3xl border-none shadow-sm"
-            period={{ start: item.startDate, end: item.endDate }}
-          />
-        ))}
+      <div className="grid grid-cols-2 gap-4">
+        {items.map((item, index) => {
+          const isFullWidth = index === 0;
+
+          return (
+            <Link
+              key={`${item.announcementId}-${index}`}
+              href={`/announcement/${item.announcementId}`}
+              className={`${
+                isFullWidth ? "col-span-2" : "col-span-1"
+              } block active:opacity-80 transition-opacity`}
+            >
+              <div
+                style={{
+                  width: isFullWidth ? "361px" : "172.5px",
+                  height: isFullWidth ? "148px" : "176px",
+                }}
+                className="overflow-hidden bg-white rounded-3xl shadow-sm border border-slate-100"
+              >
+                <AnnouncementCard
+                  {...item}
+                  className="w-full h-full border-none"
+                  period={{ start: item.startDate, end: item.endDate }}
+                />
+              </div>
+            </Link>
+          );
+        })}
       </div>
 
       <Button
-        className="w-full h-14 bg-slate-100 text-slate-500 rounded-2xl font-bold mt-2 shadow-none border-none"
+        style={{ width: "361px" }}
+        className="h-14 bg-slate-100 text-slate-500 rounded-2xl font-bold shadow-none border-none active:bg-slate-200 transition-colors"
         onClick={() => router.push(`${ROUTES.ANNOUNCEMENT}/personalized`)}
       >
         다른 추천 공고 더보기
