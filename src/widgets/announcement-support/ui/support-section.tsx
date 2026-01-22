@@ -59,7 +59,7 @@ export function SupportSection({ announcement }: SupportSectionProps) {
             ? config.description
             : `${displayUserName}${config.description}`}
         </p>{" "}
-        <p className="text-caption1 text-gray-700 font-light mt-1">
+        <p className="text-caption2 text-gray-700 mt-1">
           진단 일시{" "}
           {data?.diagnosedAt
             ? new Date(data.diagnosedAt).toLocaleString("ko-KR")

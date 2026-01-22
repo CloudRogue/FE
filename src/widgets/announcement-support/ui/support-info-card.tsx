@@ -64,18 +64,18 @@ export function SupportInfoCard({ result, isLoggedIn }: SupportInfoCardProps) {
                   <div className="mt-1">
                     <StatusIcon />
                   </div>
-                  <div className="flex flex-col gap-0.5">
+                  <div className="flex flex-col">
                     <p
                       className={cn(
-                        "text-h5 font-semibold",
+                        "text-caption1",
                         !item.passed && isIneligible
                           ? "text-red-500"
-                          : "text-gray-800",
+                          : "text-gray-700",
                       )}
                     >
                       {item.key}
                     </p>
-                    <div className="text-caption1 text-gray-700 leading-relaxed">
+                    <div className="text-caption2 text-gray-black leading-relaxed">
                       <RenderStyledMessage message={item.message} />
                     </div>
                   </div>
@@ -85,9 +85,11 @@ export function SupportInfoCard({ result, isLoggedIn }: SupportInfoCardProps) {
           : ["나이", "월평균 소득", "자산"].map((label, i) => (
               <div key={i} className="flex items-center gap-3">
                 <QuestionTwo />
-                <div className="flex flex-col gap-1">
-                  <p className="text-body2 font-bold text-gray-400">{label}</p>
-                  <p className="text-caption1 text-gray-300">
+                <div className="flex flex-col">
+                  <p className="text-caption1 font-bold text-gray-400">
+                    {label}
+                  </p>
+                  <p className="text-caption2 text-gray-300">
                     로그인 후 확인 가능합니다.
                   </p>
                 </div>
