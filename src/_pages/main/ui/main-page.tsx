@@ -29,7 +29,7 @@ export function MainPage() {
 
         <HomeBanner />
 
-        <RecommendedAnnouncements />
+        {isLoggedIn && <RecommendedAnnouncements />}
 
         <QuickNavigation />
       </div>
