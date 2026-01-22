@@ -1,9 +1,14 @@
 import type { MyPageEligibilityAnswer } from "@/src/entities/mypage-eligibility";
 
-import Checkbox from "@/src/shared/ui/checkbox";
+import cn from "@/src/shared/lib/cn";
+
 import Input from "@/src/shared/ui/input";
-import Label from "@/src/shared/ui/label";
 import Select from "@/src/shared/ui/select";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownContent,
+} from "@/src/shared/ui/dropdown";
 
 type AnswerValue = string | number | boolean | string[];
 
@@ -20,101 +25,210 @@ export default function MyPageEligibilityEditableRow({
 }: Props) {
   const { type, title, options } = answer;
 
-  return (
-    <li className="flex h-8 items-center justify-between gap-4">
-      <span className="text-h5 font-semibold">{title}</span>
+  const CONTROL_WRAP = "w-[160px] flex justify-end";
 
-      <div className="min-w-40 md:min-w-50 flex justify-end">
+  const fieldBoxClass = cn(
+    "w-full",
+    "h-[28px]",
+    "px-4",
+    "rounded-md",
+    "border border-gray-100",
+    "bg-gray-white",
+    "shadow-button",
+    "text-body2",
+    "text-center",
+    "focus:outline-none",
+  );
+
+  function getBooleanLabels(): [string, string] {
+    if (Array.isArray(options) && options.length === 2) {
+      return [options[0], options[1]];
+    }
+    return ["아니오", "예"];
+  }
+
+  function getMultiDisplay(selected: string[]) {
+    if (selected.length === 0) return "선택";
+    const text = selected.join(", ");
+    if (text.length > 10) return `${selected.length}개 선택`;
+    return text;
+  }
+
+  return (
+    <li
+      className={cn(
+        "grid",
+        "grid-cols-[auto_1fr]",
+        "items-center",
+        "gap-x-6",
+        "gap-y-2",
+        "py-2",
+      )}
+    >
+      <span className="text-h5 font-semibold text-gray-black">{title}</span>
+
+      <div className="flex justify-end">
         {type === "TEXT_INPUT" && (
-          <Input
-            type="text"
-            value={typeof value === "string" ? value : ""}
-            onChange={(e) => onChange(e.target.value)}
-            className="w-full border-b border-gray-400 text-body2 text-right focus:outline-none"
-          />
+          <div className={CONTROL_WRAP}>
+            <Input
+              type="text"
+              value={typeof value === "string" ? value : ""}
+              onChange={(e) => onChange(e.target.value)}
+              className={fieldBoxClass}
+            />
+          </div>
         )}
 
         {type === "NUMBER_INPUT" && (
-          <Input
-            type="number"
-            value={typeof value === "number" ? value : ""}
-            onChange={(e) => onChange(Number(e.target.value))}
-            className="w-full border-b border-gray-400 text-body2 text-right focus:outline-none"
-          />
+          <div className={CONTROL_WRAP}>
+            <Input
+              type="number"
+              value={typeof value === "number" ? value : ""}
+              onChange={(e) => {
+                const next = e.target.value;
+                if (next === "") return;
+                onChange(Number(next));
+              }}
+              className={fieldBoxClass}
+            />
+          </div>
         )}
 
         {type === "DATE" && (
-          <Input
-            type="date"
-            value={typeof value === "string" ? value : ""}
-            onChange={(e) => onChange(e.target.value)}
-            className="w-full border-b border-gray-400 text-body2 text-right focus:outline-none"
-          />
+          <div className={CONTROL_WRAP}>
+            <Input
+              type="date"
+              value={typeof value === "string" ? value : ""}
+              onChange={(e) => onChange(e.target.value)}
+              className={fieldBoxClass}
+            />
+          </div>
         )}
 
-        {type === "BOOLEAN" &&
-          (() => {
-            const id = `mypage-eligibility-${answer.id}`;
+        {type === "BOOLEAN" && (
+          <div className={CONTROL_WRAP}>
+            <div
+              className={cn(
+                fieldBoxClass,
+                "p-0",
+                "flex items-center justify-center",
+              )}
+            >
+              {(() => {
+                const [falseLabel, trueLabel] = getBooleanLabels();
+                const selectedLabel =
+                  typeof value === "boolean"
+                    ? value
+                      ? trueLabel
+                      : falseLabel
+                    : falseLabel;
 
-            return (
-              <div className="flex items-center gap-2 text-body2">
-                <Checkbox
-                  id={id}
-                  checked={typeof value === "boolean" ? value : false}
-                  onChange={(e) => onChange(e.target.checked)}
-                />
-
-                <Label htmlFor={id} className="text-body2 cursor-pointer">
-                  {typeof value === "boolean" && value ? "예" : "아니오"}
-                </Label>
-              </div>
-            );
-          })()}
+                return (
+                  <Select
+                    value={selectedLabel}
+                    onChange={(e) => onChange(e.target.value === trueLabel)}
+                    className={cn(
+                      "h-full w-full",
+                      "bg-transparent",
+                      "border-0",
+                      "text-center",
+                      "appearance-none",
+                      "focus:outline-none",
+                    )}
+                  >
+                    <option value={falseLabel}>{falseLabel}</option>
+                    <option value={trueLabel}>{trueLabel}</option>
+                  </Select>
+                );
+              })()}
+            </div>
+          </div>
+        )}
 
         {type === "SELECT_SINGLE" && (
-          <Select
-            value={typeof value === "string" ? value : ""}
-            onChange={(e) => onChange(e.target.value)}
-            className="w-full border-b border-gray-400 bg-transparent text-right text-body2 focus:outline-none"
-          >
-            {(options ?? []).map((opt) => (
-              <option key={opt} value={opt}>
-                {opt}
-              </option>
-            ))}
-          </Select>
+          <div className={CONTROL_WRAP}>
+            <div className={cn(fieldBoxClass, "p-0", "flex items-center")}>
+              <Select
+                value={typeof value === "string" ? value : ""}
+                onChange={(e) => onChange(e.target.value)}
+                className={cn(
+                  "h-full w-full",
+                  "bg-transparent",
+                  "border-0",
+                  "text-center",
+                  "focus:outline-none",
+                )}
+              >
+                {(options ?? []).map((opt) => (
+                  <option key={opt} value={opt}>
+                    {opt}
+                  </option>
+                ))}
+              </Select>
+            </div>
+          </div>
         )}
-
         {type === "SELECT_MULTI" && (
-          <div className="flex flex-wrap justify-end gap-2">
-            {(options ?? []).map((opt) => {
-              const selected = Array.isArray(value)
-                ? value.includes(opt)
-                : false;
-
-              const id = `mypage-eligibility-${answer.id}-${opt}`;
+          <div className={CONTROL_WRAP}>
+            {(() => {
+              const current = Array.isArray(value) ? value : [];
+              const opts = options ?? [];
 
               return (
-                <div key={opt} className="flex items-center gap-1 text-sm">
-                  <Checkbox
-                    id={id}
-                    checked={selected}
-                    onChange={(e) => {
-                      const current = Array.isArray(value) ? value : [];
-                      if (e.target.checked) {
-                        onChange([...current, opt]);
-                        return;
-                      }
-                      onChange(current.filter((v) => v !== opt));
-                    }}
-                  />
+                <div className="w-40">
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <button
+                        type="button"
+                        className={cn(
+                          fieldBoxClass,
+                          "w-40 min-w-40",
+                          "px-3",
+                          "flex items-center justify-center gap-2",
+                        )}
+                      >
+                        <span className="truncate">
+                          {getMultiDisplay(current)}
+                        </span>
+                        <span className="text-gray-400">▾</span>
+                      </button>
+                    </DropdownTrigger>
 
-                  <Label htmlFor={id} className="text-body2 cursor-pointer">
-                    {opt}
-                  </Label>
+                    <DropdownContent className={cn("w-40", "border-0")}>
+                      {opts.map((opt) => {
+                        const selected = current.includes(opt);
+
+                        return (
+                          <button
+                            key={opt}
+                            type="button"
+                            role="menuitem"
+                            className={cn(
+                              "flex w-full items-center justify-between",
+                              "px-2 py-1.5 text-sm",
+                              "outline-none",
+                              "hover:bg-transparent focus:bg-transparent",
+                            )}
+                            onClick={(e) => {
+                              e.stopPropagation();
+
+                              if (selected) {
+                                onChange(current.filter((v) => v !== opt));
+                                return;
+                              }
+                              onChange([...current, opt]);
+                            }}
+                          >
+                            <span className="truncate">{opt}</span>
+                            {selected && <span>✓</span>}
+                          </button>
+                        );
+                      })}
+                    </DropdownContent>
+                  </Dropdown>
                 </div>
               );
-            })}
+            })()}
           </div>
         )}
       </div>

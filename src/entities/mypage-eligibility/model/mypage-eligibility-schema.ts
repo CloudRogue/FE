@@ -13,6 +13,8 @@ const DateStringSchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, {
   message: "DATE 타입 value는 YYYY-MM-DD 형식이어야 합니다.",
 });
 
+const NullableOptionsSchema = z.array(z.string()).nullable().optional();
+
 const BaseAnswerSchema = z.object({
   id: z.number().int(),
   title: z.string(),
@@ -21,7 +23,7 @@ const BaseAnswerSchema = z.object({
 
 const BooleanAnswerSchema = BaseAnswerSchema.extend({
   type: z.literal("BOOLEAN"),
-  options: z.null(),
+  options: NullableOptionsSchema,
   value: z.boolean(),
 });
 
