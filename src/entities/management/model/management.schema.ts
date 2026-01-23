@@ -56,6 +56,7 @@ const ManagementSummarySchema = z.object({
   applyingCount: z.number().int().nonnegative(), // 지원 완료 수
   documentWaitingCount: z.number().int().nonnegative(), // 서류 대기 수
   finalWaitingCount: z.number().int().nonnegative(), // 최종 대기 수
+  closedCount: z.number().int().nonnegative(), // 마감 수
 });
 
 const createManageListSchema = <T extends z.ZodTypeAny>(dataSchema: T) =>

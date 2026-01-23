@@ -48,7 +48,7 @@ export function ManagementList({ status }: ManagementListProps) {
         return {
           label: "발표 완료된 공고",
           // API 수정 필요
-          count: 0,
+          count: summary.closedCount,
         };
     }
   };
