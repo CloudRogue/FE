@@ -10,7 +10,7 @@ export function formatMyPageEligibilityValue(
       return value ? "예" : "아니오";
 
     case "DATE":
-      return value.replaceAll("-", ".");
+      return value;
 
     case "NUMBER_INPUT":
       return value.toLocaleString();
