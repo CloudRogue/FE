@@ -12,7 +12,7 @@ export type ProfileDetail = z.infer<typeof profileDetailSchema>;
 export type ProfileAnswer = z.infer<typeof profileAnswerSchema>;
 export type ProfileUpdateAnswer = z.infer<typeof profileUpdateAnswerSchema>;
 
-// Zustand 스토어 상태 타입
+
 export interface UserState {
   user: ProfileBasic | null;
   isLoggedIn: boolean;

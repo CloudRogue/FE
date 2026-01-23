@@ -7,10 +7,11 @@ import {
   postAnnouncementApply,
 } from "@/src/features/announcement-apply";
 import { ROUTES } from "@/src/shared/constants/routes";
-import cn from "@/src/shared/lib/cn";
+import { toast } from "@/src/shared/hooks/use-toast";
 import Button from "@/src/shared/ui/button";
+import Share from "@/src/shared/ui/icons/policy/share.svg";
+import Manage from "@/src/shared/ui/icons/tab/manage-nonecolor.svg";
 import Popover from "@/src/shared/ui/popover";
-import { Home } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, useTransition } from "react";
 
@@ -49,10 +50,11 @@ export function AnnouncementApplyAction({
       try {
         await postAnnouncementApply(announcementId);
         setIsOpen(false);
+        toast.success("지원 관리에 추가되었습니다.");
         router.push(ROUTES.MANAGEMENT);
       } catch (error) {
         console.error("지원 관리 저장 실패:", error);
-        alert("지원 관리 저장 중 문제가 발생했습니다.");
+        toast.error("지원 관리 추가에 실패했습니다.");
       }
     });
   };
@@ -62,48 +64,46 @@ export function AnnouncementApplyAction({
       center
       isOpen={isOpen}
       onClose={() => setIsOpen(false)}
-      containerClassName="block"
+      containerClassName="block w-full"
       trigger={
         <Button
+          variant="secondary"
           onClick={() => !buttonConfig.isDisabled && setIsOpen(true)}
           disabled={buttonConfig.isDisabled}
-          className={cn(
-            "w-full py-4 rounded-xl font-bold transition-all",
-            buttonConfig.isDisabled
-              ? "bg-gray-400 text-white cursor-not-allowed"
-              : "bg-[#1778FF] text-white active:scale-[0.98]",
-          )}
+          className="gap-2.5 w-full h-full text-gray-700"
         >
+          <Share width={16} height={16} />
           {buttonConfig.label}
         </Button>
       }
     >
-      <div className="flex flex-col items-center text-center">
-        <div className="w-16 h-16 bg-[#1778FF] rounded-full flex items-center justify-center mb-6">
-          <Home size={30} className="text-white" />
+      <div className="flex flex-col items-center gap-6 text-center">
+        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-50">
+          <Manage width={32} height={32} className="text-primary-blue" />
         </div>
-        <h3 className="text-[20px] font-bold text-gray-900 mb-2 leading-tight">
-          {isLoggedIn
-            ? "공고 지원, 집착이 관리해줄게요!"
-            : "로그인이 필요한 서비스 입니다!"}
-        </h3>
-        <p className="text-[14px] text-gray-500 mb-8 whitespace-pre-wrap leading-relaxed">
-          {isLoggedIn ? (
-            <>
-              {title}
-              {"\n"}
-              지원을 완료하셨다면, 지원 관리에 공고를 담고{"\n"}
-              일정과 서류를 편리하게 관리해보세요.
-            </>
-          ) : (
-            "로그인하고 나만의 공고 맞춤 서비스를 만나보세요!"
-          )}
-        </p>
-        <div className="w-full flex flex-col gap-3">
-          <Button
-            onClick={handleFinalConfirm}
-            className="w-full py-4 bg-[#1778FF] text-white rounded-2xl font-bold text-[16px] hover:bg-blue-600 transition-colors"
-          >
+        <div className="flex flex-col gap-2">
+          <h3 className="text-h1 text-gray-black">
+            {isLoggedIn
+              ? "공고를 놓치지 않게 도와드릴까요?"
+              : "로그인이 필요한 서비스 입니다!"}
+          </h3>
+          <p className="text-body2 text-gray-500 leading-relaxed">
+            {isLoggedIn ? (
+              <>
+                {title}
+                <br />
+                신청하신 공고의 일정과 준비 서류를
+                <br />
+                한눈에 확인할 수 있도록 정리해 드릴게요.
+              </>
+            ) : (
+              "로그인하고 나만의 공고 맞춤 서비스를 만나보세요!"
+            )}
+          </p>
+        </div>
+
+        <div className="w-full flex flex-col gap-2">
+          <Button onClick={handleFinalConfirm} className="w-full">
             {isPending
               ? "처리 중..."
               : isLoggedIn
@@ -112,7 +112,8 @@ export function AnnouncementApplyAction({
           </Button>
           <Button
             onClick={() => setIsOpen(false)}
-            className="w-full py-4 bg-[#F2F4F7] text-[#4E5968] rounded-2xl font-bold text-[16px] hover:bg-gray-200 transition-colors"
+            variant="secondary"
+            className="w-full"
           >
             아니요, 괜찮아요
           </Button>
