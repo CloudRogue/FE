@@ -61,8 +61,14 @@ export const AnnouncementListResponseSchema = z.object({
   meta: CursorMetaSchema,
 });
 
+export const CreateRecentViewedResponseSchema = AnnouncementSummarySchema.omit({
+  isScrapped: true,
+}).extend({
+  viewedAt: z.string(),
+});
+
 export const RecentViewedResponseSchema = z.object({
-  items: z.array(AnnouncementSummarySchema),
+  items: z.array(CreateRecentViewedResponseSchema),
   nextCursor: z.number().nullable(),
   hasNext: z.boolean(),
 });

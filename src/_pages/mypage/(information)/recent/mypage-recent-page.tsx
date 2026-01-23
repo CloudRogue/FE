@@ -3,6 +3,7 @@
 import { useRecentViewedAnnouncements } from "@/src/entities/announcement";
 import { ROUTES } from "@/src/shared/constants/routes";
 import { useIntersection } from "@/src/shared/hooks/use-intersection";
+import { formatToDotDate } from "@/src/shared/lib/date";
 import Card from "@/src/shared/ui/card";
 import Link from "next/link";
 
@@ -15,6 +16,8 @@ export default function MypageRecentPage() {
       fetchNextPage();
     }
   });
+
+  console.log(data);
 
   const allItems = data?.pages.flatMap((page) => page.items) ?? [];
 
@@ -40,8 +43,7 @@ export default function MypageRecentPage() {
               <div className="flex-1 flex flex-col justify-between">
                 <h2 className="text-h3 text-ellipsis-2">{item.title}</h2>
                 <div className="text-body1 text-gray-700 font-normal">
-                  {item.startDate.replace(/-/g, ".")} ~{" "}
-                  {item.endDate.replace(/-/g, ".")}
+                  열람 일시 {formatToDotDate(item.viewedAt)}
                 </div>
               </div>
               <div className="relative w-20 h-20 bg-slate-100 rounded-xl overflow-hidden shrink-0">
