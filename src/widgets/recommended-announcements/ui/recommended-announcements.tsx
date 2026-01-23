@@ -1,11 +1,12 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useGetRecommendedAnnouncements } from "@/src/entities/announcement/api/use-get-recommended";
 import { useUserStore } from "@/src/entities/user/model/use-user-store";
 import { ROUTES } from "@/src/shared/constants/routes";
 import Button from "@/src/shared/ui/button";
 import { AnnouncementCard } from "@/src/widgets/announcement-card/ui/announcement-card";
-import { useRouter } from "next/navigation";
+import cn from "@/src/shared/lib/cn";
 
 export function RecommendedAnnouncements() {
   const router = useRouter();
@@ -14,30 +15,64 @@ export function RecommendedAnnouncements() {
   const { data, isLoading } = useGetRecommendedAnnouncements(5);
   const items = data?.data ?? [];
 
+  const handleCardClick = (id: number) => {
+    router.push(`${ROUTES.ANNOUNCEMENT}/${id}`);
+  };
+
   if (!isLoading && items.length === 0) return null;
 
   return (
-    <section className="px-5 py-4 space-y-4">
-      <h3 className="text-[18px] font-bold text-slate-900 px-1">
+    <section className="flex flex-col items-center gap-6 px-5 py-4">
+      <h3 className="w-full px-1 text-h2 font-bold text-gray-black">
         {userName
           ? `${userName}님을 위한 추천 공고`
           : "청년님을 위한 추천 공고"}
       </h3>
 
-      <div className="flex flex-col gap-3">
-        {items.map((item, index) => (
-          <AnnouncementCard
-            key={`${item.announcementId}-${index}`}
-            {...item}
-            className="rounded-3xl border-none shadow-sm"
-          />
-        ))}
+      {/* grid-auto-rows-fr: 모든 행의 높이를 동일하게 비율로 맞춤 
+        고정 높이 없이 콘텐츠에 따라 유연하게 결정됨
+      */}
+      <div className="grid w-full grid-cols-2 gap-3 auto-rows-fr">
+        {items.length > 0 && (
+          <>
+            {/* 1. 첫 번째 공고: 전체 너비 */}
+            <div
+              className="col-span-2 cursor-pointer transition-transform active:scale-[0.98]"
+              onClick={() => handleCardClick(items[0].announcementId)}
+            >
+              <AnnouncementCard
+                {...items[0]}
+                variant="large"
+                className="h-full w-full border-none shadow-sm rounded-lg"
+              />
+            </div>
+
+            {/* 2. 나머지 공고: 2개씩 나열 */}
+            {items.slice(1, 5).map((item, index) => (
+              <div
+                key={`${item.announcementId}-${index}`}
+                onClick={() => handleCardClick(item.announcementId)}
+                className="cursor-pointer transition-transform active:scale-[0.98]"
+              >
+                <AnnouncementCard
+                  {...item}
+                  variant="small"
+                  className="h-full w-full border-none shadow-sm rounded-lg"
+                />
+              </div>
+            ))}
+          </>
+        )}
       </div>
 
       <Button
-        style={{ width: "361px" }}
-        className="h-14 bg-slate-100 text-slate-500 rounded-2xl font-bold shadow-none border-none active:bg-slate-200 transition-colors"
         onClick={() => router.push(`${ROUTES.ANNOUNCEMENT}/personalized`)}
+        className={cn(
+          "flex h-[52px] w-full max-w-[361px] items-center justify-center gap-[10px] p-4",
+          "bg-gray-50 !text-gray-black font-bold",
+          "rounded-sm border-none shadow-[0px_1px_3px_rgba(0,0,0,0.1)]",
+          "transition-all active:scale-[0.98] active:bg-gray-100",
+        )}
       >
         다른 추천 공고 더보기
       </Button>

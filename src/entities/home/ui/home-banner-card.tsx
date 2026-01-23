@@ -11,56 +11,61 @@ interface HomeBannerCardProps {
   description: string;
   endDate: string;
   dDay: number;
+  variant?: "blue" | "violet"; 
   className?: string;
 }
+
+const gradientMap = {
+  blue: "linear-gradient(135deg, var(--color-primary-blue) 0%, var(--color-blue-900) 100%)",
+  violet: "linear-gradient(135deg, #A83FFB 0%, #7B09CE 100%)",
+};
 
 export const HomeBannerCard: FC<HomeBannerCardProps> = ({
   title,
   description,
   endDate,
   dDay,
+  variant = "blue",
   className,
 }) => {
   return (
     <Card
       className={cn(
-        "w-[280px] min-w-[280px] h-[180px]",
-        "!rounded-[20px]",
-        "!p-5 !shadow-none border-none text-white relative overflow-hidden flex flex-col justify-between",
-        "!bg-[linear-gradient(135deg,#1788F0_0%,#2942CD_100%)]",
+        "relative flex h-[180px] w-[280px] min-w-[280px] flex-col justify-between overflow-hidden border-none text-gray-white transition-all duration-300",
+        "rounded-lg !p-5 !shadow-none", 
         className,
       )}
+      style={{ background: gradientMap[variant] }}
     >
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="pointer-events-none absolute inset-0"
         style={{
           background: "rgba(255,255,255,0.18)",
-          clipPath: "polygon(0 0, 50% 0, 0 60%)",
+          clipPath: "polygon(0 0, 37% 0, 0 60%)",
         }}
       />
-      {/* 상단 배지 섹션 */}
-      <div className="flex justify-end items-start">
+
+      <div className="flex items-start justify-end">
         <Badge
           variant="dDay"
-          className="!bg-white/20 !text-white backdrop-blur-sm border-none font-semibold"
+          className="border-none !bg-white/20 font-semibold !text-white backdrop-blur-sm"
         >
           D-{dDay}
         </Badge>
       </div>
 
-      {/* 텍스트 콘텐츠 섹션 */}
       <div className="z-10 flex flex-col items-start text-left">
-        <p className="text-sm opacity-90 mb-1 font-medium">{endDate} 까지</p>
-        <h3 className="text-[22px] font-bold leading-tight mb-2 whitespace-pre-wrap tracking-tight">
+        <p className="mb-1 text-body2 font-medium opacity-90">{endDate} 까지</p>
+        <h3 className="mb-2 whitespace-pre-wrap text-h1 font-bold leading-tight tracking-tight">
           {title}
         </h3>
-        <p className="text-[13px] opacity-80 line-clamp-1 leading-snug">
+        <p className="line-clamp-1 text-caption2 leading-snug opacity-80">
           {description}
         </p>
       </div>
 
       <LogoIcon
-        className="absolute -right-4 -bottom-9 w-[182px] h-[160px] opacity-15 pointer-events-none"
+        className="pointer-events-none absolute -right-4 -bottom-9 h-auto w-[182px] opacity-15"
         style={{ color: "var(--color-gray-white)" }}
       />
     </Card>
