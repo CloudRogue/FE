@@ -1,10 +1,11 @@
 "use client";
 
+import {
+  PublisherFilter,
+  RegionFilter,
+  useFilterStore,
+} from "@/src/features/filter-announcements";
 import Button from "@/src/shared/ui/button";
-import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
-import { RegionFilter } from "@/src/features/filter-announcements/ui/region-filter";
-import { PublisherFilter } from "@/src/features/filter-announcements/ui/publisher-filter";
-import { HousingTypeFilter } from "@/src/features/filter-announcements/ui/housing-filter";
 
 export function AnnouncementFilter() {
   const { activeTab, applyFilters, resetFilters } = useFilterStore();
@@ -14,7 +15,7 @@ export function AnnouncementFilter() {
       <div className="p-5 min-h-[250px] max-h-[400px] overflow-y-auto">
         {activeTab === "region" && <RegionFilter />}
         {activeTab === "publisher" && <PublisherFilter />}
-        {activeTab === "housingType" && <HousingTypeFilter />}
+        {/* {activeTab === "housingType" && <HousingTypeFilter />} */}
       </div>
       {/* 하단 액션 버튼 */}
       <div className="p-4 flex justify-end gap-2 border-t bg-slate-50">

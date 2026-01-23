@@ -9,55 +9,55 @@ export function FilterTriggerBar() {
   const { appliedFilters, activeTab, isFilterOpen, toggleFilter } =
     useFilterStore();
 
+
   const filterTabs = [
     {
       id: "region" as const,
-      label: appliedFilters.regionName || "지역 전체",
+      label: appliedFilters.regionName
+        ? appliedFilters.regionName.split(" ")[1]
+        : "희망지역",
       hasValue: !!appliedFilters.regionName,
     },
     {
       id: "publisher" as const,
-      label: appliedFilters.publisher || "공급 주체",
+      label: appliedFilters.publisher || "공급 유형",
       hasValue: !!appliedFilters.publisher,
-    },
-    {
-      id: "housingType" as const,
-      label: appliedFilters.housingType || "주택 유형",
-      hasValue: !!appliedFilters.housingType,
     },
   ];
 
   return (
-    <div className="flex gap-3 p-4 pb-0">
+    <div className="flex gap-2 p-4 pb-2 overflow-x-auto scrollbar-hide">
       {filterTabs.map((tab) => {
-        const isSelected = isFilterOpen && activeTab === tab.id;
-        const isActive = tab.hasValue;
-
+        const isSelected = isFilterOpen && activeTab === tab.id; 
+        const isActive = tab.hasValue; 
         return (
           <Button
             key={tab.id}
             variant="secondary"
             onClick={() => toggleFilter(tab.id)}
             className={cn(
-              "flex items-center justify-between gap-1 transition-all duration-200 bg-white border-gray-100",
+              "flex items-center justify-between gap-1 h-10 px-4 py-2 transition-all duration-200",
+              "rounded-lg border shadow-none",
+              isActive || isSelected
+                ? "bg-primary-50 border-primary-blue"
+                : "bg-white border-gray-100",
             )}
           >
             <span
               className={cn(
-                "text-body2",
-                isSelected && "text-gray-black",
-                isActive && "text-gray-black",
+                "text-body2 font-medium transition-colors",
+                isActive || isSelected ? "text-primary-blue" : "text-gray-700",
               )}
             >
               {tab.label}
             </span>
             <ChevronDown
-              size={20}
+              size={18}
               strokeWidth={2.5}
               className={cn(
-                "transition-transform duration-200 text-gray-400",
-                isSelected && "rotate-180 text-gray-black",
-                isActive && "text-gray-black",
+                "transition-transform duration-200",
+                isActive || isSelected ? "text-primary-blue" : "text-gray-400",
+                isSelected && "rotate-180",
               )}
             />
           </Button>

@@ -1,111 +1,56 @@
 "use client";
 
-import {
-  getCities,
-  getSigungu,
-} from "@/src/features/filter-announcements/api/region.action";
+import { useEffect, useState } from "react";
+import { getSeoulSigungu } from "@/src/features/filter-announcements/api/region.action";
+import { useFilterStore } from "../model/use-filter-store";
 import cn from "@/src/shared/lib/cn";
 import Button from "@/src/shared/ui/button";
-import { useEffect, useState } from "react";
-import { useFilterStore } from "../model/use-filter-store";
 
 export function RegionFilter() {
   const { tempFilters, setTempFilter } = useFilterStore();
-
-  const [cities, setCities] = useState<
-    { cityCode: string; cityName: string }[]
-  >([]);
   const [sigungus, setSigungus] = useState<
     { sigunguCode: string; sigunguName: string }[]
   >([]);
-  const [selectedCity, setSelectedCity] = useState<{
-    code: string;
-    name: string;
-  } | null>(null);
 
   useEffect(() => {
-    getCities().then((res) => setCities(res.data));
+    getSeoulSigungu().then((res) => setSigungus(res.data));
   }, []);
 
-  const handleCityClick = async (cityCode: string, cityName: string) => {
-    if (selectedCity?.code === cityCode) {
-      setSelectedCity(null);
-      setSigungus([]);
-      setTempFilter("regionName", undefined);
-      return;
-    }
-    setSelectedCity({ code: cityCode, name: cityName });
-    const res = await getSigungu(cityCode);
-    setSigungus(res.data);
-  };
-
   const handleSigunguClick = (sigunguName: string) => {
-    if (!selectedCity) return;
-    const fullName = `${selectedCity.name} ${sigunguName}`;
+    const fullName = `서울특별시 ${sigunguName}`;
     const isSelected = tempFilters.regionName === fullName;
 
     setTempFilter("regionName", isSelected ? undefined : fullName);
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4">
       <section>
-        <p className="text-[12px] text-slate-400 font-bold mb-3 px-1">
-          시/도 선택
-        </p>
-        <div className="grid grid-cols-5 gap-2">
-          {cities.map((city) => {
-            const isCitySelected = selectedCity?.code === city.cityCode;
+        <div className="grid grid-cols-4 gap-2 overflow-y-auto max-h-[300px] pb-2 scrollbar-hide">
+          {sigungus.map((sigungu) => {
+            const fullName = `서울특별시 ${sigungu.sigunguName}`;
+            const isSelected = tempFilters.regionName === fullName;
+
             return (
               <Button
-                key={city.cityCode}
-                onClick={() => handleCityClick(city.cityCode, city.cityName)}
+                key={sigungu.sigunguCode}
+                variant="secondary"
+                onClick={() => handleSigunguClick(sigungu.sigunguName)}
                 className={cn(
-                  "h-auto py-2.5 px-1 rounded-full text-[13px] border transition-all shadow-none",
-                  isCitySelected
-                    ? "bg-[#3B82F6] border-[#3B82F6] text-white font-bold"
-                    : "bg-white border-[#E2E8F0] text-[#64748B] hover:bg-slate-50",
+                  "inline-flex items-center justify-center py-[6px] px-3 min-h-[32px] rounded-lg text-caption2 ",
+                  isSelected
+                    ? "bg-primary-blue text-gray-white border border-transparent"
+                    : "bg-gray-white text-gray-black border  border-gray-100",
                 )}
               >
-                <span className="truncate w-full inline-block text-center">
-                  {city.cityName}
+                <span className="truncate w-full inline-block text-center text-caption2 px-1">
+                  {sigungu.sigunguName}
                 </span>
               </Button>
             );
           })}
         </div>
       </section>
-
-      {selectedCity && (
-        <section className="animate-in fade-in slide-in-from-top-1">
-          <p className="text-[12px] text-slate-400 font-bold mb-3 px-1">
-            시/군/구 선택
-          </p>
-          <div className="grid grid-cols-5 gap-2 max-h-[180px] overflow-y-auto no-scrollbar pb-2">
-            {sigungus.map((sigungu) => {
-              const fullName = `${selectedCity.name} ${sigungu.sigunguName}`;
-              const isSelected = tempFilters.regionName === fullName;
-
-              return (
-                <Button
-                  key={sigungu.sigunguCode}
-                  onClick={() => handleSigunguClick(sigungu.sigunguName)}
-                  className={cn(
-                    "h-auto py-2.5 px-1 rounded-full text-[13px] border transition-all shadow-none",
-                    isSelected
-                      ? "bg-[#3B82F6] border-[#3B82F6] text-white font-bold"
-                      : "bg-white border-[#E2E8F0] text-[#64748B] hover:bg-slate-50",
-                  )}
-                >
-                  <span className="truncate w-full inline-block text-center">
-                    {sigungu.sigunguName}
-                  </span>
-                </Button>
-              );
-            })}
-          </div>
-        </section>
-      )}
     </div>
   );
 }
