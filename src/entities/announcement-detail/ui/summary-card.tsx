@@ -38,7 +38,7 @@ export default async function SummaryCard({
         <DetailRow label="접수 방법" value={applyMethod} />
       </div>
 
-      <div className="mb-4 p-4 bg-gray-bg rounded-md text-h4 leading-relaxed whitespace-pre-wrap">
+      <div className="mb-4 p-4 bg-gray-bg rounded-md text-body1 leading-relaxed whitespace-pre-wrap">
         {announcementSummary}
       </div>
 
