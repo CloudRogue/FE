@@ -1,16 +1,15 @@
 "use client";
 
-import { useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { KakaoLoginButton } from "@/src/features/auth/ui/kakao-login";
 import Popup from "@/src/shared/ui/popover";
+import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 export function LoginPage() {
   const searchParams = useSearchParams();
   const error = searchParams.get("error");
 
   const [isPopupOpen, setIsPopupOpen] = useState(!!error);
-
 
   return (
     <>
@@ -20,7 +19,7 @@ export function LoginPage() {
         center
         className="w-full max-w-md"
       >
-        <div className="w-full space-y-8 bg-white p-10 shadow-sm rounded-2xl">
+        <div className="space-y-8">
           <div className="text-center">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">
               로그인
