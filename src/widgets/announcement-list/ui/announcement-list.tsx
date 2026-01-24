@@ -45,7 +45,10 @@ export function AnnouncementList() {
     return (
       <>
         {Array.from({ length: 5 }).map((_, index) => (
-          <AnnouncementCardSkeleton key={`skeleton-${index}`} />
+          <AnnouncementCardSkeleton
+            key={`skeleton-${index}`}
+            className="mb-4"
+          />
         ))}
       </>
     );
@@ -60,7 +63,7 @@ export function AnnouncementList() {
 
   return (
     <div className="min-h-screen">
-      <div className="flex flex-col gap-4 ">
+      <div className="flex flex-col gap-4">
         {announcements.map((item, index) => (
           <Link
             key={`${item.announcementId}-${index}`}

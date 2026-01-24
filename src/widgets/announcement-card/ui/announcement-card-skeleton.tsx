@@ -2,13 +2,20 @@ import cn from "@/src/shared/lib/cn";
 
 export function AnnouncementCardSkeleton({
   ApplyUrl = false,
+  className,
 }: {
   ApplyUrl?: boolean;
+  className?: string;
 }) {
   const pulseClass = "animate-pulse bg-gray-100 rounded";
 
   return (
-    <div className="p-4 bg-white rounded-lg border border-gray-100">
+    <div
+      className={cn(
+        "p-4 bg-white rounded-lg border border-gray-100",
+        className,
+      )}
+    >
       {/* 상단 배지 영역 */}
       <div className="flex justify-between items-start mb-3">
         <div className="flex gap-2 flex-wrap">
