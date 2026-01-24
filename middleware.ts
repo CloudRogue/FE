@@ -3,19 +3,13 @@ import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   const hasAccessToken = request.cookies.has("ACCESS_TOKEN");
-  const hasRefreshToken = request.cookies.has("REFRESH_TOKEN");
   const isAuthenticated = hasAccessToken;
+  const { pathname } = request.nextUrl;
 
-  if (request.nextUrl.pathname === "/") {
-    return NextResponse.next();
-  }
-
-  if (
-    request.nextUrl.pathname.startsWith("/admin") ||
-    request.nextUrl.pathname.startsWith("/api/admin")
-  ) {
+  if (pathname === "/") return NextResponse.next();
+  if (pathname.startsWith("/admin") || pathname.startsWith("/api/admin")) {
     if (!isAuthenticated) {
-      if (request.nextUrl.pathname.startsWith("/api")) {
+      if (pathname.startsWith("/api")) {
         return NextResponse.json(
           {
             error: "Unauthorized",
@@ -25,32 +19,31 @@ export function middleware(request: NextRequest) {
           { status: 401 },
         );
       }
-
-      const loginUrl = new URL("/login", request.url);
-      loginUrl.searchParams.set("callbackUrl", request.nextUrl.pathname);
-      return NextResponse.redirect(loginUrl);
+      return NextResponse.redirect(
+        new URL("/login?callbackUrl=" + pathname, request.url),
+      );
     }
     return NextResponse.next();
   }
 
   const authRequiredPaths = ["/mypage", "/application-manage"];
-  const isAuthRequiredPath = authRequiredPaths.some((path) =>
-    request.nextUrl.pathname.startsWith(path),
-  );
+  const publicMypagePaths = ["/mypage/terms", "/mypage/privacy"];
 
-  if (isAuthRequiredPath && !isAuthenticated) {
+  const isAuthRequiredPath = authRequiredPaths.some((path) =>
+    pathname.startsWith(path),
+  );
+  const isPublicMypagePath = publicMypagePaths.includes(pathname);
+
+  if (isAuthRequiredPath && !isPublicMypagePath && !isAuthenticated) {
     const loginUrl = new URL("/login", request.url);
-    loginUrl.searchParams.set("callbackUrl", request.nextUrl.pathname);
+    loginUrl.searchParams.set("callbackUrl", pathname);
     return NextResponse.redirect(loginUrl);
   }
 
+ 
   const authRequiredApiPaths = [
     "/api/mypage",
-    "/api/announcements/search/personalized",
-    "/api/announcements/filters",
-    "/api/announcements/search/publisher",
-    "/api/announcements/search/housing-type",
-    "/api/announcements/search/region",
+    "/api/announcements/search/personalized", 
     "/api/announcements/application-manage",
     "/api/required-onboardings",
     "/api/onboardings",
@@ -58,11 +51,10 @@ export function middleware(request: NextRequest) {
   ];
 
   const isAuthRequiredApi = authRequiredApiPaths.some((path) =>
-    request.nextUrl.pathname.startsWith(path),
+    pathname.startsWith(path),
   );
-
   const scrapApiPattern = /^\/api\/announcements\/[^\/]+\/scrap$/;
-  const isScrapApi = scrapApiPattern.test(request.nextUrl.pathname);
+  const isScrapApi = scrapApiPattern.test(pathname);
 
   if ((isAuthRequiredApi || isScrapApi) && !isAuthenticated) {
     return NextResponse.json(
@@ -80,21 +72,12 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // 인증 필수 페이지
     "/mypage/:path*",
     "/application-manage/:path*",
-
-    // 관리자 페이지
     "/admin/:path*",
     "/api/admin/:path*",
-
-    // 인증이 필요한 API 경로들
     "/api/mypage/:path*",
     "/api/announcements/search/personalized",
-    "/api/announcements/filters/:path*",
-    "/api/announcements/search/publisher",
-    "/api/announcements/search/housing-type",
-    "/api/announcements/search/region",
     "/api/announcements/:announcementId/scrap",
     "/api/announcements/application-manage/:path*",
     "/api/required-onboardings",
