@@ -9,7 +9,6 @@ export function FilterTriggerBar() {
   const { appliedFilters, activeTab, isFilterOpen, toggleFilter } =
     useFilterStore();
 
-
   const filterTabs = [
     {
       id: "region" as const,
@@ -27,9 +26,10 @@ export function FilterTriggerBar() {
 
   return (
     <div className="flex gap-2 p-4 pb-2 overflow-x-auto scrollbar-hide">
+      {!filterTabs && <div>데이터를 불러올 수 없습니다.</div>}
       {filterTabs.map((tab) => {
-        const isSelected = isFilterOpen && activeTab === tab.id; 
-        const isActive = tab.hasValue; 
+        const isSelected = isFilterOpen && activeTab === tab.id;
+        const isActive = tab.hasValue;
         return (
           <Button
             key={tab.id}
