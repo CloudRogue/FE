@@ -3,12 +3,11 @@
 import { AnnouncementDetail } from "@/src/entities/announcement-detail";
 import { useUser } from "@/src/entities/user";
 import { deleteScrap, patchScrap } from "@/src/features/announcement-scrap";
+import { LoginRequiredModal } from "@/src/shared/components/login-required-modal";
 import cn from "@/src/shared/lib/cn";
-import Button from "@/src/shared/ui/button";
 import LikeColor from "@/src/shared/ui/icons/my/like-color.svg";
 import Heart from "@/src/shared/ui/icons/policy/like.svg";
 import Popover from "@/src/shared/ui/popover";
-import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 
 interface ScrapButtonProps {
@@ -23,7 +22,6 @@ export function ScrapButton({
   isAboveTheImage = false,
 }: ScrapButtonProps) {
   const { user, isLoggedIn } = useUser();
-  const router = useRouter();
   const [isScrapped, setIsScrapped] = useState(initialIsScrapped);
   const [isPending, startTransition] = useTransition();
   const [isLoginPromptOpen, setIsLoginPromptOpen] = useState(false);
@@ -57,34 +55,6 @@ export function ScrapButton({
     });
   };
 
-  const handleLoginRedirect = () => {
-    setIsLoginPromptOpen(false);
-    router.push("/login");
-  };
-
-  const LoginPrompt = (
-    <div className="flex flex-col gap-3 w-50">
-      <p className="text-sm text-gray-700 leading-snug">
-        스크랩은 회원만 이용할 수 있는 기능입니다. 로그인 페이지로
-        이동하시겠습니까?
-      </p>
-      <div className="flex justify-end gap-2">
-        <Button
-          onClick={() => setIsLoginPromptOpen(false)}
-          className="text-xs px-3 py-1.5 rounded bg-gray-100 hover:bg-gray-200 text-gray-600"
-        >
-          취소
-        </Button>
-        <Button
-          onClick={handleLoginRedirect}
-          className="text-xs px-3 py-1.5 rounded bg-blue-500 hover:bg-blue-600 text-white font-medium"
-        >
-          로그인
-        </Button>
-      </div>
-    </div>
-  );
-
   const CommonUIProps = { isScrapped, isPending, onClick: handleToggleScrap };
 
   return (
@@ -100,7 +70,7 @@ export function ScrapButton({
       }
       className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 m-0 w-70"
     >
-      {LoginPrompt}
+      <LoginRequiredModal onClose={() => setIsLoginPromptOpen(false)} />
     </Popover>
   );
 }

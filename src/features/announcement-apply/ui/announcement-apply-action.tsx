@@ -64,7 +64,6 @@ export function AnnouncementApplyAction({
       center
       isOpen={isOpen}
       onClose={() => setIsOpen(false)}
-      containerClassName="block w-full"
       trigger={
         <Button
           variant="secondary"
@@ -78,7 +77,7 @@ export function AnnouncementApplyAction({
       }
     >
       <div className="flex flex-col items-center gap-6 text-center">
-        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-50">
+        <div className="h-16 w-16 flex items-center justify-center rounded-full bg-primary-50">
           <Manage width={32} height={32} className="text-primary-blue" />
         </div>
         <div className="flex flex-col gap-2">

@@ -36,7 +36,6 @@ export const ManagementStepButton = ({
       center
       isOpen={isOpen}
       onClose={() => setIsOpen(false)}
-      containerClassName="block"
       trigger={
         <Link
           href={disabled ? "" : href}
@@ -49,18 +48,18 @@ export const ManagementStepButton = ({
         </Link>
       }
     >
-      <div className="w-full flex flex-col items-center text-center">
-        <div className="p-4 bg-primary-50 rounded-full flex items-center justify-center mb-6">
+      <div className="w-full flex flex-col items-center text-center gap-6">
+        <div className="p-4 bg-primary-50 rounded-full flex items-center justify-center">
           <Check width={32} height={32} className="text-primary-blue" />
         </div>
-        <h3 className="text-[20px] font-bold text-gray-900 mb-2 leading-tight">
-          지원을 무사히 마쳤어요!
-        </h3>
-        <p className="text-[14px] text-gray-500 mb-8 whitespace-pre-wrap leading-relaxed">
-          다음 단계도 놓치지 않게
-          {"\n"}
-          '집착'이 꼼꼼히 알려드릴게요.
-        </p>
+        <div>
+          <h3 className="text-h1 mb-3">지원을 무사히 마쳤어요!</h3>
+          <p className="text-body1 text-gray-500">
+            다음 단계도 놓치지 않게
+            <br />
+            '집착'이 꼼꼼히 알려드릴게요.
+          </p>
+        </div>
         <div className="w-full flex flex-col gap-3">
           <Link href={ROUTES.MANAGEMENT}>
             <Button className="w-full">내 지원 현황 보기</Button>

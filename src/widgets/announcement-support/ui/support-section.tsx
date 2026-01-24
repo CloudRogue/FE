@@ -16,30 +16,30 @@ import {
   SupportInfoCard,
 } from "@/src/widgets/announcement-support";
 import { useQuery } from "@tanstack/react-query";
+import { SupportSectionSkeleton } from "./suport-section-skeleton";
 
 interface SupportSectionProps {
   announcement: AnnouncementDetail;
 }
 
 export function SupportSection({ announcement }: SupportSectionProps) {
-  const { user } = useUser(); //isLoggedIn
-  const isLoggedIn = false;
+  const { user, isLoggedIn } = useUser();
   const displayUserName = user?.name || "청년";
 
   const { data, isLoading, isError } = useQuery({
-    // TODO: 쿼리키 상수화 필요
     queryKey: ["eligibilityCheck", announcement.announcementId],
     queryFn: () => postEligibilityCheck(String(announcement.announcementId)),
     enabled: isLoggedIn,
   });
 
-  const currentStatus =
-    isLoggedIn && data ? (data.supportStatus as SupportStatus) : "PENDING";
+  if (isLoggedIn && isLoading) return <SupportSectionSkeleton />;
+  if (isError) throw new Error("API 호출 실패");
+
+  const currentStatus = data
+    ? (data.supportStatus as SupportStatus)
+    : "LOGIN_REQUIRED";
 
   const config = STATUS_CONFIG[currentStatus];
-
-  if (isLoggedIn && isLoading) return <div>결과를 불러오는 중..</div>;
-  if (isError) throw new Error("API 호출 실패");
 
   return (
     <Card
