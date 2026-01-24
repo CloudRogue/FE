@@ -33,7 +33,7 @@ export const HeaderLeft = ({ type, title, onBack }: HeaderLeftProps) => {
 
   return (
     <Link href={ROUTES.HOME}>
-      <MainLogo width={60} />
+      <MainLogo width={60} className="text-primary-blue" />
     </Link>
   );
 };
