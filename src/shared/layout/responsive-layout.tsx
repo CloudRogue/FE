@@ -1,5 +1,7 @@
+"use client";
+
 import cn from "@/src/shared/lib/cn";
-import { headers } from "next/headers";
+import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
 
 interface ResponsiveLayoutProps {
@@ -7,9 +9,8 @@ interface ResponsiveLayoutProps {
 }
 
 export async function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
-  const headersList = await headers();
-  const pathname = headersList.get("x-pathname") || "";
-  const isAdmin = pathname.startsWith("/admin");
+  const pathname = usePathname();
+  const isAdmin = pathname?.startsWith("/admin");
 
   return (
     <div
@@ -23,7 +24,7 @@ export async function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
           " mx-auto w-full flex flex-col min-h-screen bg-white shadow-sm",
           isAdmin
             ? "mx-0" // 관리자
-            : "max-w-[393px] md:max-w-[1200px]", // 사용자
+            : "max-w-98.25 md:max-w-300", // 사용자
         )}
       >
         {children}
