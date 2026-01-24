@@ -35,14 +35,17 @@ export function RegionRow({ regions }: { regions: string[] | string }) {
               trigger: (
                 <Button
                   variant="tertiary_gray"
-                  className="h-0"
+                  className="h-0 text-body2"
                   onClick={() => setIsOpen(true)}
                 >
                   전체보기
                 </Button>
               ),
               children: (
-                <div className="flex flex-col gap-4">
+                <div
+                  className="flex flex-col gap-4 w-full"
+                  onClick={(e) => e.stopPropagation()}
+                >
                   <div className="flex justify-between items-center">
                     <h4 className="text-h3 text-gray-black">
                       전체 지역 ({isArrayRegions.length}개)

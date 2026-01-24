@@ -13,8 +13,8 @@ interface DetailRowProps {
 
 export function DetailRow({ label, value, popover }: DetailRowProps) {
   return (
-    <div className="flex justify-between items-center mb-4 text-[15px]">
-      <span className="text-gray-700 text-h5">{label}</span>
+    <div className="flex justify-between items-center mb-4">
+      <span className="text-gray-700 text-body1">{label}</span>
       <div className="flex items-center gap-2">
         <span className="text-h4 font-semibold">{value}</span>
         {popover && (
@@ -23,10 +23,9 @@ export function DetailRow({ label, value, popover }: DetailRowProps) {
             center={true}
             isOpen={popover.isOpen}
             onClose={popover.onClose}
-            containerClassName="flex items-center"
             trigger={popover.trigger}
           >
-            <div onClick={(e) => e.stopPropagation()}>{popover.children}</div>
+            {popover.children}
           </Popover>
         )}
       </div>

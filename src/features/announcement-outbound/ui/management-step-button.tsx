@@ -36,7 +36,6 @@ export const ManagementStepButton = ({
       center
       isOpen={isOpen}
       onClose={() => setIsOpen(false)}
-      containerClassName="block"
       trigger={
         <Link
           href={disabled ? "" : href}
@@ -50,14 +49,14 @@ export const ManagementStepButton = ({
       }
     >
       <div className="w-full flex flex-col items-center text-center gap-6">
-        <div className="p-4 bg-primary-50 rounded-full flex items-center justify-center mb-6">
+        <div className="p-4 bg-primary-50 rounded-full flex items-center justify-center">
           <Check width={32} height={32} className="text-primary-blue" />
         </div>
         <div>
           <h3 className="text-h1 mb-3">지원을 무사히 마쳤어요!</h3>
-          <p className="text-[14px] text-gray-500 mb-8 whitespace-pre-wrap leading-relaxed">
+          <p className="text-body1 text-gray-500">
             다음 단계도 놓치지 않게
-            {"\n"}
+            <br />
             '집착'이 꼼꼼히 알려드릴게요.
           </p>
         </div>
