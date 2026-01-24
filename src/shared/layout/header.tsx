@@ -54,7 +54,7 @@ export default function Header() {
       <div className="flex items-center justify-end z-10 min-w-10">
         <div className="flex items-center gap-2">
           {/* 홈에서 로그인 버튼 */}
-          {pathname === ROUTES.HOME && isLoggedIn && (
+          {pathname === ROUTES.HOME && !isLoggedIn && (
             <Button
               size="sm"
               className="h-8 text-xs"
