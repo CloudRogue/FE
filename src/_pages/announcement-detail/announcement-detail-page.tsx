@@ -28,6 +28,7 @@ export async function AnnouncementDetailPage({
         {...announcement}
         externalApplyUrl={announcement.url ?? ""}
         publishedAt={new Date().toISOString()}
+        className="rounded-none border-0"
       />
       <TabsRoot defaultValue="support" className="w-full">
         <TabsList>
@@ -40,9 +41,6 @@ export async function AnnouncementDetailPage({
           <TabsTrigger value="summary" className="flex-1 pt-4 pb-2">
             공고 개요
           </TabsTrigger>
-          {/* <TabsTrigger value="comment" className="flex-1 pt-4 pb-2">
-            공고 댓글
-          </TabsTrigger> */}
         </TabsList>
         <div className="bg-gray-bg p-4">
           {/* 지원 자격(support) */}
@@ -50,18 +48,13 @@ export async function AnnouncementDetailPage({
             <ErrorBoundary
               fallback={
                 <p className="p-4 rounded-md text-center text-red-500 text-sm">
-                  진단 정보를 불러오는 중 오류가 발생했습니다. 잠시 후 다시
-                  시도해주세요.
+                  진단 정보를 불러오는 중 오류가 발생했습니다.
+                  <br />
+                  잠시 후 다시 시도해주세요.
                 </p>
               }
             >
-              <Suspense
-                fallback={
-                  <p className="p-4 rounded-md text-center text-gray-400 text-sm">
-                    지원 자격 진단 중..
-                  </p>
-                }
-              >
+              <Suspense>
                 <SupportSection announcement={announcement} />
               </Suspense>
             </ErrorBoundary>
@@ -77,10 +70,6 @@ export async function AnnouncementDetailPage({
               url={announcement.url}
             />
           </TabsContent>
-          {/* 공고 댓글(comment) */}
-          {/* <TabsContent value="comment" className="mt-0 outline-none">
-            <CommentSection announcementId={announcement.announcementId} />
-          </TabsContent> */}
         </div>
       </TabsRoot>
     </div>
