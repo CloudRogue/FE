@@ -11,9 +11,15 @@ import LeftIcon from "@/src/shared/ui/icons/arroaw/left.svg";
 import { useRequiredOnboardingStore } from "@/src/features/onboarding/model/required-onboarding-store";
 import QuestionRenderer from "@/src/features/onboarding/ui/question/question-renderer";
 import RequiredOnboardingDrawer from "@/src/features/onboarding/ui/required-onboarding-drawer";
-
+import RequiredOnboardingStart from "@/src/features/onboarding/ui/required-onboarding-start";
+import { useRouter } from "next/navigation";
+import { ROUTES } from "@/src/shared/constants/routes";
 export default function RequiredOnboardingShell() {
   const {
+    hasStarted,
+    start,
+    resetStart,
+
     status,
     error,
     questions,
@@ -30,6 +36,8 @@ export default function RequiredOnboardingShell() {
   useEffect(() => {
     init();
   }, [init]);
+
+  const router = useRouter();
 
   const total = questions.length;
 
@@ -76,7 +84,15 @@ export default function RequiredOnboardingShell() {
   };
 
   const handleClickPrev = () => {
-    if (isFirst) return;
+    // Start 화면: 뒤로가기 동작은 나중에 라우터 back/닫기 연결
+    if (!hasStarted) return;
+
+    // 첫 질문 화면에서 뒤로가기 => Start 화면으로
+    if (isFirst) {
+      resetStart();
+      return;
+    }
+
     prev();
   };
 
@@ -101,7 +117,8 @@ export default function RequiredOnboardingShell() {
     );
   }
 
-  if (!currentQuestion) {
+  // Start가 아닌데도 질문이 없으면 그때만 에러 처리
+  if (hasStarted && !currentQuestion) {
     return <div className="p-6">질문이 없습니다.</div>;
   }
 
@@ -112,43 +129,55 @@ export default function RequiredOnboardingShell() {
           type="button"
           onClick={handleClickPrev}
           aria-label="이전"
-          disabled={isFirst}
           className={cn(
             "inline-flex h-10 w-10 items-center justify-center rounded-md",
             "text-gray-black",
-            isFirst && "pointer-events-none opacity-30",
           )}
         >
           <LeftIcon className="h-6 w-6" />
         </button>
 
         <div className="flex-1">
-          <Progress value={progressValue} />
+          {hasStarted && <Progress value={progressValue} />}
         </div>
       </header>
 
       <main className="flex-1 px-6 py-8">
-        <QuestionRenderer
-          question={currentQuestion}
-          value={currentAnswer}
-          onChange={(nextValue) =>
-            setAnswer(currentQuestion.requiredOnboardingId, nextValue)
-          }
-        />
+        {hasStarted ? (
+          <QuestionRenderer
+            question={currentQuestion!}
+            value={currentAnswer}
+            onChange={(nextValue) =>
+              setAnswer(currentQuestion!.requiredOnboardingId, nextValue)
+            }
+          />
+        ) : (
+          <RequiredOnboardingStart />
+        )}
       </main>
 
       <footer className="sticky bottom-0 bg-gray-bg px-6 pb-6 pt-4">
+        {!hasStarted ? (
+          <button
+            type="button"
+            onClick={() => router.push(ROUTES.LOGIN)}
+            className="mb-3 w-full text-sm text-gray-400 underline"
+          >
+            이미 계정이 있나요? 로그인 하기
+          </button>
+        ) : null}
+
         <Button
           type="button"
-          onClick={handleClickNext}
+          onClick={hasStarted ? handleClickNext : start}
           variant="primary"
           size="lg"
           className={cn(
             "w-full shadow-button",
-            !canGoNext && "pointer-events-none ",
+            hasStarted && !canGoNext && "pointer-events-none",
           )}
         >
-          다음으로
+          {hasStarted ? "다음으로" : "시작하기"}
         </Button>
       </footer>
 
