@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
 export function middleware(request: NextRequest) {
   const hasAccessToken = request.cookies.has("ACCESS_TOKEN");
@@ -26,8 +26,8 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const authRequiredPaths = ["/mypage", "/application-manage"];
-  const publicMypagePaths = ["/mypage/terms", "/mypage/privacy"];
+  const authRequiredPaths = ["/mypage", "/management", "/application-manage"];
+  const publicMypagePaths = ["/mypage/terms", "/mypage/personal"];
 
   const isAuthRequiredPath = authRequiredPaths.some((path) =>
     pathname.startsWith(path),
@@ -40,10 +40,9 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
- 
   const authRequiredApiPaths = [
     "/api/mypage",
-    "/api/announcements/search/personalized", 
+    "/api/announcements/search/personalized",
     "/api/announcements/application-manage",
     "/api/required-onboardings",
     "/api/onboardings",
@@ -73,6 +72,7 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     "/mypage/:path*",
+    "/management/:path*",
     "/application-manage/:path*",
     "/admin/:path*",
     "/api/admin/:path*",
