@@ -22,7 +22,7 @@ export default function BottomNav({ items, className }: BottomNavProps) {
   return (
     <nav
       className={cn(
-        "fixed bottom-0 left-1/2 -translate-x-1/2 z-30 h-17./ w-98.25 md:w-300 bg-white",
+        "fixed bottom-0 left-1/2 -translate-x-1/2 z-10 h-17./ w-98.25 md:w-300 bg-white",
         className,
       )}
       aria-label="하단 네비게이션"

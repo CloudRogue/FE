@@ -8,7 +8,7 @@ interface ResponsiveLayoutProps {
   children: ReactNode;
 }
 
-export async function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
+export function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith("/admin");
 

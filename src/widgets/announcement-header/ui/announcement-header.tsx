@@ -23,9 +23,6 @@ export function AnnouncementHeader() {
   return (
     <>
       <header className="sticky top-0 z-30 flex flex-col bg-gray-bg">
-        {/* TODO: 서치바 페이지 분리 필요 */}
-        {/* <SearchBar /> */}
-
         <div className="flex">
           {(["OPEN", "CLOSED"] as const).map((status) => (
             <button
@@ -48,7 +45,7 @@ export function AnnouncementHeader() {
 
         <FilterTriggerBar />
         {isFilterOpen && (
-          <div className="absolute top-full left-0 w-full z-40">
+          <div className="absolute top-full left-0 w-full z-30">
             <AnnouncementFilter />
           </div>
         )}

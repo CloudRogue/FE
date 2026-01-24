@@ -1,6 +1,5 @@
 "use client";
 
-import type { FC } from "react";
 import type { Announcement } from "@/src/entities/announcement/model/announcement.types";
 import { AnnouncementApplyAction } from "@/src/features/announcement-apply";
 import { ScrapButton } from "@/src/features/announcement-scrap";
@@ -8,6 +7,7 @@ import cn from "@/src/shared/lib/cn";
 import { formatDateSpot } from "@/src/shared/lib/date";
 import { Badge } from "@/src/shared/ui/badge";
 import Image from "next/image";
+import type { FC } from "react";
 import { useMemo } from "react";
 
 interface AnnouncementCardProps extends Announcement {
@@ -110,7 +110,7 @@ export const AnnouncementCard: FC<AnnouncementCardProps> = ({
             status === "CLOSED" && "bg-gray-700 text-gray-white",
           )}
         >
-          D-{dDay ?? "확인 불가"}
+          {status === "CLOSED" ? "마감" : `D-${dDay ?? "0"}`}
         </Badge>
       </div>
 
