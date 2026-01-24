@@ -30,7 +30,7 @@ export function ScrapButton({
     e.preventDefault();
     e.stopPropagation();
 
-    if (isLoggedIn || !user) {
+    if (!isLoggedIn || !user) {
       setIsLoginPromptOpen(true);
       return;
     }
