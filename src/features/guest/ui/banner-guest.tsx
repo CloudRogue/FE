@@ -1,24 +1,15 @@
-"use client";
-
-import { useRouter } from "next/navigation";
-import Card from "@/src/shared/ui/card";
 import cn from "@/src/shared/lib/cn";
+import Card from "@/src/shared/ui/card";
 import LogoIcon from "@/src/shared/ui/icons/logo.svg";
 
 export function BannerGuest() {
-  const router = useRouter();
-
-  const handleStartOnboarding = () => {
-    router.push("/onboarding");
-  };
-
   return (
-    <section className=" w-full">
+    <section className="w-full px-4">
       <Card
         className={cn(
-          "w-full h-[180px]",
-          "rounded-lg justify-end !p-6 !shadow-none border-none text-white relative overflow-hidden flex flex-col ",
-          "!bg-[linear-gradient(135deg,#1788F0_0%,#2942CD_100%)]",
+          "w-full h-45",
+          "rounded-lg justify-end p-6! shadow-none! border-none text-white relative overflow-hidden flex flex-col ",
+          "bg-[linear-gradient(135deg,#1788F0_0%,#2942CD_100%)]!",
           "transition-all duration-300",
         )}
       >
@@ -44,7 +35,7 @@ export function BannerGuest() {
         </div>
 
         <LogoIcon
-          className="absolute -right-4 -bottom-9 w-[160px] sm:w-[182px] h-auto opacity-15 pointer-events-none"
+          className="absolute -right-4 -bottom-9 w-40 sm:w-45.5 h-auto opacity-15 pointer-events-none"
           style={{ color: "var(--color-gray-white)" }}
         />
       </Card>
