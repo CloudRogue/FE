@@ -3,6 +3,7 @@
 import { useAnnouncements } from "@/src/entities/announcement/api/use-announcements.queries";
 import type { Announcement } from "@/src/entities/announcement/model/announcement.types";
 import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
+import { AnnouncementCardSkeleton } from "@/src/widgets/announcement-card/";
 import { AnnouncementCard } from "@/src/widgets/announcement-card/ui/announcement-card";
 import Link from "next/link";
 import { useEffect } from "react";
@@ -42,7 +43,8 @@ export function AnnouncementList() {
 
   if (isLoading)
     return (
-      <p className="p-10 text-center">공고 데이터를 불러오고 있습니다...</p>
+      // <p className="p-10 text-center">공고 데이터를 불러오고 있습니다...</p>
+      <AnnouncementCardSkeleton />
     );
 
   if (isError)
