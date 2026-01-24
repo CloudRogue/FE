@@ -16,6 +16,10 @@ import {
 type RequiredOnboardingStatus = "idle" | "loading" | "success" | "error";
 
 type RequiredOnboardingState = {
+  hasStarted: boolean;
+  start: () => void;
+  resetStart: () => void;
+
   status: RequiredOnboardingStatus;
   error: string | null;
 
@@ -48,6 +52,10 @@ function clampIndex(value: number, min: number, max: number) {
 
 export const useRequiredOnboardingStore = create<RequiredOnboardingState>(
   (set, get) => ({
+    hasStarted: false,
+    start: () => set({ hasStarted: true }),
+    resetStart: () => set({ hasStarted: false }),
+
     status: "idle",
     error: null,
 
@@ -96,6 +104,8 @@ export const useRequiredOnboardingStore = create<RequiredOnboardingState>(
     reset: () => {
       clearRequiredOnboardingDraft();
       set({
+        hasStarted: false,
+
         status: "idle",
         error: null,
         questions: [],
