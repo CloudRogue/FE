@@ -12,8 +12,6 @@ import {
   HeaderLeft,
 } from "@/src/shared/layout/hedaer-components";
 import Button from "@/src/shared/ui/button";
-import Search from "@/src/shared/ui/icons/policy/search.svg";
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
 // TODO: next.config.ts로 옮기기
@@ -68,11 +66,11 @@ export default function Header() {
           {isAnnDetail && <HeaderShare />}
 
           {/* 검색 아이콘*/}
-          {pathname === ROUTES.ANNOUNCEMENT && (
+          {/* {pathname === ROUTES.ANNOUNCEMENT && (
             <Link href={ROUTES.ANNOUNCEMENT_SEARCH}>
               <Search width={24} />
             </Link>
-          )}
+          )} */}
         </div>
       </div>
     </header>
