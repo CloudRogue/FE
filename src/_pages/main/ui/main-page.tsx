@@ -6,6 +6,7 @@ import { HomeBannerList } from "@/src/widgets/home";
 import { BannerGuest } from "@/src/features/guest";
 import { RecommendedAnnouncements } from "@/src/widgets/recommended-announcements";
 import { QuickNavigation } from "@/src/widgets/quick-navigation";
+import { Footer } from "@/src/widgets/footer/ui/footer";
 import RootLoading from "@/app/loading";
 
 export function MainPage() {
@@ -15,7 +16,7 @@ export function MainPage() {
   if (isLoading) return <RootLoading />;
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-32">
+    <div className="min-h-screen bg-slate-50 ">
       <div className="max-w-md mx-auto flex flex-col gap-4 py-6">
         {isLoggedIn && user && (
           <div className="px-5">
@@ -28,16 +29,13 @@ export function MainPage() {
           </div>
         )}
 
-        {isLoggedIn ? (
-          <HomeBannerList />
-        ) : (
-            <BannerGuest />
-        )}
+        {isLoggedIn ? <HomeBannerList /> : <BannerGuest />}
 
         {isLoggedIn && <RecommendedAnnouncements />}
 
         <QuickNavigation />
       </div>
+      <Footer />
     </div>
   );
 }
