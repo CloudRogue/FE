@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { getSeoulSigungu } from "@/src/features/filter-announcements/api/region.action";
-import { useFilterStore } from "../model/use-filter-store";
 import cn from "@/src/shared/lib/cn";
 import Button from "@/src/shared/ui/button";
+import { useEffect, useState } from "react";
+import { useFilterStore } from "../model/use-filter-store";
 
 export function RegionFilter() {
   const { tempFilters, setTempFilter } = useFilterStore();
@@ -26,7 +26,8 @@ export function RegionFilter() {
   return (
     <div className="flex flex-col gap-4">
       <section>
-        <div className="grid grid-cols-4 gap-2 overflow-y-auto max-h-[300px] pb-2 scrollbar-hide">
+        {sigungus.length === 0 && <>데이터를 불러올 수 없습니다.</>}
+        <div className="grid grid-cols-4 gap-2 overflow-y-auto max-h-75 pb-2 scrollbar-hide">
           {sigungus.map((sigungu) => {
             const fullName = `서울특별시 ${sigungu.sigunguName}`;
             const isSelected = tempFilters.regionName === fullName;
@@ -37,7 +38,7 @@ export function RegionFilter() {
                 variant="secondary"
                 onClick={() => handleSigunguClick(sigungu.sigunguName)}
                 className={cn(
-                  "inline-flex items-center justify-center py-[6px] px-3 min-h-[32px] rounded-lg text-caption2 ",
+                  "inline-flex items-center justify-center py-1.5 px-3 min-h-8 rounded-lg text-caption2 ",
                   isSelected
                     ? "bg-primary-blue text-gray-white border border-transparent"
                     : "bg-gray-white text-gray-black border  border-gray-100",

@@ -1,12 +1,12 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useGetRecommendedAnnouncements } from "@/src/entities/announcement/api/use-get-recommended";
 import { useUserStore } from "@/src/entities/user/model/use-user-store";
 import { ROUTES } from "@/src/shared/constants/routes";
+import cn from "@/src/shared/lib/cn";
 import Button from "@/src/shared/ui/button";
 import { AnnouncementCard } from "@/src/widgets/announcement-card/ui/announcement-card";
-import cn from "@/src/shared/lib/cn";
+import { useRouter } from "next/navigation";
 
 export function RecommendedAnnouncements() {
   const router = useRouter();
@@ -68,8 +68,8 @@ export function RecommendedAnnouncements() {
       <Button
         onClick={() => router.push(`${ROUTES.ANNOUNCEMENT}/personalized`)}
         className={cn(
-          "flex h-[52px] w-full max-w-[361px] items-center justify-center gap-[10px] p-4",
-          "bg-gray-50 !text-gray-black font-bold",
+          "flex h-13 w-full items-center justify-center gap-2.5 p-4",
+          "bg-gray-50 text-gray-black! font-bold",
           "rounded-sm border-none shadow-[0px_1px_3px_rgba(0,0,0,0.1)]",
           "transition-all active:scale-[0.98] active:bg-gray-100",
         )}

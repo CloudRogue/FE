@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import cn from "@/src/shared/lib/cn";
-import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
 import { getPublisherFilters } from "@/src/features/filter-announcements/api/housing.action";
+import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
+import cn from "@/src/shared/lib/cn";
 import Button from "@/src/shared/ui/button";
+import { useEffect, useState } from "react";
 
 export function PublisherFilter() {
   const { tempFilters, setTempFilter } = useFilterStore();
@@ -19,7 +19,8 @@ export function PublisherFilter() {
   return (
     <div className="flex flex-col gap-4">
       <section>
-        <div className="grid grid-cols-4 gap-2 overflow-y-auto max-h-[300px] pb-2 scrollbar-hide">
+        {publishers.length === 0 && <>데이터를 불러올 수 없습니다.</>}
+        <div className="grid grid-cols-4 gap-2 overflow-y-auto max-h-75 pb-2 scrollbar-hide">
           {publishers.map((pub) => {
             const isSelected = tempFilters.publisher === pub;
 
@@ -31,7 +32,7 @@ export function PublisherFilter() {
                   setTempFilter("publisher", isSelected ? undefined : pub)
                 }
                 className={cn(
-                  "inline-flex items-center justify-center py-[6px] px-3 min-h-[32px] rounded-lg text-caption2",
+                  "inline-flex items-center justify-center py-1.5 px-3 min-h-8 rounded-lg text-caption2",
                   isSelected
                     ? "bg-primary-blue text-gray-white border border-transparent"
                     : "bg-gray-white text-gray-black border border-gray-100",

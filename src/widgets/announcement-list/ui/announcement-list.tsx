@@ -41,11 +41,15 @@ export function AnnouncementList() {
     }
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  if (isLoading)
+  if (isLoading) {
     return (
-      // <p className="p-10 text-center">공고 데이터를 불러오고 있습니다...</p>
-      <AnnouncementCardSkeleton />
+      <>
+        {Array.from({ length: 5 }).map((_, index) => (
+          <AnnouncementCardSkeleton key={`skeleton-${index}`} />
+        ))}
+      </>
     );
+  }
 
   if (isError)
     return (
