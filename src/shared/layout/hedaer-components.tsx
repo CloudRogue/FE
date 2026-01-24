@@ -2,7 +2,6 @@
 
 import { ROUTES } from "@/src/shared/constants/routes";
 import MainLogo from "@/src/shared/ui/icons/main-zipchak.svg";
-import Search from "@/src/shared/ui/icons/policy/search.svg";
 import { Progress } from "@/src/shared/ui/progress";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
@@ -45,21 +44,6 @@ interface HeaderCenterProps {
 }
 
 export const HeaderCenter = ({ type, title }: HeaderCenterProps) => {
-  if (type === "SEARCH") {
-    return (
-      <div className="relative w-full ml-2">
-        <Search
-          className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
-          size={18}
-        />
-        <input
-          className="w-full bg-slate-100 rounded-lg py-2 pl-10 pr-4 text-sm outline-none focus:bg-slate-200 transition-colors"
-          placeholder="검색어를 입력해주세요"
-        />
-      </div>
-    );
-  }
-
   if (type === "PROGRESS") {
     return <Progress value={10} />;
   }

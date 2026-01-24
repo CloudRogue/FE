@@ -12,10 +12,9 @@ import {
   HeaderLeft,
 } from "@/src/shared/layout/hedaer-components";
 import Button from "@/src/shared/ui/button";
+import Search from "@/src/shared/ui/icons/policy/search.svg";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-
-// TODO: next.config.ts로 옮기기
-const KAKAO_AUTH_URL = process.env.NEXT_PUBLIC_KAKAO_AUTH_URL!;
 
 export default function Header() {
   const pathname = usePathname();
@@ -34,8 +33,12 @@ export default function Header() {
       ? "지원 준비"
       : config?.title;
 
+  if (pathname === ROUTES.ANNOUNCEMENT_SEARCH) {
+    return "";
+  }
+
   return (
-    <header className="sticky top-0 z-40 flex justify-between w-full h-15 p-4 bg-white">
+    <header className="sticky top-0 z-10 flex justify-between w-full h-15 p-4 bg-white">
       {/* Left */}
       <HeaderLeft
         type={currentType}
@@ -66,11 +69,11 @@ export default function Header() {
           {isAnnDetail && <HeaderShare />}
 
           {/* 검색 아이콘*/}
-          {/* {pathname === ROUTES.ANNOUNCEMENT && (
+          {pathname === ROUTES.ANNOUNCEMENT && (
             <Link href={ROUTES.ANNOUNCEMENT_SEARCH}>
               <Search width={24} />
             </Link>
-          )} */}
+          )}
         </div>
       </div>
     </header>

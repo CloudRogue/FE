@@ -1,8 +1,8 @@
 "use client";
 
-import React, { forwardRef, useCallback, useEffect, useRef } from "react";
-import type { ReactNode } from "react";
 import cn from "@/src/shared/lib/cn";
+import type { ReactNode } from "react";
+import { forwardRef, useCallback, useEffect, useRef } from "react";
 
 export interface PopupProps {
   isOpen: boolean;
