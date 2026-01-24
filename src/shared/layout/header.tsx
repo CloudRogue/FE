@@ -58,7 +58,7 @@ export default function Header() {
             <Button
               size="sm"
               className="h-8 text-xs"
-              onClick={() => (window.location.href = KAKAO_AUTH_URL)}
+              onClick={() => router.push(ROUTES.ONBOARDING)}
             >
               로그인
             </Button>
