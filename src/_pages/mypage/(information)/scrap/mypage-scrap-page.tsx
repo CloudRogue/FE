@@ -16,7 +16,7 @@ export default async function MyPageScrapPage() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <div className="min-h-full bg-slate-50 p-4">
+      <div className="bg-slate-50 p-4">
         <ScrapList />
       </div>
     </HydrationBoundary>
