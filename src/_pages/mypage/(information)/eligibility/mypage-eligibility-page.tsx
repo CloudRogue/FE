@@ -1,15 +1,15 @@
 "use client";
 
-import { useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMemo, useState } from "react";
 
 import Button from "@/src/shared/ui/button";
 
-import { getMyPageEligibility } from "@/src/entities/mypage-eligibility";
 import type {
   MyPageEligibilityAnswer,
   MyPageEligibilityResponse,
 } from "@/src/entities/mypage-eligibility";
+import { getMyPageEligibility } from "@/src/entities/mypage-eligibility";
 
 import {
   putMyPageEligibilityDetail,
@@ -17,7 +17,10 @@ import {
   toMyPageEligibilityUpsertRequestFromRequiredDraft,
 } from "@/src/features/mypage-eligibility";
 
-import { MyPageEligibilityWidget } from "@/src/widgets/mypage-eligibility";
+import {
+  MyPageEligibilitySkeleton,
+  MyPageEligibilityWidget,
+} from "@/src/widgets/mypage-eligibility";
 
 type AnswerValue = string | number | boolean | string[];
 
@@ -113,7 +116,7 @@ export default function MyPageEligibilityPage() {
   };
 
   if (isLoading) {
-    return <div className="p-6 text-sm text-slate-700">로딩중...</div>;
+    return <MyPageEligibilitySkeleton />;
   }
 
   if (isError) {
