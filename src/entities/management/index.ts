@@ -35,5 +35,7 @@ export {
 } from "@/src/entities/management/constants/management.constants";
 
 // ui
+export { ManagementList } from "@/src/entities/management/ui/management-list";
 export { ManagementListCard } from "@/src/entities/management/ui/management-list-card";
+export { ManagementListSkeleton } from "@/src/entities/management/ui/management-list-skeleton";
 export { ManagementStatusBadge } from "@/src/entities/management/ui/management-status-badge";
