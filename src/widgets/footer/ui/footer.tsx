@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export const Footer = () => {
   return (
-    <footer className="w-full border-t border-gray-100 bg-white p-4 pb-20">
+    <footer className="w-full border-t border-gray-100 bg-white p-4 pb-8">
       <div className="mx-auto flex max-w-md flex-col gap-3">
         <div className="flex items-center gap-2">
           <ZipchakLogo width={60} height={24} className="text-gray-700" />
