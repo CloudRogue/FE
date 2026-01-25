@@ -1,10 +1,10 @@
-import Link from "next/link";
-import ZipchakLogo from "@/src/shared/ui/icons/main-zipchak.svg";
 import { ROUTES } from "@/src/shared/constants/routes";
+import ZipchakLogo from "@/src/shared/ui/icons/main-zipchak.svg";
+import Link from "next/link";
 
 export const Footer = () => {
   return (
-    <footer className="w-full border-t border-gray-100 bg-white px-5 py-10 pb-25">
+    <footer className="w-full border-t border-gray-100 bg-white p-4 pb-20">
       <div className="mx-auto flex max-w-md flex-col gap-3">
         <div className="flex items-center gap-2">
           <ZipchakLogo width={60} height={24} className="text-gray-700" />
