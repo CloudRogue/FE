@@ -1,11 +1,17 @@
 "use client";
 
+import {
+  AnnouncementSearchCard,
+  getAnnouncementSearch,
+} from "@/src/entities/announcement-search";
 import { ROUTES } from "@/src/shared/constants/routes";
 import { useDebounce } from "@/src/shared/hooks/use-debounce";
 import { HeaderLeft } from "@/src/shared/layout/hedaer-components";
 import Input from "@/src/shared/ui/input";
-import { AnnouncementCard } from "@/src/widgets/announcement-card";
-import { Search } from "lucide-react";
+import { AnnouncementCardSkeleton } from "@/src/widgets/announcement-card";
+import { useQuery } from "@tanstack/react-query";
+import { AlertCircle, Search } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -14,13 +20,16 @@ export default function AnnouncementsSearch() {
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  // TODO: 검색 API 구현 이후 연동 필요
-  // const { data, isLoading } = useQuery({
-  //   queryKey: ["announcements", "search", debouncedSearchTerm],
-  //   queryFn: () = console.log('쿼리 호출'),
-  //   enabled: debouncedSearchTerm.length > 0,
-  // });
-  const totalCount = 10;
+  const isSearchValid = debouncedSearchTerm.length >= 3;
+
+  const { data, isLoading, isFetched } = useQuery({
+    queryKey: ["announcements", "search", debouncedSearchTerm],
+    queryFn: () => getAnnouncementSearch(debouncedSearchTerm),
+    enabled: isSearchValid,
+  });
+
+  const searchResults = data?.data ?? [];
+  const totalCount = searchResults.length;
 
   return (
     <>
@@ -57,16 +66,47 @@ export default function AnnouncementsSearch() {
           )}
           <span>({totalCount}건)</span>
         </h1>
-        <AnnouncementCard
-          announcementId={1}
-          title={"dkssud"}
-          startDate={"2026-01-11"}
-          endDate={"2025-01-11"}
-          publisher="lg"
-          publishedAt={"2025-01-11"}
-          status="CLOSED"
-          className="mb-4"
-        />
+        <div className="flex flex-col gap-3">
+          {isLoading && isSearchValid ? (
+            Array.from({ length: 3 }).map((_, i) => (
+              <AnnouncementCardSkeleton key={`skeleton-${i}`} />
+            ))
+          ) : (
+            <>
+              {/* 3글자 미만 입력 시 */}
+              {searchTerm.length > 0 && searchTerm.length < 3 && (
+                <div className="flex flex-col items-center justify-center py-20 text-slate-400 gap-2">
+                  <AlertCircle size={40} className="text-slate-200" />
+                  <p className="text-body1 font-medium text-slate-500">
+                    최소 3글자 이상 입력해 주세요.
+                  </p>
+                  <p className="text-caption1">
+                    더 정확한 검색 결과를 위해 글자가 더 필요해요.
+                  </p>
+                </div>
+              )}
+
+              {/* 검색 결과 리스트 */}
+              {isSearchValid &&
+                searchResults.map((item) => (
+                  <Link
+                    key={item.announcementId}
+                    href={ROUTES.ANNOUNCEMENT_DETAIL(
+                      String(item.announcementId),
+                    )}
+                  >
+                    <AnnouncementSearchCard {...item} />
+                  </Link>
+                ))}
+              {/* 검색 결과가 없을 때 (3글자 이상 입력했지만 결과 0건) */}
+              {isSearchValid && isFetched && totalCount === 0 && (
+                <div className="py-20 text-center text-slate-400">
+                  <p className="text-body1">검색 결과가 없습니다.</p>
+                </div>
+              )}
+            </>
+          )}
+        </div>
       </main>
     </>
   );
