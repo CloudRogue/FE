@@ -47,6 +47,14 @@ export const AnnouncementCard: FC<AnnouncementCardProps> = ({
     [publisher],
   );
 
+  const publisherLogo = useMemo(() => {
+    if (publisher?.includes("LH")) return "/img/Publisher_LH.png";
+    if (publisher?.includes("SH")) return "/img/Publisher_SH.png";
+    return null;
+  }, [publisher]);
+
+  const displayImage = imageUrl || publisherLogo;
+
   if (variant === "small") {
     return (
       <div
@@ -125,13 +133,8 @@ export const AnnouncementCard: FC<AnnouncementCardProps> = ({
         </div>
 
         <div className="relative w-20 h-20 bg-gray-50 rounded-xl overflow-hidden shrink-0 border border-gray-100">
-          {imageUrl ? (
-            <Image
-              src={imageUrl}
-              alt={`${title} 썸네일`}
-              fill
-              className="object-cover"
-            />
+          {displayImage ? (
+            <Image src={displayImage} alt={`${publisherShort} 로고`} fill />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-[10px] text-gray-200">
               No Image
