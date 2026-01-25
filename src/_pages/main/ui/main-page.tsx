@@ -14,8 +14,8 @@ export function MainPage() {
   if (isLoading) return <RootLoading />;
 
   return (
-    <>
-      <div className="min-h-screen bg-slate-50 ">
+    <div className="flex-1 flex flex-col justify-between">
+      <div className="flex-1 bg-slate-50 pb-10">
         <div className="max-w-md mx-auto flex flex-col gap-4 py-6">
           {isLoggedIn && user && (
             <div className="px-5">
@@ -36,6 +36,6 @@ export function MainPage() {
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 }
