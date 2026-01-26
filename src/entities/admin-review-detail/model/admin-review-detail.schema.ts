@@ -46,11 +46,11 @@ export const AdminAdditionalOnboardingSchema = z.object({
       question: z.string(), // 질문 텍스트
       // 입력 타입
       type: z.enum([
-        "text_input",
-        "number_input",
-        "select_single",
-        "select_multi",
-        "boolean",
+        "BOOLEAN",
+        "TEXT_INPUT",
+        "NUMBER_INPUT",
+        "SELECT_SINGLE",
+        "SELECT_MULTI",
       ]),
       required: z.boolean().default(false), // 필수 입력 여부
     }),
