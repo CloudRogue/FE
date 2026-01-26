@@ -7,7 +7,7 @@ import { queryClient } from "@/src/shared/lib/query-client";
 export async function logout(): Promise<void> {
   await Api.post("/auth/logout", z.void(), undefined);
 
-  useUserStore.getState().clearUser();
+  useUserStore.getState().logout();
 
   queryClient.removeQueries({ queryKey: USER_QUERY_KEYS.all });
 }

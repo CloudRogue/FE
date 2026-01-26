@@ -1,7 +1,7 @@
 "use client";
 
 import { useGetRecommendedAnnouncements } from "@/src/entities/announcement/api/use-get-recommended";
-import { useUserStore } from "@/src/entities/user/model/use-user-store";
+import { useUser } from "@/src/entities/user";
 import { ROUTES } from "@/src/shared/constants/routes";
 import cn from "@/src/shared/lib/cn";
 import Button from "@/src/shared/ui/button";
@@ -10,7 +10,8 @@ import { useRouter } from "next/navigation";
 
 export function RecommendedAnnouncements() {
   const router = useRouter();
-  const userName = useUserStore((state) => state.user?.name);
+  const { user } = useUser();
+  const userName = user?.name;
 
   const { data, isLoading } = useGetRecommendedAnnouncements(5);
   const items = data?.data ?? [];
