@@ -8,6 +8,8 @@ import { HomeBannerList } from "@/src/widgets/home";
 import { QuickNavigation } from "@/src/widgets/quick-navigation";
 import { RecommendedAnnouncements } from "@/src/widgets/recommended-announcements";
 
+import RequiredOnboardingPostLoginSync from "@/src/features/onboarding/ui/required-onboarding-post-login-sync";
+
 export function MainPage() {
   const { user, isLoggedIn, isLoading } = useUser();
 
@@ -15,6 +17,10 @@ export function MainPage() {
 
   return (
     <div className="flex-1 flex flex-col justify-between">
+      {isLoggedIn ? (
+        <RequiredOnboardingPostLoginSync isLoggedIn={isLoggedIn} />
+      ) : null}
+
       <div className="flex-1 bg-slate-50 pb-10">
         <div className="max-w-md mx-auto flex flex-col gap-4 py-6">
           {isLoggedIn && user && (

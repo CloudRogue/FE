@@ -6,7 +6,6 @@ import { z } from "zod";
 export const profileBasicSchema = z.object({
   name: z.string(),
   email: z.string().email(),
-  onboardingCompleted: z.boolean(),
 });
 
 /**

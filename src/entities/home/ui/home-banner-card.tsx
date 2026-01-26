@@ -9,9 +9,9 @@ import LogoIcon from "@/src/shared/ui/icons/logo.svg";
 interface HomeBannerCardProps {
   title: string;
   description: string;
-  endDate: string;
-  dDay: number;
-  variant?: "blue" | "violet"; 
+  endDate?: string; 
+  dDay?: number; 
+  variant?: "blue" | "violet";
   className?: string;
 }
 
@@ -32,7 +32,7 @@ export const HomeBannerCard: FC<HomeBannerCardProps> = ({
     <Card
       className={cn(
         "relative flex h-[180px] w-[280px] min-w-[280px] flex-col justify-between overflow-hidden border-none text-gray-white transition-all duration-300",
-        "rounded-lg !p-5 !shadow-none", 
+        "rounded-lg !p-5 !shadow-none",
         className,
       )}
       style={{ background: gradientMap[variant] }}
@@ -46,16 +46,22 @@ export const HomeBannerCard: FC<HomeBannerCardProps> = ({
       />
 
       <div className="flex items-start justify-end">
-        <Badge
-          variant="dDay"
-          className="border-none !bg-white/20 font-semibold !text-white backdrop-blur-sm"
-        >
-          D-{dDay}
-        </Badge>
+        {dDay !== undefined && (
+          <Badge
+            variant="dDay"
+            className="border-none !bg-white/20 font-semibold !text-white backdrop-blur-sm"
+          >
+            D-{dDay}
+          </Badge>
+        )}
       </div>
 
       <div className="z-10 flex flex-col items-start text-left">
-        <p className="mb-1 text-body2 font-medium opacity-90">{endDate} 까지</p>
+        {endDate && (
+          <p className="mb-1 text-body2 font-medium opacity-90">
+            {endDate} 까지
+          </p>
+        )}
         <h3 className="mb-2 whitespace-pre-wrap text-h1 font-bold leading-tight tracking-tight">
           {title}
         </h3>
