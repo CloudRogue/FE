@@ -1,6 +1,5 @@
 // api
 export {
-  useGetProfileBasic,
   useGetProfileDetail,
 } from "@/src/entities/user/api/use-user.queries";
 
