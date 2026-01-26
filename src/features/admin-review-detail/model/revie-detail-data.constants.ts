@@ -44,9 +44,9 @@ export const APPLY_LINK_OPTIONS = [
 
 // requirements-card
 export const TYPE_OPTION = [
-  { value: "boolean", label: "boolean" },
-  { value: "text_input", label: "text_input" },
-  { value: "number_input", label: "number_input" },
-  { value: "select_single", label: "select_single" },
-  { value: "select_multi", label: "select_multi" },
+  { value: "BOOLEAN", label: "BOOLEAN" },
+  { value: "TEXT_INPUT", label: "TEXT_INPUT" },
+  { value: "NUMBER_INPUT", label: "NUMBER_INPUT" },
+  { value: "SELECT_SINGLE", label: "SELECT_SINGLE" },
+  { value: "SELECT_MULTI", label: "SELECT_MULTI" },
 ];

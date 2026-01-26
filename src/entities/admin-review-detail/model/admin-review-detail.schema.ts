@@ -76,6 +76,7 @@ export const AdminAnnouncementRequestSchema = z.object({
     .object({
       answers: z.array(
         z.object({
+          additionalOnboardingId: z.number(),
           // UI 블록 타입
           type: z.enum([
             "BOOLEAN",
@@ -138,4 +139,23 @@ export const AdminAnnouncementRequestSchema = z.object({
       summary: z.string().nullable(), // 공고 요약
     })
     .nullable(),
+});
+
+export const AdminAdditionalOnboardingsRequestSchema = z.object({
+  items: z.array(
+    z.object({
+      title: z.string(), // 추가 온보딩 제목
+      description: z.string(), // 온보딩 설명
+      question: z.string(), // 질문 텍스트
+      // 입력 타입
+      type: z.enum([
+        "BOOLEAN",
+        "TEXT_INPUT",
+        "NUMBER_INPUT",
+        "SELECT_SINGLE",
+        "SELECT_MULTI",
+      ]),
+      options: z.array(z.string()).nullable(), // 선택지 배열
+    }),
+  ),
 });

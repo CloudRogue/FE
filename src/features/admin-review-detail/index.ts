@@ -1,5 +1,8 @@
 // api
-export { postAdminAnnouncement } from "@/src/features/admin-review-detail/api/admin-review-detail.action";
+export {
+  postAdminAdditionalOnboardings,
+  postAdminAnnouncement,
+} from "@/src/features/admin-review-detail/api/admin-review-detail.action";
 
 // model
 export {
