@@ -10,6 +10,7 @@ import Button from "@/src/shared/ui/button";
 
 import type { AdminInboxItem } from "@/src/entities/admin-inboxes";
 import { PublisherBadge } from "@/src/widgets/admin-inboxes";
+import Link from "next/link";
 
 type Props = {
   items: AdminInboxItem[];
@@ -75,19 +76,28 @@ export default function AdminInboxesTable({ items, className }: Props) {
                     {row.title}
                   </p>
 
-                  <Button className={ORIGINAL_LINK_BUTTON_CLASS} disabled>
-                    <span className="inline-flex h-5 w-5 items-center justify-center rounded border border-blue-200">
-                      <ExternalLink className="h-3.5 w-3.5" />
-                    </span>
-                    원문 보기
-                  </Button>
+                  <Link
+                    href={ROUTES.ANNOUNCEMENT_DETAIL(
+                      String(row.announcementId),
+                    )}
+                    className="text-blue-600 hover:underline"
+                  >
+                    <Button
+                      className={ORIGINAL_LINK_BUTTON_CLASS}
+                      variant="tertiary_gray"
+                    >
+                      <span className="inline-flex h-5 w-5 items-center justify-center rounded border border-blue-200">
+                        <ExternalLink className="h-3.5 w-3.5" />
+                      </span>
+                      원문 보기
+                    </Button>
+                  </Link>
                 </div>
               </td>
 
               <td className="w-45 py-4">
                 <div className="flex justify-center">
                   <Button
-                    type="button"
                     onClick={() => handleClickReview(row.announcementId)}
                     className={ACTION_BUTTON_CLASS}
                   >
