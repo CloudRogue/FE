@@ -16,10 +16,9 @@ export function RquirementsForm() {
   const { requirements } = formData;
 
   const handleUpdate = useCallback(
-    (id: string, updates: Partial<RequirementItem>) => {
-      const updated = requirements.map((r) =>
-        r.additionalOnboardingId === id ? { ...r, ...updates } : r,
-      );
+    (index: number, updates: Partial<RequirementItem>) => {
+      const updated = [...requirements];
+      updated[index] = { ...updated[index], ...updates };
       updateSection("requirements", updated);
     },
     [requirements, updateSection],
@@ -36,9 +35,8 @@ export function RquirementsForm() {
   };
 
   const handleAddNew = () => {
-    const newId = `custom-${Date.now()}`;
     addItem("requirements", {
-      additionalOnboardingId: newId,
+      additionalOnboardingId: "",
       title: "",
       question: "",
       description: "",
@@ -65,11 +63,9 @@ export function RquirementsForm() {
         ) : (
           requirements.map((req, idx) => (
             <RequirementCard
-              key={`${req.additionalOnboardingId}-${idx}`}
+              key={req.additionalOnboardingId || `new-item-${idx}`}
               item={req}
-              onUpdate={(updates) =>
-                handleUpdate(req.additionalOnboardingId, updates)
-              }
+              onUpdate={(updates) => handleUpdate(idx, updates)}
               onRemove={() =>
                 removeItem("requirements", req.additionalOnboardingId)
               }
@@ -90,18 +86,22 @@ export function RquirementsForm() {
           >
             <Plus size={16} /> 신규 조건
           </Button>
-          {qualificationPool?.map((item, idx) => (
-            <Button
-              key={`${item.additionalOnboardingId}-${idx}`}
-              disabled={qualificationPool.some(
-                (r) => r.additionalOnboardingId === item.additionalOnboardingId,
-              )}
-              onClick={() => handleSelectPoolItem(item)}
-              className="px-4 py-2 rounded-xl border border-slate-200 text-sm font-medium text-slate-600 disabled:bg-slate-100 disabled:text-slate-400 hover:border-blue-400 hover:text-blue-600 transition-all"
-            >
-              {item.title}
-            </Button>
-          ))}
+
+          {qualificationPool?.map((item, idx) => {
+            const isSelected = requirements.some(
+              (r) => r.additionalOnboardingId === item.additionalOnboardingId,
+            );
+            return (
+              <Button
+                key={`${item.additionalOnboardingId}-${idx}`}
+                disabled={isSelected}
+                onClick={() => handleSelectPoolItem(item)}
+                variant="secondary"
+              >
+                {item.title}
+              </Button>
+            );
+          })}
         </div>
       </div>
     </section>

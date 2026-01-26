@@ -7,6 +7,7 @@ import {
 import {
   type AdminFormData,
   type KVDigestItem,
+  postAdminAdditionalOnboardings,
   postAdminAnnouncement,
   type RequirementItem,
   RequirementType,
@@ -156,25 +157,58 @@ export const useAdminFormStore = create<AdminFormStore>((set, get) => ({
     const { formData, getPublisherStatus } = get();
     const { isLH } = getPublisherStatus();
 
-    // 공통 매핑 데이터 (LH/SH 공통 활용 가능성 있는 부분)
-    const commonManualRequirements = formData.requirements.map((req) => ({
-      additionalOnboardingId: Number(req.additionalOnboardingId),
-      type: req.type,
-      unknown: false,
-      value: null, // 실제 답변값은 유저가 입력하므로 어드민 설정 시엔 null
-      options: req.options || null,
-    }));
+    const newItemsToCreate = formData.requirements.filter(
+      (req) => !req.additionalOnboardingId,
+    );
 
-    const commonDocuments = [
-      ...formData.schedule.requiredDocuments.map((name) => ({
-        name,
-        type: "COMMON" as const,
-      })),
-      ...formData.schedule.resultDocuments.map((name) => ({
-        name,
-        type: "TARGET_ONLY" as const,
-      })),
-    ];
+    let finalRequirements = [...formData.requirements];
+
+    if (newItemsToCreate.length > 0) {
+      try {
+        const response = await postAdminAdditionalOnboardings({
+          items: newItemsToCreate.map((req) => ({
+            title: req.title,
+            description: req.description,
+            question: req.question,
+            type: req.type,
+            options: req.options ?? null,
+          })),
+        });
+
+        const createdData = response.data;
+        let createdIdx = 0;
+
+        finalRequirements = finalRequirements.map((req) => {
+          if (!req.additionalOnboardingId) {
+            const newOnboarding = createdData[createdIdx++];
+            return {
+              ...req,
+              additionalOnboardingId: String(
+                newOnboarding.additionalOnboardingId,
+              ),
+            };
+          }
+          return req;
+        });
+      } catch (error) {
+        console.error("추가 온보딩 ID 생성 중 오류:", error);
+        alert("온보딩 질문 정보 갱신에 실패했습니다.");
+        return;
+      }
+    }
+
+    // 공통 매핑 데이터 (LH/SH 공통 활용 가능성 있는 부분)
+    const commonManualRequirements = finalRequirements.map((req) => {
+      const onboardingId = Number(req.additionalOnboardingId);
+
+      return {
+        additionalOnboardingId: onboardingId,
+        type: req.type,
+        unknown: false,
+        value: req.value,
+        options: req.options || null,
+      };
+    });
 
     let payload: AdminAnnouncementRequest;
 
@@ -236,11 +270,11 @@ export const useAdminFormStore = create<AdminFormStore>((set, get) => ({
         regionName: null,
         applyUrl: formData.basicInfo.originalUrl,
         applyEntryUrl: formData.basicInfo.applyUrl,
-        rentGtn: formData.summary.rentGtn,
+        rentGtn: Number(formData.summary.rentGtn),
         enty: 0, // 스토어 정의 외 필드
         prtpay: 0,
         surlus: 0,
-        mtRntchrg: formData.summary.mtRntchrg,
+        mtRntchrg: Number(formData.summary.mtRntchrg),
         eligibility: {
           answers: commonManualRequirements,
         },
@@ -334,8 +368,8 @@ export const useAdminFormStore = create<AdminFormStore>((set, get) => ({
             // 개요 및 요약 (Summary)
             state.formData.summary = {
               ...state.formData.summary, // 기존 값 유지 (regions 등)
-              rentGtn: response.rentGtn || 0,
-              mtRntchrg: response.mtRntchrg || 0,
+              rentGtn: Number(response.rentGtn) || 0,
+              mtRntchrg: Number(response.mtRntchrg) || 0,
               kvDigest: response.kvDigest || [],
             };
 

@@ -1,5 +1,6 @@
 import {
   AdminAdditionalOnboardingSchema,
+  AdminAdditionalOnboardingsRequestSchema,
   AdminAnnouncementRequestSchema,
   AdminAnnouncementSchema,
 } from "@/src/entities/admin-review-detail";
@@ -11,4 +12,7 @@ export type AdminAdditionalOnboardingResponse = z.infer<
 >;
 export type AdminAnnouncementRequest = z.infer<
   typeof AdminAnnouncementRequestSchema
+>;
+export type AdminAdditionalOnboardingsRequest = z.infer<
+  typeof AdminAdditionalOnboardingsRequestSchema
 >;

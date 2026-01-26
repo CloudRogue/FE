@@ -1,4 +1,7 @@
 import {
+  AdminAdditionalOnboardingResponse,
+  AdminAdditionalOnboardingSchema,
+  AdminAdditionalOnboardingsRequest,
   AdminAnnouncementRequest,
   AdminAnnouncementRequestSchema,
 } from "@/src/entities/admin-review-detail";
@@ -12,6 +15,17 @@ export async function postAdminAnnouncement(
   return await Api.post(
     `/admin/announcements/${announcementId}`,
     AdminAnnouncementRequestSchema,
+    payload,
+  );
+}
+
+// (어드민) 추가 온보딩 질문 생성
+export async function postAdminAdditionalOnboardings(
+  payload: AdminAdditionalOnboardingsRequest,
+) {
+  return await Api.post<AdminAdditionalOnboardingResponse>(
+    `/admin/additional-onboardings`,
+    AdminAdditionalOnboardingSchema,
     payload,
   );
 }
