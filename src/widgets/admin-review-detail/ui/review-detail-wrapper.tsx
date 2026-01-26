@@ -49,6 +49,7 @@ export function ReviewDetailWrapper({
     <>
       <ReviewDetailHeader
         announcementId={announcementId}
+        applyUrl={formData.basicInfo.applyUrl}
         title={formData.basicInfo.title || "공고명 로딩 중..."}
       />
 

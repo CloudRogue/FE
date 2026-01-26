@@ -13,6 +13,7 @@ interface AccordionProps {
   children: React.ReactNode;
   className?: string;
   btnClassName?: string;
+  childrenClassName?: string;
   useIcon?: boolean;
 }
 
@@ -25,6 +26,7 @@ export function Accordion({
   children,
   className,
   btnClassName,
+  childrenClassName,
   useIcon = true,
 }: AccordionProps) {
   const [internalOpen, setInternalOpen] = useState(defaultOpen);
@@ -78,7 +80,9 @@ export function Accordion({
         )}
       >
         <div className="overflow-hidden">
-          <div className="bg-gray-white p-4">{children}</div>
+          <div className={cn("bg-gray-white p-4", childrenClassName)}>
+            {children}
+          </div>
         </div>
       </div>
 
