@@ -23,6 +23,7 @@ export function ReviewDetailWrapper({
   children,
 }: ReviewDetailWrapperProps) {
   const { step } = useAdminStepperStore();
+  const { formData } = useAdminFormStore();
 
   const fetchAndSetgetAdminAnnouncement = useAdminFormStore(
     (state) => state.fetchAndSetgetAdminAnnouncement,
@@ -43,11 +44,12 @@ export function ReviewDetailWrapper({
     fetchAndSetgetAdminAnnouncement,
     fetchAndSetAdditionalOnboardings,
   ]);
+
   return (
     <>
       <ReviewDetailHeader
-        announcementId="90001"
-        title="2026 청년 행복주택 1차 모집"
+        announcementId={announcementId}
+        title={formData.basicInfo.title || "공고명 로딩 중..."}
       />
 
       <Stepper steps={ADMIN_STEPS} />
