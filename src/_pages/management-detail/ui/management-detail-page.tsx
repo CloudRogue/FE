@@ -3,11 +3,13 @@
 import {
   ManagementDetailHeader,
   managementDetailQueries,
+  ManagementDetailSkeleton,
   ManagementDocumentList,
   ManagementStepSection,
 } from "@/src/entities/management-detail";
 import { ManagementStepButton } from "@/src/features/announcement-outbound";
 import { formatDateStr } from "@/src/shared/lib/date";
+import Button from "@/src/shared/ui/button";
 import { useQuery } from "@tanstack/react-query";
 
 interface ManagementDetailPageProps {
@@ -17,14 +19,25 @@ interface ManagementDetailPageProps {
 export default function ManagementDetailPage({
   announcementId,
 }: ManagementDetailPageProps) {
-  const { data, isLoading } = useQuery(
+  const { data, isLoading, isError, refetch } = useQuery(
     managementDetailQueries.detail(announcementId),
   );
 
   if (isLoading) {
+    return <ManagementDetailSkeleton />;
+  }
+
+  if (isError) {
     return (
-      <div className="p-10 text-center text-gray-400">
-        데이터를 불러오는 중입니다...
+      <div className="py-20 text-center">
+        <div className="mb-3 text-sm">공고 정보를 불러오지 못했습니다.</div>
+        <Button
+          type="button"
+          onClick={() => refetch()}
+          className="rounded-md border px-3 py-2 text-sm"
+        >
+          다시 시도
+        </Button>
       </div>
     );
   }

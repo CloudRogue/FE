@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
 import { useRouter } from "next/navigation";
 import Card from "@/src/shared/ui/card";
@@ -10,18 +11,21 @@ const NAV_ITEMS = [
     description: "지금 신청할 수 있는 마지막 기회예요",
     actionText: "마감 임박 공고 보기",
     sortType: "DEADLINE" as const,
+    image: "/img/Align_Deadline.png",
   },
   {
     title: "새로 올라왔어요",
     description: "오늘 업데이트된 공고들을 확인해보세요",
     actionText: "신규 공고 보기",
     sortType: "LATEST" as const,
+    image: "/img/Align_New.png",
   },
   {
     title: "지금 가장 핫해요",
     description: "많은 청년들이 주목하고 있는 인기 공고예요",
     actionText: "인기 공고 보기",
     sortType: "RELEVANCE" as const,
+    image: "/img/Align_Hot.png",
   },
 ] as const;
 
@@ -57,10 +61,8 @@ export function QuickNavigation() {
                 {item.actionText}
               </span>
             </div>
-            <div className="w-16 h-16 bg-slate-50 rounded-xl overflow-hidden relative shrink-0 border border-slate-100">
-              <div className="w-full h-full opacity-20 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:12px_12px]" />
-              {/* 실제 이미지가 준비되면 아래 주석 해제 */}
-              {/* <Image src={item.image} alt={item.title} fill className="object-cover" /> */}
+            <div className="w-16 h-16 rounded-xl overflow-hidden relative shrink-0 border border-slate-100 flex items-center justify-center">
+              <Image src={item.image} alt={item.title} width={80} height={80} />
             </div>
           </Card>
         ))}

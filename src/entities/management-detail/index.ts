@@ -16,4 +16,5 @@ export { managementDetailQueries } from "@/src/entities/management-detail/api/ma
 // ui
 export { ManagementDetailHeader } from "@/src/entities/management-detail/ui/management-detail-header";
 export { ManagementDocumentList } from "@/src/entities/management-detail/ui/management-detail-list";
+export { ManagementDetailSkeleton } from "@/src/entities/management-detail/ui/management-detail-skeleton";
 export { ManagementStepSection } from "@/src/entities/management-detail/ui/management-step-section";

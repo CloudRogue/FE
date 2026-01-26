@@ -1,9 +1,9 @@
 import {
   MANAGEMENT_STATUS,
   MANAGEMENT_TABS,
+  ManagementList,
   ManagementStatus,
 } from "@/src/entities/management";
-import { ManagementList } from "@/src/entities/management/ui/management-list";
 import cn from "@/src/shared/lib/cn";
 import {
   TabsContent,
