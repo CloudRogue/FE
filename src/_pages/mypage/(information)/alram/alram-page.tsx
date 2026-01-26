@@ -52,9 +52,7 @@ export default function AlarmPage() {
   const { data: email, isLoading: isEmailLoading } = useQuery(
     notificationQueries.email,
   );
-  const { data: reminder, isLoading: isReminderLoading } = useQuery(
-    notificationQueries.reminder,
-  );
+
 
   const { mutate: updateKakao, isPending: isKakaoUpdating } =
     useUpdateNotification("kakao");
