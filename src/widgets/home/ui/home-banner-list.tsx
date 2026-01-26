@@ -2,38 +2,49 @@
 
 import { useRef } from "react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import type { HomeBannerData } from "@/src/entities/home/api/use-get-home-banner";
 import { HomeBannerCard } from "@/src/entities/home/ui/home-banner-card";
 
-export function HomeBannerList() {
-  const constraintsRef = useRef(null);
+interface HomeBannerListProps {
+  memberBanner?: HomeBannerData;
+}
 
-  const banners = [
-    {
-      id: 1,
-      title: "청년 매입임대주택\n정기 모집",
-      description: "서울/수도권 잔여 세대 입주자 모집",
-      endDate: "2026.01.30",
-      dDay: 7,
-      variant: "blue" as const,
-    },
-    {
-      id: 2,
-      title: "행복주택 신규 단지\n사전 알림 신청",
-      description: "놓치기 쉬운 우리 동네 공고 확인하기",
-      endDate: "2026.02.15",
-      dDay: 23,
-      variant: "violet" as const,
-    },
-    {
-      id: 3,
-      title: "행복주택 신규 단지\n사전 알림 신청",
-      description: "놓치기 쉬운 우리 동네 공고 확인하기",
-      endDate: "2026.02.15",
-      dDay: 23,
-      variant: "blue" as const,
-    },
-  ];
+export function HomeBannerList({ memberBanner }: HomeBannerListProps) {
+  const constraintsRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
+  const TUTORIAL_LINK =
+    "https://zip-chak.notion.site/2f4c108cc66f8078a6b0d5f4eb1c9965";
+
+  const handleBannerClick = (link: string, isExternal: boolean = false) => {
+    if (isExternal) {
+      window.open(link, "_blank", "noopener,noreferrer");
+    } else {
+      router.push(link);
+    }
+  };
+
+  // 단일 배너 케이스
+  if (!memberBanner) {
+    return (
+      <section className="w-full px-4">
+        <div
+          onClick={() => handleBannerClick(TUTORIAL_LINK, true)}
+          className="cursor-pointer transition-transform active:scale-[0.99]"
+        >
+          <HomeBannerCard
+            title="집착에 처음 왔다면?"
+            description="집착 사용법을 알려드릴게요"
+            variant="violet"
+            className="w-full min-w-full" 
+          />
+        </div>
+      </section>
+    );
+  }
+
+  // 2. 다중 배너 케이스
   return (
     <section className="w-full overflow-hidden" ref={constraintsRef}>
       <motion.div
@@ -41,16 +52,37 @@ export function HomeBannerList() {
         dragConstraints={constraintsRef}
         className="flex w-max gap-3 px-5 py-2 cursor-grab active:cursor-grabbing"
       >
-        {banners.map((banner) => (
-          <div
-            key={banner.id}
-            className="flex-shrink-0"
-            onPointerDown={(e) => e.stopPropagation()}
-          >
-            <HomeBannerCard {...banner} />
-            <div className="w-2 flex-shrink-0" />
-          </div>
-        ))}
+        {/* 회원 맞춤 공고 배너 */}
+        <div
+          className="flex-shrink-0"
+          onClick={() =>
+            handleBannerClick(`/announcements/${memberBanner.announcementId}`)
+          }
+        >
+          <HomeBannerCard
+            title={memberBanner.title}
+            description={
+              memberBanner.reasonTag || "회원님을 위한 맞춤 정책입니다"
+            }
+            endDate="01월 28일"
+            dDay={5}
+            variant="blue"
+          />
+        </div>
+
+        {/* 튜토리얼 배너 */}
+        <div
+          className="flex-shrink-0"
+          onClick={() => handleBannerClick(TUTORIAL_LINK, true)}
+        >
+          <HomeBannerCard
+            title="집착에 처음 왔다면?"
+            description="집착 사용법을 알려드릴게요"
+            variant="violet"
+          />
+        </div>
+
+        <div className="w-2 flex-shrink-0" />
       </motion.div>
     </section>
   );
