@@ -63,8 +63,8 @@ export const AdminAnnouncementRequestSchema = z.object({
   supplyType: z.string().nullable(), // 공급 유형 (LH는 null)
   regionCode: z.string().nullable(), // 지역 코드 (LH는 null)
   regionName: z.string().nullable(), // 시군구명 (LH는 null)
-  applyUrl: z.string().url().nullable(), // 공고 원문 URL (LH는 null)
-  applyEntryUrl: z.string().url().nullable(), // 신청하러가기 URI
+  applyUrl: z.string().nullable(), // 공고 원문 URL (LH는 null)
+  applyEntryUrl: z.string().nullable(), // 신청하러가기 URI
   rentGtn: z.number().nullable(), // 임대보증금 최소 (LH는 null)
   enty: z.number().nullable(), // 계약금 최소 (LH는 null)
   prtpay: z.number().nullable(), // 중도금 최소 (LH는 null)
