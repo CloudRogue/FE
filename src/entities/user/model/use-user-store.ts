@@ -1,29 +1,29 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
+import type {
+  UserState,
+  ProfileBasic,
+} from "@/src/entities/user/model/user.types";
 
-interface UserAuthState {
-  isLoggedIn: boolean;
-  setLoggedIn: (isLoggedIn: boolean) => void;
-  logout: () => void;
-}
-
-
-export const useUserStore = create<UserAuthState>()(
+export const useUserStore = create<UserState>()(
   devtools(
     persist(
       (set) => ({
+        user: null,
         isLoggedIn: false,
-        setLoggedIn: (isLoggedIn: boolean) =>
-          set({ isLoggedIn }, false, "user/setLoggedIn"),
-        logout: () => set({ isLoggedIn: false }, false, "user/logout"),
+        setUserInfo: (user: ProfileBasic) =>
+          set({ user, isLoggedIn: true }, false, "user/setUserInfo"),
+        clearUser: () =>
+          set({ user: null, isLoggedIn: false }, false, "user/clearUser"),
       }),
       {
-        name: "user-auth-storage",
+        name: "user-storage",
         partialize: (state) => ({
+          user: state.user,
           isLoggedIn: state.isLoggedIn,
         }),
       },
     ),
-    { name: "UserAuthStore" },
+    { name: "UserStore" },
   ),
 );

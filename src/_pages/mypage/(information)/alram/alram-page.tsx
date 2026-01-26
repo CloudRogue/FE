@@ -66,6 +66,7 @@ export default function AlarmPage() {
   return (
     <div className="p-4 flex flex-col gap-6 max-w-2xl mx-auto w-full">
       <section className="flex flex-col gap-3 w-full">
+   
         <Card className="flex flex-col gap-5 p-5 w-full">
           <SettingRow
             title="카카오 알림톡"
@@ -83,6 +84,21 @@ export default function AlarmPage() {
             active={email?.enabled ?? false}
             onToggle={updateEmail}
             isDisabled={isEmailLoading || isEmailUpdating}
+          />
+
+          <div className="h-[1px] bg-gray-50 w-full" />
+
+          <SettingRow
+            title={`공고 마감 ${reminder?.daysBefore ?? 3}일 전 리마인더`}
+            description={`${reminder?.sendAtHour ?? 9}시에 마감 임박 공고 요약을 보냅니다.`}
+            active={reminder?.enabled ?? false}
+            onToggle={(checked) => {
+              updateReminder({
+                daysBefore: checked ? (reminder?.daysBefore ?? 3) : null,
+                sendAtHour: checked ? (reminder?.sendAtHour ?? 9) : null,
+              });
+            }}
+            isDisabled={isReminderLoading || isReminderUpdating}
           />
         </Card>
       </section>
