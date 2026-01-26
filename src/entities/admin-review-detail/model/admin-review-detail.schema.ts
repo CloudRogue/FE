@@ -76,7 +76,6 @@ export const AdminAnnouncementRequestSchema = z.object({
     .object({
       answers: z.array(
         z.object({
-          additionalOnboardingId: z.number(), // 추가 온보딩 질문 PK
           // UI 블록 타입
           type: z.enum([
             "BOOLEAN",
