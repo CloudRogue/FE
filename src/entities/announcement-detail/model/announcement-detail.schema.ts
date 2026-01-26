@@ -80,7 +80,7 @@ export const AnnouncementDetailSchema = z.object({
   mtRntchrg: z.number().nullable(), // 최소 월 임대료
   fullAdres: z.string().nullable(), // 전체주소
   refrnLegaldongNm: z.string().nullable(), // 참조_법정동명(주소가 지번 주소일 때 표시)
-  url: z.string().url().nullable(), // 모집 공고 URL
+  url: z.string().nullable(), // 모집 공고 URL
   isScrapped: z.boolean().nullable(), // 로그인 사용자 기준 찜 여부
 });
 

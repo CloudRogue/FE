@@ -18,7 +18,7 @@ export const AnnouncementDetailManagementSchema = z.object({
   housingType: z.string(),
   currentStatus: z.enum(["APPLYING", "DOCUMENT_PENDING", "FINAL_PENDING"]),
   endDate: z.string(), // 공고 접수 마감일
-  applyUrl: z.string().url(), // 공고 지원하기 링크
+  applyUrl: z.string(), // 공고 지원하기 링크
 
   // 1단계: 공고 접수 정보
   apply: z.object({
