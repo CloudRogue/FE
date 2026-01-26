@@ -9,7 +9,6 @@ import {
   type RequirementType,
 } from "@/src/features/admin-review-detail";
 import { Accordion } from "@/src/shared/ui/arccordion";
-import Button from "@/src/shared/ui/button";
 import Select from "@/src/shared/ui/select";
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
@@ -33,19 +32,20 @@ export function RequirementCard({
   const isSelectType = type === "SELECT_SINGLE" || type === "SELECT_MULTI";
 
   return (
-    <div className="p-6 bg-gray-50 rounded-2xl space-y-3 relative border border-transparent hover:border-slate-200 transition-all">
+    <div className="p-6 bg-gray-50 rounded-xl space-y-3 relative border border-transparent hover:border-slate-200 transition-all">
       <div>
         {isNew && (
-          <span className="px-4 py-2 bg-gray-600 rounded-lg text-white font-semibold">
+          <span className="px-4 py-2 bg-gray-600 rounded-sm text-white font-semibold">
             신규 조건 입력하기
           </span>
         )}
-        <Button
+        <div
+          role="button"
           onClick={onRemove}
           className="absolute top-6 right-3 text-slate-300 hover:text-red-500 transition-colors"
         >
           <Trash2 size={18} />
-        </Button>
+        </div>
       </div>
 
       <div className="space-y-3 pr-8">
@@ -68,8 +68,9 @@ export function RequirementCard({
           title="추가 온보딩 질문 작성"
           isOpen={isOpen}
           onToggle={() => setIsOpen(!isOpen)}
-          className="border-0"
-          btnClassName="p-0 border-0 bg-transparent py-2"
+          className="border-0 bg-gray-50!"
+          btnClassName="p-0 border-0 py-2 bg-gray-50!"
+          childrenClassName="bg-gray-50 p-0"
         >
           <div className="space-y-3">
             <RequirementsInputRow
