@@ -1,67 +1,36 @@
 "use client";
 
-import { submitAdditionalOnboardingAnswers } from "@/src/features/onboarding-add/api/additional-onboarding-action";
-import { useRequiredOnboardingStore } from "@/src/features/onboarding/model/required-onboarding-store";
-import cn from "@/src/shared/lib/cn";
-import Button from "@/src/shared/ui/button";
 import { useState } from "react";
+import Button from "@/src/shared/ui/button";
+import cn from "@/src/shared/lib/cn";
 
 interface KakaoLoginButtonProps {
   className?: string;
   children?: React.ReactNode;
-  onSuccess?: () => void;
 }
 
 export function KakaoLoginButton({
   className,
   children,
-  onSuccess,
 }: KakaoLoginButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
 
-  const questions = useRequiredOnboardingStore((state) => state.questions);
-  const answers = useRequiredOnboardingStore((state) => state.answers);
-  const resetStore = useRequiredOnboardingStore((state) => state.reset);
+  const handleLogin = () => {
+    const KAKAO_AUTH_URL =
+      process.env.NEXT_PUBLIC_KAKAO_AUTH_URL ||
+      "https://zipchak.deving.xyz/oauth2/authorization/kakao";
 
-  const handleSubmit = async () => {
     setIsLoading(true);
 
-    try {
-      const formattedAnswers = questions
-        .map((question) => {
-          const value = answers[question.requiredOnboardingId];
-
-          if (value === undefined) return null;
-
-          return {
-            additionalOnboardingId: Number(question.requiredOnboardingId),
-            type: question.type,
-            unknown: false,
-            value: value,
-          };
-        })
-        .filter((item) => item !== null);
-
-      await submitAdditionalOnboardingAnswers({
-        answers: formattedAnswers as any,
-      });
-
-      resetStore();
-      if (onSuccess) onSuccess();
-    } catch (error) {
-      console.error("온보딩 제출 실패:", error);
-      alert("제출 중 오류가 발생했습니다. 다시 시도해주세요.");
-    } finally {
-      setIsLoading(false);
-    }
+    window.location.href = KAKAO_AUTH_URL;
   };
 
   const defaultClassName =
-    "w-full h-14 bg-black hover:bg-gray-800 text-white border-none rounded-xl text-lg font-bold shadow-none disabled:opacity-50";
+    "w-full h-14 bg-[#FEE500] hover:bg-[#FDE100] text-black border-none rounded-xl text-lg font-bold shadow-none disabled:opacity-50";
 
   return (
     <Button
-      onClick={handleSubmit}
+      onClick={handleLogin}
       className={cn(defaultClassName, className)}
       disabled={isLoading}
     >
