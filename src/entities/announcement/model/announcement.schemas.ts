@@ -30,7 +30,7 @@ export const AnnouncementDetailSchema = AnnouncementSummarySchema.extend({
   mtRntchrg: z.number().nullable(),
   fullAdres: z.string().nullable(),
   refrnLegaldongNm: z.string().nullable(),
-  url: z.string().url().nullable(),
+  url: z.string().nullable(),
   isScrapped: z.boolean().nullable(),
 });
 
