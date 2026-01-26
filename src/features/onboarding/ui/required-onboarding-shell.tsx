@@ -84,8 +84,11 @@ export default function RequiredOnboardingShell() {
   };
 
   const handleClickPrev = () => {
-    // Start 화면: 뒤로가기 동작은 나중에 라우터 back/닫기 연결
-    if (!hasStarted) return;
+    // Start 화면: 뒤로가기 => 홈으로
+    if (!hasStarted) {
+      router.replace(ROUTES.HOME);
+      return;
+    }
 
     // 첫 질문 화면에서 뒤로가기 => Start 화면으로
     if (isFirst) {

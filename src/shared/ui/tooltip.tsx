@@ -7,24 +7,40 @@ type TooltipProps = {
   content: React.ReactNode;
   children: React.ReactNode;
   className?: string;
+  alwaysOpen?: boolean;
 };
 
 export default function Tooltip({
   content,
   children,
   className,
+  alwaysOpen = false,
 }: TooltipProps) {
   const [open, setOpen] = useState(false);
+
+  const isOpen = alwaysOpen || open;
 
   return (
     <div
       className="w-full"
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
-      onFocus={() => setOpen(true)}
-      onBlur={() => setOpen(false)}
+      onMouseEnter={() => {
+        if (alwaysOpen) return;
+        setOpen(true);
+      }}
+      onMouseLeave={() => {
+        if (alwaysOpen) return;
+        setOpen(false);
+      }}
+      onFocus={() => {
+        if (alwaysOpen) return;
+        setOpen(true);
+      }}
+      onBlur={() => {
+        if (alwaysOpen) return;
+        setOpen(false);
+      }}
     >
-      {open && (
+      {isOpen && (
         <div className={cn("mb-3 flex w-full justify-center", className)}>
           <div
             role="tooltip"
