@@ -59,7 +59,7 @@ export default function Header() {
             <Button
               size="sm"
               className="h-8 text-xs"
-              onClick={() => router.push(ROUTES.ONBOARDING)}
+              onClick={() => router.push(ROUTES.LOGIN)}
             >
               로그인
             </Button>
