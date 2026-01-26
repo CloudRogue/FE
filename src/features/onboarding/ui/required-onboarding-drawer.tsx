@@ -26,7 +26,7 @@ export default function RequiredOnboardingDrawer({ open, onClose }: Props) {
           내 조건에 딱 맞는 주택 공고, 바로 확인해볼까요?
         </div>
 
-        <Tooltip content="카카오로 1초 만에 시작하기">
+        <Tooltip content="카카오로 1초 만에 시작하기" alwaysOpen>
           <div className="w-full">
             <KakaoLoginButton />
           </div>
