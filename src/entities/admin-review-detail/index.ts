@@ -7,11 +7,13 @@ export {
 // model
 export {
   AdminAdditionalOnboardingSchema,
+  AdminAdditionalOnboardingsRequestSchema,
   AdminAnnouncementRequestSchema,
   AdminAnnouncementSchema,
 } from "@/src/entities/admin-review-detail/model/admin-review-detail.schema";
 export {
   type AdminAdditionalOnboardingResponse,
+  type AdminAdditionalOnboardingsRequest,
   type AdminAnnouncementRequest,
   type AdminAnnouncementResponse,
 } from "@/src/entities/admin-review-detail/model/admin-review-detail.types";
