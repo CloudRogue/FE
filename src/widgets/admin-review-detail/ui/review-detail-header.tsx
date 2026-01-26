@@ -1,14 +1,15 @@
-import { ROUTES } from "@/src/shared/constants/routes";
 import Link from "next/link";
 
 interface ReviewDetailHeaderProps {
   title: string;
   announcementId: string;
+  applyUrl: string;
 }
 
 export function ReviewDetailHeader({
   title,
   announcementId,
+  applyUrl,
 }: ReviewDetailHeaderProps) {
   return (
     <div className="flex justify-between items-start">
@@ -16,7 +17,8 @@ export function ReviewDetailHeader({
         <div className="flex items-center gap-2 mb-1">
           <h1 className="text-2xl font-bold text-slate-900">{title}</h1>
           <Link
-            href={ROUTES.ANNOUNCEMENT_DETAIL(String(announcementId))}
+            href={applyUrl}
+            target="_blank"
             className="text-blue-600 hover:underline"
           >
             원문 보기
