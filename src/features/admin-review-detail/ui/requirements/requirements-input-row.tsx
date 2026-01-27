@@ -11,6 +11,7 @@ interface RequirementsInputRowProps {
   placeholder?: string;
   isBold?: boolean;
   disabled?: boolean;
+  required?: boolean;
 }
 
 export const RequirementsInputRow = memo(
@@ -21,6 +22,7 @@ export const RequirementsInputRow = memo(
     placeholder,
     isBold,
     disabled,
+    required,
   }: RequirementsInputRowProps) => {
     return (
       <div className="flex items-center gap-4">
@@ -37,6 +39,7 @@ export const RequirementsInputRow = memo(
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
           disabled={disabled}
+          required={required}
         />
       </div>
     );

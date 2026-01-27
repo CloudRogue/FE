@@ -62,6 +62,7 @@ export function RequirementCard({
           onChange={(v) => onUpdate({ value: v })}
           placeholder="내용을 입력해주세요"
           isBold
+          required={isSelectType}
         />
 
         <Accordion
@@ -104,6 +105,7 @@ export function RequirementCard({
             {/* Select 타입 옵션 관리 */}
             {isSelectType && (
               <RequirementCardOption
+                type={type}
                 options={options || []}
                 onUpdate={(options) => onUpdate({ options })}
                 labelBadgeStyle={LABEL_BADGE_STYLE}
