@@ -6,12 +6,13 @@ import { z } from "zod";
 export const AnnouncementSummarySchema = z.object({
   announcementId: z.number().int(),
   title: z.string(),
-  housingType: z.string().optional(),
+  housingType: z.string().nullable().optional(),
+  regionName: z.string().nullable().optional(),
   startDate: z.string(),
   endDate: z.string(),
   publishedAt: z.string(),
   publisher: z.string(),
-  status: z.enum(["OPEN", "DUE_SOON", "UPCOMING", "CLOSED"]),
+  status: z.enum(["OPEN", "DUE_SOON", "UPCOMING", "CLOSED"]).optional(),
   isScrapped: z.boolean().nullable().optional(),
 });
 
