@@ -1,3 +1,5 @@
+"use client";
+
 import { useInfiniteQuery } from "@tanstack/react-query";
 import type { InfiniteData } from "@tanstack/react-query";
 import { announcementQueries } from "@/src/entities/announcement/api/announcement.queries";
@@ -15,24 +17,30 @@ type AnnouncementType =
   | "publisher"
   | "housing-type";
 
+
 export function useAnnouncements(
   type: AnnouncementType,
   filters: AnnouncementFilterParams,
 ) {
+  const requestFilters = {
+    limit: 20,
+    ...filters,
+  };
+
   const getQueryConfig = () => {
     if (type === "personalized") {
-      return announcementQueries.personalized(filters);
+      return announcementQueries.personalized(requestFilters);
     }
 
     if (type === "open" || type === "upcoming" || type === "closed") {
-      return announcementQueries.byStatus(type, filters);
+      return announcementQueries.byStatus(type, requestFilters);
     }
 
     if (type === "region" || type === "publisher" || type === "housing-type") {
-      return announcementQueries.search(type, filters);
+      return announcementQueries.search(type, requestFilters);
     }
 
-    return announcementQueries.byStatus("open", filters);
+    return announcementQueries.byStatus("open", requestFilters);
   };
 
   const queryConfig = getQueryConfig();
@@ -45,7 +53,7 @@ export function useAnnouncements(
     string | null
   >({
     ...queryConfig,
-    initialPageParam: null,
+    initialPageParam: null, 
     getNextPageParam: (lastPage) =>
       lastPage.meta.hasNext ? lastPage.meta.nextCursor : undefined,
   });
