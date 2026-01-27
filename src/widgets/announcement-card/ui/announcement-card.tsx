@@ -87,7 +87,7 @@ export const AnnouncementCard: FC<AnnouncementCardProps> = ({
         </div>
 
         <p className="text-caption2 text-gray-400 font-normal">
-          접수마감 {formatDateSpot(endDate)}
+          접수마감 {formatDateSpot(endDate ?? "")}
         </p>
       </div>
     );
@@ -128,7 +128,7 @@ export const AnnouncementCard: FC<AnnouncementCardProps> = ({
             {title}
           </h2>
           <p className="text-body2 text-gray-700 font-normal">
-            접수 마감 {formatDateSpot(endDate)}
+            접수 마감 {formatDateSpot(endDate ?? "")}
           </p>
         </div>
 
@@ -166,7 +166,7 @@ export const AnnouncementCard: FC<AnnouncementCardProps> = ({
           <AnnouncementApplyAction
             announcementId={announcementId}
             title={title}
-            status={status}
+            status={status ?? "OPEN"}
             dDay={dDay ?? 0}
           />
         </div>
