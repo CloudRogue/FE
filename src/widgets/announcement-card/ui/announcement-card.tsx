@@ -55,6 +55,13 @@ export const AnnouncementCard: FC<AnnouncementCardProps> = ({
 
   const displayImage = imageUrl || publisherLogo;
 
+  const getBadgeStyle = () => {
+    if (status === "CLOSED") return "bg-gray-700 text-gray-white";
+    if (dDay === null || dDay === undefined) return "bg-gray-100 text-gray-700"; // 예정
+    if (dDay <= 3) return "bg-red-50 text-red-default"; 
+    return "bg-primary-50 text-primary-blue"; 
+  };
+
   if (variant === "small") {
     return (
       <div
@@ -72,12 +79,10 @@ export const AnnouncementCard: FC<AnnouncementCardProps> = ({
             <Badge
               className={cn(
                 "border-none font-semibold text-caption2!",
-                status === "CLOSED"
-                  ? "bg-gray-700 text-gray-white"
-                  : "bg-red-50 text-red-default",
+                getBadgeStyle(),
               )}
             >
-              D-{dDay ?? "0"}
+              {status === "CLOSED" ? "마감" : `D-${dDay ?? "0"}`}
             </Badge>
           </div>
 
@@ -109,15 +114,7 @@ export const AnnouncementCard: FC<AnnouncementCardProps> = ({
           {publisherShort && <SecondaryBadge>{publisherShort}</SecondaryBadge>}
           {housingType && <SecondaryBadge>{housingType}</SecondaryBadge>}
         </div>
-        <Badge
-          className={cn(
-            "text-caption1!",
-            status === "OPEN" && "bg-red-50 text-red-default",
-            (status === "DUE_SOON" || status === "UPCOMING") &&
-              "bg-gray-100 text-gray-700",
-            status === "CLOSED" && "bg-gray-700 text-gray-white",
-          )}
-        >
+        <Badge className={cn("text-caption1!", getBadgeStyle())}>
           {status === "CLOSED" ? "마감" : `D-${dDay ?? "0"}`}
         </Badge>
       </div>
