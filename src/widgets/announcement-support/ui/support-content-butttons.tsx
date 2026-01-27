@@ -12,7 +12,7 @@ import Link from "next/link";
 interface SupportContentButtonsProps {
   status: SupportStatus;
   todoPayload: TodoCreateRequest;
-  requiredOnboardingProfileIds?: number[];
+  requiredOnboardingProfileIds?: number[] | null;
 }
 
 export function SupportContentButtons({
@@ -39,12 +39,15 @@ export function SupportContentButtons({
       case "PENDING":
 
       default:
+        const hasIds =
+          requiredOnboardingProfileIds &&
+          requiredOnboardingProfileIds.length > 0;
+
         return {
           text: "추가 정보 입력하고 결과 보기",
-          href:
-            requiredOnboardingProfileIds.length > 0
-              ? ROUTES.ONBOARDING_ADD(requiredOnboardingProfileIds)
-              : ROUTES.MYPAGE_ELIGIBILITY,
+          href: hasIds
+            ? ROUTES.ONBOARDING_ADD(requiredOnboardingProfileIds)
+            : ROUTES.MYPAGE_ELIGIBILITY,
         };
     }
   };
