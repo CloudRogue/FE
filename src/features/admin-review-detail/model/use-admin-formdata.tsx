@@ -172,7 +172,10 @@ export const useAdminFormStore = create<AdminFormStore>((set, get) => ({
             description: req.description,
             question: req.question,
             type: req.type,
-            options: req.options ?? null,
+            options:
+              req.type === "SELECT_MULTI" || req.type === "SELECT_SINGLE"
+                ? (req.options ?? [])
+                : null,
           })),
         });
 
@@ -201,7 +204,18 @@ export const useAdminFormStore = create<AdminFormStore>((set, get) => ({
     // 공통 매핑 데이터 (LH/SH 공통 활용 가능성 있는 부분)
     const commonManualRequirements = finalRequirements.map((req) => {
       const onboardingId = Number(req.additionalOnboardingId);
+      let formattedValue: string | number | boolean | string[] | null =
+        req.value;
 
+      if (req.type === "NUMBER_INPUT") {
+        formattedValue = req.value ? Number(req.value) : 0;
+      } else if (req.type === "BOOLEAN") {
+        formattedValue = String(req.value) === "true";
+      } else if (req.type === "SELECT_MULTI") {
+        formattedValue = Array.isArray(req.value) ? req.value : [req.value];
+      } else {
+        formattedValue = String(req.value ?? "");
+      }
       return {
         additionalOnboardingId: onboardingId,
         type: req.type,
