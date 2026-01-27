@@ -2,6 +2,7 @@
 
 import { useAnnouncements } from "@/src/entities/announcement/api/use-announcements.queries";
 import type { Announcement } from "@/src/entities/announcement/model/announcement.types";
+import { calculateDDay } from "@/src/entities/announcement-search/lib/calculate-dDay";
 import { useFilterStore } from "@/src/features/filter-announcements/model/use-filter-store";
 import { AnnouncementCardSkeleton } from "@/src/widgets/announcement-card/";
 import { AnnouncementCard } from "@/src/widgets/announcement-card/ui/announcement-card";
@@ -90,6 +91,7 @@ export function AnnouncementList() {
           >
             <AnnouncementCard
               {...item}
+              dDay={calculateDDay(item.endDate)}
               isScrapped={false}
               externalApplyUrl=""
               fullAdres=""
