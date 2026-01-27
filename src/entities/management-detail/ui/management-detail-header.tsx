@@ -23,7 +23,7 @@ export function ManagementDetailHeader({
         {data.title}
       </h1>
       <Link
-        href={`/${ROUTES.ANNOUNCEMENT}/${announcementId}`}
+        href={ROUTES.ANNOUNCEMENT_DETAIL(announcementId)}
         className="w-full p-4 rounded-sm bg-gray-50 text-gray-700 text-body2 text-center font-semibold"
       >
         공고 상세보기
