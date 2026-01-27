@@ -4,11 +4,11 @@ import { Api } from "@/src/shared/api/api";
 const NoContentResponseSchema = z.void();
 
 export type OnboardingSubmitType =
-  | "boolean"
-  | "select_single"
-  | "select_multi"
-  | "text_input"
-  | "number_input";
+  | "BOOLEAN"
+  | "SELECT_SINGLE"
+  | "SELECT_MULTI"
+  | "TEXT_INPUT"
+  | "NUMBER_INPUT";
 
 export type OnboardingSubmitItem = {
   additionalOnboardingId: number;
