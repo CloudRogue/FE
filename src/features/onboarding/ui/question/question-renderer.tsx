@@ -16,7 +16,7 @@ import QuestionRegion from "@/src/features/onboarding/ui/question/question-regio
 import RequiredOnboardingNotice from "@/src/features/onboarding/ui/required-onboarding-notice";
 import { REQUIRED_ONBOARDING_NOTICE_MAP } from "@/src/features/onboarding/model/required-onboarding-notice-map";
 
-const REGION_QUESTION_IDS: number[] = [99999];
+const REGION_QUESTION_IDS: number[] = [11];
 
 type Props = {
   question: RequiredOnboardingQuestion;

@@ -4,6 +4,8 @@ import { useState } from "react";
 import Button from "@/src/shared/ui/button";
 import cn from "@/src/shared/lib/cn";
 
+import KakaoIcon from "@/src/shared/ui/icons/login/kakao.svg";
+
 interface KakaoLoginButtonProps {
   className?: string;
   children?: React.ReactNode;
@@ -21,20 +23,30 @@ export function KakaoLoginButton({
       "https://zipchak.deving.xyz/oauth2/authorization/kakao";
 
     setIsLoading(true);
-
     window.location.href = KAKAO_AUTH_URL;
   };
-
-  const defaultClassName =
-    "w-full h-14 bg-[#FEE500] hover:bg-[#FDE100] text-black border-none rounded-xl text-lg font-bold shadow-none disabled:opacity-50";
 
   return (
     <Button
       onClick={handleLogin}
-      className={cn(defaultClassName, className)}
       disabled={isLoading}
+      variant="secondary"
+      size="sm"
+      className={cn(
+        "w-full min-w-40",
+        "h-11.25 rounded-[6px]",
+        "px-3.5",
+        "gap-2",
+        "bg-yellow-kakao text-black",
+        "hover:bg-yellow-kakao",
+        "shadow-button hover:shadow-button-hover",
+        className,
+      )}
+      leftIcon={<KakaoIcon className="block h-7.5 w-7 shrink-0" aria-hidden />}
     >
-      {isLoading ? "로그인 중..." : (children ?? "카카오로 시작하기")}
+      <span className="text-h4 font-semibold">
+        {isLoading ? "로그인 중..." : (children ?? "카카오로 시작하기")}
+      </span>
     </Button>
   );
 }

@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import Popover from "@/src/shared/ui/popover";
 import Button from "@/src/shared/ui/button";
+import Popover from "@/src/shared/ui/popover";
+import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 
 const meta: Meta<typeof Popover> = {
-  title: "shared/Popover",
+  title: "ui-kit/Popover",
   component: Popover,
   tags: ["autodocs"],
   argTypes: {
