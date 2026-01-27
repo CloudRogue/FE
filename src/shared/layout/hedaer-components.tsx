@@ -31,7 +31,7 @@ export const HeaderLeft = ({ type, title, onBack }: HeaderLeftProps) => {
   }
 
   return (
-    <Link href={ROUTES.HOME}>
+    <Link href={ROUTES.HOME} aria-label="집착 홈 로고">
       <MainLogo width={60} className="text-primary-blue" />
     </Link>
   );
