@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import type { FilterState } from "@/src/features/filter-announcements/model/filter.types";
 
-
 const initialFilterState = {
   regionName: undefined,
   publisher: undefined,
@@ -16,11 +15,10 @@ export const useFilterStore = create<FilterState>((set) => ({
 
   tempFilters: initialFilterState,
   appliedFilters: {
-    sort: "DEADLINE", 
+    sort: "DEADLINE",
     keyword: undefined,
   },
 
-  
   toggleFilter: (tab) =>
     set((state) => {
       if (state.isFilterOpen && state.activeTab === tab) {
@@ -34,26 +32,22 @@ export const useFilterStore = create<FilterState>((set) => ({
   setStatusTab: (statusTab) => set({ statusTab }),
   setIsPersonalized: (isPersonalized) => set({ isPersonalized }),
 
-  
   setSort: (sort) =>
     set((state) => ({
       appliedFilters: { ...state.appliedFilters, sort },
     })),
 
-  
   setTempFilter: (key, value) =>
     set((state) => ({
       tempFilters: { ...state.tempFilters, [key]: value },
     })),
 
-  
   setFilter: (key, value) =>
     set((state) => ({
       appliedFilters: { ...state.appliedFilters, [key]: value },
       tempFilters: { ...state.tempFilters, [key]: value },
     })),
 
- 
   applyFilters: () =>
     set((state) => ({
       appliedFilters: {
@@ -63,7 +57,6 @@ export const useFilterStore = create<FilterState>((set) => ({
       isFilterOpen: false,
     })),
 
-  
   resetFilters: () =>
     set({
       tempFilters: initialFilterState,
@@ -72,5 +65,8 @@ export const useFilterStore = create<FilterState>((set) => ({
         keyword: undefined,
       },
       isFilterOpen: false,
+      activeTab: "region",
+      statusTab: "OPEN",
+      isPersonalized: false,
     }),
 }));
