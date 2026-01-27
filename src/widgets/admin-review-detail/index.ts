@@ -8,6 +8,7 @@ export { PreviewRow } from "@/src/widgets/admin-review-detail/ui/preview/preview
 export { PreviewSection } from "@/src/widgets/admin-review-detail/ui/preview/preview-section";
 export { PreviewTimelineItem } from "@/src/widgets/admin-review-detail/ui/preview/preview-timeline-item";
 //  --
+export { AdminStoreInitializer } from "@/src/widgets/admin-review-detail/ui/admin-store-initializer";
 export { OneStepAside } from "@/src/widgets/admin-review-detail/ui/one-step-aside";
 export { ReviewDetailHeader } from "@/src/widgets/admin-review-detail/ui/review-detail-header";
 export { ReviewDetailOneSection } from "@/src/widgets/admin-review-detail/ui/review-detail-one-section";

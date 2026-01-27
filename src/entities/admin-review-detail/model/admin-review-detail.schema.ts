@@ -31,7 +31,7 @@ export const AdminAnnouncementSchema = z.object({
   kvDigest: z.array(
     z.object({
       key: z.string(),
-      value: z.string(),
+      value: z.string().nullable(),
     }),
   ),
 });

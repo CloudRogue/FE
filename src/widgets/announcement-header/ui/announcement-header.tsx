@@ -16,7 +16,7 @@ export function AnnouncementHeader() {
   const handleTabChange = (status: "OPEN" | "CLOSED") => {
     setStatusTab(status);
     if (status === "CLOSED") {
-      setSort("LATEST");
+      setSort("DEADLINE");
     }
   };
 

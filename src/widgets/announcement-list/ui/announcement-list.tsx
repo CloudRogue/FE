@@ -7,19 +7,20 @@ import { useFilterStore } from "@/src/features/filter-announcements/model/use-fi
 import { AnnouncementCardSkeleton } from "@/src/widgets/announcement-card/";
 import { AnnouncementCard } from "@/src/widgets/announcement-card/ui/announcement-card";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useInView } from "react-intersection-observer";
 
 export function AnnouncementList() {
   const isPersonalized = useFilterStore((state) => state.isPersonalized);
   const appliedFilters = useFilterStore((state) => state.appliedFilters);
+  const statusTab = useFilterStore((state) => state.statusTab);
 
   const getQueryType = () => {
     if (isPersonalized) return "personalized";
     if (appliedFilters.regionName) return "region";
     if (appliedFilters.publisher) return "publisher";
     if (appliedFilters.housingType) return "housing-type";
-    return "open";
+    return statusTab === "CLOSED" ? "closed" : "open";
   };
 
   const {
@@ -33,8 +34,21 @@ export function AnnouncementList() {
 
   const { ref, inView } = useInView();
 
-  const announcements: Announcement[] =
+  const rawAnnouncements: Announcement[] =
     data?.pages.flatMap((page) => page.data) ?? [];
+
+  // 마감 탭일 때 클라이언트 사이드에서 D-Day 기준 정렬
+  const announcements = useMemo(() => {
+    if (statusTab === "CLOSED") {
+      return [...rawAnnouncements].sort((a, b) => {
+        const dDayA = calculateDDay(a.endDate) ?? Infinity;
+        const dDayB = calculateDDay(b.endDate) ?? Infinity;
+        // D-Day 오름차순 정렬 (마감이 빠른 순)
+        return dDayA - dDayB;
+      });
+    }
+    return rawAnnouncements;
+  }, [rawAnnouncements, statusTab]);
 
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {

@@ -1,3 +1,5 @@
+"use client";
+
 import { useAdminFormStore } from "@/src/features/admin-review-detail";
 
 export function OneStepAside() {

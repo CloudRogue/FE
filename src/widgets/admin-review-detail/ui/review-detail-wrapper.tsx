@@ -6,7 +6,6 @@ import {
   Stepper,
   useAdminStepperStore,
 } from "@/src/widgets/admin-review-detail";
-import { useEffect } from "react";
 
 const ADMIN_STEPS = [
   { number: 1, label: "통합 데이터 검수" },
@@ -24,26 +23,6 @@ export function ReviewDetailWrapper({
 }: ReviewDetailWrapperProps) {
   const { step } = useAdminStepperStore();
   const { formData } = useAdminFormStore();
-
-  const fetchAndSetgetAdminAnnouncement = useAdminFormStore(
-    (state) => state.fetchAndSetgetAdminAnnouncement,
-  );
-  const fetchAndSetAdditionalOnboardings = useAdminFormStore(
-    (state) => state.fetchAndSetAdditionalOnboardings,
-  );
-
-  useEffect(() => {
-    if (announcementId) {
-      // 공고 데이터조회
-      fetchAndSetgetAdminAnnouncement(announcementId);
-      // 추가 온보딩 질문 목록 조회
-      fetchAndSetAdditionalOnboardings();
-    }
-  }, [
-    announcementId,
-    fetchAndSetgetAdminAnnouncement,
-    fetchAndSetAdditionalOnboardings,
-  ]);
 
   return (
     <>

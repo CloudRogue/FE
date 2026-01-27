@@ -1,3 +1,5 @@
+"use client";
+
 import {
   BasicInfoForm,
   RquirementsForm,
