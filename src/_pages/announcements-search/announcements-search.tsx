@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  AnnouncementSearch,
   AnnouncementSearchCard,
   getAnnouncementSearch,
 } from "@/src/entities/announcement-search";
@@ -28,7 +29,9 @@ export default function AnnouncementsSearch() {
     enabled: isSearchValid,
   });
 
-  const searchResults = data?.data ?? [];
+  const searchResults = Array.isArray(data)
+    ? data
+    : ((data as any)?.data ?? []);
   const totalCount = searchResults.length;
 
   return (
@@ -88,7 +91,7 @@ export default function AnnouncementsSearch() {
 
               {/* 검색 결과 리스트 */}
               {isSearchValid &&
-                searchResults.map((item) => (
+                searchResults.map((item: AnnouncementSearch) => (
                   <Link
                     key={item.announcementId}
                     href={ROUTES.ANNOUNCEMENT_DETAIL(
