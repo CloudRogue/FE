@@ -13,11 +13,11 @@ const TYPE_MAP: Record<
   RequiredOnboardingQuestionType,
   OnboardingSubmitItem["type"]
 > = {
-  boolean: "boolean",
-  text_input: "text_input",
-  number_input: "number_input",
-  select_single: "select_single",
-  select_multi: "select_multi",
+  boolean: "BOOLEAN",
+  text_input: "TEXT_INPUT",
+  number_input: "NUMBER_INPUT",
+  select_single: "SELECT_SINGLE",
+  select_multi: "SELECT_MULTI",
 };
 
 export function toSubmitPayloadFromRequired(
