@@ -12,6 +12,7 @@ import {
   type RequirementItem,
   RequirementType,
 } from "@/src/features/admin-review-detail";
+import { ROUTES } from "@/src/shared/constants/routes";
 import { produce } from "immer";
 import { create } from "zustand";
 
@@ -322,6 +323,7 @@ export const useAdminFormStore = create<AdminFormStore>((set, get) => ({
       // POST API 호출
       await postAdminAnnouncement(announcementId, payload);
       alert("공고가 성공적으로 저장되었습니다.");
+      window.location.href = ROUTES.ADMIN_REVIEW;
     } catch (error) {
       console.error("저장 실패:", error);
       alert("저장에 실패했습니다. 다시 시도해주세요.");
