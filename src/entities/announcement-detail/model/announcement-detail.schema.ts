@@ -65,7 +65,7 @@ export const AnnouncementDetailSchema = z.object({
   announcementId: z.number().int(), // 공고 PK
   publisher: z.string(), // 발행처(기관/지자체 등)
   title: z.string(), // 공고명
-  housingType: z.string(), // 주택 유형(앱 뱃지/필터에 사용)
+  housingType: z.string().nullable(), // 주택 유형(앱 뱃지/필터에 사용)
   supplyType: z.string(), // 공급 유형
   startDate: z.string(), // 공고 시작일
   endDate: z.string(), // 공고 마감일
@@ -78,7 +78,7 @@ export const AnnouncementDetailSchema = z.object({
   prtpay: z.number().nullable(), // 최소 중도금
   surlus: z.number().nullable(), // 최소 잔금
   mtRntchrg: z.number().nullable(), // 최소 월 임대료
-  fullAdres: z.string().nullable(), // 전체주소
+  fullAddress: z.string().nullable(), // 전체주소
   refrnLegaldongNm: z.string().nullable(), // 참조_법정동명(주소가 지번 주소일 때 표시)
   url: z.string().nullable(), // 모집 공고 URL
   isScrapped: z.boolean().nullable(), // 로그인 사용자 기준 찜 여부
