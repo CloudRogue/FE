@@ -64,6 +64,7 @@ export function AnnouncementApplyAction({
       center
       isOpen={isOpen}
       onClose={() => setIsOpen(false)}
+      containerClassName="w-full"
       trigger={
         <Button
           variant="secondary"
