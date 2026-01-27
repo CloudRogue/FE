@@ -207,15 +207,12 @@ export const useAdminFormStore = create<AdminFormStore>((set, get) => ({
       let formattedValue: string | number | boolean | string[] | null =
         req.value;
 
-      if (req.type === "NUMBER_INPUT") {
-        formattedValue = req.value ? Number(req.value) : 0;
-      } else if (req.type === "BOOLEAN") {
-        formattedValue = String(req.value) === "true";
-      } else if (req.type === "SELECT_MULTI") {
+      if (req.type === "SELECT_MULTI" || req.type === "SELECT_SINGLE") {
         formattedValue = Array.isArray(req.value) ? req.value : [req.value];
       } else {
         formattedValue = String(req.value ?? "");
       }
+
       return {
         additionalOnboardingId: onboardingId,
         type: req.type,
