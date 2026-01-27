@@ -22,7 +22,7 @@ export function AnnouncementHeader() {
 
   return (
     <>
-      <header className="sticky top-0 z-30 flex flex-col bg-gray-bg">
+      <header className="sticky top-0 flex flex-col bg-white z-30">
         <div className="flex">
           {(["OPEN", "CLOSED"] as const).map((status) => (
             <button
@@ -45,7 +45,7 @@ export function AnnouncementHeader() {
 
         <FilterTriggerBar />
         {isFilterOpen && (
-          <div className="absolute top-full left-0 w-full z-30">
+          <div className="absolute top-full left-0 w-full ">
             <AnnouncementFilter />
           </div>
         )}
@@ -70,7 +70,7 @@ export function AnnouncementHeader() {
 
       {isFilterOpen && (
         <div
-          className="fixed inset-0 bg-black/20 z-20 transition-opacity"
+          className="fixed inset-0 transition-opacity z-20"
           onClick={closeFilter}
         />
       )}
