@@ -2,7 +2,7 @@ import Card from "@/src/shared/ui/card"; // 실제 경로에 맞게 조정하세
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof Card> = {
-  title: "UI/Card",
+  title: "UI-kit/Card",
   component: Card,
   tags: ["autodocs"],
   parameters: {

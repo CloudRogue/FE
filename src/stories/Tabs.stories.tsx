@@ -12,95 +12,103 @@ const meta: Meta<typeof TabsRoot> = {
   parameters: {
     nextjs: {
       appDirectory: true,
-      navigation: {
-        pathname: "/",
-        query: { tab: "account" },
-      },
+      navigation: { pathname: "/" },
     },
   },
   tags: ["autodocs"],
-  args: {
-    defaultValue: "account",
-  },
-  argTypes: {
-    defaultValue: {
-      description: "초기에 활성화될 탭의 값입니다.",
-      control: "text",
-    },
-    searchParamKey: {
-      description: "URL 쿼리 스트링에 사용될 키 값입니다.",
-      control: "text",
-    },
-  },
 };
 
 export default meta;
 type Story = StoryObj<typeof TabsRoot>;
 
-// 기본 사용 예시
-export const Default: Story = {
+export const TwoTabs: Story = {
   args: {
-    defaultValue: "account",
-    searchParamKey: "tab",
+    defaultValue: "tab1",
     children: (
-      // <> = TabsRoot
       <>
-        <TabsList className="bg-slate-100 rounded-lg p-1 w-fit">
-          <TabsTrigger value="account">계정</TabsTrigger>
-          <TabsTrigger value="password">비밀번호</TabsTrigger>
-          <TabsTrigger value="settings">설정</TabsTrigger>
+        <TabsList>
+          <TabsTrigger value="tab1" className="flex-1">
+            탭 1
+          </TabsTrigger>
+          <TabsTrigger value="tab2" className="flex-1">
+            탭 2
+          </TabsTrigger>
         </TabsList>
-        <div className="mt-4 p-4 border rounded-md">
-          <TabsContent value="account">계정 정보 설정 화면입니다.</TabsContent>
-          <TabsContent value="password">비밀번호 변경 화면입니다.</TabsContent>
-          <TabsContent value="settings">기타 환경 설정 화면입니다.</TabsContent>
-        </div>
+        <TabsContent value="tab1" className="p-4">
+          탭 1의 내용입니다.
+        </TabsContent>
+        <TabsContent value="tab2" className="p-4">
+          탭 2의 내용입니다.
+        </TabsContent>
       </>
     ),
   },
 };
 
-// 다중 탭 searchParamKey 사용
-export const MultipleTabs: Story = {
-  render: () => (
-    <div className="space-y-10">
-      <TabsRoot defaultValue="dog" searchParamKey="animal">
-        <h3 className="mb-2 font-bold">동물 선택 (URL key: animal)</h3>
-        <TabsList className="bg-orange-50 p-1 rounded-md">
-          <TabsTrigger
-            value="dog"
-            className="data-[aria-selected=true]:bg-orange-500 data-[aria-selected=true]:text-white"
-          >
-            강아지
+// 3분할 탭
+export const ThreeTabs: Story = {
+  args: {
+    defaultValue: "tab1",
+    children: (
+      <>
+        <TabsList>
+          <TabsTrigger value="tab1" className="flex-1">
+            탭 1
           </TabsTrigger>
-          <TabsTrigger
-            value="cat"
-            className="data-[aria-selected=true]:bg-orange-500 data-[aria-selected=true]:text-white"
-          >
-            고양이
+          <TabsTrigger value="tab2" className="flex-1">
+            탭 2
+          </TabsTrigger>
+          <TabsTrigger value="tab3" className="flex-1">
+            탭 3
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="dog" className="p-2">
-          🐶 멍멍!
+        <TabsContent value="tab1" className="p-4">
+          내용 1
         </TabsContent>
-        <TabsContent value="cat" className="p-2">
-          🐱 야옹~
+        <TabsContent value="tab2" className="p-4">
+          내용 2
         </TabsContent>
-      </TabsRoot>
+        <TabsContent value="tab3" className="p-4">
+          내용 3
+        </TabsContent>
+      </>
+    ),
+  },
+};
 
-      <TabsRoot defaultValue="apple" searchParamKey="fruit">
-        <h3 className="mb-2 font-bold">과일 선택 (URL key: fruit)</h3>
-        <TabsList className="bg-green-50 p-1 rounded-md">
-          <TabsTrigger value="apple">사과</TabsTrigger>
-          <TabsTrigger value="banana">바나나</TabsTrigger>
+// 4분할 탭
+export const FourTabs: Story = {
+  args: {
+    defaultValue: "tab1",
+    children: (
+      <>
+        <TabsList>
+          <TabsTrigger value="tab1" className="flex-1">
+            탭 1
+          </TabsTrigger>
+          <TabsTrigger value="tab2" className="flex-1">
+            탭 2
+          </TabsTrigger>
+          <TabsTrigger value="tab3" className="flex-1">
+            탭 3
+          </TabsTrigger>
+          <TabsTrigger value="tab4" className="flex-1">
+            탭 4
+          </TabsTrigger>
         </TabsList>
-        <TabsContent value="apple" className="p-2">
-          🍎 사과입니다.
+        <TabsContent value="tab1" className="p-4 text-center">
+          첫 번째
         </TabsContent>
-        <TabsContent value="banana" className="p-2">
-          🍌 바나나입니다.
+        <TabsContent value="tab2" className="p-4 text-center">
+          두 번째
         </TabsContent>
-      </TabsRoot>
-    </div>
-  ),
+        <TabsContent value="tab3" className="p-4 text-center">
+          세 번째
+        </TabsContent>
+        <TabsContent value="tab4" className="p-4 text-center">
+          네 번째
+        </TabsContent>
+      </>
+    ),
+  },
 };
