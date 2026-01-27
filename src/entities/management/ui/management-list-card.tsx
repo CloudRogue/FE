@@ -12,7 +12,7 @@ import Card from "@/src/shared/ui/card";
 
 interface ManagementListCardProps extends Partial<BaseManage> {
   status: ManagementStatus;
-  housingType?: string;
+  supplyType?: string;
   endDate?: string; // APPLYING
   documentPublishedAt?: string; // DOCUMENT_WAITING
   finalPublishedAt?: string; // FINAL_WAITING, CLOSED
@@ -31,7 +31,7 @@ export function ManagementListCard(props: ManagementListCardProps) {
     title,
     dDay,
     status,
-    housingType,
+    supplyType,
     noticeType,
     endDate,
     documentPublishedAt,
@@ -59,7 +59,7 @@ export function ManagementListCard(props: ManagementListCardProps) {
     <Card className="flex flex-col gap-3 bg-white">
       <ManagementStatusBadge
         publisher={props.publisher}
-        housingType={housingType ?? noticeType}
+        housingType={supplyType ?? noticeType}
       />
 
       <h3 className="text-h3 text-gray-black">
