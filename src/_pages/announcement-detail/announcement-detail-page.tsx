@@ -1,5 +1,6 @@
 import { AnnouncementDetail } from "@/src/entities/announcement-detail";
 import SummaryCard from "@/src/entities/announcement-detail/ui/summary-card";
+import { postEligibilityCheck } from "@/src/features/announcement-eligibility-check";
 import { AnnouncementOutbound } from "@/src/features/announcement-outbound/ui/announcement-outbound";
 import { ErrorBoundary } from "@/src/shared/api/error-boundary";
 import {
@@ -11,6 +12,7 @@ import {
 import { AnnouncementCard } from "@/src/widgets/announcement-card";
 import { ScheduleSection } from "@/src/widgets/announcement-schedule";
 import { SupportSection } from "@/src/widgets/announcement-support";
+import { cookies } from "next/headers";
 import { Suspense } from "react";
 
 interface AnnouncementDetailPageProps {
@@ -20,6 +22,21 @@ interface AnnouncementDetailPageProps {
 export async function AnnouncementDetailPage({
   announcement,
 }: AnnouncementDetailPageProps) {
+  const cookieStore = await cookies();
+  const isLoggedIn = !!cookieStore.get("accessToken");
+
+  let prefetchEligibility = null;
+
+  if (isLoggedIn) {
+    try {
+      prefetchEligibility = await postEligibilityCheck(
+        String(announcement.announcementId),
+      );
+    } catch (error) {
+      console.error("Eligibility Prefetch Failed:", error);
+    }
+  }
+
   return (
     <div className="bg-white">
       <AnnouncementOutbound announcementId={announcement.announcementId} />
@@ -55,7 +72,10 @@ export async function AnnouncementDetailPage({
               }
             >
               <Suspense>
-                <SupportSection announcement={announcement} />
+                <SupportSection
+                  announcement={announcement}
+                  initialData={prefetchEligibility}
+                />
               </Suspense>
             </ErrorBoundary>
           </TabsContent>

@@ -2,6 +2,7 @@
 
 import {
   AnnouncementDetail,
+  EligibilityResult,
   SupportStatus,
 } from "@/src/entities/announcement-detail";
 import { useUser } from "@/src/entities/user";
@@ -20,9 +21,13 @@ import { SupportSectionSkeleton } from "./suport-section-skeleton";
 
 interface SupportSectionProps {
   announcement: AnnouncementDetail;
+  initialData?: EligibilityResult | null;
 }
 
-export function SupportSection({ announcement }: SupportSectionProps) {
+export function SupportSection({
+  announcement,
+  initialData,
+}: SupportSectionProps) {
   const { user, isLoggedIn } = useUser();
   const displayUserName = user?.name || "청년";
 
@@ -30,6 +35,9 @@ export function SupportSection({ announcement }: SupportSectionProps) {
     queryKey: ["eligibilityCheck", announcement.announcementId],
     queryFn: () => postEligibilityCheck(String(announcement.announcementId)),
     enabled: isLoggedIn,
+    initialData: initialData,
+    staleTime: 1000 * 60 * 5,
+    retry: 1,
   });
 
   if (isLoggedIn && isLoading) return <SupportSectionSkeleton />;
