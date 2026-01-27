@@ -1,0 +1,52 @@
+import type {
+  OnboardingSubmitItem,
+  OnboardingSubmitPayload,
+} from "@/src/features/onboarding/api/onboarding-submit-action";
+
+import type {
+  RequiredOnboardingAnswers,
+  RequiredOnboardingQuestion,
+  RequiredOnboardingQuestionType,
+} from "@/src/features/onboarding/model/required-onboarding-types";
+
+const TYPE_MAP: Record<
+  RequiredOnboardingQuestionType,
+  OnboardingSubmitItem["type"]
+> = {
+  boolean: "boolean",
+  text_input: "text_input",
+  number_input: "number_input",
+  select_single: "select_single",
+  select_multi: "select_multi",
+};
+
+export function toSubmitPayloadFromRequired(
+  draftAnswers: RequiredOnboardingAnswers,
+  questions: RequiredOnboardingQuestion[],
+): OnboardingSubmitPayload {
+  const answers: OnboardingSubmitItem[] = questions.map((q) => {
+    const id = q.requiredOnboardingId;
+    const type = TYPE_MAP[q.type];
+
+    const hasValue = Object.prototype.hasOwnProperty.call(draftAnswers, id);
+    const raw = hasValue ? draftAnswers[id] : undefined;
+
+    if (!hasValue || raw === undefined) {
+      return {
+        additionalOnboardingId: id,
+        type,
+        unknown: true,
+        value: null,
+      };
+    }
+
+    return {
+      additionalOnboardingId: id,
+      type,
+      unknown: false,
+      value: raw as OnboardingSubmitItem["value"],
+    };
+  });
+
+  return { answers };
+}

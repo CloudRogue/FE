@@ -28,8 +28,6 @@ type RequiredOnboardingState = {
 
   answers: RequiredOnboardingAnswers;
 
-  isComplete: boolean;
-
   init: () => Promise<void>;
   reset: () => void;
 
@@ -40,8 +38,6 @@ type RequiredOnboardingState = {
 
   next: () => void;
   prev: () => void;
-
-  markComplete: () => void;
 };
 
 function clampIndex(value: number, min: number, max: number) {
@@ -63,8 +59,6 @@ export const useRequiredOnboardingStore = create<RequiredOnboardingState>(
     currentIndex: 0,
 
     answers: {},
-
-    isComplete: false,
 
     init: async () => {
       set({ status: "loading", error: null });
@@ -111,7 +105,6 @@ export const useRequiredOnboardingStore = create<RequiredOnboardingState>(
         questions: [],
         currentIndex: 0,
         answers: {},
-        isComplete: false,
       });
     },
 
@@ -153,10 +146,6 @@ export const useRequiredOnboardingStore = create<RequiredOnboardingState>(
 
       set({ currentIndex: prevIndex });
       saveRequiredOnboardingDraft(answers, prevIndex);
-    },
-
-    markComplete: () => {
-      set({ isComplete: true });
     },
   }),
 );
