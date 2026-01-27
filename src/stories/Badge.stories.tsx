@@ -4,12 +4,12 @@ import { fn } from "storybook/test";
 import { Badge } from "@/src/shared/ui/badge";
 
 const meta: Meta<typeof Badge> = {
-  title: "ui-kit/Badge",
+  title: "UI-kit/Badge",
   component: Badge,
   parameters: {
     layout: "centered",
   },
-  tags: ["autodocs"], 
+  tags: ["autodocs"],
   argTypes: {
     variant: {
       control: "select",
@@ -45,7 +45,6 @@ const meta: Meta<typeof Badge> = {
 
 export default meta;
 type Story = StoryObj<typeof Badge>;
-
 
 export const Default: Story = {
   args: {
@@ -88,7 +87,6 @@ export const Closed: Story = {
     children: "마감",
   },
 };
-
 
 export const Interactive: Story = {
   args: {
