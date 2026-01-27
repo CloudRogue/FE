@@ -57,8 +57,6 @@ export function SupportSection({ announcement }: SupportSectionProps) {
 
   const config = STATUS_CONFIG[currentStatus];
 
-  console.log(data);
-
   return (
     <Card
       as="section"

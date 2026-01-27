@@ -93,9 +93,9 @@ export const EligibilityResultSchema = z.object({
   // 가변 판정 결과 리스트
   trace: z.array(
     z.object({
-      key: z.string().nullable(),
-      passed: z.boolean().nullable(),
-      message: z.string().nullable(),
+      key: z.string(),
+      passed: z.boolean(),
+      message: z.string(),
     }),
   ),
 });
