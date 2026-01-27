@@ -83,22 +83,33 @@ export function ManagementList({ status }: ManagementListProps) {
     );
   }
 
+  const isEmpty = data?.pages[0]?.data.length === 0;
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between text-h4 font-gray-700">
         <span className="font-medium">{label}</span>
         <span className="font-semibold">{count}</span>
       </div>
-      {data?.pages.map((page) =>
-        page.data.map((item: AnyManagedAnnouncement, idx) => (
-          <Link
-            key={`${item.announcementId}-${idx}`}
-            href={ROUTES.MANAGEMENT_DETAIL(item.announcementId)}
-            className="block no-underline"
-          >
-            <ManagementListCard status={status} {...item} />
-          </Link>
-        )),
+
+      {isEmpty ? (
+        <div className="flex flex-col items-center justify-center py-20 text-gray-500">
+          <p className="text-sm">아직 지원 관리 중인 공고가 없습니다.</p>
+        </div>
+      ) : (
+        <>
+          {data?.pages.map((page) =>
+            page.data.map((item: AnyManagedAnnouncement, idx) => (
+              <Link
+                key={`${item.announcementId}-${idx}`}
+                href={ROUTES.MANAGEMENT_DETAIL(item.announcementId)}
+                className="block no-underline"
+              >
+                <ManagementListCard status={status} {...item} />
+              </Link>
+            )),
+          )}
+        </>
       )}
 
       <div ref={intersectRef} className="h-10 w-full" />
