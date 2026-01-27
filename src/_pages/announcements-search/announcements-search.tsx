@@ -28,7 +28,9 @@ export default function AnnouncementsSearch() {
     enabled: isSearchValid,
   });
 
-  const searchResults = data?.data ?? [];
+  const searchResults = Array.isArray(data)
+    ? data
+    : ((data as any)?.data ?? []);
   const totalCount = searchResults.length;
 
   return (

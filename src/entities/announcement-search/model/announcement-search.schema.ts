@@ -11,9 +11,9 @@ export const AnnouncementSearchSchema = z.object({
   endDate: z.string().nullable(), // 모집 마감일 (date string or null)
 });
 
-export const AnnouncementSearchResponseSchema = z.object({
-  data: z.array(AnnouncementSearchSchema).max(50), // 검색 결과
-});
+export const AnnouncementSearchResponseSchema = z
+  .array(AnnouncementSearchSchema)
+  .max(50);
 
 export const AnnouncementSearchRequestSchema = z.object({
   title: z.string().min(3, "최소 3글자 이상 입력해 주세요."),
