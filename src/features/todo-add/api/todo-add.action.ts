@@ -1,5 +1,3 @@
-"use server";
-
 import { AnnouncementDetail } from "@/src/entities/announcement-detail";
 import { TodoCreateResponseSchema } from "@/src/features/todo-add";
 import { Api } from "@/src/shared/api/api";
