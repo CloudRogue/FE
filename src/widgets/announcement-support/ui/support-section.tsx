@@ -2,12 +2,12 @@
 
 import {
   AnnouncementDetail,
-  EligibilityResult,
   SupportStatus,
 } from "@/src/entities/announcement-detail";
 import { useUser } from "@/src/entities/user";
 import { postEligibilityCheck } from "@/src/features/announcement-eligibility-check";
 import cn from "@/src/shared/lib/cn";
+import Button from "@/src/shared/ui/button";
 import Card from "@/src/shared/ui/card";
 import No from "@/src/shared/ui/icons/eligibility/no1.svg";
 import Okay from "@/src/shared/ui/icons/eligibility/okay2.svg";
@@ -21,27 +21,35 @@ import { SupportSectionSkeleton } from "./suport-section-skeleton";
 
 interface SupportSectionProps {
   announcement: AnnouncementDetail;
-  initialData?: EligibilityResult | null;
 }
 
-export function SupportSection({
-  announcement,
-  initialData,
-}: SupportSectionProps) {
+export function SupportSection({ announcement }: SupportSectionProps) {
   const { user, isLoggedIn } = useUser();
   const displayUserName = user?.name || "청년";
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isFetching, isError, refetch } = useQuery({
     queryKey: ["eligibilityCheck", announcement.announcementId],
     queryFn: () => postEligibilityCheck(String(announcement.announcementId)),
     enabled: isLoggedIn,
-    initialData: initialData,
-    staleTime: 1000 * 60 * 5,
-    retry: 1,
   });
 
-  if (isLoggedIn && isLoading) return <SupportSectionSkeleton />;
-  if (isError) throw new Error("API 호출 실패");
+  if (isLoggedIn && (isLoading || isFetching) && !data)
+    return <SupportSectionSkeleton />;
+
+  if (isError && !data) {
+    return (
+      <Card className="flex flex-col items-center justify-center gap-4 p-8">
+        <Question />
+        <div className="text-center">
+          <p className="text-h2 text-gray-500">진단 결과를 가져오지 못했어요</p>
+          <p className="text-body2 text-gray-500">
+            서버 응답이 지연되고 있습니다. 다시 시도해 보시겠어요?
+          </p>
+        </div>
+        <Button onClick={() => refetch()}>다시 진단하기</Button>
+      </Card>
+    );
+  }
 
   const currentStatus = data
     ? (data.supportStatus as SupportStatus)
