@@ -7,7 +7,7 @@ const ScrapResponseSchema = z.any();
 export async function patchScrap(
   announcementId: AnnouncementDetail["announcementId"],
 ) {
-  return await Api.patch(
+  return await Api.post(
     `/announcements/${announcementId}/scrap`,
     ScrapResponseSchema,
     {},
