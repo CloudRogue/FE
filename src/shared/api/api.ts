@@ -23,12 +23,19 @@ async function request<T>(
   url: string,
   options: RequestInit,
   schema: z.ZodSchema<T>,
+  timeout = 15000,
 ): Promise<T> {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+
   const res = await fetch(`${baseUrl}${url}`, {
     ...options,
     credentials: "include",
+    signal: controller.signal,
   });
+  clearTimeout(id);
 
   if (!res.ok) {
     let errorData: ApiError;

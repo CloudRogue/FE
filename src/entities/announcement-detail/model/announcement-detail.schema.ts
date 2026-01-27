@@ -87,15 +87,15 @@ export const AnnouncementDetailSchema = z.object({
 // 자격 진단
 export const EligibilityResultSchema = z.object({
   supportStatus: z.enum(["ELIGIBLE", "INELIGIBLE", "PENDING"]), // 지원 상태
-  diagnosedAt: z.string(), // 진단 최신 일시(서버 기준)
-  predictedRank: z.number().int(), // 예상 순위
-  predictedBonusPoints: z.number().int(), // 예상 가산점 integer >= 0
+  diagnosedAt: z.string().nullable(), // 진단 최신 일시(서버 기준)
+  predictedRank: z.number().int().nullable(), // 예상 순위
+  predictedBonusPoints: z.number().int().nullable(), // 예상 가산점 integer >= 0
   // 가변 판정 결과 리스트
   trace: z.array(
     z.object({
-      key: z.string(),
-      passed: z.boolean(),
-      message: z.string(),
+      key: z.string().nullable(),
+      passed: z.boolean().nullable(),
+      message: z.string().nullable(),
     }),
   ),
 });
