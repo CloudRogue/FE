@@ -8,7 +8,7 @@ export async function postOutboundLog(
   announcementId: AnnouncementDetail["announcementId"],
 ) {
   return await Api.post(
-    `/announcements/${announcementId}/outbound`,
+    `/announcements/${announcementId}/outbounds`,
     z.unknown(),
     {},
   );
