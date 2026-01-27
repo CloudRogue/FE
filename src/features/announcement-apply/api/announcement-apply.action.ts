@@ -1,5 +1,3 @@
-"use server";
-
 import { AnnouncementDetail } from "@/src/entities/announcement-detail";
 import { Api } from "@/src/shared/api/api";
 import z from "zod";

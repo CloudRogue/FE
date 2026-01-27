@@ -1,5 +1,3 @@
-"use server";
-
 import { EligibilityResultSchema } from "@/src/entities/announcement-detail";
 import { Api } from "@/src/shared/api/api";
 
