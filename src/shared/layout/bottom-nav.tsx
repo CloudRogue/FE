@@ -34,9 +34,13 @@ export default function BottomNav({ items, className }: BottomNavProps) {
               ? pathname === "/"
               : pathname.startsWith(item.href);
           return (
-            <Link key={item.href} href={item.href}>
-              <li className="flex flex-col items-center justify-center gap-2  h-full py-3 text-xs text-black">
-                <span className="text-xl">
+            <li key={item.href}>
+              <Link
+                href={item.href}
+                className="flex flex-col items-center justify-center gap-2  h-full py-3 text-xs text-black"
+                aria-current={isActive ? "page" : undefined}
+              >
+                <span className="text-xl" aria-hidden="true">
                   {isActive ? item.activeIcon : item.icon}
                 </span>
                 <span
@@ -47,8 +51,8 @@ export default function BottomNav({ items, className }: BottomNavProps) {
                 >
                   {item.label}
                 </span>
-              </li>
-            </Link>
+              </Link>
+            </li>
           );
         })}
       </ul>

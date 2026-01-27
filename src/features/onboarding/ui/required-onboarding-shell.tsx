@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo } from "react";
+import { useRouter } from "next/navigation";
 
 import Button from "@/src/shared/ui/button";
 import { Progress } from "@/src/shared/ui/progress";
@@ -10,11 +11,15 @@ import LeftIcon from "@/src/shared/ui/icons/arroaw/left.svg";
 
 import { useRequiredOnboardingStore } from "@/src/features/onboarding/model/required-onboarding-store";
 import QuestionRenderer from "@/src/features/onboarding/ui/question/question-renderer";
-import RequiredOnboardingDrawer from "@/src/features/onboarding/ui/required-onboarding-drawer";
 import RequiredOnboardingStart from "@/src/features/onboarding/ui/required-onboarding-start";
-import { useRouter } from "next/navigation";
+import { submitOnboardingAnswers } from "@/src/features/onboarding/api/onboarding-submit-action";
+import { toSubmitPayloadFromRequired } from "@/src/features/onboarding/model/onboarding-submit-transform";
+import { clearRequiredOnboardingDraft } from "@/src/features/onboarding/model/required-onboarding-storage";
 import { ROUTES } from "@/src/shared/constants/routes";
+
 export default function RequiredOnboardingShell() {
+  const router = useRouter();
+
   const {
     hasStarted,
     start,
@@ -25,19 +30,15 @@ export default function RequiredOnboardingShell() {
     questions,
     currentIndex,
     answers,
-    isComplete,
     init,
     prev,
     next,
     setAnswer,
-    markComplete,
   } = useRequiredOnboardingStore();
 
   useEffect(() => {
     init();
   }, [init]);
-
-  const router = useRouter();
 
   const total = questions.length;
 
@@ -72,11 +73,20 @@ export default function RequiredOnboardingShell() {
     return true;
   }, [answers, currentQuestion]);
 
-  const handleClickNext = () => {
+  const handleClickNext = async () => {
     if (!canGoNext) return;
 
     if (isLast) {
-      markComplete();
+      try {
+        const payload = toSubmitPayloadFromRequired(answers, questions);
+
+        await submitOnboardingAnswers(payload);
+        clearRequiredOnboardingDraft();
+
+        router.replace(ROUTES.HOME);
+      } catch (e) {
+        console.error(e);
+      }
       return;
     }
 
@@ -160,16 +170,6 @@ export default function RequiredOnboardingShell() {
       </main>
 
       <footer className="sticky bottom-0 bg-gray-bg px-6 pb-6 pt-4">
-        {!hasStarted ? (
-          <button
-            type="button"
-            onClick={() => router.push(ROUTES.LOGIN)}
-            className="mb-3 w-full text-sm text-gray-400 underline"
-          >
-            이미 계정이 있나요? 로그인 하기
-          </button>
-        ) : null}
-
         <Button
           type="button"
           onClick={hasStarted ? handleClickNext : start}
@@ -180,11 +180,9 @@ export default function RequiredOnboardingShell() {
             hasStarted && !canGoNext && "pointer-events-none",
           )}
         >
-          {hasStarted ? "다음으로" : "시작하기"}
+          {hasStarted ? (isLast ? "완료" : "다음으로") : "시작하기"}
         </Button>
       </footer>
-
-      <RequiredOnboardingDrawer open={isComplete} />
     </div>
   );
 }
