@@ -25,7 +25,7 @@ export default async function SummaryCard({
     getAnnouncementSummary(id),
   ]);
 
-  const { regions = [], applyMethod } = overview;
+  const { regions = [], applyMethod, target } = overview;
   const announcementSummary = summary?.summary ?? "요약 정보가 없습니다.";
 
   return (
@@ -33,7 +33,7 @@ export default async function SummaryCard({
       <h3 className="text-h2 font-semibold mb-4">공고 개요</h3>
 
       <div className="space-y-2 font-bold mb-4">
-        <DetailRow label="항목" value="공고 내용" />
+        <DetailRow label="대상" value={target} />
         <RegionRow regions={regions} />
         <DetailRow label="접수 방법" value={applyMethod} />
       </div>
