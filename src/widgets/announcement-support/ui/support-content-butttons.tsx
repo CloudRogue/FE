@@ -12,11 +12,13 @@ import Link from "next/link";
 interface SupportContentButtonsProps {
   status: SupportStatus;
   todoPayload: TodoCreateRequest;
+  additionalOnboardingIds?: number[];
 }
 
 export function SupportContentButtons({
   status,
   todoPayload,
+  additionalOnboardingIds = [],
 }: SupportContentButtonsProps) {
   if (status === "ELIGIBLE") {
     return <AnnouncementAddTodoButton payload={todoPayload} />;
@@ -39,7 +41,10 @@ export function SupportContentButtons({
       default:
         return {
           text: "추가 정보 입력하고 결과 보기",
-          href: ROUTES.MYPAGE_ELIGIBILITY,
+          href:
+            additionalOnboardingIds.length > 0
+              ? ROUTES.ONBOARDING_ADD(additionalOnboardingIds)
+              : ROUTES.MYPAGE_ELIGIBILITY,
         };
     }
   };

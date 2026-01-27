@@ -92,6 +92,7 @@ export function SupportSection({ announcement }: SupportSectionProps) {
           title: announcement.title,
           dueDate: announcement.endDate,
         }}
+        additionalOnboardingIds={announcement.additionalOnboardingIds ?? []}
       />
 
       <p className="text-gray-400 text-body2">
