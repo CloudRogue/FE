@@ -23,7 +23,7 @@ export async function AnnouncementDetailPage({
   announcement,
 }: AnnouncementDetailPageProps) {
   const cookieStore = await cookies();
-  const isLoggedIn = !!cookieStore.get("accessToken");
+  const isLoggedIn = !!cookieStore.get("ACCESS_TOKEN");
 
   let prefetchEligibility = null;
 
@@ -32,10 +32,13 @@ export async function AnnouncementDetailPage({
       prefetchEligibility = await postEligibilityCheck(
         String(announcement.announcementId),
       );
+      console.log(prefetchEligibility);
     } catch (error) {
       console.error("Eligibility Prefetch Failed:", error);
     }
   }
+
+  console.log("prefetchEligibility", prefetchEligibility);
 
   return (
     <div className="bg-white">
