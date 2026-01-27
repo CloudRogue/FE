@@ -1,8 +1,6 @@
 import {
   AdminAnnouncementRequest,
   AdminAnnouncementRequestSchema,
-  getAdminAdditionalOnboardings,
-  getAdminAnnouncement,
 } from "@/src/entities/admin-review-detail";
 import {
   type AdminFormData,
@@ -10,7 +8,6 @@ import {
   postAdminAdditionalOnboardings,
   postAdminAnnouncement,
   type RequirementItem,
-  RequirementType,
 } from "@/src/features/admin-review-detail";
 import { ROUTES } from "@/src/shared/constants/routes";
 import { produce } from "immer";
@@ -49,11 +46,8 @@ interface AdminFormStore {
   getPublisherStatus: () => { isLH: boolean; isSH: boolean; isGH: boolean };
   // [공고 입력 최종 완료(확정) 처리]
   submitForm: (announcementId: string) => Promise<void>;
-  // [공고 AI PDF 요약/추출 결과 조회]
-  setgetAdminAnnouncement: (digest: KVDigestItem[]) => void;
-  fetchAndSetgetAdminAnnouncement: (announcementId: string) => Promise<void>;
-  // [추가 온보딩 질문 목록 조회]
-  fetchAndSetAdditionalOnboardings: () => Promise<void>;
+  // 초기 데이터 저장
+  initStore: (data: Partial<AdminFormData>, pool: RequirementItem[]) => void;
 }
 
 const initialData: AdminFormData = {
@@ -341,13 +335,6 @@ export const useAdminFormStore = create<AdminFormStore>((set, get) => ({
     }
   },
 
-  setgetAdminAnnouncement: (digest) =>
-    set(
-      produce((state: AdminFormStore) => {
-        state.formData.summary.kvDigest = digest;
-      }),
-    ),
-
   getPublisherStatus: () => {
     const publisher = get().formData.basicInfo.publisher || "";
     return {
@@ -357,85 +344,12 @@ export const useAdminFormStore = create<AdminFormStore>((set, get) => ({
     };
   },
 
-  // 공고 AI PDF 요약 결과 조회 후 스토어 반영
-  fetchAndSetgetAdminAnnouncement: async (announcementId: string) => {
-    try {
-      const response = await getAdminAnnouncement(announcementId);
-
-      if (response) {
-        set(
-          produce((state: AdminFormStore) => {
-            // 기본 정보 (Basic Info) 매핑
-            state.formData.basicInfo = {
-              title: response.title || "",
-              publisher: (response.publisher || "").includes("LH")
-                ? "LH"
-                : (response.publisher || "").includes("SH")
-                  ? "SH"
-                  : "GH",
-              supplyType: response.supplyType || "",
-              originalUrl: response.url || "",
-              applyUrl: response.applyUrl || "",
-            };
-
-            // 개요 및 요약 (Summary)
-            state.formData.summary = {
-              ...state.formData.summary, // 기존 값 유지 (regions 등)
-              rentGtn: Number(response.rentGtn) || 0,
-              mtRntchrg: Number(response.mtRntchrg) || 0,
-              kvDigest: response.kvDigest || [],
-            };
-
-            // 일정 관리 (Schedule)
-            state.formData.schedule = {
-              ...state.formData.schedule,
-              applyStartDate: response.startDate || "",
-              applyEndDate: response.endDate || "",
-              documentPublishedAt: response.documentPublishedAt || "",
-              finalPublishedAt: response.finalPublishedAt || "",
-            };
-          }),
-        );
-      }
-    } catch (error) {
-      console.error("공고 상세 데이터 로드 실패:", error);
-    }
-  },
-
-  // 추가 온보딩 질문 목록 조회
-  fetchAndSetAdditionalOnboardings: async () => {
-    try {
-      const response = await getAdminAdditionalOnboardings();
-      const rawData = Array.isArray(response) ? response : response?.data || [];
-
-      const allData: RequirementItem[] = rawData.map((item) => ({
-        additionalOnboardingId: String(item.additionalOnboardingId),
-        title: item.title || "",
-        question: item.question || "",
-        description: item.description ?? "",
-        isRequired: item.required,
-        type: (item.type?.toUpperCase() as RequirementType) || "TEXT_INPUT",
-        value: item.value || "",
-        isNew: false,
-        options: item.options || null,
-      }));
-
-      set(
-        produce((state: AdminFormStore) => {
-          state.formData.requirements = allData.filter(
-            (item) => item.isRequired,
-          );
-          state.qualificationPool = allData;
-        }),
-      );
-    } catch (error) {
-      console.error("온보딩 질문 로드 실패:", error);
-      set(
-        produce((state) => {
-          state.formData.requirements = [];
-          state.qualificationPool = [];
-        }),
-      );
-    }
-  },
+  initStore: (data, pool) =>
+    set(
+      produce((state) => {
+        state.formData = { ...state.formData, ...data };
+        state.qualificationPool = pool;
+        state.formData.requirements = pool.filter((item) => item.isRequired);
+      }),
+    ),
 }));
