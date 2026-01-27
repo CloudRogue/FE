@@ -46,8 +46,8 @@ export function AnnouncementSearchCard({
 
       {/* 본문 영역 */}
       <div className="flex justify-between gap-4">
-        <div className="flex-1 flex flex-col gap-1">
-          <h2 className="text-h2 font-bold text-gray-black text-ellipsis-2 break-keep">
+        <div className="flex-1 flex flex-col gap-1 min-w-0">
+          <h2 className="text-h2 font-bold text-gray-black text-ellipsis-2 break-words">
             {title}
           </h2>
           <div className="flex items-center gap-2 mt-1">
