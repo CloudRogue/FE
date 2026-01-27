@@ -54,12 +54,30 @@ export function AnnouncementList() {
     );
   }
 
-  if (isError)
+  if (isError) {
     return (
-      <p className="p-10 text-center text-red-500">
-        데이터를 가져오는데 실패했습니다.
-      </p>
+      <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
+        <p className="text-center text-red-500 text-lg font-semibold">
+          데이터를 가져오는데 실패했습니다.
+        </p>
+        <p className="text-center text-gray-500 text-sm">
+          잠시 후 다시 시도해주세요.
+        </p>
+      </div>
     );
+  }
+
+  if (announcements.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px] gap-4 px-5">
+        <div className="text-center">
+          <p className="text-lg font-semibold text-gray-700 mb-2">
+            조회된 공고가 없습니다
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen">
