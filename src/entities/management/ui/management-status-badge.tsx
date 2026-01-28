@@ -2,7 +2,7 @@ import { Badge } from "@/src/shared/ui/badge";
 
 interface ManagementStatusBadgeProps {
   publisher?: string;
-  housingType?: string;
+  housingType?: string | null;
 }
 export function ManagementStatusBadge({
   publisher,
