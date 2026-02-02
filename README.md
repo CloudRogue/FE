@@ -1,6 +1,6 @@
 <img width="1738" height="1018" alt="image" src="https://github.com/user-attachments/assets/da856330-2d98-4d21-a01a-44ea2adc7155" />
 
-<h1 align="center">🏠 집착 (Zip-Chak)</h1>
+<h1 align="center">집착 (Zip-Chak)</h1>
 
 <p align="center">
   청년 주거 정책 매칭 서비스
